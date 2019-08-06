@@ -17,9 +17,6 @@ public interface DogLostPostService {
 	// 게시글 리스트
 	List<DogLostPostResponseListDTO> getPostList(Criteria cri);
 	
-	// 게시글 리스트(페이징)
-	//List<DogLostPostResponseListDTO> getListWithPaging(Criteria cri);
-	
 	// 게시글 조회
 	DogLostPostResponseDetailDTO getPostDetail(Long id);
 

@@ -38,16 +38,6 @@ public class DogLostPostServiceImpl implements DogLostPostService{
 		return mapper.getDogLostList(cri);
 	}
 	
-	//게시글 리스트(페이징)
-	/*
-	 * public List<DogLostPostResponseListDTO> getListWithPaging(Criteria cri){
-	 * 
-	 * System.out.println("[Service]Cri : " + cri);
-	 * 
-	 * 
-	 * return mapper.getListWithPaging(cri); }
-	 */
-
 	// 게시글 조회
 	@Override
 	public DogLostPostResponseDetailDTO getPostDetail(Long id) {
@@ -72,45 +62,57 @@ public class DogLostPostServiceImpl implements DogLostPostService{
 			return;
 		}
 		
-		try {
-			
-		dto.getAttachList().forEach(attach -> {
-			
-			System.out.println("[UUID]" + attach.getUuid());
-			System.out.println("[attach] : " + attach);			
+		//사진 첨부
+		try {			
+		dto.getAttachList().forEach(attach -> {			
+			//System.out.println("[UUID]" + attach.getUuid());
+			//System.out.println("[attach] : " + attach);			
 			
 			Long id = dto.getId();			
-			attach.setPostId(id);
-			
-			System.out.println("[PostId()]" + attach.getPostId());
+			attach.setPostId(id);			
+			//System.out.println("[PostId()]" + attach.getPostId());
 			
 			attachMapper.insert(attach); //사진 저장
-		});		
-		
+		});	
 		}
-		
 		catch(Exception e) {
 			e.printStackTrace();
+		}		
+		
+		//쪽지 전송
+		String address = dto.getDog_lost_address();
+		
+		Long id = dto.getId(); //게시글 번호
+		
+		String postURL = "/dog/missingboard/detail/"+id; //실종견 게시글 주소	
+		String content = "["+ address + "]" + " 실종견 게시글이 등록되었습니다.\r" + postURL;
+		
+		int messageResult = mapper.sendMessage(id, content);
+		System.out.println("보낸 매세지 : " + messageResult);
+		
+		if(messageResult >= 0) {
+			System.out.println("쪽지 전송 성공");
 		}
+		else {
+			System.out.println("쪽지 전송 실패");
+		}	
 	}
 	
 	// 게시글 수정
 	@Override	
 	public int modify(DogLostPostRequestWriteDTO dto) {		
-		System.out.println("[Service] 수정 dto : " + dto.getDog_name());
-		System.out.println("[Service] 수정 dto : " + dto.getDog_description());
-		
+		//첨부 사진 삭제
 		attachMapper.deleteAll(dto.getId());
-
+		//게시글 수정
 		int result = mapper.updatePost(dto);
 		
 		if(result == 1 && dto.getAttachList().size() > 0) {
 			dto.getAttachList().forEach(attach -> {
 				attach.setPostId(dto.getId());
+				//첨부 사진 등록
 				attachMapper.insert(attach);
 			});			
-		}
-		
+		}		
 		return result;
 	}
 	
@@ -131,6 +133,5 @@ public class DogLostPostServiceImpl implements DogLostPostService{
 		System.out.println("get Attach list by postId" + postId);
 
 		return attachMapper.findByPostId(postId);
-	}
-	
+	}	
 }
