@@ -19,7 +19,7 @@ public class Criteria {
 	
 	//생성자
 	public Criteria() {
-		this(1,10);
+		this(1,5); //한 페이지 내 게시글 5개 출력
 	}
 	
 	//생성자
