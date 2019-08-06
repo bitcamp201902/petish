@@ -5,33 +5,22 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
+<%@ page import="com.community.petish.user.dto.response.LoginedUser"%>
 <%@ page import="com.community.petish.dog.missingboard.dto.*"%>
 <%
    DogLostPostResponseDetailDTO dto = (DogLostPostResponseDetailDTO) request.getAttribute("dto");
-   
-   //폐이지 번호
-   String pageNum = session.getAttribute("pageNum").toString();
-   session.setAttribute("pageNum", pageNum);
-   
-    //게시판 아이디
-   String strBoard = session.getAttribute("boardId").toString();
-   Long boardId = Long.parseLong(strBoard);
-   System.out.println("게시판 아이디 : " + boardId);
 
-   //게시글 아이디
+   //게시판 아이디
+   Long boardId = 4L;
+
+   //게시글 아이디   
    Long idLong = dto.getId();
    String ID = idLong.toString();
    System.out.println("게시글 아이디 : " + ID);
 
-   //접속한 유저 아이디
-   String strUser = session.getAttribute("userId").toString();
-   Long userId = Long.parseLong(strUser);
-   System.out.println("접속한 유저 아이디 : " + userId);
-
    //작성자 아이디
    Long writerId = dto.getUser_id();
-   //String writer = writerId.toString();
-   System.out.println("작성자 아이디 : " + writerId);   
+   System.out.println("작성자 아이디 : " + writerId);
    
    //실종 장소
    String address = dto.getDog_lost_address();
@@ -174,26 +163,43 @@ button.btn.btn-template-outlined{
 .poster-table {
    width: 70%;
    margin: 1rem;
-   padding: 30px;
-   background-color: #F7F8E0;
+   background-color: #FFDB58;
    text-align: center;
    font-size: 23px;
+   border-spacing:0px;
+   border:solid 20px #b42233;
 }
 
 th, td {
-   padding: 13px;
    text-align: left;
 }
 
 .poster-title {
-   margin: 70px;
-   background-color: #df0101;
-   padding: 10px;
-   padding-left: 0px;
-   padding-right: 0px;
+   background-color: #b42233;
+   text-align: center;   
+   padding-bottom: 1rem;
+   font-size: 60px;
+   font-weight: 900;
+   color: #ffdb58;
+   /* -webkit-text-stroke: 2px black; */
+}
+
+.poster-info {
+   background-color: black;
    text-align: center;
    color: white;
-   font-size: 50px;
+   font-size: 40px;
+   color: white;
+   padding:30px;
+}
+
+.phonenumber-info {
+   background-color: #b42233;
+   text-align: center;
+   color: white;
+   font-size: 40px;
+   color: white;
+   padding:10px;
 }
 
 .text-uppercase {
@@ -207,18 +213,28 @@ th, td {
 #lostdog {
    width:100% !important;
    height:100% !important;
-   min-width: 600px !important;
-   max-width: 700px !important;
-   min-height: 300px !important;
+   min-width: 700px !important;
+   max-width: 750px !important;
+   min-height: 400px !important;
    max-height: 400px !important;
+}
+
+#phone-icon {
+   padding-right: 1rem;
 }
 
 .date {
    min-width: 200px;
 }
 
+.index{
+   padding:20px;
+   font-size:25px;
+   text-align:center;
+}
+
 .index {
-   min-width: 200px;
+   
 }
 
 /* 이미지 슬라이드 */
@@ -294,14 +310,14 @@ th, td {
    height: 15px;
    width: 15px;
    margin: 0 2px;
-   border: 2.5px solid orangered;
+   border: 2.5px solid #b42233;
    border-radius: 50%;
    display: inline-block;
    transition: background-color 0.6s ease;
 }
 
 .active, .dot:hover {
-   background-color: orangered;
+   background-color: #b42233;
 }
 
 /* Fading animation */
@@ -419,7 +435,16 @@ label {
    <div id="all">
 
       <%@ include file="/WEB-INF/views/commons/top.jspf"%>
-
+      
+      <%
+    	//접속 아이디
+    	Long userId = 0L;
+    	if(loginedUser != null){
+    		userId = loginedUser.getId();
+    		System.out.println("유저아이디 : " + userId);    		 
+      }
+      %>
+      
       <!-- 게시판명 -->
       <div id="heading-breadcrumbs" class="border-top-0 border-bottom-0">
          <div class="container">
@@ -440,14 +465,10 @@ label {
 
          <!-- LEFT COLUMN _________________________________________________________-->
          <div id="blog-post" class="col-md-13">
-
-            <!-- 버튼 -->
-            <button class="btn btn-template-outlined">
-               <a href="/dog/missingboard/writeForm"> 글쓰기 </a>
-            </button>
+            
             <button type="submit" class="btn btn-template-outlined">
                <i class="fa fa-align-justify"></i>
-               <a href="<c:url value='/dog/missingboard/list?pageNum=${pageNum}'/>"> 목록 </a>
+               <a href="<c:url value='/dog/missingboard/list'/>"> 목록 </a>
             </button>
 
             <!-- 글 제목 -->
@@ -523,16 +544,14 @@ label {
                <tr>
                   <th colspan="2" class="poster-title"><b>강아지를 찾습니다</b></th>
                </tr>
-
                <tr>
+               
                   <th colspan="2" style="text-align: center">
-                     <!-- <img id="lostdog" src="dog3.jpg"> -->
-
                      <div class="slideshow-container">
                         <div id="imageSlides">
                         <!-- 이미지 들어갈 곳 -->
                         </div>
-                        
+                                                
                         <!-- 이전/다음 버튼 -->
                         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                         <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -541,53 +560,42 @@ label {
                      <br>
                      <!-- Dots -->
                      <div style="text-align: center" id="dots">
-                                          
-                     	<!-- <span class="dot" onclick="currentSlide(1)"></span>
-                  		<span class="dot" onclick="currentSlide(2)"></span>
-                  		<span class="dot" onclick="currentSlide(3)"></span> -->
+                     <!-- Dot 들어갈 곳 -->
                      </div>
                   </th>
                </tr>
-
+               
+               <tr>
+                  <th colspan="2" class="poster-info"><%=dto.getDog_species()%> / <%=dto.getDog_gender()%> / <%=dto.getDog_age()%>살</th>
+               </tr>
+               
                <tr>
                   <th class="index">이름</th>
-                  <th><%=dto.getDog_name()%></th>
+                  <th class="dog-content"><%=dto.getDog_name()%></th>
                </tr>
-
-               <tr>
-                  <th class="index">종</th>
-                  <th><%=dto.getDog_species()%></th>
-               </tr>
-
-               <tr>
-                  <th class="index">성별 / 나이</th>
-                  <th><%=dto.getDog_gender()%> / <%=dto.getDog_age()%></th>
-               </tr>
-
+               
                <tr>
                   <th class="index">특징</th>
-                  <th><%=dto.getDog_description() %></th>
+                  <th class="dog-content">"<%=dto.getDog_description() %>"</th>
                </tr>
 
                <tr>
                   <th class="index">실종 날짜</th>
-                  <th><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="<%=dto.getDog_lost_date() %>"/></th>
+                  <th class="dog-content"><fmt:formatDate pattern="yyyy/MM/dd hh:mm" value="<%=dto.getDog_lost_date() %>"/></th>
                </tr>
 
                <tr>
                   <th class="index">실종 장소</th>
-                  <th><%=dto.getDog_lost_address()%></th>
+                  <th class="dog-content"><%=dto.getDog_lost_address()%></th>
                </tr>
-
+               
                <tr>
-                  <th class="index">사례금</th>
-                  <th><%=dto.getReward()%></th>
+                  <th colspan="2" class="phonenumber-info">
+                  <i class="fa fa-phone" id="phone-icon"></i><b><%=dto.getPhone_number()%></b>
+                  <div>사례금 <%=dto.getReward()%></div>              
+                  </th>
                </tr>
-
-               <tr>
-                  <th class="index">연락처</th>
-                  <th style="color: #df0101"><%=dto.getPhone_number()%></th>
-               </tr>
+               
             </table>
          </div>
          <div style="margin: 1rem"></div>
@@ -645,7 +653,6 @@ label {
          <!-- 댓글 입력창 -->
          <div id="comment-form">
             <h4 class="text-uppercase">댓글 작성</h4>
-            <form>
                <!-- <div class="row">
                   <div class="col-sm-4">
                      <div class="form-group">
@@ -671,33 +678,27 @@ label {
                         <i class="fa fa-comment-o"></i> 댓글 등록
                      </button>
 
-                     <%
-                        if (userId.equals(writerId)) {
-                     %>
-
+				<% if((loginedUser != null) && (userId == dto.getUser_id())) {%>
                      <nav aria-label="Page navigation example"
                         class="d-flex justify-content-left">
                         <button class="btn btn-template-outlined">
-                           <i class="fa fa-pencil"></i> <a
-                              href="/dog/missingboard/modifyForm/<%=ID%>"> 수정 </a>
+                           <i class="fa fa-pencil"></i>
+                           <a href="/dog/missingboard/modifyForm/<%=ID%>">수정 </a>
                         </button>
                         <button type="submit" class="btn btn-template-outlined">
-                           <i class="fa fa-trash-o"></i> <a
-                              href="/dog/missingboard/delete/<%=ID%>"> 삭제 </a>
+                           <i class="fa fa-trash-o"></i>
+                           <a href="/dog/missingboard/delete/<%=ID%>">삭제 </a>
                         </button>
                      </nav>
-                     <%
-                        }
-                     %>
+                <%} %>
 
-                     <!-- 게시글 신고 버튼 -->
+                     <!-- 게시글 신고 버튼 -->                     
                      <button type="button" class="btn btn-danger" data-toggle="modal"
-                        data-target="#report-modal" style="float: right;"
-                        id="report-btn">신고
-                     </button>
+                        style="float: right;" id="report-btn">신고
+                     </button>                     
+                     
                   </div>
                </div>
-            </form>
          </div>
          <!-- comment form -->
          <div style="margin: 5rem"></div>
@@ -760,14 +761,15 @@ label {
                <form id="report_form" method="POST">
 
                   <input type="hidden" name="BOARD_ID" id="BOARD_ID" value=<%=boardId%>>
-                  <input type="hidden" name="POST_ID" id="POST_ID" value=<%=ID%>>
-                  <input type="hidden" name="USER_ID" id="USER_ID" value=<%=userId%>>
+                  <input type="hidden" name="POST_ID" id="POST_ID" value=<%=ID%>>            
+                  <input type="hidden" name="USER_ID" id="USER_ID" value=<%=userId %> >
+                   
                   
                   <label style="text-align: left !important;">신고 분류</label>
                   <div class="form-group">
                      <select id="state" name="CATEGORY_ID" id="CATEGORY_ID"
                         class="form-control">
-                        <option value="">신고 사유 선택</option>
+                        <option value="0">신고 사유 선택</option>
                         <option value="1">부적절한 게시물</option>
                         <option value="2">도배 게시물</option>
                         <option value="3">광고성 게시물</option>
@@ -782,6 +784,7 @@ label {
                         class="form-control"></textarea>
                   </div>
                   <p class="text-center">
+                  
                      <input type="submit" value="신고" class="btn btn-outline-primary"
                         id="input_report">
                      <a style="padding-right: 0.5rem;"></a>
@@ -801,13 +804,12 @@ label {
    <script type="text/javascript" src="/resources/js/missingboard/detail.js"></script>
    
    <script>
-   $(document).ready(function() {      
-      
-	   //즉시 실행 함수
+   $(document).ready(function() {
 	   (function(){
-          var id = '<c:out value="${dto.id}"/>';
+          //var id = '<c:out value="${dto.id}"/>';
           
-          $.getJSON("/dog/missingboard/getAttachList/<%=ID%>", function(arr){              
+          $.getJSON("/dog/missingboard/getAttachList/"+${dto.id}, function(arr){              
+        	  
               console.log(arr);
               
               var str = "";
@@ -818,30 +820,19 @@ label {
               $(arr).each(function(i, attach){                  
                   //이미지 파일
                   if(attach.fileType){                	
-                    var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/"+attach.uuid +"_"+attach.fileName); //파일 이름(썸네일)                   
+                    var fileCallPath =  encodeURIComponent( attach.uploadPath+"/"+attach.uuid +"_"+attach.fileName); //파일 이름                   
                     
                     str += "<div class='mySlides active'>"
                     str += "<img id='lostdog' style='width:100%' src='/display?fileName="+fileCallPath+"'>";                                   
                     str += "</div>";
                     
                     //사진 갯수만큼 dot 생성
-                    dotStr += "<span class='dot' onclick='currentSlide("+i+")' style='margin:0.3rem!important;'></span>"
-                    
-                  }
-                  //이미지 파일 X                  
-                  else{
-                    str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-                    str += "<span> "+ attach.fileName+"</span><br/>";
-                    str += "<img src='/resources/img/attach.png'></a>";
-                    str += "</div>";
-                    str +"</li>";
-                  }
-                  
+                    dotStr += "<span class='dot' onclick='currentSlide("+(i+1)+")' style='margin:0.3rem!important;'></span>"        
+                  }                  
               });
               
               //이미지 생성
-              $("#imageSlides").html(str);                
-              
+              $("#imageSlides").html(str);
               //dot 생성
               $("#dots").html(dotStr);              
               
@@ -853,44 +844,17 @@ label {
         })();//end function
         
         
-        //이미지 클릭 이벤트
-        $(".uploadResult").on("click","li", function(e){
-            
-          console.log("view image");
-          
-          var liObj = $(".uploadResult");
-          
-          var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
-          
-          if(liObj.data("type")){
-            showImage(path.replace(new RegExp(/\\/g),"/"));
-          }else {
-            //download 
-            self.location ="/download?fileName="+path
-          }
-        });
-        
-        
-        /* function showImage(fileCallPath){
-             
-          alert(fileCallPath);
-          
-          $(".bigPictureWrapper").css("display","flex").show();
-          
-          $(".bigPicture")
-          .html("<img src='/display?fileName="+fileCallPath+"' >")
-          .animate({width:'100%', height: '100%'}, 1000);
-          
-        }
-
-        $(".bigPictureWrapper").on("click", function(e){
-          $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
-          setTimeout(function(){
-            $('.bigPictureWrapper').hide();
-          }, 1000);
-        }); */
-        
-        
+		 //신고 시 로그인 확인
+		   $('#report-btn').on("click", function(e){
+			   <% if(loginedUser == null){ %>
+				   alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");
+				   $('#login-modal').modal("show");
+				   
+			   <%} else{%>		   
+			   		$(this).attr('data-target',"#report-modal");
+			   		$('#report-modal').modal("show");
+			   <%}%>
+		   });
    }); 
    
    
@@ -943,7 +907,7 @@ label {
    }
 
    function currentSlide(n) {
-     showSlides(slideIndex = n);
+	 showSlides(slideIndex = n);
    }
 
    function showSlides(n) {
@@ -972,9 +936,7 @@ label {
      }
      
      //첫번째 슬라이드 사진 보이게
-     slides[slideIndex-1].style.display = "block";
-     //slides[slideIndex-1].css('display', 'block');
-     //slides[slideIndex-1].attr('style', "display:block;");     
+     slides[slideIndex-1].style.display = "block"; 
      
      dots[slideIndex-1].className += " active";
    }   
