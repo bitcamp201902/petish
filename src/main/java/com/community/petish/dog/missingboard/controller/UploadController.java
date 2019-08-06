@@ -5,19 +5,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.nio.file.Files;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -27,7 +22,6 @@ import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -56,7 +50,7 @@ public class UploadController {
 
 		//String uploadFolder = "C:\\upload";
 		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/missingboard");
-		
+		log.info("uploadPath : " + uploadPath);
 
 		for (MultipartFile multipartFile : uploadFile) {
 
@@ -80,15 +74,6 @@ public class UploadController {
 
 		log.info("upload ajax");
 	}
-
-	/*
-	private String getFolder() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		String str = sdf.format(date);
-		return str.replace("-", File.separator);
-	}
-	*/
 	
 	//첨부 파일이 이미지인지 학인
 	private boolean checkImageType(File file) {
@@ -115,10 +100,7 @@ public class UploadController {
 		//업로드 할 경로
 		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/missingboard");
 		
-		// 파일 없으면 생성
-		//File uploadPath = new File(uploadFolder, uploadFolderPath);
-		//(uploadPath.exists() == false) { uploadPath.mkdirs(); }		
-		// make yyyy/MM/dd folder
+		log.info("uploadPath : " + uploadPath);
 		
 		for (MultipartFile multipartFile : uploadFile) {
 
@@ -149,10 +131,15 @@ public class UploadController {
 				if (checkImageType(saveFile)) {
 
 					attachDTO.setImage(true);
-
 					//썸네일 이미지 파일명, 경로, 크기 지정해 생성
 					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+					try{
+						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+					}
+					catch(IllegalStateException e) {
+						log.info("Thumbnail error");
+						e.printStackTrace();
+					}
 
 					thumbnail.close();
 				}
@@ -199,16 +186,9 @@ public class UploadController {
 		log.info("deleteFile: " + fileName);
 		log.info("type: " + type);
 		
-		//파일 리스트
-		//List<AttachFileDTO> list = new ArrayList<>();
-		//업로드 할 경로
-		//String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/missingboard");
-				
-
 		File file;
 
-		try {			
-			//file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+		try {
 			file = new File(URLDecoder.decode(fileName, "UTF-8"));
 			file.delete();
 

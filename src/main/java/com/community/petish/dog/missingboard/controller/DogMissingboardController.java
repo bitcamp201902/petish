@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -57,39 +58,6 @@ public class DogMissingboardController {
 	  e.printStackTrace();
 	}
 	}
-	// 게시글 리스트
-	//@RequestMapping("/list")
-	/*
-	public String dogMissingBoardList(Criteria cri, Model model) throws ParseException {
-
-		List<DogLostPostResponseListDTO> dtoList = service.getPostList(cri);
-		
-		log.info("list : " + cri);
-		model.addAttribute("dtoList", dtoList);
-		
-		int total = service.getPostCount(cri); //전체 게시글 수
-		System.out.println("Total : " + total);
-		System.out.println("cri.amount : " + cri.getAmount());
-		System.out.println("cri.pageNum : " + cri.getPageNum());		
-		System.out.println("dtoList 길이" + dtoList.size());		
-		
-		model.addAttribute("pageMaker",  new DogLostPostPageDTO(cri, total));
-		
-		return "petish/dog/missingboard/list";
-	}
-	*/
-	
-	//@RequestMapping("/list")
-//	public void getList(Criteria cri, Model model) {
-//		
-//		log.info("list : " + cri);
-//		
-//		int total = service.getPostCount(cri); //전체 게시글 수
-//		
-//		model.addAttribute("list", service.getPostList(cri));
-//		//model.addAttribute("pageMaker", new DogLostPostPageDTO(cri,total));
-//		
-//	}
 	
 	//게시글 리스트(페이징)
 	@RequestMapping("/list")
@@ -103,14 +71,9 @@ public class DogMissingboardController {
 		model.addAttribute("dtoList", dtoList);
 		
 		int total = service.getPostCount(cri); //전체 게시글 수
-				
-		System.out.println("Total : " + total);
-		System.out.println("cri.amount : " + cri.getAmount());
-		System.out.println("cri.pageNum : " + cri.getPageNum());		
-		System.out.println("dtoList 길이" + dtoList.size());		
 		
 		model.addAttribute("pageMaker",  new DogLostPostPageDTO(cri, total));		
-		model.addAttribute("pageNum", cri.getPageNum());
+		model.addAttribute("pageNum", cri.getPageNum());		
 		
 		return "petish/dog/missingboard/list";
 	}
@@ -151,81 +114,8 @@ public class DogMissingboardController {
 		
 		rttr.addFlashAttribute("result", dto.getId());
 
-		return "redirect:/petish/dog/missingboard/list";
+		return "redirect:/dog/missingboard/detail/"+dto.getId();
 	}
-
-	// 게시글 입력
-	/*
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	
-	public String register(DogLostPostRequestWriteDTO dto, HttpServletRequest request, Model model,
-			RedirectAttributes rttr) {
-
-		int maxSize = 5 * 1024 * 1024;
-		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/dogLostPostUpload");
-		List<String> saveFiles = new ArrayList();
-
-		int res = 0; // 결과 저장
-
-		try {
-			MultipartRequest multi = new MultipartRequest(request, uploadPath, maxSize, "UTF-8",
-					new DefaultFileRenamePolicy());
-			Enumeration<String> files = multi.getFileNames();
-
-			while (files.hasMoreElements()) {
-				String name = files.nextElement();
-				if (files.hasMoreElements()) {
-					saveFiles.add(multi.getFilesystemName(name) + ",");
-				} else {
-					saveFiles.add(multi.getFilesystemName(name));
-				}
-			}
-
-			StringBuffer fl = new StringBuffer();
-			for (int i = 0; i < saveFiles.size(); i++) {
-				fl.append(saveFiles.get(i));
-			}
-
-			SimpleDateFormat transformat = new SimpleDateFormat("yyyy/MM/dd HH:mm"); // 변환할 Date 형식
-			log.info("날짜 : " + multi.getParameter("DOG_LOST_DATE"));
-
-			// dto.setID(Integer.parseInt(multi.getParameter("ID")));
-			dto.setUSER_ID(Integer.parseInt(multi.getParameter("USER_ID")));
-
-			dto.setDOG_NAME(multi.getParameter("DOG_NAME"));
-			dto.setDOG_AGE(Integer.parseInt(multi.getParameter("DOG_AGE")));
-			dto.setDOG_GENDER(multi.getParameter("DOG_GENDER"));
-			dto.setDOG_DESCRIPTION(multi.getParameter("DOG_DESCRIPTION"));
-			dto.setDOG_IMAGE(fl.toString());
-
-			dto.setDOG_LOST_DATE(transformat.parse(multi.getParameter("DOG_LOST_DATE"))); // String -> Date 변환
-			dto.setPHONE_NUMBER(multi.getParameter("PHONE_NUMBER"));
-			dto.setDOG_LOST_ADDRESS(multi.getParameter("DOG_LOST_ADDRESS"));
-			dto.setREWARD(Integer.parseInt(multi.getParameter("REWARD")));
-
-			// dto.setFOUND
-			dto.setUSER_ID(Integer.parseInt(multi.getParameter("USER_ID")));
-			dto.setSPECIES_ID(Integer.parseInt(multi.getParameter("SPECIES_ID")));
-
-			res = service.register(dto);
-
-			model.addAttribute("dto", dto);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if (res == 1) {
-			log.info("입력 성공");
-			rttr.addFlashAttribute("msg", "success");
-			return "redirect:/dog/missingboard/list";
-		} else {
-			log.info("입력 실패");
-			rttr.addFlashAttribute("msg", "fail");
-			return "redirect:/dog/missingboard/list";
-		}
-	}
-	*/
 
 	// 개시글 수정 폼
 	@RequestMapping(value="/modifyForm/{id}")
@@ -235,7 +125,7 @@ public class DogMissingboardController {
 
 		model.addAttribute("dto", dto);
 
-		return "petish/dog/missingboard/modify_form";
+		return "/petish/dog/missingboard/modify_form";
 	}
 
 	// 게시글 수정
@@ -244,20 +134,17 @@ public class DogMissingboardController {
 		
 		log.info("게시글 수정");
 		
-		Long pageNum = dto.getId();
-		
 		try {
-			
-			int result = service.modify(dto);
-			
+			int result = service.modify(dto);			
 			
 			if(result == 1) {
-				log.info("수정 성공");			
-				//수정한 페이지 조회 화면으로 (수정하기)
-				
+				log.info("수정 성공");
+				rttr.addFlashAttribute("modify_msg", "success");
+				//수정한 페이지 조회 화면으로 (수정하기)				
 			}
 			else {
 				log.info("수정 실패");
+				rttr.addFlashAttribute("modify_msg", "failure");
 			}
 		}
 		
@@ -265,7 +152,7 @@ public class DogMissingboardController {
 			log.info("에러");
 			e.printStackTrace();			
 		}
-		return "redirect:/dog/missingboard/detail/"+pageNum;
+		return "redirect:/dog/missingboard/detail/"+dto.getId();
 	}
 	
 	// 게시글 삭제
@@ -279,8 +166,7 @@ public class DogMissingboardController {
 		int result = service.delete(id);
 		log.info("result : " + result);
 		
-		if (result == 1) {
-			
+		if (result == 1) {			
 			//첨부파일 삭제
 			deleteFiles(attachList);
 			
@@ -323,7 +209,6 @@ public class DogMissingboardController {
 	      }//end catch
 	    });//end foreachd
 	  }
-
 	
 	// 첨부 파일 목록 조회	
 	@GetMapping(value = "/getAttachList/{id}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -331,7 +216,7 @@ public class DogMissingboardController {
 	public ResponseEntity<List<AttachFileVO>> getAttachList(@PathVariable Long id) {
 	
 		log.info("getAttachList " + id);
-	
+		
 		return new ResponseEntity<>(service.getAttachList(id), HttpStatus.OK);
 	}
 	
