@@ -31,11 +31,11 @@
  	
  	
  	<select id="getHospitalReviewList" resultMap="reviewMap">
- 		select * from hospital_review_tb where hospital_id =#{id} order by id desc
+ 		select * from hospital_review_tb where hospital_id =#{id} and deleted=0 order by id desc
  	</select>
  	
  	<select id="getHospitalReview" resultType="Integer">
- 		select count(*) from hospital_review_tb where user_id =#{user_id} and hospital_id =#{hospital_id}
+ 		select count(*) from hospital_review_tb where user_id =#{user_id} and hospital_id =#{hospital_id} and deleted=0
  	</select>
  	
  	<select id="getTotalCount" resultType="Integer">

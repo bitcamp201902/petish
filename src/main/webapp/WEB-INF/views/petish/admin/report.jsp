@@ -76,8 +76,8 @@
                     <th>게시글번호</th>
                     <th>신고카테고리</th>
                     <th>신고내용</th>
+                    <th>신고유저</th>
                     <th>신고날짜</th>
-                    <th>버튼</th>
                   </tr>
                 </thead>
                 <tbody id="userTable">
