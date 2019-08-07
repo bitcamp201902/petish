@@ -18,6 +18,7 @@ import com.community.petish.hospital.domain.PageDTO;
 import com.community.petish.hospital.domain.ReviewModifyDTO;
 import com.community.petish.hospital.domain.ReviewVO;
 import com.community.petish.hospital.domain.getReviewDTO;
+import com.community.petish.hospital.exception.DuplicationException;
 import com.community.petish.hospital.service.ReviewService;
 @RestController
 @RequestMapping("/hospital/review")
@@ -51,11 +52,9 @@ public class ReviewController {
 	
 	@PostMapping(produces="application/json;charset=UTF-8")
 	public Map<String, Object> insertReview(@RequestBody ReviewVO vo){
-		System.out.println("id="+vo.getUser_id());
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		try {
 			Integer res = reviewService.insertReview(vo);
-			System.out.println("res="+res);
 			if(res == 0) {
 				retVal.put("res","duplication");
 			}else {
@@ -68,11 +67,20 @@ public class ReviewController {
 			retVal.put("message", "Failure");
 		}
 		return retVal;
+//		Integer res = reviewService.insertReview(vo);
+//		if(res == 0) {
+//			try {
+//				throw new DuplicationException("이미 등록된 리뷰가 있습니다");
+//			} catch (DuplicationException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		return res;
 	}
 	
 	@DeleteMapping(value="/delete/{id}", produces="application/json;charset=UTF-8")
 	public Map<String, Object> deleteReveiw(@PathVariable("id") Long id){
-		System.out.println("review id="+id);
 		Map<String, Object> retVal = new HashMap<String, Object>();
 		try {
 			Integer res= reviewService.deleteReview(id);
@@ -88,7 +96,6 @@ public class ReviewController {
 	@PutMapping(value="/modify/{id}", produces="application/json;charset=UTF-8")
 	public Map<String, Object> modifyReview(@RequestBody ReviewModifyDTO dto){
 		Map<String, Object> retVal = new HashMap<String, Object>();
-		System.out.println(dto);
 		try {
 			Integer res = reviewService.modifyReview(dto);
 			retVal.put("res","OK");

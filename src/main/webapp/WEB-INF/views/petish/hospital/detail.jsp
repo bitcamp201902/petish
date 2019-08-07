@@ -12,11 +12,114 @@
 	<meta name="robots" content="all,follow">
 
 	<!-- 평점 별  -->
-	<link rel="stylesheet" href="/resources/css/hospital/star.css?ver=2">
+	<link rel="stylesheet" href="/resources/css/hospital/star.css?ver=1">
 	<!-- 평점 별  -->
 	<link rel="stylesheet" href="/resources/css/hospital/detail.css">
 	<link rel="stylesheet" href="/resources/css/write-modify.css">
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
+<style>
+* {box-sizing: border-box}
+body {font-family: Verdana, sans-serif; margin:0}
+.mySlides {display: none}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+  max-width: 1000px;
+  position: relative;
+  margin: auto;
+}
+
+/* Next & previous buttons */
+.prev, .next {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  width: auto;
+  padding: 16px;
+  margin-top: -22px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  transition: 0.6s ease;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover, .next:hover {
+  background-color: rgba(0,0,0,0.8);
+}
+
+/* Caption text */
+.text {
+  color: #f2f2f2;
+  font-size: 15px;
+  padding: 8px 12px;
+  position: absolute;
+  bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+  cursor: pointer;
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+  transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  -webkit-animation-name: fade;
+  -webkit-animation-duration: 1.5s;
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@-webkit-keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .prev, .next,.text {font-size: 11px}
+}
+.prev{
+	left:0;
+	border-radius: 3px 0 0 3px;
+}
+</style>
 </head>
 
 <%@ include file="/WEB-INF/views/commons/link.jspf" %>
@@ -45,10 +148,26 @@
 					
 					<div class="row portfolio text-center">
 						<div class="col-md-6">
-							<div class="hospital-image">
-								<div class="image">
+								<%-- <div class="image">
 									<img src="/resources/img/hospital/${hospital.hospital_img }" alt="" class="img-fluid" style="height: 350px;">
+								</div> --%>
+							<div class="slideshow-container">
+							<c:forEach var="img" items="${imglist }">
+								<div class="mySlides">
+  									<img src="/resources/img/hospital/${img}" style="width:100%; height: 400px;">
 								</div>
+								
+							</c:forEach>
+								<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+								<a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+							</div>
+							<br>
+
+							<div style="text-align:center">
+							<c:forEach var="item" items="${imglist }" varStatus="status">
+								<span class="dot" onclick="currentSlide(${status.index+1})"></span> 
+							</c:forEach>
 							</div>
 						</div>
 						
@@ -150,6 +269,11 @@
 						    <input style="visibility: hidden;" type="radio" name="star-input" id="p3" value="3"><label for="p3">3</label>
 						    <input style="visibility: hidden;" type="radio" name="star-input" id="p4" value="4"><label for="p4">4</label>
 						    <input style="visibility: hidden;" type="radio" name="star-input" id="p5" value="5"><label for="p5">5</label>
+						    <input style="visibility: hidden;" type="radio" name="star-input" id="p6" value="6"><label for="p6">6</label>
+    						<input style="visibility: hidden;" type="radio" name="star-input" id="p7" value="7"><label for="p7">7</label>
+    						<input style="visibility: hidden;" type="radio" name="star-input" id="p8" value="8"><label for="p8">8</label>
+    						<input style="visibility: hidden;" type="radio" name="star-input" id="p9" value="9"><label for="p9">9</label>
+    						<input style="visibility: hidden;" type="radio" name="star-input" id="p10" value="10"><label for="p10">10</label>
 						  </span>
 	  					<output style="line-height: 50px; vertical-align: middle;" for="star-input"><b>0</b>점</output>
 					</span>
@@ -189,8 +313,34 @@
 		
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9e74e0d9232cbccbd2962414bf135d9c&libraries=services"></script>
 	
-	<script src="/resources/js/hospital/star.js?ver=2"></script>
+	<script src="/resources/js/hospital/star.js"></script>
 	<script>
+	var slideIndex = 1;
+	showSlides(slideIndex);
+
+	function plusSlides(n) {
+	  showSlides(slideIndex += n);
+	}
+
+	function currentSlide(n) {
+	  showSlides(slideIndex = n);
+	}
+
+	function showSlides(n) {
+	  var i;
+	  var slides = document.getElementsByClassName("mySlides");
+	  var dots = document.getElementsByClassName("dot");
+	  if (n > slides.length) {slideIndex = 1}    
+	  if (n < 1) {slideIndex = slides.length}
+	  for (i = 0; i < slides.length; i++) {
+	      slides[i].style.display = "none";  
+	  }
+	  for (i = 0; i < dots.length; i++) {
+	      dots[i].className = dots[i].className.replace(" active", "");
+	  }
+	  slides[slideIndex-1].style.display = "block";  
+	  dots[slideIndex-1].className += " active";
+	}
 	//반응형 적용
 	 function resizeStar(){
 		if(window.innerWidth <= 768) {
@@ -269,6 +419,12 @@
 		output +='<input style="visibility: hidden;" type="radio" name="star-modify" id="mp3" value="3"><label for="mp3">3</label>';
 		output +='<input style="visibility: hidden;" type="radio" name="star-modify" id="mp4" value="4"><label for="mp4">4</label>';
 		output +='<input style="visibility: hidden;" type="radio" name="star-modify" id="mp5" value="5"><label for="mp5">5</label>';
+		output += '<input style="visibility: hidden;" type="radio" name="star-modify" id="mp6" value="6"><label for="mp6">6</label>';
+		output +='<input style="visibility: hidden;" type="radio" name="star-modify" id="mp7" value="7"><label for="mp7">7</label>';
+		output +='<input style="visibility: hidden;" type="radio" name="star-modify" id="mp8" value="8"><label for="mp8">8</label>';
+		output +='<input style="visibility: hidden;" type="radio" name="star-modify" id="mp9" value="9"><label for="mp9">9</label>';
+		output +='<input style="visibility: hidden;" type="radio" name="star-modify" id="mp10" value="10"><label for="mp10">10</label>';
+		
 		output +='</span>';
 		output +='<output style="line-height: 50px; vertical-align: middle;" for="star-modify"><b>0</b>점</output>';
 		output +='</span>';
@@ -373,7 +529,7 @@
 					output += '<tr style="font-size: 15px;">';
 					output += '<td>';
 					output += '<span class="star-rating"style="text-align:left;">';
-					output += '<span style ="width:'+(item.score*20.0)+'%"></span>';
+					output += '<span style ="width:'+(item.score*10.0)+'%"></span>';
 					output += '</span>';
 					output += '</td>';
 					output += '<td>'+item.nickname+'</td>';

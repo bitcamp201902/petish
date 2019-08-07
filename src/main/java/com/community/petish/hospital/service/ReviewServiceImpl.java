@@ -42,7 +42,6 @@ public class ReviewServiceImpl implements ReviewService{
 	public List<getReviewDTO> getReviewWithPaging(Criteria cri) {
 		List<getReviewDTO> rlist = null; 
 		rlist=reviewMapper.getReviewWithPaging(cri);
-		System.out.println(rlist);
 		return rlist;
 	}
 

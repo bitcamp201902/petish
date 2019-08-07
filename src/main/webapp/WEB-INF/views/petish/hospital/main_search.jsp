@@ -179,8 +179,8 @@
 		
 		var content = '<div class="bAddr"><span class="title">' + name + '</span><div>주소 : '+address_name+'</div><div>진료시간 : '+hours+'</div>';
 			content += '<div><span class="star-rating-40"style="text-align:left;">';
-			content += '<span style ="width:'+(score*20.0)+'%"></span>';
-			content += '</span><span class="title" style="display:inline-block;">'+score*2+'</span></div></div>';
+			content += '<span style ="width:'+(score*10.0)+'%"></span>';
+			content += '</span><span class="title" style="display:inline-block;">'+score+'</span></div></div>';
 	    infowindow.setContent(content);
 	    infowindow.open(map, marker);
 	}
@@ -310,7 +310,7 @@
 				//console.log(data.length);
 				//좌표 객체 초기화
 				bounds = new kakao.maps.LatLngBounds(); 
-				$.each(data.list, function(index, item){
+				$.each(data.totalList, function(index, item){
 					//console.log(data.scorelist.length);
 					//console.log(data.scorelist[0]);
 					//console.log(item.hospital_name);
@@ -318,7 +318,7 @@
 						
 				        //응급지료가능 병원일경우 마커 이미지교체
 				        if(item.isEmergency == 1){
-				    		 createMarker(result[0].x, result[0].y, "/resources/img/placeholder_red.png",item.hospital_name, item.hospital_addr ,item.hospital_hours,data.scorelist[index]);
+				    		 createMarker(result[0].x, result[0].y, "/resources/img/placeholder_red.png",item.hospital_name, item.hospital_addr ,item.hospital_hours,data.totalScoreList[index]);
 				        }
 				        else{
 				        	
@@ -329,7 +329,7 @@
 							//마커 찍음
 							marker.setMap(map); */
 				        	// 마커 이미지의 이미지 크기 입니다
-				     		createMarker(result[0].x, result[0].y,"/resources/img/placeholder.png",item.hospital_name, item.hospital_addr ,item.hospital_hours,data.scorelist[index]);
+				     		createMarker(result[0].x, result[0].y,"/resources/img/placeholder.png",item.hospital_name, item.hospital_addr ,item.hospital_hours,data.totalScoreList[index]);
 				        }
 						
 						// LatLngBounds 객체에 좌표를 추가합니다
@@ -339,19 +339,23 @@
 						//표시된 마커들로 지도를 재조정하는 함수
 						setBounds();
 						
-						
+					});
+				});
+				$.each(data.hospitalList, function(index,item){
+					
 						//병원 리스트 지도 밑에 출력
 						var output='';
 						output += '<div data-animate="fadeInUp" class="col-md-3">';
 						output += '<div class="team-member">';
 						output += '<div class="image">';
 						output += '<a href="/hospital/'+item.id+'"name="link">';
-						output += '<img src="/resources/img/hospital/'+item.hospital_img+'" alt="" class="img-fluid rounded-circle" style="height: 250px; width:250px;"></a>';
+						var imglist = item.hospital_img.split(",");
+						output += '<img src="/resources/img/hospital/'+imglist[0]+'" alt="" class="img-fluid rounded-circle" style="height: 250px; width:250px;"></a>';
 						output += '</div>';
 						output += '<h4 style="font-size: 25px;">';
 						output += '<a href="/hospital/'+item.id+'"name="link">'+item.hospital_name+'</a></h4>';
 						output += '<span class="star-rating"style="text-align:left;">';
-						output += '<span style ="width:'+(data.scorelist[index]*20.0)+'%"></span>';
+						output += '<span style ="width:'+(data.scoreList[index]*10.0)+'%"></span>';
 						output += '</span>';
 						output += '<div class="text">';
 						output += '<div>'+item.hospital_addr+'</div>';
@@ -369,10 +373,11 @@
 							document.location.hash = "#" + region + "^"+currentPage;
 
 						});
-						
-						
-					});
 				});
+						
+						
+				
+			
 				//페이징 처리 반복문
 				for(var i = data.paging.startPage; i<=data.paging.endPage; i++){
 					var output='';

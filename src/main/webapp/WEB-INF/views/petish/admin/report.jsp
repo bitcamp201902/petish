@@ -40,10 +40,10 @@
     
       <ul class="app-menu">
         <li><a class="app-menu__item" href="/admin"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
-        <li><a class="app-menu__item active" href="/admin/user"><i class="app-menu__icon fa fa-user-circle"></i><span class="app-menu__label">User</span></a></li>
+        <li><a class="app-menu__item" href="/admin/user"><i class="app-menu__icon fa fa-user-circle"></i><span class="app-menu__label">User</span></a></li>
         
                 
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Pages</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Pages</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="/admin/report"><i class="icon fa fa-circle-o"></i> 신고페이지</a></li>
             <li><a class="treeview-item" href="/admin/question"><i class="icon fa fa-circle-o"></i> 문의페이지</a></li>
@@ -55,12 +55,13 @@
     <main class="app-content">
       <div class="app-title">
         <div>
-          <h1><i class="fa fa-user-circle"></i>User</h1>
-          <p>유저관리</p>
+          <h1><i class="fa fa-file-text"></i>Pages</h1>
+          <p>신고게시판</p>
         </div>
         <ul class="app-breadcrumb breadcrumb side">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
-          <li class="breadcrumb-item active"><a href="/admin/user">User</a></li>
+          <li class="breadcrumb-item">Pages</li>
+          <li class="breadcrumb-item active"><a href="/admin/report">신고게시판</a></li>
         </ul>
       </div>
       <div class="row">
@@ -71,11 +72,11 @@
                 <thead>
                   <tr>
                     <th>식별자</th>
-                    <th>아이디</th>
-                    <th>닉네임</th>
-                    <th>주소</th>
-                    <th>성별</th>
-                    <th>가입일</th>
+                    <th>게시판명</th>
+                    <th>게시글번호</th>
+                    <th>신고카테고리</th>
+                    <th>신고내용</th>
+                    <th>신고날짜</th>
                     <th>버튼</th>
                   </tr>
                 </thead>
@@ -121,9 +122,6 @@
   		  }); */
   		  alert(id);
       }
-      function modifyUser(id){
-    	  window.location.href="/admin/user/modify/"+id;
-      }
       function getUserList(){
     	  $('#userTable').empty();
     	  $.ajax({
@@ -140,15 +138,12 @@
     				output += '<td>'+item.address+'</td>';
     				output += '<td>'+item.gender+'</td>';
     				output += '<td>'+item.join_date+'</td>';
-    				output += '<td><button type="button" class="btn btn-template-outlined" id="modifybtn_'+item.id+'" style="margin-right:10px; margin-bottom:3px;">수 정</button><button type="button" id="deletebtn_'+item.id+'" class="btn btn-template-outlined" style="margin-bottom:3px;">탈 퇴</button></td>';
+    				output += '<td><button type="button" class="btn btn-template-outlined" style="margin-right:10px; margin-bottom:3px;">수 정</button><button type="button" id="deletebtn_'+item.id+'" class="btn btn-template-outlined" style="margin-bottom:3px;">탈 퇴</button></td>';
     				console.log(item.join_date);
     				output += '</tr>';
     				$('#userTable').append(output);
     				$('#deletebtn_'+item.id+'').click(function(event){
     					deleteUser(item.id);
-    				});
-    				$('#modifybtn_'+item.id+'').click(function(event){
-    					modifyUser(item.id);
     				});
     			 });
     			$('#sampleTable').DataTable();

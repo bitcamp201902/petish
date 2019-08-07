@@ -18,18 +18,18 @@ public class HospitalServiceImpl implements HospitalService{
 	private HospitalMapper hospitalMapper;
 	
 	@Override
-	public List<HospitalVO> gethospitalList(String hospital_addr) {
+	public List<ListDTO> gethospitalList(String hospital_addr) {
 		
-		 List<HospitalVO> hospitalList = null; 
+		 List<ListDTO> hospitalList = null; 
 		 hospitalList=hospitalMapper.gethospitalList(hospital_addr); 
 		 
 		 return hospitalList;
 		 
 	}
 	@Override
-	public List<HospitalVO> getEmerhospitalList(String hospital_addr) {
+	public List<ListDTO> getEmerhospitalList(String hospital_addr) {
 		
-		 List<HospitalVO> hospitalList = null; 
+		 List<ListDTO> hospitalList = null; 
 		 hospitalList=hospitalMapper.getEmerhospitalList(hospital_addr); 
 		 
 		 return hospitalList;
@@ -46,7 +46,6 @@ public class HospitalServiceImpl implements HospitalService{
 	public List<ListDTO> getEmerListWithPaging(Criteria cri) {
 		 List<ListDTO> hospitalList = null; 
 		 hospitalList=hospitalMapper.getEmerListWithPaging(cri); 
-		 System.out.println(hospitalList);
 		 return hospitalList;
 	}
 	@Override

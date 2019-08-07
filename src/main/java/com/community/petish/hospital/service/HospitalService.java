@@ -11,8 +11,8 @@ import com.community.petish.hospital.domain.ReviewVO;
 public interface HospitalService {
 	HospitalVO getHospital(Long id);
 	
-	List<HospitalVO> gethospitalList(String hospital_addr);
-	List<HospitalVO> getEmerhospitalList(String hospital_addr);
+	List<ListDTO> gethospitalList(String hospital_addr);
+	List<ListDTO> getEmerhospitalList(String hospital_addr);
 	List<ListDTO> getListWithPaging(Criteria cri);
 	List<ListDTO> getEmerListWithPaging(Criteria cri);
 	

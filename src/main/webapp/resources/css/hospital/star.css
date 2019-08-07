@@ -53,24 +53,44 @@
     background-image: none;
 }
 .star-input>.input>label[for="p1"]{ 
-    width: 40px;
+    width: 20px;
     z-index: 10;
 }
 .star-input>.input>label[for="p2"]{ 
-    width: 80px;
+    width: 40px;
     z-index: 9;
 }
 .star-input>.input>label[for="p3"]{ 
-    width: 120px;
+    width: 60px;
     z-index: 8;
 }
 .star-input>.input>label[for="p4"]{ 
-    width: 160px;
+    width: 80px;
     z-index: 7;
 }
 .star-input>.input>label[for="p5"]{ 
-    width: 200px;
+    width: 100px;
     z-index: 6;
+}
+.star-input>.input>label[for="p6"]{ 
+    width: 120px;
+    z-index: 5;
+}
+.star-input>.input>label[for="p7"]{ 
+    width: 140px;
+    z-index: 4;
+}
+.star-input>.input>label[for="p8"]{ 
+    width: 160px;
+    z-index: 3;
+}
+.star-input>.input>label[for="p9"]{ 
+    width: 180px;
+    z-index: 2;
+}
+.star-input>.input>label[for="p10"]{ 
+    width: 200px;
+    z-index: 1;
 }
 
 .star-input>output{
@@ -133,24 +153,44 @@
     background-image: none;
 }
 .star-modify>.input>label[for="mp1"]{ 
-    width: 40px;
+    width: 20px;
     z-index: 10;
 }
 .star-modify>.input>label[for="mp2"]{ 
-    width: 80px;
+    width: 40px;
     z-index: 9;
 }
 .star-modify>.input>label[for="mp3"]{ 
-    width: 120px;
+    width: 60px;
     z-index: 8;
 }
 .star-modify>.input>label[for="mp4"]{ 
-    width: 160px;
+    width: 80px;
     z-index: 7;
 }
 .star-modify>.input>label[for="mp5"]{ 
-    width: 200px;
+    width: 100px;
     z-index: 6;
+}
+.star-modify>.input>label[for="mp6"]{ 
+    width: 120px;
+    z-index: 5;
+}
+.star-modify>.input>label[for="mp7"]{ 
+    width: 140px;
+    z-index: 4;
+}
+.star-modify>.input>label[for="mp8"]{ 
+    width: 160px;
+    z-index: 3;
+}
+.star-modify>.input>label[for="mp9"]{ 
+    width: 180px;
+    z-index: 2;
+}
+.star-modify>.input>label[for="mp10"]{ 
+    width: 200px;
+    z-index: 1;
 }
 
 .star-modify>output{

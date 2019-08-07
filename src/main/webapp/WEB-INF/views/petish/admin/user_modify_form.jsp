@@ -63,103 +63,87 @@
           <li class="breadcrumb-item active"><a href="/admin/user">User</a></li>
         </ul>
       </div>
-      <div class="row">
+       <div class="row">
         <div class="col-md-12">
           <div class="tile">
+            <h3 class="tile-title">유저 정보 수정</h3>
             <div class="tile-body">
-              <table class="table table-hover table-striped" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th>식별자</th>
-                    <th>아이디</th>
-                    <th>닉네임</th>
-                    <th>주소</th>
-                    <th>성별</th>
-                    <th>가입일</th>
-                    <th>버튼</th>
-                  </tr>
-                </thead>
-                <tbody id="userTable">
-                 
-                </tbody>
-              </table>
+              <form>
+             	<div class="col-md-2 form-group">
+                  <label class="control-label">식별자</label>
+                  <input class="form-control" value="${modifyUser.id }"type="text" readonly>
+                </div>
+                <div class="col-md-6 form-group" style="display:inline-block;">
+                  <label class="control-label">아이디</label>
+                  <input class="form-control" value="${modifyUser.username }"type="text">
+                </div>
+                <input type="button" value="중복확인" onclick="">
+                <div class="col-md-6 form-group" style="display:inline-block;">
+                  <label class="control-label">닉네임</label>
+                  <input class="form-control" value="${modifyUser.nickname }" type="text" >
+                </div>
+                <input type="button" value="중복확인" onclick="">
+                <div class="col-md-6 form-group" style="display:inline-block;">
+                  <label class="control-label">주소</label>
+                  <input class="form-control" value="${modifyUser.address }" type="text" id="userAddress">
+                </div>
+                <input type="button" value="검색" onclick="openZipcode()">
+                <div class="col-md-6 form-group" >
+                  <label class="control-label">성별</label>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="gender" value="남자">남자
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="gender" value="여자">여자
+                    </label>
+                  </div>
+                </div>
+                 <div class="col-md-6 form-group">
+                  <label class="control-label">관심사</label>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="concern" value="1">강아지
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="concern" value="2">고양이
+                    </label>
+                  </div>
+                    <div class="form-check">
+                    <label class="form-check-label">
+                      <input class="form-check-input" type="radio" name="concern" value="3">기타
+                    </label>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="tile-footer">
+              <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>수 정</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>취 소</a>
             </div>
           </div>
         </div>
-      </div>
+   
+       </div>
+      
     </main>
     <!-- Essential javascripts for application to work-->
     <script src="/resources/js/admin/jquery-3.2.1.min.js"></script>
     <!-- Google analytics script-->
     <script type="text/javascript">
-    	
-      if(document.location.hostname == 'pratikborsadiya.in') {
-      	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-      	ga('create', 'UA-72504830-1', 'auto');
-      	ga('send', 'pageview');
-      }
-      function deleteUser(id){
-    	  /* $.ajax({
-  			url:'/admin/user/delete/'+id,
-  			type:'DELETE',
-  			success:function(data){
-  				if(data==true){
-  					getUserList();
-  				}
-  				else{
-  					alert("탈퇴실패!");
-  				}
-  			},
-  			error:function(request,status,error){
-  				alert("ajax 통신 실패!!!");
-  				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
-  			}
-  		  }); */
-  		  alert(id);
-      }
-      function modifyUser(id){
-    	  window.location.href="/admin/user/modify/"+id;
-      }
-      function getUserList(){
-    	  $('#userTable').empty();
-    	  $.ajax({
-    		 url:'/admin/user/list',
-    		 type:'GET',
-    		 dataType:'json',
-    		 success:function(data){
-    			 $.each(data.list, function(index, item){
-    				var output='';
-    				output += '<tr>';
-    				output += '<td>'+item.id+'</td>';
-    				output += '<td>'+item.username+'</td>';
-    				output += '<td>'+item.nickname+'</td>';
-    				output += '<td>'+item.address+'</td>';
-    				output += '<td>'+item.gender+'</td>';
-    				output += '<td>'+item.join_date+'</td>';
-    				output += '<td><button type="button" class="btn btn-template-outlined" id="modifybtn_'+item.id+'" style="margin-right:10px; margin-bottom:3px;">수 정</button><button type="button" id="deletebtn_'+item.id+'" class="btn btn-template-outlined" style="margin-bottom:3px;">탈 퇴</button></td>';
-    				console.log(item.join_date);
-    				output += '</tr>';
-    				$('#userTable').append(output);
-    				$('#deletebtn_'+item.id+'').click(function(event){
-    					deleteUser(item.id);
-    				});
-    				$('#modifybtn_'+item.id+'').click(function(event){
-    					modifyUser(item.id);
-    				});
-    			 });
-    			$('#sampleTable').DataTable();
-    		 },
-    		 error:function(){
- 				alert("ajax 통신 실패!!!");
- 			 }
-    	  });
+    function openZipcode(){			
+        var url="/resources/api/searchMap.jsp"
+        open(url, "confirm", "toolbar=no,location=no,"
+                  +"status=no,menubar=no,"
+                  +"scrollbars=yes,resizable=no,"
+                  +"width=700,height=500");
       }
       $(document).ready(function(){
-    	  getUserList();
+    	  $('input:radio[name="gender"]:input[value="${modifyUser.gender }"]').prop("checked", true);
+    	  $('input:radio[name="concern"]:input[value="${modifyUser.concern_id }"]').prop("checked", true);
       });
     </script>
     <script src="/resources/js/admin/popper.min.js"></script>
