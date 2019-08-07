@@ -14,4 +14,6 @@ public interface AdminMapper {
 	Integer deleteUser(Long id);
 	List<getUserListDTO> getUserList();
 	UserResponseDTO_Mypage getUser(Long id);
+	
+	Integer modifyUser(UserResponseDTO_Mypage modifyUser);
 }

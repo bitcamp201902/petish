@@ -65,12 +65,18 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/user/modify/{id}", produces="application/json;charset=UTF-8")
-	public ModelAndView modifyUser(@PathVariable("id") Long id) {
+	public ModelAndView userModifyForm(@PathVariable("id") Long id) {
 		ModelAndView mv = new ModelAndView();
 		UserResponseDTO_Mypage modifyUser= adminService.getUser(id);
 		mv.addObject("modifyUser", modifyUser);
 		mv.setViewName("petish/admin/user_modify_form");
 		return mv;
+	}
+	
+	@RequestMapping(value="/user/modifyForm", produces="application/json;charset=UTF-8")
+	public String modifyUser(UserResponseDTO_Mypage modifyUser) {
+		int result = adminService.modifyUser(modifyUser);
+		return "petish/admin/user";
 	}
 	
 	@RequestMapping(value="/report", produces="application/json;charset=UTF-8")
@@ -86,4 +92,6 @@ public class AdminController {
 		mv.setViewName("petish/admin/question");
 		return mv;
 	}
+	
+	
 }

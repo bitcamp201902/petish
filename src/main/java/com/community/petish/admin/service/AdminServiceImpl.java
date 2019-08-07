@@ -58,6 +58,10 @@ public class AdminServiceImpl implements AdminService {
 	public UserResponseDTO_Mypage getUser(Long id) {
 		return adminMapper.getUser(id);
 	}
+	@Override
+	public Integer modifyUser(UserResponseDTO_Mypage modifyUser) {
+		return adminMapper.modifyUser(modifyUser);
+	}
 	
 
 }

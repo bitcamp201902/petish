@@ -68,24 +68,23 @@
           <div class="tile">
             <h3 class="tile-title">유저 정보 수정</h3>
             <div class="tile-body">
-              <form>
-             	<div class="col-md-2 form-group">
+              <form id="user_modify_form" action="/admin/user/modifyForm">
+             	<div class="col-md-2 form-group" style="display:inline-block;">
                   <label class="control-label">식별자</label>
-                  <input class="form-control" value="${modifyUser.id }"type="text" readonly>
+                  <input class="form-control" name="id" value="${modifyUser.id }"type="text" readonly>
                 </div>
-                <div class="col-md-6 form-group" style="display:inline-block;">
+                <div class="col-md-4 form-group" style="display:inline-block;">
                   <label class="control-label">아이디</label>
-                  <input class="form-control" value="${modifyUser.username }"type="text">
+                  <input class="form-control" name="username" value="${modifyUser.username }"type="text" readonly>
                 </div>
-                <input type="button" value="중복확인" onclick="">
                 <div class="col-md-6 form-group" style="display:inline-block;">
                   <label class="control-label">닉네임</label>
-                  <input class="form-control" value="${modifyUser.nickname }" type="text" >
+                  <input class="form-control" id="nickname" name="nickname" value="${modifyUser.nickname }" type="text" >
                 </div>
-                <input type="button" value="중복확인" onclick="">
+                <input type="button" value="중복확인" onclick="isDuplicate()">
                 <div class="col-md-6 form-group" style="display:inline-block;">
                   <label class="control-label">주소</label>
-                  <input class="form-control" value="${modifyUser.address }" type="text" id="userAddress">
+                  <input class="form-control" name="address" value="${modifyUser.address }" type="text" id="userAddress">
                 </div>
                 <input type="button" value="검색" onclick="openZipcode()">
                 <div class="col-md-6 form-group" >
@@ -105,24 +104,24 @@
                   <label class="control-label">관심사</label>
                   <div class="form-check">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="concern" value="1">강아지
+                      <input class="form-check-input" type="radio" name="concern_id" value="1">강아지
                     </label>
                   </div>
                   <div class="form-check">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="concern" value="2">고양이
+                      <input class="form-check-input" type="radio" name="concern_id" value="2">고양이
                     </label>
                   </div>
                     <div class="form-check">
                     <label class="form-check-label">
-                      <input class="form-check-input" type="radio" name="concern" value="3">기타
+                      <input class="form-check-input" type="radio" name="concern_id" value="3">기타
                     </label>
                   </div>
                 </div>
               </form>
             </div>
             <div class="tile-footer">
-              <button class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>수 정</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>취 소</a>
+              <button class="btn btn-primary" type="button" onclick="modify()"><i class="fa fa-fw fa-lg fa-check-circle"></i>수 정</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" onclick="javascript:history.go(-1);"><i class="fa fa-fw fa-lg fa-times-circle"></i>취 소</a>
             </div>
           </div>
         </div>
@@ -134,6 +133,41 @@
     <script src="/resources/js/admin/jquery-3.2.1.min.js"></script>
     <!-- Google analytics script-->
     <script type="text/javascript">
+    var pass =0;
+    function modify(){
+    	if(pass == 0){
+    		alert('nickname 중복 확인을 해주세요.');
+    	}
+    	else{
+    		$('#user_modify_form').submit();
+    	}
+    }
+    function isDuplicate(){
+    	var nickname = $('#nickname').val();
+    	
+    	if(nickname == '' || nickname == null) {
+    		alert("nickname을 입력하세요.");
+    		$('#nickname').focus();
+    		return;
+    	}
+
+    	var nicknameData = { "nickname" : nickname };
+
+    	$.ajax({
+    		type: "GET",
+    		url: "/api/users/duplicate/nickname",
+    		data: nicknameData,
+    		success: function(data) {
+    			if (data === true) {
+    				alert("현재 사용중인 nickname입니다.");
+    				
+    			} else {
+    				alert("사용하실 수 있는 nickname입니다.");
+    				pass=1;
+    			}
+    		}
+    	});
+    }
     function openZipcode(){			
         var url="/resources/api/searchMap.jsp"
         open(url, "confirm", "toolbar=no,location=no,"
@@ -143,7 +177,7 @@
       }
       $(document).ready(function(){
     	  $('input:radio[name="gender"]:input[value="${modifyUser.gender }"]').prop("checked", true);
-    	  $('input:radio[name="concern"]:input[value="${modifyUser.concern_id }"]').prop("checked", true);
+    	  $('input:radio[name="concern_id"]:input[value="${modifyUser.concern_id }"]').prop("checked", true);
       });
     </script>
     <script src="/resources/js/admin/popper.min.js"></script>

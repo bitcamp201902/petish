@@ -14,4 +14,6 @@ public interface AdminService {
 	boolean deleteUser(Long id);
 	List<getUserListDTO> getUserList();
 	UserResponseDTO_Mypage getUser(Long id);
+	
+	Integer modifyUser(UserResponseDTO_Mypage modifyUser);
 }

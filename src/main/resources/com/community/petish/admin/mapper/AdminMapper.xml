@@ -33,5 +33,9 @@
 		from user_tb
 		where id =#{id}
 	</select> 
+	
+	<update id="modifyUser" parameterType="com.community.petish.user.dto.UserResponseDTO_Mypage">
+		update user_tb set nickname=#{nickname}, address=#{address}, concern_id=#{concern_id}, gender=#{gender} where id=#{id}
+	</update>
 
 </mapper>
