@@ -12,7 +12,7 @@ values(#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{postId})
 delete from attach_tb where uuid=#{uuid} 
 </delete>
 
-<select id="findByPostId" resultType="com.community.petish.dog.missingboard.domain.AttachFileVO">
+<select id="findByPostId" parameterType="Long" resultType="com.community.petish.dog.missingboard.domain.AttachFileVO">
 select * from attach_tb where postid=#{postId}
 </select>
 

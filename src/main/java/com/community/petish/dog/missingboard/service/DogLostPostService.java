@@ -34,4 +34,5 @@ public interface DogLostPostService {
 	
 	// 사진 첨부
 	List<AttachFileVO> getAttachList(Long postId);
+	
 }

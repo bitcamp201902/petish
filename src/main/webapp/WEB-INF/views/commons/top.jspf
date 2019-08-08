@@ -3,6 +3,9 @@
 <link rel="stylesheet" href="/resources/css/top/top.css"> 
 <link rel="stylesheet" href="/resources/css/top/modal.css?after"> 
 <!-- JavaScript File -->
+
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+
 <script src="/resources/js/top/top.js"></script>
 
 <%

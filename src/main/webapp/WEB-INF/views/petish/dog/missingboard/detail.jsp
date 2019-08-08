@@ -7,20 +7,30 @@
 
 <%@ page import="com.community.petish.user.dto.response.LoginedUser"%>
 <%@ page import="com.community.petish.dog.missingboard.dto.*"%>
+
+
 <%
    DogLostPostResponseDetailDTO dto = (DogLostPostResponseDetailDTO) request.getAttribute("dto");
 
+	//댓글 갯수
+	int commentCount = Integer.parseInt((request.getAttribute("commentCount").toString()));
+	System.out.println("detail에서" + commentCount);
+	
+	//댓글 페이지  번호
+	int pageNum = 1;
+	if((DogLostPostPageDTO)request.getAttribute("pageMaker") != null){
+		DogLostPostPageDTO pageDTO = (DogLostPostPageDTO)request.getAttribute("pageMaker");
+		pageNum = pageDTO.getCri().getPageNum();	
+		request.setAttribute("pageNum", pageNum);
+	}
+	
    //게시판 아이디
    Long boardId = 4L;
-
+   
    //게시글 아이디   
    Long idLong = dto.getId();
    String ID = idLong.toString();
    System.out.println("게시글 아이디 : " + ID);
-
-   //작성자 아이디
-   Long writerId = dto.getUser_id();
-   System.out.println("작성자 아이디 : " + writerId);
    
    //실종 장소
    String address = dto.getDog_lost_address();
@@ -93,7 +103,6 @@
 <!-- CSS파일 추가 -->
 <link href="/resources/css/commons/kakaomap.css?ver=1" rel="stylesheet">
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-
 <link href="/resources/css/missingboard/detail.css" rel="stylesheet">
 
 <style>
@@ -114,6 +123,12 @@ button.btn.btn-template-outlined{
    float: right;
    margin-right:15px;
    margin-top:20px;
+}
+.date-view{
+	width:100%;
+	padding-left:2rem!important;
+	padding-right:2rem!important;
+	text-align:right;
 }
 .name{
    text-align:center;
@@ -139,7 +154,11 @@ div.panel-heading{
 .dropdown{
    text-align:center;
 }
-
+.nickname{
+	width:150px;
+	text-align:left;
+	padding-left:0.7rem;
+}
 main.img-fluid rounded-circle{
    width:70px;
    height:70px;
@@ -159,6 +178,9 @@ button.btn.btn-template-outlined{
 
 @charset "EUC-KR";
 
+.comment-input{
+	width:100%;
+}
 
 .poster-table {
    width: 70%;
@@ -210,6 +232,10 @@ th, td {
    padding: 15px 0;
 }
 
+#comments{
+	padding-top:5rem;
+}
+
 #lostdog {
    width:100% !important;
    height:100% !important;
@@ -231,10 +257,6 @@ th, td {
    padding:20px;
    font-size:25px;
    text-align:center;
-}
-
-.index {
-   
 }
 
 /* 이미지 슬라이드 */
@@ -330,8 +352,10 @@ th, td {
 
 .reply-image {
    max-width: 100%;
+   width:70px!important;
    height: auto;
    border-radius: 50%;
+   margin:0.5rem!important;
 }
 
 .report-modal-title {
@@ -425,6 +449,10 @@ label {
       display:none;
    }
    
+   .reply-image-p{
+   width:80px!important;
+   }
+   
    
 
 }
@@ -438,10 +466,14 @@ label {
       
       <%
     	//접속 아이디
-    	Long userId = 0L;
+    	Long userId = null;
+        String userNickname = "";
     	if(loginedUser != null){
     		userId = loginedUser.getId();
-    		System.out.println("유저아이디 : " + userId);    		 
+    		userNickname = loginedUser.getNickname();
+    		
+    		System.out.println("유저아이디 : " + userId);
+    		System.out.println("유저닉네임 : " + userNickname); 
       }
       %>
       
@@ -476,7 +508,7 @@ label {
 
                <%
                   if (dto.getFound() == 0) {
-               %>`
+               %>
                <span class="badge badge-danger">미발견</span>
                <%
                   } else {
@@ -502,7 +534,7 @@ label {
                      class="img-fluid rounded-circle" width="70px;" height="70px;"></td>
                   <td>
                      <div class="nav navbar-nav ml-auto">
-                        <a href="#" data-toggle="dropdown" class="dropdown"><%=dto.getNickname()%></a>
+                        <a href="#" data-toggle="dropdown" class="nickname dropdown"><%=dto.getNickname()%></a>
                         <div class="dropdown-menu">
                            <div class="dropdown">
                               <a href="/mypage/member/detail" class="nav-link">게시글보기</a>
@@ -514,29 +546,19 @@ label {
                         </div>
                      </div>
                   </td>
-
-                  <td class=grade>준회원</td>
-                  <td class=date><i class="fa fa-clock-o"></i> <fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="<%=dto.getCreate_date() %>"/></td>
-                  <td class=view><i class="fa fa-eye"></i> <%=dto.getView_count()%></td>
-
+                  				
+                  <td class=date-view>
+                  <i class="fa fa-clock-o"></i>
+                  <fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="<%=dto.getCreate_date() %>"/>
+                  <i class="fa fa-eye" style="padding-left:2rem"></i><%=dto.getView_count()%>
+                  </td>
+                  
                </tr>
             </table>
          </div>
-         <!-- blog-post -->
-
+         
          <hr size="10px">
-
-
-
-         <!-- <div class="heading"> -->
-         <!-- <blockquote class="blockquote"> -->
-
-         <!-- <p>
-            <img src="/resources/img/blog2.jpg" alt="Example blog post alt"
-               class="img-fluid"> 
-         </p> -->
-
-
+         
          <!-- 글 내용 -->
          <!-- 포스터 -->
          <div class="d-flex justify-content-center">
@@ -592,7 +614,7 @@ label {
                <tr>
                   <th colspan="2" class="phonenumber-info">
                   <i class="fa fa-phone" id="phone-icon"></i><b><%=dto.getPhone_number()%></b>
-                  <div>사례금 <%=dto.getReward()%></div>              
+                  <div style="padding-top:1rem;">사례금 <%=dto.getReward()%></div>              
                   </th>
                </tr>
                
@@ -604,80 +626,80 @@ label {
 			<div id="map" style="width: 100%; height: 350px; position: relative; overflow: hidden;"></div>
 		</div>
 
-
-         <!-- 댓글창 -->
-         <div id="comments">
-
-            <h4 class="text-uppercase">댓글 수 2</h4>
-            <section class="bar bg-gray mb-0">
-               <div class="row comment">
-                  <div class="col-sm-3 col-md-2 text-center-xs">
-                     <p>
-                        <img src="/resources/img/blog-avatar2.jpg" alt=""
-                           class="reply-image">
-                     </p>
-                  </div>
-                  <div class="col-sm-9 col-md-10">
-                     <h5 class="text-uppercase">Julie Alma</h5>
-                     <p class="posted">
-                        <i class="fa fa-clock-o"></i> 2019-07-03 09:24:26
-                     </p>
-                     <p>안타깝네요.</p>
-
-                  </div>
-               </div>
-
-               <hr style="margin: 10px;">
-
-               <div class="row comment last">
-                  <div class="col-sm-3 col-md-2 text-center-xs">
-                     <p>
-                        <img src="/resources/img/blog-avatar.jpg" alt=""
-                           class="reply-image">
-                     </p>
-                  </div>
-                  <div class="col-sm-9 col-md-10">
-                     <h5 class="text-uppercase">Louise Armero</h5>
-                     <p class="posted">
-                        <i class="fa fa-clock-o"></i> 2019-07-03 09:25:23
-                     </p>
-                     <p>어디서 봤더라....</p>
-
-                  </div>
-               </div>
-            </section>
-         </div>
+        <!-- 댓글창 -->
+		<div id="comments">
+						
+			<% if (commentCount == 0) {%>
+			<h4>댓글  0</h4>
+			<a>등록된 댓글이 없습니다. 댓글을 작성해주세요!</a>
+			<%} 
+			
+			else { %>
+			<h4 class="text-uppercase" id="commentCount">
+			<input type="text" id="commentCountVal">
+			</h4>
+			
+			<section class="bar bg-gray mb-0">			
+			<div id="commentList" class="row comment">
+			<!-- 댓글 출력 -->
+			</div>			
+			</section>
+			<%} %>
+			
+			<!-- 댓글 페이징 -->
+			<div style="padding:3rem">
+			<form id="page_form">
+			
+				<!-- criteria -->
+				<input type="hidden" name="post_id" value=<%= dto.getId() %>>
+				<input type="hidden" name="user_id" value=<%= userId %>>
+				<input type="hidden" name="pageNum" value=<%= pageNum %>>
+			</form>
+            <div class="comment-footer d-flex justify-content-center"></div>
+		</div>
+		
+		<!-- 댓글 입력창 -->
+		<h4 class="comment">댓글 작성</h4>
+		
+		<form id="insert_form" method="post">
+			<!-- comments -->
+			<input type="hidden" name="user_id" value=<%= userId %>> 
+			<input type="hidden" name="post_id" value=<%=dto.getId() %>>
+			<input type="hidden" name="pageNum" value=<%= pageNum %>>
+			
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="name">아이디<span class="required text-primary">*</span></label>						
+						<input id="NICKNAME" name="nickname" type="text" class="form-control" value="<%=userNickname %>" readonly>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group">
+						<label for="comment">내 용 <span class="required text-primary">*</span></label>
+						<textarea id="CONTENT" name="content" rows="4" class="form-control"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12 text-right">
+					<button class="re btn btn-template-outlined" id="input_data">
+						<i class="fa fa-comment-o"></i> 댓글 등록
+					</button>
+				</div>
+			</div>
+		</form>
+		<!-- comment insert form END -->
          
          <div style="margin: 2rem"></div>
 
-         <!-- 댓글 입력창 -->
+         <!-- 수정/삭제/신고 버튼 -->
          <div id="comment-form">
-            <h4 class="text-uppercase">댓글 작성</h4>
-               <!-- <div class="row">
-                  <div class="col-sm-4">
-                     <div class="form-group">
-                        <label for="name">아이디 <span
-                           class="required text-primary">*</span></label> <input id="name"
-                           type="text" class="form-control">
-                     </div>
-                  </div>
-               </div> -->
-
-               <div class="row">
-                  <div class="col-sm-12">
-                     <div class="form-group">
-                        <!-- <label for="comment">내 용 <span
-                           class="required text-primary">*</span></label> -->
-                        <textarea id="comment" rows="4" class="form-control"></textarea>
-                     </div>
-                  </div>
-               </div>
                <div class="row">
                   <div class="col-sm-12 text-right">
-                     <button class="re btn btn-template-outlined">
-                        <i class="fa fa-comment-o"></i> 댓글 등록
-                     </button>
-
+                  
 				<% if((loginedUser != null) && (userId == dto.getUser_id())) {%>
                      <nav aria-label="Page navigation example"
                         class="d-flex justify-content-left">
@@ -691,20 +713,19 @@ label {
                         </button>
                      </nav>
                 <%} %>
-
-                     <!-- 게시글 신고 버튼 -->                     
-                     <button type="button" class="btn btn-danger" data-toggle="modal"
-                        style="float: right;" id="report-btn">신고
-                     </button>                     
-                     
+                
+	                <div class="col-sm-12 text-right">                
+	                  <!-- 게시글 신고 버튼 -->                     
+	                   <button type="button" class="btn btn-danger" data-toggle="modal"
+	                      style="float: right;" id="report-btn">신고
+	                   </button> 
+	                </div>
                   </div>
-               </div>
+            </div>
          </div>
-         <!-- comment form -->
          <div style="margin: 5rem"></div>
          
       </div>
-      <!--  -->
    </div>
    <!-- all -->
 
@@ -760,14 +781,13 @@ label {
             <div class="modal-body">
                <form id="report_form" method="POST">
 
-                  <input type="hidden" name="BOARD_ID" id="BOARD_ID" value=<%=boardId%>>
-                  <input type="hidden" name="POST_ID" id="POST_ID" value=<%=ID%>>            
-                  <input type="hidden" name="USER_ID" id="USER_ID" value=<%=userId %> >
-                   
+                  <input type="hidden" name="board_id" id="BOARD_ID" value=<%=boardId%>>
+                  <input type="hidden" name="post_id" id="POST_ID" value=<%=ID%>>            
+                  <input type="hidden" name="user_id" id="USER_ID" value=<%=userId %> >
                   
                   <label style="text-align: left !important;">신고 분류</label>
                   <div class="form-group">
-                     <select id="state" name="CATEGORY_ID" id="CATEGORY_ID"
+                     <select id="state" name="category_id" id="category_id"
                         class="form-control">
                         <option value="0">신고 사유 선택</option>
                         <option value="1">부적절한 게시물</option>
@@ -780,7 +800,7 @@ label {
                   </div>
                   <label>내용</label>
                   <div class="form-group">
-                     <textarea name="DESCRIPTION" id="DESCRIPTION" rows="10"
+                     <textarea name="description" id="description" rows="10"
                         class="form-control"></textarea>
                   </div>
                   <p class="text-center">
@@ -802,13 +822,15 @@ label {
 
    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>   
    <script type="text/javascript" src="/resources/js/missingboard/detail.js"></script>
+   <script type="text/javascript" src="/resources/js/missingboard/comment.js"></script>
+   <script type="text/javascript" src="/resources/js/report.js"></script>   
    
    <script>
    $(document).ready(function() {
 	   (function(){
           //var id = '<c:out value="${dto.id}"/>';
           
-          $.getJSON("/dog/missingboard/getAttachList/"+${dto.id}, function(arr){              
+          $.getJSON("/dog/missingboard/getAttachList/<%=dto.getId()%>", function(arr){              
         	  
               console.log(arr);
               
@@ -855,6 +877,7 @@ label {
 			   		$('#report-modal').modal("show");
 			   <%}%>
 		   });
+        
    }); 
    
    
@@ -939,7 +962,8 @@ label {
      slides[slideIndex-1].style.display = "block"; 
      
      dots[slideIndex-1].className += " active";
-   }   
+   }
+   
    </script>   
    
    <!-- Javascript files-->

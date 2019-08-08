@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="com.community.petish.dog.missingboard.dto.*"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
 <%
 	DogLostPostResponseDetailDTO dto = (DogLostPostResponseDetailDTO) request.getAttribute("dto");
-	System.out.println("수정 페이지 게시글 아이디 : " + dto.getId());
 
 	//강아지 종
 	String dogSpecies = dto.getDog_species(); //강아지 종 이름
@@ -16,61 +15,14 @@
 	//강아지 특징
 	String dogDescriptions = dto.getDog_description();
 	String des[] = dogDescriptions.split(" / ");
-	
 %>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="/resources/vendor/jquery/jquery.min.js"></script>
+<script src="/resources/vendor/jquery/jquery.min.js"></script>
 <meta charset="utf-8">
 <title></title>
-
-<style>
-.uploadResult {
-    width: 100%;
-  }
-  
-  .btn-warning {
-  	background-color: #ffffff!important;
-  	border-color: #ffffff!important;
-  }
-  
-  .uploadResult ul {
-    display: flex;
-    flex-flow: row;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .uploadResult ul li {
-    list-style: none;
-    padding: 10px;
-  }
-  
-  .uploadResult ul li img {
-    width: 100px;
-  }
-  
-  .bigPictureWrapper {
-  position: absolute;
-  display: none;
-  justify-content: center;
-  align-items: center;
-  top:0%;
-  width:100%;
-  height:100%;
-  background-color: gray; 
-  z-index: 100;
-}
-
-.bigPicture {
-  position: relative;
-  display:flex;
-  justify-content: center;
-  align-items: center;
-}   
-  </style>
 
 <!-- 부트스트랩 추가 -->
 <meta name="description" content="">
@@ -121,18 +73,22 @@
 <link rel="stylesheet" type="text/css"
 	href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
 
-
-<!-- Tweaks for older IEs-->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+<!-- CSS 파일 추가 -->
+<link rel="stylesheet" type="text/css" href="/resources/css/missingboard/write_modify.css">
 <link rel="stylesheet" href="/resources/css/commons/kakaomap.css">
 </head>
 
 <body>
 	<div id="all">
-
 		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
+		<%
+			//로그인 확인
+			if(loginedUser == null){
+				out.println("<script>");
+				out.println("location.href='/dog/missingboard/list'");
+				out.println("</script>");
+			}
+		%>
 
 		<div id="heading-breadcrumbs">
 			<div class="container">
@@ -167,15 +123,17 @@
 								<input type="checkbox" name="found" id="FOUND" value="0">
 								<span style="color: red;"><b> 반려견을 찾았습니다.</b></span>
 							</div>
-							<form action="/dog/missingboard/modify" id="modifyForm" method="post">
+							<form action="/dog/missingboard/modify" id="modifyForm"
+								method="post">
 								<div class="row">
 
 									<input type="hidden" name="id" id="ID" value=<%=dto.getId()%>>
-									
+
 									<div class="col-sm-6 col-md-2">
 										<div class="form-group">
-											<label for="category">이름</label>
-											<input type="text" name="dog_name" id="DOG_NAME" value=<%=dto.getDog_name()%> class="form-control">
+											<label for="category">이름</label> <input type="text"
+												name="dog_name" id="DOG_NAME" value=<%=dto.getDog_name()%>
+												class="form-control">
 										</div>
 									</div>
 									<div class="col-sm-6 col-md-2">
@@ -189,8 +147,9 @@
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">종</label>
-											<select id="SPECIES_ID" name="species_id" value="<%=dto.getSpecies_id() %>" class="form-control">
+											<label for="category">종</label> <select id="SPECIES_ID"
+												name="species_id" value="<%=dto.getSpecies_id()%>"
+												class="form-control">
 												<option value="0">종 선택</option>
 												<option value="0">-----소형견-----</option>
 												<option value="1">믹스견</option>
@@ -207,8 +166,8 @@
 												<option value="12">닥스훈트</option>
 												<option value="13">빠삐용</option>
 												<option value="14">기타 소형견</option>
-												
-												<option value="0">-----중형견-----</option>												
+
+												<option value="0">-----중형견-----</option>
 												<option value="15">비숑프리제</option>
 												<option value="16">보스턴테리어</option>
 												<option value="17">샤페이</option>
@@ -216,9 +175,9 @@
 												<option value="19">비글</option>
 												<option value="20">코카스파니엘</option>
 												<option value="21">불독</option>
-												<option value="22">기타 중형견</option>												
+												<option value="22">기타 중형견</option>
 
-												<option value="0">-----대형견-----</option>												
+												<option value="0">-----대형견-----</option>
 												<option value="23">사모에드</option>
 												<option value="24">피레니즈</option>
 												<option value="25">리트리버</option>
@@ -242,87 +201,102 @@
 												<%
 													if (dto.getDog_gender().equals("수컷")) {
 												%>
-												<input type="radio" value="수컷" name="dog_gender" id="DOG_GENDER_M" checked><label>수컷</label>
-												<input type="radio" value="암컷" name="dog_gender" id="DOG_GENDER_F"><label>암컷</label>
+												<input type="radio" value="수컷" name="dog_gender"
+													id="DOG_GENDER_M" checked><label>수컷</label> <input
+													type="radio" value="암컷" name="dog_gender" id="DOG_GENDER_F"><label>암컷</label>
 												<%
 													} else {
 												%>
-												<input type="radio" value="수컷" name="dog_gender" id="DOG_GENDER_M"><label>수컷</label>
-												<input type="radio" value="암컷" name="dog_gender" id="DOG_GENDER_F" checked><label>암컷</label>
+												<input type="radio" value="수컷" name="dog_gender"
+													id="DOG_GENDER_M"><label>수컷</label> <input
+													type="radio" value="암컷" name="dog_gender" id="DOG_GENDER_F"
+													checked><label>암컷</label>
 												<%
 													}
 												%>
-												
+
 											</div>
 
 										</div>
 									</div>
 								</div>
-								
-								
+
+
 								<div class="row">
-		                           <div class="col-md-4">
-		                                <div class="panel panel-default">
-		                              
-		                              <!-- <div class="form-group"> -->
-		                                 
-		                                 <!-- <div class="panel-heading">파일 첨부</div> -->
-		                                 <div class="panel-body">
-		                                    <div class="form-group uploadDiv">
-		                                      <label>사진 추가</label>
-		                                      <input type="file" id="uploadFile" name="dogImage" value=<%=dto.getDog_image() %> multiple>
-		                                      <input type="hidden" name='dog_image' value=<%=dto.getDog_image() %>> 
-		                                   </div>
-		                                   
-		                                   <div class='uploadResult'>
-		                                  	  <label>첨부된 파일</label>
-		                                      <ul>
-		                                         
-		                                      </ul>                                
-		                                   </div>
-		                                 </div>
-		                              </div>
-		                           </div>
-		                        </div>
-								
-								
+									<div class="col-md-4">
+										<div class="panel panel-default">
+
+											<!-- <div class="form-group"> -->
+
+											<!-- <div class="panel-heading">파일 첨부</div> -->
+											<div class="panel-body">
+												<div class="form-group uploadDiv">
+													<label>사진 추가</label> <input type="file" id="uploadFile"
+														name="dogImage" value=<%=dto.getDog_image()%> multiple>
+													<input type="hidden" name='dog_image'
+														value=<%=dto.getDog_image()%>>
+												</div>
+
+												<div class='uploadResult'>
+													<label>첨부된 파일</label>
+													<ul>
+													<!-- 수정 전 첨부 파일 출력 -->
+													</ul>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+
 								<div class="row">
 									<div class="col-md-8">
 										<div class="form-group">
-										
+
 											<!-- 합친 특징 보냄 -->
-											<input type="hidden" name="dog_description">															
-										
+											<input type="hidden" name="dog_description">
 											<label for="password_old">특징</label>
-											<% if(des.length < 5) { 
-												//특징 5개 미만일때만 추가 버튼 보여줌 %>
-											<button id="addButton" class="btn btn-sm btn-template-main" type="button" 
-											onclick="insRow()" style="font-size: 0.9rem; margin-left:0.2rem;'"> + </button>
-											<% } %>
-											
+											<%
+												if (des.length < 5) {
+												//특징 5개 미만일때만 추가 버튼 보여줌
+											%>
+											<button id="addButton" class="btn btn-sm btn-template-main"
+												type="button" onclick="insRow()"
+												style="font-size: 0.9rem;">+
+											</button>
+											<%
+												}
+											%>
 											<br>
-											
-											<% for(int i=0; i<des.length; i++){ %>
-											<input type="text" name="dog_description<%=i+1%>" id=description<%=i+1%> value="<%=des[i]%>" class="form-control" style="display: inline-block; width: 80%; margin-top:5px;">
-											<button onclick="removeRow()" type="button" style="font-size: 0.9rem;" class="btn btn-sm btn-template-main">삭제</button>
-											<%} %>
-											
-											<div id="addHere">
-											<!-- 특징 추가될 위치 -->
-                                    		</div> 
+											<%
+												for (int i = 0; i < des.length; i++) {
+											%>
+											<input type="text" name="dog_description<%=i + 1%>"
+												id=description <%=i + 1%> value="<%=des[i]%>"
+												class="form-control"
+												style="display: inline-block; width: 80%; margin-top: 5px;">
+											<button onclick="removeRow()" type="button" style="font-size: 0.9rem; margin-left:-0.2rem;"
+												class="btn btn-sm btn-template-main">삭제</button>
+											<%
+												}
+											%>
+
+											<div id="addHereMod">
+												<!-- 특징 추가될 위치 -->
+											</div>
 
 										</div>
 									</div>
 								</div>
-								
+
 								<hr>
 								<h4>[실종 관련 정보]</h4>
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
 											<label for="category">연락처</label> <input type="text"
-												name="phone_number" id="PHONE_NUMBER" value="<%=dto.getPhone_number()%>"
-												class="form-control">
+												name="phone_number" id="PHONE_NUMBER"
+												value="<%=dto.getPhone_number()%>" class="form-control">
 
 										</div>
 									</div>
@@ -340,9 +314,10 @@
 
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">실종 일시</label>
-											<input id="datetimepicker" name="dog_lost_date" type="datetime"
-												value="<fmt:formatDate pattern='yyyy/MM/dd HH:mm' value='<%=dto.getCreate_date() %>'/>" class="form-control">
+											<label for="category">실종 일시</label> <input
+												id="datetimepicker" name="dog_lost_date" type="datetime"
+												value="<fmt:formatDate pattern='yyyy/MM/dd HH:mm' value='<%=dto.getCreate_date()%>'/>"
+												class="form-control">
 
 										</div>
 									</div>
@@ -351,8 +326,8 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="category">실종 장소</label>
-											<input id="place" name="dog_lost_address" type="text"
+											<label for="category">실종 장소</label> <input id="place"
+												name="dog_lost_address" type="text"
 												value="<%=dto.getDog_lost_address()%>" class="form-control">
 										</div>
 									</div>
@@ -378,7 +353,8 @@
 									<div class="col-md-9 text-right">
 										<input type="button" id="modify_post" value="수정"
 											class="btn btn-template-outlined">
-										<button onclick="href='redirect:history.go(-1)'" class="btn btn-template-outlined">취소</button>
+										<button onclick="href='redirect:history.go(-1)'"
+											class="btn btn-template-outlined">취소</button>
 									</div>
 								</div>
 							</form>
@@ -390,11 +366,12 @@
 			</div>
 		</div>
 	</div>
-	
-	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>	
-	
-	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>   
-		
+
+	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+
+	<script
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
+
 	<script>
 	
 	//특징 추가
@@ -403,10 +380,10 @@
 	 
 	 function insRow() {
 		 
-	     addPlace = $("#addHere"); //추가할 위치 
+	     addPlace = $("#addHereMod"); //추가할 위치 
 	     
 	      // 특징 입력 폼 추가
-	     var frmTag = '<div id="removeDiv"><input type="text" class="form-control" id="description'+(++addIndex)+'" name="addDescriptions" style="display: inline-block!important; margin-top:5px; width: 80%!important;">';      
+	     var frmTag = '<div id="removeDivMod"><input type="text" class="form-control" id="description'+(++addIndex)+'" name="addDescriptions" style="display: inline-block!important; margin-top:5px; width: 80%!important;">';      
 	     frmTag += '<button onclick="removeRow()" type="button" style="font-size: 0.9rem; margin-left:0.2rem;" class="btn btn-sm btn-template-main">삭제</button></div>';
 	      
 	     // 특징 항목 입력 5개로 제한
@@ -419,18 +396,31 @@
 	
 	//삭제 클릭한 특징 입력 폼 삭제 
 	function removeRow(){
-		$('#removeDiv').remove();	   
-	}
+		$('#removeDivMod').remove();	   
+	}	
 	
-	
-	var species = "<%=dto.getDog_species()%>"
-		
-		//강아지 종류 SELECT
+	var species = "<%=dto.getDog_species()%>"		
+		//수정 전 강아지 종류 SELECT
 		$('#SPECIES_ID option').each(function() {
 			if (this.innerText == species) {
 				this.selected=true;
 			}
-		});
+	});
+	
+	//found 수정 
+	 $('#FOUND').change(function(){
+	    var checked = $(this).prop('checked');  // checked 상태 (true, false)
+	 
+	    if(checked){
+	    	$('input[name=found]').prop('value',"1");
+	    	alert($('input[name=found]').val());
+       }
+       else{
+    	   $('input[name=found]').prop('value',"0");
+    	   alert($('input[name=found]').val());
+       }
+	 });
+	
 	
 	 $(document).ready(function() {
 		 
@@ -560,19 +550,7 @@
   	    uploadUL.append(str);
   	  }
 	 
-  	//found 수정 
-	 $('#FOUND').change(function(){
-	    var checked = $(this).prop('checked');  // checked 상태 (true, false)
-	 
-	    if(checked){
-	    	$('#FOUND').prop('value', "1");
-	    	alert($('#FOUND').val());
-        }
-        else{
-        	$('#FOUND').prop('value', "0");
-        	alert($('#FOUND').val());
-        }
-	 });
+  	
 	
 	 //게시글 수정
 	 var formObj = $('#modifyForm');
@@ -649,18 +627,20 @@
 		
 		//입력받은 실종 장소 출력
 		geocoder.addressSearch("<%=dto.getDog_lost_address()%>", callback);
-		
+
 		var marker = new kakao.maps.Marker();
 
 		//검색 하고 마커 찍어주는 함수
-		function setMarker(fa, ga){
+		function setMarker(fa, ga) {
 			//검색창에서 클릭한 좌표로 이동된 지도를 다시 생성
 			mapOption = {
-			        center: new kakao.maps.LatLng(ga, fa), // 지도의 중심좌표
-			        level: 3 // 지도의 확대 레벨
-			    };
-			var map = new kakao.maps.Map(mapContainer, mapOption); 
-			
+				center : new kakao.maps.LatLng(ga, fa), // 지도의 중심좌표
+				level : 3
+			// 지도의 확대 레벨
+			};
+			var map = new kakao.maps.Map(mapContainer,
+					mapOption);
+
 			//해당 위치에 마커를 표시
 			marker.setPosition(new kakao.maps.LatLng(ga, fa));
 			marker.setMap(map);
@@ -670,7 +650,7 @@
 	
 	
 	<!-- Javascript files-->
-
+	
 	<script src="/resources/vendor/popper.js/umd/popper.min.js">
 		
 	</script>
@@ -694,18 +674,11 @@
 	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
 	<script src="/resources/js/front.js"></script>
 
-	<!-- 다음지도 api 추가 -->
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
-
-	<script
-		src="/resources/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
+	<script src="/resources/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
 	<script src="/resources/js/datepicker_missingboard.js"></script>
 	<script src="/resources/js/boardMap/modify_map.js"></script>
 	<script src="/resources/js/region.js"></script>
-
-
 
 </body>
 </html>

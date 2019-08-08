@@ -79,37 +79,7 @@
 	<!-- 게시글 수 조회 -->
 	<select id="getPostCount" resultType="Integer">
 		SELECT COUNT(*) FROM dog_lost_post_tb WHERE DELETED=0
-	</select>
-
-	<!-- 게시글 리스트 -->
-	<!-- <select id="getDogLostList" resultMap="DogLostPostListDTO">
-		SELECT post.ID, post.DOG_AGE, post.DOG_GENDER, post.DOG_LOST_ADDRESS,
-		post.VIEW_COUNT, post.CREATE_DATE, post.UPDATED_DATE, post.FOUND,
-		post.SPECIES_ID, species.DOG_SPECIES, u.NICKNAME
-		FROM dog_lost_post_tb post, dog_species_tb species, user_tb u
-		WHERE post.DELETED=0 AND species.ID=post.SPECIES_ID AND u.ID=post.USER_ID
-		ORDER BY FOUND ASC, CREATE_DATE DESC
-	</select> -->
-	
-	<!-- 게시글 리스트(페이징) -->
-	<!-- <select id="getDogLostList" resultMap="DogLostPostListDTO">
-	<![CDATA[
-		SELECT
-		ID, DOG_AGE, DOG_GENDER, DOG_LOST_ADDRESS,
-		VIEW_COUNT, CREATE_DATE, UPDATED_DATE, FOUND,
-		SPECIES_ID, DOG_SPECIES, NICKNAME
-		FROM 
-		(SELECT rownum rn, post.ID, post.DOG_AGE, post.DOG_GENDER, post.DOG_LOST_ADDRESS,
-		post.VIEW_COUNT, post.CREATE_DATE, post.UPDATED_DATE, post.FOUND,
-		post.SPECIES_ID, species.DOG_SPECIES, u.NICKNAME
-		FROM dog_lost_post_tb post, dog_species_tb species, user_tb u
-		WHERE rownum <= #{pageNum} * #{amount}
-		AND post.DELETED=0 AND species.ID=post.SPECIES_ID AND u.ID=post.USER_ID
-		)
-		WHERE rn > (#{pageNum} - 1) * #{amount}
-		ORDER BY CREATE_DATE DESC
-	]]>
-	</select> -->
+	</select>	
 	
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
@@ -152,7 +122,6 @@
 		WHERE rn > (#{pageNum} - 1) * #{amount}
 	]]>
 	</select>
-
 
 	<!-- 게시글 조회 -->
 	<select id="getPostDetail" parameterType="Long"
@@ -214,16 +183,24 @@
 		DOG_LOST_ADDRESS=#{dog_lost_address, jdbcType=DATE},
 		REWARD=#{reward, jdbcType=INTEGER},
 		UPDATED_DATE=sysdate,
-		FOUND=#{found, jdbcType=INTEGER},
+		FOUND=#{found},
 		SPECIES_ID=#{species_id, jdbcType=INTEGER}
-		where ID=#{id, jdbcType=INTEGER}
+		where ID=#{id}
 	</update>
 
 	<!-- 게시글 삭제 -->
-	<delete id="deletePost" parameterType="Long">
-		DELETE FROM dog_lost_post_tb
+	<update id="deletePost" parameterType="Long">
+		UPDATE dog_lost_post_tb
+		SET DELETED=1
 		WHERE ID=#{id}
-	</delete>
-
-
+	</update>
+	
+	<!-- 게시글 등록 시 쪽지 전송 -->
+	<insert id="sendMessage">
+		INSERT INTO message(title, content, sender_id, receiver_id)
+		SELECT '[실종견 알림]', #{content, jdbcType=VARCHAR}, 1, u.id
+		FROM user_tb u, dog_lost_post_tb d
+		WHERE d.id=#{id}
+		AND SUBSTR(u.address, 0, INSTR(u.address, ' ', 1, 3)) = SUBSTR(d.dog_lost_address, 0, INSTR(d.dog_lost_address, ' ', 1, 3))
+	</insert>
 </mapper>

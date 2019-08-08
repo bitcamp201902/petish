@@ -29,20 +29,16 @@
 	insert into report_post_tb
 	values(
 	REPORT_ID_SEQ.nextval,
-	#{DESCRIPTION, jdbcType=VARCHAR},
-	sysdate, 
-	0,
-	#{CATEGORY_ID, jdbcType=INTEGER},
-	#{BOARD_ID, jdbcType=INTEGER},
-	#{POST_ID, jdbcType=INTEGER},
-	#{USER_ID, jdbcType=INTEGER}	
+	#{description}, sysdate, 0,
+	#{category_id}, #{board_id}, #{post_id}, #{user_id}	
 	)
 </insert>
 
 <!-- 신고 삭제 -->
 <delete id="deleteReport" parameterType="Long">
-	delete from report_post_tb
-	where ID=#{ID}
+	update report_post_tb
+	set DELETED=1
+	where ID=#{id}
 </delete>
 
 <!-- 신고 리스트 -->
@@ -56,7 +52,7 @@
 <select id="getReport" parameterType="Long" resultMap="ResponseDTO">
 	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, p.POST_ID, u.NICKNAME 
 	from report_post_tb p, report_category_tb c, board_name_tb b, user_tb u
-	where DELETED=0
+	where p.CATEGORY_ID=c.ID AND p.BOARD_ID=b.ID AND p.USER_ID=u.ID AND p.ID=#{id}
 </select>
 
 </mapper>

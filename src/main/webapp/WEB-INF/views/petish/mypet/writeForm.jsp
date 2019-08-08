@@ -69,7 +69,7 @@
 			</div>
 			
 			
-			<form enctype="multipart/form-data">
+			<form enctype="multipart/form-data">	
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="form-group">

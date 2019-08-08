@@ -90,3 +90,29 @@
 	border-radius: 50%;
 	background: white;
 }
+
+/* ¼öÁ¤ */
+.uploadResult {
+	width: 100%;
+}
+
+.btn-warning {
+	background-color: #ffffff !important;
+	border-color: #ffffff !important;
+}
+
+.uploadResult ul {
+	display: flex;
+	flex-flow: row;
+	justify-content: center;
+	align-items: center;
+}
+
+.uploadResult ul li {
+	list-style: none;
+	padding: 10px;
+}
+
+.uploadResult ul li img {
+	width: 100px;
+}

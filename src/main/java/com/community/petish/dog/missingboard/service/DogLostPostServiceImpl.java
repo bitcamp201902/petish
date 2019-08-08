@@ -65,12 +65,12 @@ public class DogLostPostServiceImpl implements DogLostPostService{
 		//사진 첨부
 		try {			
 		dto.getAttachList().forEach(attach -> {			
-			//System.out.println("[UUID]" + attach.getUuid());
-			//System.out.println("[attach] : " + attach);			
+			System.out.println("[UUID]" + attach.getUuid());
+			System.out.println("[attach] : " + attach);			
 			
 			Long id = dto.getId();			
 			attach.setPostId(id);			
-			//System.out.println("[PostId()]" + attach.getPostId());
+			System.out.println("[PostId()]" + attach.getPostId());
 			
 			attachMapper.insert(attach); //사진 저장
 		});	

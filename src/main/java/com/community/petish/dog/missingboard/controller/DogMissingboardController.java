@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.List;
 
@@ -31,6 +30,7 @@ import com.community.petish.dog.missingboard.dto.DogLostPostPageDTO;
 import com.community.petish.dog.missingboard.dto.DogLostPostRequestWriteDTO;
 import com.community.petish.dog.missingboard.dto.DogLostPostResponseDetailDTO;
 import com.community.petish.dog.missingboard.dto.DogLostPostResponseListDTO;
+import com.community.petish.dog.missingboard.service.DogLostCommentService;
 import com.community.petish.dog.missingboard.service.DogLostPostService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +42,8 @@ public class DogMissingboardController {
 
 	@Autowired
 	private DogLostPostService service;
+	@Autowired
+	private DogLostCommentService commentService;
 	
 		
 	@RequestMapping("/image")
@@ -81,12 +83,15 @@ public class DogMissingboardController {
 	// 게시글 조회
 	@RequestMapping("/detail/{id}")
 	public String dogMissingBoardDetail(@PathVariable Long id, Model model) {
+		//댓글 수 조회
+		int commentCount = commentService.getCommentCnt(id);		
 		//조회 수 갱신
 		service.updateViewCount(id);
 		//조회
 		DogLostPostResponseDetailDTO dto = service.getPostDetail(id);		
 		
 		model.addAttribute("dto", dto);
+		model.addAttribute("commentCount", commentCount);
 
 		return "petish/dog/missingboard/detail";
 	}

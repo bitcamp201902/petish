@@ -122,6 +122,7 @@ inputBtn.on("click", function(e) {
 		description += " / " + $('#description4').val();
 	if ($('#description5').val())
 		description += " / " + $('#description5').val();
+	$("input[name=dog_description]").val(description); // 특징 입력 폼 5개 내용 1개로
 
 	// 연락처
 	var telephone = "";
@@ -189,7 +190,6 @@ function add(post, callback, error) {
 		dataType : "json",
 		contentType : 'application/json; charset=utf-8',
 		success : function(retVal) {
-			alert("200!!");
 			if (retVal.res == "OK") {
 				alert("게시글이 등록되었습니다.");
 			} else {
@@ -220,8 +220,7 @@ function insRow() {
    }      
    addPlace.append(frmTag);      
 }
-//특징
-$("input[name=dog_description]").val(description); // 특징 입력 폼 5개 내용 1개로
+
 
 
 //특징 입력 폼 삭제 
