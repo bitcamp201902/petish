@@ -187,8 +187,7 @@
                               <a href="/mypage/member/detail" class="nav-link">게시글보기</a>
                            </div>
                            <div class="dropdown">
-                              <a href="#" class="nav-link" data-toggle="modal"
-                                 data-target="#messageWrite-modal">쪽지보내기</a>
+                              <a href="#" id="message-btn" class="nav-link" data-toggle="modal">쪽지보내기</a>
                            </div>
                         </div>
                      </div>
@@ -375,43 +374,7 @@
       </div>
    </div>
    <!-- all -->
-
-   <!-- 쪽지 쓰기 모달창 -->
-   <div id="messageWrite-modal" tabindex="-1" role="dialog"
-      aria-hidden="true" class="modal fade">
-      <div role="document" class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h4 align="center" class="modal-title">쪽지 작성</h4>
-               <button type="button" data-dismiss="modal" aria-label="Close"
-                  class="close">
-                  <span aria-hidden="true">×</span>
-               </button>
-            </div>
-
-            <div class="modal-body">
-               <form action="" method="get">
-                  <div class="form-group">
-                     <label>받는 사람</label> <input id="message_reveiver" type="text"
-                        class="form-control" value="" readonly>
-                  </div>
-                  <div class="form-group">
-                     <label>내용</label>
-                     <textarea id="message_content" rows="10" class="form-control"></textarea>
-                  </div>
-                  <p class="text-center">
-                     <input type="button" class="btn btn-outline-primary"
-                        id="message_send">전송</button>
-                     <a style="padding-right: 0.5rem;"></a>
-                     <button type="reset" class="btn btn-outline-primary"
-                        id="message_cancle">취소</button>
-                  </p>
-               </form>
-            </div>
-         </div>
-      </div>
-   </div>
-   
+  
    <!-- 신고 모달창 -->
    <div id="report-modal" tabindex="-1" role="dialog" aria-hidden="true"
       class="modal fade">
@@ -450,8 +413,7 @@
                      <textarea name="description" id="description" rows="10"
                         class="form-control"></textarea>
                   </div>
-                  <p class="text-center">
-                  
+                  <p class="text-center">                  
                      <input type="submit" value="신고" class="btn btn-outline-primary"
                         id="input_report">
                      <a style="padding-right: 0.5rem;"></a>
@@ -463,6 +425,44 @@
       </div>
    </div>
    
+   <!-- 쪽지 보내기 모달창 -->
+   <div id="message-modal" tabindex="-1" role="dialog" aria-hidden="true"
+        class="modal fade">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 align="center" class="modal-title">쪽지보내기</h4>
+                    <button type="button" data-dismiss="modal" aria-label="Close"
+                        class="close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <form id="message_form" method="POST">
+                	
+			   		<input type="hidden" name="sender_id" id="sender_id" value=<%=userId%>>
+                	<input type="hidden" name="receiver_id" id="receiver_id" value=<%=dto.getUser_id() %>>
+                
+                    <div class="form-group">
+                        <label>받는사람</label>
+                        <input class="form-control" name='nickname' value=<%=dto.getNickname() %> readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>제목</label>
+                        <input class="form-control" name='title'>
+                    </div>
+                    <div class="form-group">
+                        <label>내용</label>
+                        <textarea id="message_content" name='content' rows="10" class="form-control"></textarea>
+                    </div>
+                    <p class="text-center">   
+                        <input type="submit" value="보내기" id="modalSendBtn" class="btn btn-outline-primary">
+                    </p>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
    
    <!-- JS 파일 추가 -->
    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
@@ -512,7 +512,6 @@
               
         })();//end function
         
-        
 		 //신고 시 로그인 확인
 		   $('#report-btn').on("click", function(e){
 			   <% if(loginedUser == null){ %>
@@ -525,6 +524,64 @@
 			   <%}%>
 		   });
         
+		 //쪽지 전송 시 로그인 확인
+		   $('#message-btn').on("click", function(e){
+			   <% if(loginedUser == null){ %>
+				   alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");
+				   $('#login-modal').modal("show");
+				   
+			   <%} else{%>		   
+			   		$(this).attr('data-target',"#message-modal");
+			   		$('#message-modal').modal("show");
+			   <%}%>
+		   });        
+        
+        //쪽지 전송
+		 $('#modalSendBtn').click(function(event){			 
+			   event.preventDefault();
+			   
+			   var messageModal = $("#message-modal"); //모달창
+			   
+			   var modalInputTitle = messageModal.find("input[name='title']"); //모달창 제거
+			   var modalInputContent = messageModal.find("textarea[name='content']"); //모달창 내용
+			   var senderId = $("#sender_id").val();
+			   var receiverId = $("#receiver_id").val();
+			   
+			   var modalSendBtn = $("#modalSendBtn"); //모달 보내기 버튼
+			   
+			   var msg = $("#message_form").serialize();
+			   alert(msg);
+		       
+	           $.ajax({
+	               url : '/mypage/api/message/new',
+	               type : 'post',
+	               data : msg,
+	               contentType : 'application/x-www-form-urlencoded; charset=utf-8',
+	               dataType : "json",
+	               beforeSend : function(){
+	            	   if(senderId == "" || senderId == "null"){
+	            		   alert("로그인 후 이용할 수 있습니다. 로그인 해주세요.");		            		   
+	            		   return false;
+	            	   }
+	            	   else{
+	            		   return true;
+	            	   }
+	               },
+	               success : function(result, status, xhr) {
+	            	   if (callback) {
+	            		   callback(result);
+	            		   alert("쪽지가 성공적으로 전송됐습니다.");
+		               }
+		           },
+		           error : function(xhr, status, er) {
+		               if (error) {
+		                   error(er);
+		                   alert("쪽지 전송 실패");
+		               }
+		           }
+	           });
+		 });
+		   
    }); 
    
    

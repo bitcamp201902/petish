@@ -61,6 +61,7 @@
 
 <!-- CSS 파일 추가 -->
 <link href="/resources/css/missingboard/list.css" rel="stylesheet">
+
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <!-- JS 파일 추가 -->
 <script src="/resources/js/missingboard/list.js"></script>
