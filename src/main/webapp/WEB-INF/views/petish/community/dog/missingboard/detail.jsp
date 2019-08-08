@@ -14,7 +14,6 @@
 
 	//댓글 갯수
 	int commentCount = Integer.parseInt((request.getAttribute("commentCount").toString()));
-	System.out.println("detail에서" + commentCount);
 	
 	//댓글 페이지  번호
 	int pageNum = 1;
@@ -104,364 +103,12 @@
 <link href="/resources/css/commons/kakaomap.css?ver=1" rel="stylesheet">
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
 <link href="/resources/css/missingboard/detail.css" rel="stylesheet">
+<link href="/resources/css/missingboard/detail2.css" rel="stylesheet">
+<link href="/resources/css/report.css" rel="stylesheet">
 
-<style>
-#report-btn {
-   justify-content: right;
-}
-.btn.btn-danger{
-   float:right;
-   margin-top:20px;
-   margin-right:20px;
-}
-
-table{
-   border-collapse: unset!important;
-}
-
-button.btn.btn-template-outlined{
-   float: right;
-   margin-right:15px;
-   margin-top:20px;
-}
-.date-view{
-	width:100%;
-	padding-left:2rem!important;
-	padding-right:2rem!important;
-	text-align:right;
-}
-.name{
-   text-align:center;
-   width:40px;
-}
-td.grade{
-   text-align:left;
-   width:80px;
-}
-
-td.date{
-   text-align:left;
-   width:150px;
-}
-
-td.view{
-   text-align:left;
-   width:150px;
-}
-div.panel-heading{
-   margin-top:40px;
-}
-.dropdown{
-   text-align:center;
-}
-.nickname{
-	width:150px;
-	text-align:left;
-	padding-left:0.7rem;
-}
-main.img-fluid rounded-circle{
-   width:70px;
-   height:70px;
-
-}
-div#post-content{
-   margin-top:50px;
-}
-
-div.panel.panel-default.sidebar-menu{
-   margin-top:40px;   
-}
-
-button.btn.btn-template-outlined{
-   margin-right: 2rem;
-}
-
-@charset "EUC-KR";
-
-.comment-input{
-	width:100%;
-}
-
-.poster-table {
-   width: 70%;
-   margin: 1rem;
-   background-color: #FFDB58;
-   text-align: center;
-   font-size: 23px;
-   border-spacing:0px;
-   border:solid 20px #b42233;
-}
-
-th, td {
-   text-align: left;
-}
-
-.poster-title {
-   background-color: #b42233;
-   text-align: center;   
-   padding-bottom: 1rem;
-   font-size: 60px;
-   font-weight: 900;
-   color: #ffdb58;
-   /* -webkit-text-stroke: 2px black; */
-}
-
-.poster-info {
-   background-color: black;
-   text-align: center;
-   color: white;
-   font-size: 40px;
-   color: white;
-   padding:30px;
-}
-
-.phonenumber-info {
-   background-color: #b42233;
-   text-align: center;
-   color: white;
-   font-size: 40px;
-   color: white;
-   padding:10px;
-}
-
-.text-uppercase {
-   margin: 5px;
-}
-
-.bar {
-   padding: 15px 0;
-}
-
-#comments{
-	padding-top:5rem;
-}
-
-#lostdog {
-   width:100% !important;
-   height:100% !important;
-   min-width: 700px !important;
-   max-width: 750px !important;
-   min-height: 400px !important;
-   max-height: 400px !important;
-}
-
-#phone-icon {
-   padding-right: 1rem;
-}
-
-.date {
-   min-width: 200px;
-}
-
-.index{
-   padding:20px;
-   font-size:25px;
-   text-align:center;
-}
-
-/* 이미지 슬라이드 */
-* {
-   box-sizing: border-box
-}
-
-/* Slideshow container */
-.slideshow-container {
-   max-width: 1000px;
-   position: relative;
-   margin: auto;
-}
-
-/* Hide the images by default */
-.mySlides {
-   display: none;
-}
-
-.prev, .next {
-   cursor: pointer;
-   position: absolute;
-   top: 50%;
-   width: auto;
-   margin-top: -22px;
-   padding: 20px;
-   color: white;
-   font-weight: bold;
-   font-size: 20px;
-   transition: 0.6s ease;
-   border-radius: 0 3px 3px 0;
-   user-select: none;
-}
-
-/* Position the "next button" to the right */
-.next {
-   right: 0;
-   border-radius: 3px 0 0 3px;
-}
-.prev {
-   left: 0;
-   border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-   background-color: rgba(192,192,192,0.3);
-}
-
-/* Caption text */
-.text {
-   color: #f2f2f2;
-   font-size: 15px;
-   padding: 8px 12px;
-   position: absolute;
-   bottom: 8px;
-   width: 100%;
-   text-align: center;
-}
-
-/* Number text (1/3 etc) */
-.numbertext {
-   color: #f2f2f2;
-   font-size: 12px;
-   padding: 8px 12px;
-   position: absolute;
-   top: 0;
-}
-
-/* The dots/bullets/indicators */
-.dot {
-   cursor: pointer;
-   height: 15px;
-   width: 15px;
-   margin: 0 2px;
-   border: 2.5px solid #b42233;
-   border-radius: 50%;
-   display: inline-block;
-   transition: background-color 0.6s ease;
-}
-
-.active, .dot:hover {
-   background-color: #b42233;
-}
-
-/* Fading animation */
-.fade {
-   -webkit-animation-name: fade;
-   -webkit-animation-duration: 1.5s;
-   animation-name: fade;
-   animation-duration: 1.5s;
-}
-
-.reply-image {
-   max-width: 100%;
-   width:70px!important;
-   height: auto;
-   border-radius: 50%;
-   margin:0.5rem!important;
-}
-
-.report-modal-title {
-   min-width: 65px;
-}
-
-@
--webkit-keyframes fade {
-   from {opacity: .4
-}
-
-to {
-   opacity: 1
-}
-
-}
-@
-keyframes fade {
-   from {opacity: .4
-}
-
-to {
-   opacity: 1
-}
-
-}
-label {
-   text-align: left !important;
-}
-
-}
-
-/* 반응형 */
-@media ( max-width :400px) {
-   .poster-table {
-      width: 100%;
-      padding: 15px;
-      font-size: 18px;
-   }
-   .index {
-      min-width: 100px;
-      width: 130px;
-   }
-   .poster-title {
-      margin: 50px;
-      font-size: 30px;
-   }
-   th, td {
-      padding: 10px;
-   }
-   #lostdog {
-      /* width:100%;
-      height:flex; */
-   }
-}
-
-@media screen and (max-width:750px){
-
-   .btn.btn-template-outlined{
-      margin-bottom:10px;
-   }
-   .date{
-      display:none;
-   }
-   .view{
-      display:none;
-   }
-   span.badge.badge-danger{
-      margin-top:30px;
-   }
-   div.col-sm-3.col-md-2.text-center-xs{
-      display:none;
-   }
-   button.btn.btn-template-outlined{
-      margin-right: 1rem
-   }
-   button.re.btn.btn-template-outlined{
-      width:110px;
-      margin-right:1px;
-   }
-   button.write.btn.btn-template-outlined{
-      margin-right:1px;
-   }
-   button.list.btn.btn-template-outlined{
-      margin-right:10px;
-   }
-   .btn.btn-danger{
-      margin-right:1px;
-   }
-   div.bg_white{
-      display:none;
-   }
-   
-   .reply-image-p{
-   width:80px!important;
-   }
-   
-   
-
-}
-</style>
 </head>
 
 <body>
-   <div id="all">
-
       <%@ include file="/WEB-INF/views/commons/top.jspf"%>
       
       <%
@@ -718,7 +365,7 @@ label {
 	                  <!-- 게시글 신고 버튼 -->                     
 	                   <button type="button" class="btn btn-danger" data-toggle="modal"
 	                      style="float: right;" id="report-btn">신고
-	                   </button> 
+	                   </button>
 	                </div>
                   </div>
             </div>
@@ -883,7 +530,7 @@ label {
    
    //지도
    //지도 api 선택한 곳 마커 표시하기(주소까지 출력)
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
    mapOption = {
        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
        level: 3 // 지도의 확대 레벨
@@ -967,6 +614,7 @@ label {
    </script>   
    
    <!-- Javascript files-->
+   
    <script src="/resources/vendor/jquery/jquery.min.js"></script>
    <script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
    <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>

@@ -7,6 +7,9 @@ import com.community.petish.report.dto.ReportResponseDTO;
 
 public interface ReportMapper{
 	
+	//신고 수
+	int getReportCount();
+	
 	//신고 작성
 	int insertReport(ReportRequestDTO dto);
 	

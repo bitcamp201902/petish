@@ -5,7 +5,10 @@ import java.util.List;
 import com.community.petish.report.dto.ReportRequestDTO;
 import com.community.petish.report.dto.ReportResponseDTO;
 
-public interface ReportService {	
+public interface ReportService {
+	//신고 수
+	int getReportCount(); 
+	
 	//신고 작성
 	int register(ReportRequestDTO dto);
 	
@@ -16,6 +19,5 @@ public interface ReportService {
 	List<ReportResponseDTO> getReportList();
 	
 	//신고 조회
-	ReportResponseDTO getReport(Long id);
-	
+	ReportResponseDTO getReport(Long id);	
 }

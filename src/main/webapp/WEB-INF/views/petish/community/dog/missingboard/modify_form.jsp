@@ -373,6 +373,62 @@
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
 
 	<script>
+	function formCheck(){
+		var formObj = document.modifyForm;
+		
+		var dogName = formObj.dog_name.value;
+		var dogAge = formObj.dog_age.value;
+		var speciesId = $('select[name=species_id]').val();
+		var dogGender = formObj.dog_gender.value;
+		var dogImage = formObj.dog_image.value;
+		var description = formObj.dog_description.value;
+		var dogLostDate = formObj.dog_lost_date.value;
+		var dogLostAddr = formObj.dog_lost_address.value;
+		var reward = formObj.reward.value;
+		var phoneNumber = formObj.phone_number.value;
+		
+		if(dogName == "" || dogName == null){
+			alert("강아지 이름을 입력해주세요");
+			return false;
+		}
+		if(dogAge == "" || dogAge == null){
+			alert("강아지 나이를 입력해주세요");
+			return false;
+		}
+		if(speciesId == "0" || speciesId == ""){
+			alert("강아지 종을 선택해주세요");
+			return false;
+		}
+		if(dogGender == "" || dogName == null){
+			alert("강아지 성별을 선택해주세요");
+			return false;
+		}
+		if(dogImage == "" || dogImage == null){
+			alert("등록된 사진이 없습니다. 사진을 등록해주세요");
+			return false;
+		}
+		if(description == "" || description == null){
+			alert("강아지 특징을 1개 이상 작성해주세요");
+			return false;
+		}
+		if(dogLostDate == "" || dogLostDate == null){
+			alert("실종 날짜를 입력해주세요");
+			return false;
+		}
+		if(dogLostAddr == "" || dogLostAddr == null){
+			alert("실종 장소를 입력해주세요");
+			return false;
+		}
+		if(reward == "" || reward == null){
+			alert("사례금을 입력해주세요");
+			return false;
+		}
+		if(phoneNumber == "" || phoneNumber == null){
+			alert("연락처를 입력해주세요");
+			return false;
+		}		
+		return true;
+	}
 	
 	//특징 추가
 	 var addIndex = <%=des.length%>; //현재 있는 특징 갯수

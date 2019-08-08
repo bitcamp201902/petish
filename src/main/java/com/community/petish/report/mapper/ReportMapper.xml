@@ -24,6 +24,11 @@
 	<result property="USER_ID" column="USER_ID" />	
 </resultMap>
 
+<!-- 신고 수 -->
+<select id="getReportCount">
+	select count(id) from report_post_tb;	
+</select>
+
 <!-- 신고 작성 -->
 <insert id="insertReport" parameterType="com.community.petish.report.dto.ReportRequestDTO">
 	insert into report_post_tb
