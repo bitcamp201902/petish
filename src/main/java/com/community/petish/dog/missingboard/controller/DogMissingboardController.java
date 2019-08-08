@@ -48,7 +48,7 @@ public class DogMissingboardController {
 		
 	@RequestMapping("/image")
 	public String imageUpload() {
-		return "petish/dog/missingboard/imageInput_form";
+		return "petish/community/dog/missingboard/imageInput_form";
 	}
 	
 	@RequestMapping(value = "/favicon.ico", method = RequestMethod.GET)
@@ -77,7 +77,7 @@ public class DogMissingboardController {
 		model.addAttribute("pageMaker",  new DogLostPostPageDTO(cri, total));		
 		model.addAttribute("pageNum", cri.getPageNum());		
 		
-		return "petish/dog/missingboard/list";
+		return "petish/community/dog/missingboard/list";
 	}
 	
 	// 게시글 조회
@@ -93,13 +93,13 @@ public class DogMissingboardController {
 		model.addAttribute("dto", dto);
 		model.addAttribute("commentCount", commentCount);
 
-		return "petish/dog/missingboard/detail";
+		return "petish/community/dog/missingboard/detail";
 	}
 
 	// 게시글 입력 폼
 	@RequestMapping("/writeForm")
 	public String dogMissingBoardWriteForm() {
-		return "petish/dog/missingboard/write_form";
+		return "petish/community/dog/missingboard/write_form";
 	}
 	
 	
@@ -130,7 +130,7 @@ public class DogMissingboardController {
 
 		model.addAttribute("dto", dto);
 
-		return "/petish/dog/missingboard/modify_form";
+		return "/petish/community/dog/missingboard/modify_form";
 	}
 
 	// 게시글 수정
