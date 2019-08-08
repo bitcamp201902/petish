@@ -20,20 +20,65 @@
 		INSERT INTO MESSAGE (title, content, sender_id, receiver_id) values (#{title}, #{content}, #{sender_id}, #{receiver_id})
 	</insert>
 	
-	<!-- 2. 받은 쪽지 리스트 조회 -->
-	<select id="getReceivedMessageList" resultMap="MessageResultMap" parameterType="Long">
-		SELECT m.id, m.title, m.content, m.sent_date, m.read, m.deleted, u.nickname 
+	<!-- <sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'N'.toString()">
+							nickname like '%'||#{keyword}||'%'
+						</when>				
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>	
+	 -->
+	<!-- 2. 받은 쪽지 리스트 조회 +페이징 -->
+	<select id="getReceivedMessageWithPaging" resultMap="MessageResultMap" >
+		<![CDATA[
+		select id, title, content, sent_date, read, deleted, nickname
+		from
+		(SELECT rownum rn, m.id, m.title, m.content, m.sent_date, m.read, m.deleted, u.nickname 
 		from message m, user_tb u
-		where receiver_id = #{user_id} and m.sender_id=u.id
+		where 
+		rownum <= #{pageNum} * #{amount} and receiver_id = #{user_id} and m.sender_id=u.id and m.deleted=0)
+		where rn > (#{pageNum} -1)*#{amount} 
 		order by id desc
+		]]>
 	</select>
 	
 	<!-- 3. 보낸 쪽지 리스트 조회 -->
-	<select id="getSentMessageList" resultMap="MessageResultMap" parameterType="Long">
-		select m.id, m.title, m.content, m.sent_date, m.read, m.deleted, u.nickname
+	<select id="getSentMessageWithPaging" resultMap="MessageResultMap">
+		<![CDATA[
+		select id, title, content, sent_date, read, deleted, nickname
+		from
+		(select rownum rn, m.id, m.title, m.content, m.sent_date, m.read, m.deleted, u.nickname
 		from message m, user_tb u
-		where m.sender_id = #{user_id} and m.receiver_id=u.id
+		where rownum <= #{pageNum} * #{amount}  and m.sender_id = #{user_id} and m.receiver_id=u.id and m.deleted=0)
+		where rn > (#{pageNum} -1)*#{amount}
 		order by id desc
+		]]>
+	</select>
+	
+	<select id="getReceivedCnt" resultType="int">
+
+		select count(*)
+		from message
+		where receiver_id=#{user_id} and deleted=0
+
+	</select>
+	
+	<select id="getSentCnt" resultType="int" parameterType="Long">
+	
+		select count(*)
+		from message
+		where
+		sender_id=#{user_id} and deleted=0
+	
 	</select>
 	
 	<!-- 4. 받은 쪽지 상세조회 -->

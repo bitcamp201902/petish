@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,58 +47,55 @@ public class MypageController {
 	private DefaultService defaultServiceImpl;
 	@Autowired
 	private UserService_Mypage userServiceImpl;
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
-	// 마이페이지 default
 	@RequestMapping("/")
 	public String mypage(Model model, HttpSession session, Criteria cri) {
 		LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
-		// 세션이 널이면 로그인페이지로 이동 (if)
+		if (session.getAttribute("LOGIN_USER") == null) {
+			return "petish/mypage/index";
+		} else {
 		log.info(user.getId());
 		UserResponseDTO_Mypage userResponse = userServiceImpl.findUser(user.getId());
 		model.addAttribute("user", userResponse);
-		return "petish/mypage/default";
+		return "petish/community/mypage/default";
+		}
 	}
 
 	
-	
-	// -------------------회원정보수정 start
-	// 회원정보수정
 	@RequestMapping(value = "/modifyform/{user_id}")
 	public String modifyform(@PathVariable("user_id") Long user_id, Model model, HttpSession session) {
-		// 로그인 여부 확인
 		if (session.getAttribute("LOGIN_USER") == null) {
-			return "petish/loginpage";
+			return "petish/mypage/index";
 		} else {
-			// 회원아이디로 회원정보 찾아서 보내기
 			UserResponseDTO_Mypage dto = userServiceImpl.findUser(user_id);
 			model.addAttribute("dto", dto);
-			return "petish/mypage/info_modify_form";
+			return "petish/community/mypage/info_modify_form";
 		}
 	}
-	// 회원정보수정로직
+	
+	
 	@RequestMapping(value = "/modifyUserInfo", method = { RequestMethod.POST })
 	public String modifyUserInfo(UserModifyRequestDTO_Mypage dto, Model model) {
 		log.info("수정" + dto);
-		// 비밀번호를 제외한 정보 수정(비밀번호를 제외하고는 기본값 세팅되어있어서)
 		if ((dto.getPassword().equals(""))) {
 			userServiceImpl.modifyUserInfo(dto);
 			log.info("비밀번호제외");
 		} else {
-			// 비밀정보를 포함한 정보 수정
+			String encodedPassword = passwordEncoder.encode(dto.getPassword());
+			dto.setPassword(encodedPassword);
 			userServiceImpl.modifyUserInfoAll(dto);
 			log.info("비밀번호포함");
 		}
-		// 다시 default페이지로 이동
 		return "redirect:./";
 	}
-	// 프로필 사진 수정
+
+	
 	@PostMapping("/uploadFormAction")
 	   public String uploadFormPost(MultipartFile[] uploadFile, HttpServletRequest request, UserModifyPictureDTO_Mypage dto) {
 
-	      //String uploadFolder = "C:\\upload";
-	      String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img");
-	      
-
+	      String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/mypage");
 	      for (MultipartFile multipartFile : uploadFile) {
 
 	         log.info("-------------------------------------");
@@ -105,7 +103,8 @@ public class MypageController {
 	         log.info("Upload File Size: " + multipartFile.getSize());
 
 	         File saveFile = new File(uploadPath, multipartFile.getOriginalFilename());
-	         dto.setPicture(multipartFile.getOriginalFilename());
+	         dto.setPicture("/resources/img/mypage/"+multipartFile.getOriginalFilename());
+	         log.info(dto.getPicture());
 	         userServiceImpl.modifyPicture(dto);
 	         
 	         try {
@@ -113,36 +112,27 @@ public class MypageController {
 	         } catch (Exception e) {
 	            
 	            log.error(e.getMessage());
-	         } // end catch
-	      } // end for
+	         } 
+	      }
 	      
-	      return "redirect:/mypage/modifyform/"+dto.getId();
+	      return "redirect:/community/mypage/modifyform/"+dto.getId();
 	   }
-	// -------------------회원정보수정 end
 
 	
-	
-	
-	
-	// -------------------question start
-	// 문의리스트
 	@RequestMapping("/question/list")
 	public String questionList(Criteria cri, Model model, HttpSession session) {
-		// 로그인 여부 확인
 		if (session.getAttribute("LOGIN_USER") == null) {
-			return "petish/loginpage";
+			return "petish/mypage/index";
 		} else {
-			// 로그인사용자 기준으로 문의db 불러오기
 			LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
 			ArrayList<QuestionResponseDTO> list = questionServiceImpl.getQuestionList(user.getId());
 			model.addAttribute("list", list);
-			// 문의글수 count
 			int amount = questionServiceImpl.getUndeleted(user.getId());
 			model.addAttribute("amount", amount);
-			return "petish/mypage/question_list";
+			return "petish/community/mypage/question_list";
 		}
 	}
-	// 문의 등록
+	
 	@RequestMapping("/question/insert")
 	public String insertQuestion(QuestionRequestDTO dto, HttpSession session) {
 		QuestionRequestDTO dto2 = new QuestionRequestDTO();
@@ -155,55 +145,28 @@ public class MypageController {
 
 		return "redirect:./list";
 	}
-	// 문의 삭제
+	
 	@RequestMapping("/question/delete")
 	public String deleteQuestion(Long id) {
-		// 글 id 기준으로 삭제
 		questionServiceImpl.deleteQuestion(id);
 		return "redirect:./list";
 	}
 
-	// -------------------question end
 
-	
-	
-	
-	
-	// -------------------message start
-	// 메세지리스트
 	@RequestMapping("/message/list")
 	public String messageList(Model model, HttpSession session) {
-		// 로그인 여부 확인
-		if (session.getAttribute("user_id") == null) {
-			return "petish/loginpage";
+		if (session.getAttribute("LOGIN_USER") == null) {
+			return "petish/community/mypage/index";
 		} else {
-			// 로그인 사용자 기준으로 메세지db 가져오기
-			Long user_id = (Long) session.getAttribute("user_id");
-			// 받은 메세지
-			ArrayList<MessageResponseDTO> receivedList = messageServiceImpl.getReceivedMessageList(user_id);
-			model.addAttribute("receivedList", receivedList);
-			// 삭제여부
-			int undeletedReceived = messageServiceImpl.getUndeletedReceived(user_id);
-			model.addAttribute("undeletedReceived", undeletedReceived);
-			// 보낸 메세지
-			ArrayList<MessageResponseDTO> sentList = messageServiceImpl.getSentMessageList(user_id);
-			model.addAttribute("sentList", sentList);
-			// 삭제여부
-			int undeletedSent = messageServiceImpl.getUndeletedSent(user_id);
-			model.addAttribute("undeletedSent", undeletedSent);
-
-			return "petish/mypage/message_list";
+			return "petish/community/mypage/message_list";
 		}
 	}
-	// 메세지 삭제
+	
+	
 	@RequestMapping("/message/delete")
 	public String messageDelete(Long id) {
-		// 메세지 id기준으로 삭제
 		messageServiceImpl.deleteMessage(id);
 		return "redirect:./list";
 	}
-	// -------------------message end
-
-	
 	
 }

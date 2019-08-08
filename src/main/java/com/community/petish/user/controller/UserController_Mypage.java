@@ -43,14 +43,14 @@ public class UserController_Mypage {
 		return "commons/kakaomap";
 	}
 	
-	@RequestMapping("/member/detail/{user_id}")
-	public String memberDetail(@PathVariable("user_id") Long user_id, Model model, HttpSession session) {
+	@RequestMapping("/member/detail/{member_id}")
+	public String memberDetail(@PathVariable("member_id") Long member_id, Model model, HttpSession session) {
 		//로그인 여부 확인
-		if(session.getAttribute("user_id")==null) {
-			return "petish/loginpage";
+		if(session.getAttribute("LOGIN_USER")==null) {
+			return "petish/community/mypage/index";
 		}else {
-			model.addAttribute("member", userServiceImpl.findUser(user_id));
-			return "petish/mypage/member_detail";
+			model.addAttribute("member", userServiceImpl.findUser(member_id));
+			return "petish/community/mypage/member_detail";
 		}
 	}
 	

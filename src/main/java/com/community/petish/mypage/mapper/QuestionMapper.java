@@ -17,5 +17,7 @@ public interface QuestionMapper {
 	public void deleteQuestion(Long num);
 	//4. 사용자의 삭제 안된 글 갯수 확인
 	public int getUndeleted(Long user_id);
+	//전체 문의 갯수 가져오기
+	public int getQuestionCnt(Long user_id);
 
 }

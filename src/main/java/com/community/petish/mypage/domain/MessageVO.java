@@ -1,5 +1,7 @@
 package com.community.petish.mypage.domain;
 
+import java.sql.Date;
+
 import lombok.Data;
 
 @Data
@@ -14,7 +16,7 @@ public class MessageVO {
 	String content;
 	
 	//쪽지 보낸날짜
-	String sent_date;
+	Date sent_date;
 	
 	//쪽지 수신확인 => 수신자가 user_id인 메시지를 클릭했을 때 해당 데이터값이 1로 변동
 	int read;

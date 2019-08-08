@@ -1,6 +1,6 @@
 package com.community.petish.mypage.domain;
 
-import java.util.Date;
+import java.sql.Date;
 
 import lombok.Data;
 
@@ -28,6 +28,6 @@ public class QuestionVO {
 	private int category_id;
 	
 	//문의작성일자
-	private String question_created_date;
+	private Date created_date;
 	
 }

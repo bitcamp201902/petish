@@ -52,5 +52,12 @@
 		SELECT COUNT (*) FROM QUESTION_TB WHERE DELETED = 0 and user_id = #{user_id}
 	</select>
 	
+	<select id="getQuestionCnt" resultType="int" parameterType="Long">
+	<![CDATA[
+		select count(*)
+		from question_tb
+		where user_id=#{user_id} and deleted=0
+	]]>
+	</select>
 	
 </mapper>

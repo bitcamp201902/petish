@@ -1,14 +1,15 @@
+<%@page import="com.community.petish.user.dto.UserResponseDTO_Mypage"%>
 <%@page import="com.community.petish.mypage.dto.MessageRequestDTO"%>
 <%@page import="com.community.petish.mypage.dto.MessageResponseDTO"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.community.petish.mypage.*"%>
 <%
-	ArrayList<MessageResponseDTO> receivedList = (ArrayList) request.getAttribute("receivedList");
+	/* ArrayList<MessageResponseDTO> receivedList = (ArrayList) request.getAttribute("receivedList");
 	int undeletedReceived = (int) request.getAttribute("undeletedReceived");
 	ArrayList<MessageResponseDTO> sentList = (ArrayList) request.getAttribute("sentList");
-	int undeletedSent = (int) request.getAttribute("undeletedSent");
+	int undeletedSent = (int) request.getAttribute("undeletedSent"); */
+	
 	MessageResponseDTO dto = null;
-	Long user_id = (Long)session.getAttribute("user_id");
 %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
@@ -78,6 +79,11 @@
 	overflow: hidden;
 	outline: 0
 }
+
+.receivedMessage:hover, .sentMessage:hover{
+	color : grey;
+	cursor : pointer;
+}
 </style>
 
 <body>
@@ -100,11 +106,11 @@
 
 							<ul id="pills-tab" role="tablist"
 								class="nav nav-pills nav-justified">
-								<li class="nav-item"><a id="pills-profile-tab"
+								<li class="nav-item" id="received"><a id="pills-profile-tab"
 									data-toggle="pill" href="#message-receive" role="tab"
 									aria-controls="pills-profile" aria-selected="false"
 									class="nav-link active">받은 쪽지함</a></li>
-								<li class="nav-item"><a id="pills-home-tab"
+								<li class="nav-item" id="sent"><a id="pills-home-tab"
 									data-toggle="pill" href="#message-send" role="tab"
 									aria-controls="pills-home" aria-selected="true"
 									class="nav-link">보낸 쪽지함</a></li>
@@ -119,132 +125,13 @@
 											<div class="tile">
 												<div class="tile-body">
 													<table class="table table-hover table-bordered"
-														id="receivedMessageList">
+														id="ajaxList">
 
-														<!-- 받은 쪽지 -->
-														<thead>
-															<tr align="center">
-																<th><input type="checkbox" id="received-check-all"></th>
-																<th class="mobile-none">보낸사람</th>
-																<th class="mobile-none">제목</th>
-																<th class="mobile-none">날짜</th>
-																<th class="mobile-none">수신확인</th>
-															</tr>
-														</thead>
-														<tbody>
-															<%
-																for (int i = 0; i < receivedList.size(); i++) {
-																	dto = receivedList.get(i);
-																	if (dto.getDeleted() == 0) {
-															%>
-															<tr align="center">
-																<th><input type="checkbox"
-																	class="received-check-one" name="check" value=<%=dto.getId() %>></th>
-																<td align="center" class="mobile-none"><%=dto.getNickname()%></td>
-																<td class="receivedMessage"><a class="messageText"
-																	data-id=<%=dto.getId()%>><%=dto.getTitle()%></a></td>
-																<td class="mobile-none"><%=dto.getSent_date().substring(2, 4) + "/" + dto.getSent_date().substring(4, 6) + "/"
-																+ dto.getSent_date().substring(6, 8)%></td>
-																<td class="mobile-none">
-																	<%
-																		if (dto.getRead() == 0) {
-																	%> <i class="fa fa-envelope" style="font-size: 24px;"></i>
-																	<%
-																		} else if (dto.getRead() == 1) {
-																	%> <i class="fa fa-envelope-open"
-																	style="font-size: 24px; color: grey"></i> <%
- 																			}
- 																	%>
-																</td>
-															</tr>
-															<%
-																}
-																}
-															%>
-														</tbody>
 													</table>
+													<div class="receivedfooter"></div>
+													<div class="sentfooter"></div>
 												</div>
 											</div>
-										</div>
-									</div>
-								</div>
-								<div id="message-send" role="tabpanel"
-									aria-labelledby="pills-profile-tab" class="tab-pane fade">
-									<div class="row">
-										<div class="col-md-12">
-											<div class="tile">
-												<div class="tile-body">
-													<table class="table table-hover table-bordered"
-														id="sampleTable">
-
-														<!-- 보낸 쪽지 -->
-														<thead>
-															<tr align="center">
-																<th><input type="checkbox" id="sent-check-all"></th>
-																<th class="mobile-none">받는사람</th>
-																<th class="mobile-none">제목</th>
-																<th class="mobile-none">날짜</th>
-																<th class="mobile-none">수신확인</th>
-															</tr>
-														</thead>
-														<tbody>
-															<%
-																for (int i = 0; i < sentList.size(); i++) {
-																	dto = sentList.get(i);
-																	if (dto.getDeleted() == 0) {
-															%>
-															<tr align="center">
-																<th><input type="checkbox"
-																	class="sent-check-one" value=<%=dto.getId() %>></th>
-																<td align="center" class="mobile-none"><%=dto.getNickname() %></td>
-																<td class="sentMessage"><a class="messageText"
-																	data-id=<%=dto.getId()%>><%=dto.getTitle()%></a></td>
-																<td class="mobile-none"><%=dto.getSent_date().substring(2, 4) + "/" + dto.getSent_date().substring(4, 6) + "/"
-																+ dto.getSent_date().substring(6, 8)%></td>
-																<td class="mobile-none">
-																	<%
-																		if (dto.getRead() == 0) {
-																	%> <i class="fa fa-envelope" style="font-size: 24px;"></i>
-																	<%
-																		} else if (dto.getRead() == 1) {
-																	%> <i class="fa fa-envelope-open"
-																	style="font-size: 24px; color: grey"></i> <%
- 																	}
- 																	%>
-																</td>
-															</tr>
-															<%
-																}
-																}
-															%>
-														</tbody>
-													</table>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-
-
-							<!-- 페이징 -->
-							<div class="d-flex justify-content-center">
-								<div>
-									<!-- class="col-lg-9 -->
-									<div id="pagination" class="wp-example">
-										<div class="row">
-											<nav aria-label="Page navigation example">
-												<ul class="pagination">
-													<li class="page-item"><a href="#" class="page-link">«</a></li>
-													<li class="page-item active"><a href="#"
-														class="page-link">1</a></li>
-													<li class="page-item"><a href="#" class="page-link">2</a></li>
-													<li class="page-item"><a href="#" class="page-link">3</a></li>
-													<li class="page-item"><a href="#" class="page-link">4</a></li>
-													<li class="page-item"><a href="#" class="page-link">5</a></li>
-													<li class="page-item"><a href="#" class="page-link">»</a></li>
-												</ul>
-											</nav>
 										</div>
 									</div>
 								</div>
@@ -370,6 +257,23 @@
 		//쪽지 상세보기
 		$(document).ready(
 				function() {
+					var received = $("#received");
+					var sent = $("#sent");
+					var receivedfooter = $(".receivedfooter");
+					var sentfooter = $(".sentfooter");
+					var listUL = $("#ajaxList");
+					
+					
+					received.on("click", function(e){
+						showReceivedList();
+					})
+					
+					sent.on("click", function(e){
+						showSentList();
+					})
+					
+					
+					
 					//받은 쪽지 모달
 					var receivedModal = $("#receive-modal");
 					var modalInputSentNickname1 = receivedModal
@@ -405,13 +309,15 @@
 					var modalDeleteBtn = $(".modalDeleteBtn");
 					var modalAnswerBtn = $(".modalAnswerBtn");
 					var modalSendBtn = $(".modalSendBtn");
-					var user_id = <%=user_id%>;
+					
 					
 					//메세지리스트에서 a태그(메세지 제목)을 누르면, 해당 글 id의 세부데이터를 받아서 모달로 보내준다
 					
 					//받은 쪽지 상세보기
-					$(".receivedMessage").on("click", "a", function(e) {
+					function showMessage(){
+					$(".receivedMessage").on("click", "a", function(e) { //동작은 됨
 						var id = $(this).data("id");
+						
 						messageService.receivedMessageDetail(id, function(message) {
 							modalInputSentNickname1.val(message.nickname);
 							modalInputSent_date1.val(message.sent_date);
@@ -421,13 +327,14 @@
 							$("#receive-modal").modal("show");
 						});
 						
-						messageService.changeReadAttr(id, user_id);
+						messageService.changeReadAttr(id, <%=loginedUser.getId()%>);
 						
 					});
 					
 					//보낸 쪽지 상세보기
 					$(".sentMessage").on("click", "a", function(e) {
 						var id = $(this).data("id");
+						
 						messageService.sentMessageDetail(id, function(message) {
 							modalInputReceivedNickname2.val(message.nickname);
 							modalInputSent_date2.val(message.sent_date);
@@ -436,7 +343,7 @@
 							$("#sent-modal").modal("show");
 						});	
 					});
-					
+					};
 			
 					
 					//받은쪽지에서 답장하기 누르면 기존 모달 꺼지고 새로운 모달 열림 
@@ -450,11 +357,10 @@
 					
 					//쪽지보내기 창에서 쪽지보내기 버튼 클릭시 ajax연결				
 					modalSendBtn.on("click", function(e){
-						<%System.out.println(user_id);%>
 						var message = {
 								title : modalInputTitle3.val(),	
 								content : modalInputContent3.val(),
-								sender_id : user_id,
+								sender_id :  <%=loginedUser.getId()%>,
 								receiver_id : modalInputReceiver_id3.val()
 								
 						}
@@ -487,6 +393,37 @@
 					
 					//ajax메서드 정의
 					var messageService = (function() {
+						//받은 메세지 리스트
+						function getReceivedList(param, callback, error) {
+							var page = param.page || 1;
+							$.get("/mypage/api/message/receivedList/" + page + ".json",
+									function(data) {
+							
+										if (callback) {
+											callback(data.receivedCnt, data.list);
+										}
+									}).fail(function(xhr, status, err) {
+								if (error) {
+									error();
+								}
+							});
+						}
+						
+						//보낸 메세지 리스트
+						function getSentList(param, callback, error) {
+							var page = param.page || 1;
+							$.get("/mypage/api/message/sentList/" + page + ".json",
+									function(data) {
+								if (callback) {
+									callback(data.sentCnt, data.list);
+								}
+							}).fail(function(xhr, status, err) {
+							if (error) {
+							error();
+								}
+							});
+						}
+						
 						//메세지 세부조회 메서드
 						function receivedMessageDetail(id, callback, error) {
 							$.get("/mypage/api/message/received/" + id + ".json",
@@ -535,6 +472,7 @@
 						
 						//메세지 삭제 메서드
 						function deleteMessage(id, callback, error){
+							alert(id);
 							$.ajax({
 								type : 'delete',
 								url : '/mypage/api/message/' + id,
@@ -576,11 +514,225 @@
 							receivedMessageDetail : receivedMessageDetail,
 							deleteMessage : deleteMessage,
 							changeReadAttr : changeReadAttr,
-							writeMessage : writeMessage
+							writeMessage : writeMessage,
+							getReceivedList : getReceivedList,
+							getSentList : getSentList
 						};
 					})();
 					
-					 $('#received-check-all').change(function() { //전체 체크 변화 다루는 함수           
+					//버튼 클릭시 해당 페이지의 리스트로 넘어가는 메서드(받은메세지 리스트)
+					function moveReceivedPage() {
+						receivedfooter.on("click", "li a", function(e) {
+							e.preventDefault();
+							console.log("page click");
+							var targetPageNum = $(this).attr("href");
+							console.log("targetPageNum:" + targetPageNum);
+							pageNum = targetPageNum;
+							showReceivedList(pageNum);
+						})
+					};
+					
+					//버튼 클릭시 해당 페이지의 리스트로 넘어가는 메서드(보낸메세지 리스트)
+					function moveSentPage() {
+						sentfooter.on("click", "li a", function(e) {
+							e.preventDefault();
+							console.log("page click");
+							var targetPageNum = $(this).attr("href");
+							console.log("targetPageNum:" + targetPageNum);
+							pageNum = targetPageNum;
+							showSentList(pageNum);
+						})
+					};
+					
+					var pageNum = 1;
+					function showReceivedPage(receivedCnt){
+						
+						sentfooter.html("");
+						receivedfooter.html("");
+						
+						var endNum = Math.ceil(pageNum / 10.0) * 10;
+						var startNum = endNum - 9;
+						var prev = startNum != 1;
+						var next = false;
+						
+						if (endNum * 10 >= receivedCnt) {
+							endNum = Math.ceil(receivedCnt / 10.0);
+						}
+
+						if (endNum * 10 < receivedCnt) {
+							next = true;
+						}
+						var str = "<div><ul class='pagination pull-right'>";
+						if (prev) {
+							str += "<li class='page-item'><a class='page-link' href='"
+									+ (startNum - 1) + "'>Previous</a></li>";
+
+						}
+						
+						for (var i = startNum; i <= endNum; i++) {
+
+							var active = pageNum == i ? "active" : "";
+							str += "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'>"
+									+ i + "</a></li>";
+						}
+						
+						if (next) {
+							str += "<li class='page-item'><a class='page-link' href='"
+									+ (endNum + 1) + "'>Next</a></li>";
+						}
+						
+						str += "</ul></div>";
+
+						console.log(str);
+
+						receivedfooter.html(str);
+						moveReceivedPage();
+					}
+					
+					function showSentPage(sentCnt) {
+
+						sentfooter.html("");
+						receivedfooter.html("");
+
+						var endNum = Math.ceil(pageNum / 10.0) * 10;
+						var startNum = endNum - 9;
+						var prev = startNum != 1;
+						var next = false;
+
+						if (endNum * 10 >= sentCnt) {
+							endNum = Math.ceil(sentCnt / 10.0);
+						}
+
+						if (endNum * 10 < sentCnt) {
+							next = true;
+						}
+
+						var str = "<div><ul class='pagination pull-right'>";
+						if (prev) {
+							str += "<li class='page-item'><a class='page-link' href='"
+									+ (startNum - 1) + "'>Previous</a></li>";
+
+						}
+						for (var i = startNum; i <= endNum; i++) {
+
+							var active = pageNum == i ? "active" : "";
+							str += "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'>"
+									+ i + "</a></li>";
+						}
+
+						if (next) {
+							str += "<li class='page-item'><a class='page-link' href='"
+									+ (endNum + 1) + "'>Next</a></li>";
+						}
+						str += "</ul></div>";
+
+						console.log(str);
+
+						sentfooter.html(str);
+						moveSentPage()
+					}
+					
+					
+					function showReceivedList(page) {
+						
+						messageService.getReceivedList(
+										{
+											page : page || 1
+										},
+										function(receivedCnt, list) {
+											if (page == -1) {
+												pageNum = Math.ceil(receivedCnt / 10.0);
+												showReceivedList(pageNum);
+												return;
+											}
+											var str = "";
+											str += "<tr align='center' class='font-grey'><th><input type='checkbox' id='received-check-all'>"; 
+											str += "</th><th>제목</th><th>보낸사람</th><th>보낸날짜</th><th>읽음</th></tr>";
+												
+												if (list == null || list.length == 0) {
+													return;
+												}
+												
+												for (var i = 0, len = list.length || 0; i < len; i++) {
+													str += "<tr><td><input type='checkbox' class='received-check-one' value="
+														+ list[i].id;
+													str += "></td><td class='receivedMessage'><a class='messageText' data-id="
+														+ list[i].id;
+													str += " data-nick="
+														+ list[i].nickname + ">"
+														+ list[i].title + "</a></td>";
+													str += "<td class='font-grey'>"
+														+ list[i].nickname + "</td>";
+													str += "<td class='nondeco'>"
+														+ list[i].sent_date + "</a></td>";
+													str += "<td class='nondeco'>";
+													
+													if(list[i].read == 0){
+														str += "안읽음</td>/tr>";
+													}else if(list[i].read == 1){
+														str += "읽음</td>/tr>";
+													}
+													
+												};
+												
+												listUL.html(str);
+												showReceivedPage(receivedCnt);
+												showMessage();
+												checkMethod();
+										});
+					};
+					
+					function showSentList(page) {
+
+						messageService
+								.getSentList(
+										{
+											page : page || 1
+										},
+										function(sentCnt, list) {
+											
+											if (page == -1) {
+												pageNum = Math.ceil(sentCnt / 10.0);
+												showSentList(pageNum);
+												return;
+											}
+											var str = "";
+											str += "<tr align='cen;ter' class='font-grey'><th><input type='checkbox' id='sent-check-all'></th><th>제목</th><th>받는사람</th><th>보낸날짜</th><th>읽음</th></tr>"
+											
+											if (list == null || list.length == 0) {
+												return;
+											}
+											
+											for (var i = 0, len = list.length || 0; i < len; i++) {
+												str += "<tr><td><input type='checkbox' class='sent-check-one' value="
+													+ list[i].id;
+												str += "></td><td class='sentMessage'><a class='messageText' data-id="
+													+ list[i].id;
+												str += " data-nick="
+													+ list[i].nickname + ">" 
+													+ list[i].title + "</a></td>";
+												str += "<td class='font-grey'>"
+													+ list[i].nickname + "</td>";	
+												str += "<td>"
+													+ list[i].sent_date + "</td>";
+												str += "<td>";
+												
+												if(list[i].read == 0){
+													str += "안읽음</td>/tr>";
+												}else if(list[i].read == 1){
+													str += "읽음</td>/tr>";
+												}
+											}
+											
+											listUL.html(str);
+											showSentPage(sentCnt);
+											showMessage();
+											checkMethod();
+										});
+					};
+					
+					function checkMethod(){
+					 	 $('#received-check-all').change(function() { //전체 체크 변화 다루는 함수           
 				            if (this.checked) { //전체(All) 체크된 경우
 				               $('.received-check-one').prop('checked', true);
 				            }
@@ -601,22 +753,25 @@
 				               $('.sent-check-one').prop('checked', false);
 				            }
 				         });
+					};
 
+
+				     	var modalInputReceivedNickname3 = newModal
+						.find("input[name='nickname']");
+
+				     	showReceivedList();
 				         //선택 삭제 버튼
 				         $('#delete-choice').click(function() {
 				          	var list = $(":checked");
+				        	alert(list);
 				          	for(var i=0; i<list.length; i++){
+				          		alert(list[i].value);
 				          		messageService.deleteMessage(list[i].value, function(result){
 									alert(result);
 									location.reload();
 								});
 				          	};
 				         });
-
-
-				     	var modalInputReceivedNickname3 = newModal
-						.find("input[name='nickname']");
-
 				});
 	</script>
 	<!-- Javascript files-->

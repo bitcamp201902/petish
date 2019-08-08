@@ -6,6 +6,8 @@ import java.util.Map;
 import com.community.petish.mypage.dto.Criteria;
 import com.community.petish.mypage.dto.MessageRequestDTO;
 import com.community.petish.mypage.dto.MessageResponseDTO;
+import com.community.petish.mypage.dto.ReceivedMessagePageDTO;
+import com.community.petish.mypage.dto.SentMessagePageDTO;
 
 public interface MessageService {
 
@@ -13,19 +15,16 @@ public interface MessageService {
 	public int writeMessage(MessageRequestDTO dto);
 
 	// 2. 받은 쪽지 리스트 조회
-	public ArrayList<MessageResponseDTO> getReceivedMessageList(Long user_id);
+	//public ArrayList<MessageResponseDTO> getReceivedMessageList(Long user_id);
 	// 받은 쪽지 리스트 조회+페이징
-	//public ArrayList<MessageResponseDTO> getReceivedMessageWithPaging(Criteria cri);
-	// 받은 쪽지 전체 갯수 가져오기
-	//public int getReceivedCnt(Long user_id);
+	public ReceivedMessagePageDTO getReceivedMessagePaging(Criteria cri);
+
 		
 	// 3. 보낸 쪽지 리스트 조회
-	public ArrayList<MessageResponseDTO> getSentMessageList(Long user_id);
+	//public ArrayList<MessageResponseDTO> getSentMessageList(Long user_id);
 	// 보낸 쪽지 리스트 조회+페이징
-	//public ArrayList<MessageResponseDTO> getSentMessageWithPaging(Criteria cri);
-	// 보낸 쪽지 전체 갯수 가져오기
-	//public int getSentCnt(Long user_id);
-	
+	public SentMessagePageDTO getSentMessagePaging(Criteria cri);
+
 	// 4. 받은 쪽지 상세조회
 	public MessageResponseDTO receivedMessageDetail(Long id);
 	

@@ -2,6 +2,8 @@ package com.community.petish.mypage.dto;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import lombok.Data;
 
 //db에서 가져온 Question list를 사용자에게 보여주기 위한 DTO
@@ -28,6 +30,7 @@ public class QuestionResponseDTO {
 	private Long user_id;
 
 	// 작성일자
+	@JsonFormat(pattern="yyyy/MM/dd")
 	private Date created_date;
 	
 	// 삭제여부
