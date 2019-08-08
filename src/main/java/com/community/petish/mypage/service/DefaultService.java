@@ -2,13 +2,13 @@ package com.community.petish.mypage.service;
 
 import java.util.ArrayList;
 
-import com.community.petish.mypage.dto.CommentedPageDTO;
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.LikedPageDTO;
-import com.community.petish.mypage.dto.MyWritingsDTO;
-import com.community.petish.mypage.dto.WritingPageDTO;
-import com.community.petish.mypage.dto.Writings_CommentedDTO;
-import com.community.petish.mypage.dto.Writings_LikedDTO;
+import com.community.petish.mypage.dto.response.CommentedPageDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.LikedPageDTO;
+import com.community.petish.mypage.dto.response.MyWritingsDTO;
+import com.community.petish.mypage.dto.response.WritingPageDTO;
+import com.community.petish.mypage.dto.response.Writings_CommentedDTO;
+import com.community.petish.mypage.dto.response.Writings_LikedDTO;
 
 public interface DefaultService {
 

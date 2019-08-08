@@ -1,6 +1,6 @@
-<%@page import="com.community.petish.user.dto.UserResponseDTO_Mypage"%>
+<%@page import="com.community.petish.mypage.dto.response.UserResponseDTO_Mypage"%>
 <%@page
-	import="com.community.petish.user.dto.UserModifyRequestDTO_Mypage"%>
+	import="com.community.petish.mypage.dto.request.UserModifyRequestDTO_Mypage"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 

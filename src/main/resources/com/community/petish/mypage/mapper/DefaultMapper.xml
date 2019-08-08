@@ -5,7 +5,7 @@
 <mapper namespace="com.community.petish.mypage.mapper.DefaultMapper">
 	
 	<!-- 내가 작성한 글 + 페이징 -->
-	<select id="getMyWritingsWithPaging" resultType="com.community.petish.mypage.dto.MyWritingsDTO">
+	<select id="getMyWritingsWithPaging" resultType="com.community.petish.mypage.dto.response.MyWritingsDTO">
 		<![CDATA[
 		select '강아지-자유게시판' as boardType, id, title, created_date, view_count
 		from 
@@ -26,7 +26,7 @@
 	
 
 	<!-- 내가 댓글 단 글 + 페이징 -->
-	<select id="getCommentedWithPaging" resultType="com.community.petish.mypage.dto.Writings_CommentedDTO">
+	<select id="getCommentedWithPaging" resultType="com.community.petish.mypage.dto.response.Writings_CommentedDTO">
 		<![CDATA[
 		select '강아지-자유게시판' as boardType, id, user_id, title, created_date, view_count, nickname
 		from 
@@ -47,7 +47,7 @@
 	</select>
 	
 	<!-- 내가 좋아요 한 글 + 페이징 -->
-	<select id="getLikedWithPaging" resultType="com.community.petish.mypage.dto.Writings_LikedDTO">
+	<select id="getLikedWithPaging" resultType="com.community.petish.mypage.dto.response.Writings_LikedDTO">
 		<![CDATA[
 		select '강아지-자유게시판' as boardType, id, user_id, title, created_date, view_count, nickname
 		from

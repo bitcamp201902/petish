@@ -1,7 +1,7 @@
-<%@page import="com.community.petish.user.dto.UserResponseDTO_Mypage"%>
-<%@page import="com.community.petish.mypage.dto.Writings_LikedDTO"%>
-<%@page import="com.community.petish.mypage.dto.Writings_CommentedDTO"%>
-<%@page import="com.community.petish.mypage.dto.MyWritingsDTO"%>
+<%@page import="com.community.petish.mypage.dto.response.UserResponseDTO_Mypage"%>
+<%@page import="com.community.petish.mypage.dto.response.Writings_LikedDTO"%>
+<%@page import="com.community.petish.mypage.dto.response.Writings_CommentedDTO"%>
+<%@page import="com.community.petish.mypage.dto.response.MyWritingsDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
@@ -243,9 +243,8 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 			//1. 내가 쓴 글
 			function getWritingList(param, callback, error) {
 
-				var page = param.page || 1;
+				 var page = param.page || 1; 
 				var member_id = <%=member.getId()%>
-			
 				$.getJSON("/member/api/Writinglist/" + member_id + "/" + page + ".json",
 						function(data) {
 							if (callback) {
@@ -263,7 +262,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 
 				var page = param.page || 1;
 				var member_id = <%=member.getId()%>;
-			
+
 				$.getJSON("/member/api/Commentedlist/" + member_id + "/" + page + ".json",
 						function(data) {
 							if (callback) {
@@ -302,7 +301,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 		//버튼 클릭시 해당 페이지의 리스트로 넘어가는 메서드
 		function moveWritingPage() {
 			writingfooter.on("click", "li a", function(e) {
-
+				
 				e.preventDefault();
 				console.log("page click");
 				var targetPageNum = $(this).attr("href");
@@ -469,7 +468,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 		 
 		
 		//1. ajax메서드 사용해서 내가 쓴 글 가져오기(default)
-		function showWritingList(member_id, page) {
+		function showWritingList(page) {
 
 			listService
 					.getWritingList(

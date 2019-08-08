@@ -4,7 +4,7 @@
 
 <mapper namespace="com.community.petish.mypage.mapper.QuestionMapper">
 	
-	<resultMap type="com.community.petish.mypage.dto.QuestionResponseDTO" id="QuestionResultMap">
+	<resultMap type="com.community.petish.mypage.dto.response.QuestionResponseDTO" id="QuestionResultMap">
 		<result property="id" column="ID" />
 		<result property="title" column="TITLE" />
 		<result property="content" column="CONTENT" />
@@ -17,7 +17,7 @@
 	</resultMap>
 	
 	<!-- 문의 등록-->
-	<insert id="insertQuestion" parameterType="com.community.petish.mypage.dto.QuestionRequestDTO">
+	<insert id="insertQuestion" parameterType="com.community.petish.mypage.dto.request.QuestionRequestDTO">
 		insert into QUESTION_TB (id, TITLE, CONTENT, USER_ID, CATEGORY_ID) values 
 		( (select NVL(max(id), 0) from question_tb ) + 1,
 		#{title}, #{content}, #{user_id}, #{category_id})

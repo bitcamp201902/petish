@@ -2,9 +2,9 @@ package com.community.petish.mypage.mapper;
 
 import java.util.ArrayList;
 
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.MessageRequestDTO;
-import com.community.petish.mypage.dto.MessageResponseDTO;
+import com.community.petish.mypage.dto.request.MessageRequestDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.MessageResponseDTO;
 
 public interface MessageMapper {
 	

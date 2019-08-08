@@ -2,10 +2,10 @@ package com.community.petish.mypage.mapper;
 
 import java.util.ArrayList;
 
-import com.community.petish.mypage.dto.MyWritingsDTO;
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.Writings_CommentedDTO;
-import com.community.petish.mypage.dto.Writings_LikedDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.MyWritingsDTO;
+import com.community.petish.mypage.dto.response.Writings_CommentedDTO;
+import com.community.petish.mypage.dto.response.Writings_LikedDTO;
 
 public interface DefaultMapper {
 	//내가 작성한 글

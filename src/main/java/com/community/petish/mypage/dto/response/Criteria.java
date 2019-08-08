@@ -1,4 +1,4 @@
-package com.community.petish.mypage.dto;
+package com.community.petish.mypage.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

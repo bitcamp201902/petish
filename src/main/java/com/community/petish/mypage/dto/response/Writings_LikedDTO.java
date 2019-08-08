@@ -1,4 +1,4 @@
-package com.community.petish.mypage.dto;
+package com.community.petish.mypage.dto.response;
 
 import java.sql.Date;
 
@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
-//내가 댓글 단 글 
+//내가 좋아요 한 글
 @Data
-public class Writings_CommentedDTO {
+public class Writings_LikedDTO {
 
 	//게시판종류
 	String boardType;

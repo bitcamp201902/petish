@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.MessageRequestDTO;
-import com.community.petish.mypage.dto.MessageResponseDTO;
-import com.community.petish.mypage.dto.ReceivedMessagePageDTO;
-import com.community.petish.mypage.dto.SentMessagePageDTO;
+import com.community.petish.mypage.dto.request.MessageRequestDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.MessageResponseDTO;
+import com.community.petish.mypage.dto.response.ReceivedMessagePageDTO;
+import com.community.petish.mypage.dto.response.SentMessagePageDTO;
 import com.community.petish.mypage.mapper.MessageMapper;
 
 import lombok.extern.log4j.Log4j;

@@ -1,6 +1,6 @@
-<%@page import="com.community.petish.user.dto.UserResponseDTO_Mypage"%>
-<%@page import="com.community.petish.mypage.dto.MessageRequestDTO"%>
-<%@page import="com.community.petish.mypage.dto.MessageResponseDTO"%>
+<%@page import="com.community.petish.mypage.dto.response.UserResponseDTO_Mypage"%>
+<%@page import="com.community.petish.mypage.dto.request.MessageRequestDTO"%>
+<%@page import="com.community.petish.mypage.dto.response.MessageResponseDTO"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.community.petish.mypage.*"%>
 <%

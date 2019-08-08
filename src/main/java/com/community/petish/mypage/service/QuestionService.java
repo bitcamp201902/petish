@@ -6,10 +6,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
-import com.community.petish.mypage.dto.QuestionResponseDTO;
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.QuestionPageDTO;
-import com.community.petish.mypage.dto.QuestionRequestDTO;
+import com.community.petish.mypage.dto.request.QuestionRequestDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.QuestionPageDTO;
+import com.community.petish.mypage.dto.response.QuestionResponseDTO;
 
 
 public interface QuestionService {

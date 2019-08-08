@@ -3,11 +3,11 @@ package com.community.petish.mypage.service;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.MessageRequestDTO;
-import com.community.petish.mypage.dto.MessageResponseDTO;
-import com.community.petish.mypage.dto.ReceivedMessagePageDTO;
-import com.community.petish.mypage.dto.SentMessagePageDTO;
+import com.community.petish.mypage.dto.request.MessageRequestDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.MessageResponseDTO;
+import com.community.petish.mypage.dto.response.ReceivedMessagePageDTO;
+import com.community.petish.mypage.dto.response.SentMessagePageDTO;
 
 public interface MessageService {
 

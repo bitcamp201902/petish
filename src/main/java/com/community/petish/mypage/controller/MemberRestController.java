@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.community.petish.mypage.dto.CommentedPageDTO;
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.LikedPageDTO;
-import com.community.petish.mypage.dto.WritingPageDTO;
-import com.community.petish.mypage.dto.Writings_LikedDTO;
+import com.community.petish.mypage.dto.response.CommentedPageDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.LikedPageDTO;
+import com.community.petish.mypage.dto.response.WritingPageDTO;
+import com.community.petish.mypage.dto.response.Writings_LikedDTO;
 import com.community.petish.mypage.service.DefaultService;
 import com.community.petish.mypage.service.MessageService;
 import com.community.petish.mypage.service.QuestionService;
@@ -39,7 +39,7 @@ public class MemberRestController {
 
 	
 		@GetMapping(value="/Writinglist/{member_id}/{page}",
-				produces = {
+				produces = {	
 						MediaType.APPLICATION_XML_VALUE,
 						MediaType.APPLICATION_JSON_UTF8_VALUE})
 		public ResponseEntity<WritingPageDTO> getWritingList(
@@ -48,6 +48,7 @@ public class MemberRestController {
 					){
 					log.info("Writinglist");
 					log.info(member_id);
+					log.info("페이지"+page);
 					Criteria cri = new Criteria(page,10, member_id);
 					cri.setUser_id(member_id);
 					return new ResponseEntity<>(defaultServiceImpl.getWritingListPaging(cri), HttpStatus.OK);

@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.community.petish.mypage.dto.request.UserModifyPictureDTO_Mypage;
 import com.community.petish.mypage.service.DefaultService;
 import com.community.petish.mypage.service.MessageService;
 import com.community.petish.mypage.service.QuestionService;
 import com.community.petish.mypage.service.UserService_Mypage;
-import com.community.petish.user.dto.UserModifyPictureDTO_Mypage;
 
 import lombok.extern.log4j.Log4j;
 

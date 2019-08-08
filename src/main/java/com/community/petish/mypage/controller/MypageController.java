@@ -16,20 +16,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.community.petish.mypage.dto.MessageResponseDTO;
-import com.community.petish.mypage.dto.MyWritingsDTO;
-import com.community.petish.mypage.dto.QuestionRequestDTO;
-import com.community.petish.mypage.dto.QuestionResponseDTO;
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.Writings_CommentedDTO;
-import com.community.petish.mypage.dto.Writings_LikedDTO;
+import com.community.petish.mypage.dto.request.QuestionRequestDTO;
+import com.community.petish.mypage.dto.request.UserModifyPictureDTO_Mypage;
+import com.community.petish.mypage.dto.request.UserModifyRequestDTO_Mypage;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.MessageResponseDTO;
+import com.community.petish.mypage.dto.response.MyWritingsDTO;
+import com.community.petish.mypage.dto.response.QuestionResponseDTO;
+import com.community.petish.mypage.dto.response.UserResponseDTO_Mypage;
+import com.community.petish.mypage.dto.response.Writings_CommentedDTO;
+import com.community.petish.mypage.dto.response.Writings_LikedDTO;
 import com.community.petish.mypage.service.DefaultService;
 import com.community.petish.mypage.service.MessageService;
 import com.community.petish.mypage.service.QuestionService;
 import com.community.petish.mypage.service.UserService_Mypage;
-import com.community.petish.user.dto.UserModifyPictureDTO_Mypage;
-import com.community.petish.user.dto.UserModifyRequestDTO_Mypage;
-import com.community.petish.user.dto.UserResponseDTO_Mypage;
 import com.community.petish.user.dto.response.LoginedUser;
 
 import lombok.extern.log4j.Log4j;
@@ -135,13 +135,13 @@ public class MypageController {
 	
 	@RequestMapping("/question/insert")
 	public String insertQuestion(QuestionRequestDTO dto, HttpSession session) {
-		QuestionRequestDTO dto2 = new QuestionRequestDTO();
-		dto2.setUser_id(dto.getUser_id());
-		dto2.setTitle(dto.getTitle());
-		dto2.setContent(dto.getContent());
-		dto2.setCategory_id(dto.getCategory_id());
+		QuestionRequestDTO questionRequestDTO = new QuestionRequestDTO();
+		questionRequestDTO.setUser_id(dto.getUser_id());
+		questionRequestDTO.setTitle(dto.getTitle());
+		questionRequestDTO.setContent(dto.getContent());
+		questionRequestDTO.setCategory_id(dto.getCategory_id());
 
-		questionServiceImpl.insertQuestion(dto2);
+		questionServiceImpl.insertQuestion(questionRequestDTO);
 
 		return "redirect:./list";
 	}

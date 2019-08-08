@@ -2,9 +2,9 @@ package com.community.petish.mypage.mapper;
 
 import java.util.ArrayList;
 
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.QuestionRequestDTO;
-import com.community.petish.mypage.dto.QuestionResponseDTO;
+import com.community.petish.mypage.dto.request.QuestionRequestDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.QuestionResponseDTO;
 
 public interface QuestionMapper {
 	//1. 문의 등록
