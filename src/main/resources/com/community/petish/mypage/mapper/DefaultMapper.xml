@@ -7,12 +7,21 @@
 	<!-- 내가 작성한 글 + 페이징 -->
 	<select id="getMyWritingsWithPaging" resultType="com.community.petish.mypage.dto.MyWritingsDTO">
 		<![CDATA[
-		select '강아지-자유게시판' as boardType, id, title, created_date, view_count
-		from 
-		(select rownum rn, id, title, created_date, view_count 
-		from dog_free_post_tb 
-		where rownum <= #{pageNum} * #{amount} and deleted=0 and user_id=#{user_id})
-		where rn > (#{pageNum} -1)*#{amount}
+		select rn, boardType, id, title, created_date, view_count
+		from(
+		select rownum rn, boardType, id, title, created_date, view_count 
+		from (
+		select '강아지-자유게시판' as boardType, id, title, created_date, view_count, user_id
+		from dog_free_post_tb where user_id = #{user_id} and deleted=0
+        union
+        select '강아지-정모게시판' as boardType, id, title, created_date, view_count, user_id
+        from dog_gather_post_tb
+        where user_id = #{user_id} and deleted=0
+        union
+        select '강아지-정보게시판' as boardType, id, title, created_date, view_count, user_id
+        from dog_info_post_tb where user_id = #{user_id} and deleted=0
+        order by created_date desc))
+        where (rn > ((#{pageNum}-1)*#{amount})) and (rn <= (#{pageNum}*#{amount}))
 		]]>
 	</select>
 	<!-- 내가 작성한 글 전체갯수 -->
