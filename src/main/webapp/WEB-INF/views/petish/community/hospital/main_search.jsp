@@ -350,7 +350,8 @@
 						output += '<div class="image">';
 						output += '<a href="/hospital/'+item.id+'"name="link">';
 						var imglist = item.hospital_img.split(",");
-						output += '<img src='+imglist[0]+'"/resources/img/hospital" alt="" class="img-fluid rounded-circle" style="height: 250px; width:250px;"></a>';
+						console.log(imglist[0]);
+						output += '<img src="/resources/img/hospital/' + imglist[0] + '" alt="" class="img-fluid rounded-circle" style="height: 250px; width:250px;"></a>';
 						output += '</div>';
 						output += '<h4 style="font-size: 25px;">';
 						output += '<a href="/hospital/'+item.id+'"name="link">'+item.hospital_name+'</a></h4>';
