@@ -17,8 +17,8 @@
 	
 	<!-- 1. 쪽지 작성 -->
 	<insert id="writeMessage" parameterType="com.community.petish.mypage.dto.request.MessageRequestDTO">
-		insert into message_tb (title, content, sender_id, receiver_id) 
-		values (#{title}, #{content}, #{sender_id}, #{receiver_id})
+		insert into message_tb (id, title, content, sender_id, receiver_id) 
+		values ((select max(id) from message_tb)+1,#{title}, #{content}, #{sender_id}, #{receiver_id})
 	</insert>
 	
 	<!-- 2. 받은 쪽지 리스트 조회 +페이징 -->

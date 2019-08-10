@@ -18,8 +18,8 @@
 	
 	<!-- 문의 등록-->
 	<insert id="insertQuestion" parameterType="com.community.petish.mypage.dto.request.QuestionRequestDTO">
-		insert into QUESTION_TB (TITLE, CONTENT, USER_ID, CATEGORY_ID) values 
-		(#{title}, #{content}, #{user_id}, #{category_id})
+		insert into QUESTION_TB (id, TITLE, CONTENT, USER_ID, CATEGORY_ID) values 
+		((select max(id) from question_tb)+1, #{title}, #{content}, #{user_id}, #{category_id})
 	</insert>
 	
 	<!-- 문의 조회 -->
