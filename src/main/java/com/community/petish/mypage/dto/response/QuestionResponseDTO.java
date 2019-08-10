@@ -1,6 +1,8 @@
-package com.community.petish.mypage.dto;
+package com.community.petish.mypage.dto.response;
 
 import java.sql.Date;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.Data;
 
@@ -28,6 +30,7 @@ public class QuestionResponseDTO {
 	private Long user_id;
 
 	// 작성일자
+	@JsonFormat(pattern="yyyy/MM/dd")
 	private Date created_date;
 	
 	// 삭제여부

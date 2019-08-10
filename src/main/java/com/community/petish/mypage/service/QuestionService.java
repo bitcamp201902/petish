@@ -6,9 +6,10 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Service;
 
-import com.community.petish.mypage.dto.QuestionResponseDTO;
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.QuestionRequestDTO;
+import com.community.petish.mypage.dto.request.QuestionRequestDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.QuestionPageDTO;
+import com.community.petish.mypage.dto.response.QuestionResponseDTO;
 
 
 public interface QuestionService {
@@ -17,7 +18,7 @@ public interface QuestionService {
 		//2-1. 문의 조회
 		public ArrayList<QuestionResponseDTO> getQuestionList(Long user_id);
 		//2-2. 문의조회+페이징
-		public ArrayList<QuestionResponseDTO> getQuestionListWithPaging(Criteria cri);
+		public QuestionPageDTO getQuestionListPaging(Criteria cri);
 		//3. 문의 삭제
 		public void deleteQuestion(Long id);
 		//4. 사용자의 삭제 안된 글 갯수 확인

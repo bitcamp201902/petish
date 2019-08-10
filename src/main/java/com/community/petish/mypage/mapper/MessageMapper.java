@@ -2,9 +2,10 @@ package com.community.petish.mypage.mapper;
 
 import java.util.ArrayList;
 
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.MessageRequestDTO;
-import com.community.petish.mypage.dto.MessageResponseDTO;
+import com.community.petish.mypage.dto.request.MessageRequestDTO;
+import com.community.petish.mypage.dto.response.CheckNewMessageDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.MessageResponseDTO;
 
 public interface MessageMapper {
 	
@@ -12,18 +13,18 @@ public interface MessageMapper {
 	public int writeMessage(MessageRequestDTO dto);
 	
 	//2. 받은 쪽지 리스트 조회
-	public ArrayList<MessageResponseDTO> getReceivedMessageList(Long user_id);
+	//public ArrayList<MessageResponseDTO> getReceivedMessageList(Long user_id);
 	// 받은 쪽지 리스트 조회+페이징
-	//public ArrayList<MessageResponseDTO> getReceivedMessageWithPaging(Criteria cri);
+	public ArrayList<MessageResponseDTO> getReceivedMessageWithPaging(Criteria cri);
 	// 받은 쪽지 전체 갯수 가져오기
-	//public int getReceivedCnt(Long user_id);
+	public int getReceivedCnt(Long user_id);
 	
 	//3. 보낸 쪽지 리스트 조회
-	public ArrayList<MessageResponseDTO> getSentMessageList(Long user_id);
+	//public ArrayList<MessageResponseDTO> getSentMessageList(Long user_id);
 	// 보낸 쪽지 리스트 조회+페이징
-	//public ArrayList<MessageResponseDTO> getSentMessageWithPaging(Criteria cri);
+	public ArrayList<MessageResponseDTO> getSentMessageWithPaging(Criteria cri);
 	// 보낸 쪽지 전체 갯수 가져오기
-	//public int getSentCnt(Long user_id);
+	public int getSentCnt(Long user_id);
 	
 	//4. 받은 쪽지 상세조회
 	public MessageResponseDTO receivedMessageDetail(Long id);
@@ -42,4 +43,6 @@ public interface MessageMapper {
 	
 	//9. 쪽지 읽음으로 변경
 	public int changeReadAttr(MessageRequestDTO dto);
+
+	public int checkNewMessage(Long user_id);
 }

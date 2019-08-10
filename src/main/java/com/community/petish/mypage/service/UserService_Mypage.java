@@ -2,9 +2,9 @@ package com.community.petish.mypage.service;
 
 import org.springframework.stereotype.Service;
 
-import com.community.petish.user.dto.UserModifyPictureDTO_Mypage;
-import com.community.petish.user.dto.UserModifyRequestDTO_Mypage;
-import com.community.petish.user.dto.UserResponseDTO_Mypage;
+import com.community.petish.mypage.dto.request.UserModifyPictureDTO_Mypage;
+import com.community.petish.mypage.dto.request.UserModifyRequestDTO_Mypage;
+import com.community.petish.mypage.dto.response.UserResponseDTO_Mypage;
 
 public interface UserService_Mypage {
 	//아이디로 회원정보 가져오는 메서드

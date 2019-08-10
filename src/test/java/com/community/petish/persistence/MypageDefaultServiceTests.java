@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.community.petish.mypage.dto.Criteria;
+import com.community.petish.mypage.dto.response.Criteria;
 import com.community.petish.mypage.service.DefaultService;
 import com.community.petish.mypage.service.DefaultServiceImpl;
 

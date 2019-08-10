@@ -2,15 +2,13 @@ package com.community.petish.mypage.service;
 
 import java.util.ArrayList;
 
-import javax.servlet.http.HttpSession;
-
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.community.petish.mypage.dto.QuestionResponseDTO;
-import com.community.petish.mypage.dto.Criteria;
-import com.community.petish.mypage.dto.QuestionRequestDTO;
+import com.community.petish.mypage.dto.request.QuestionRequestDTO;
+import com.community.petish.mypage.dto.response.Criteria;
+import com.community.petish.mypage.dto.response.QuestionPageDTO;
+import com.community.petish.mypage.dto.response.QuestionResponseDTO;
 import com.community.petish.mypage.mapper.QuestionMapper;
 
 @Service
@@ -34,8 +32,10 @@ public class QuestionServiceImpl implements QuestionService{
 
 	//2-2. 문의조회+페이징
 	@Override
-	public ArrayList<QuestionResponseDTO> getQuestionListWithPaging(Criteria cri){
-		return questionMapper.getQuestionListWithPaging(cri);
+	public QuestionPageDTO getQuestionListPaging(Criteria cri){
+		return new QuestionPageDTO(
+				questionMapper.getQuestionCnt(cri.getUser_id()),
+				questionMapper.getQuestionListWithPaging(cri));
 	}
 	
 	//3. 문의 삭제
