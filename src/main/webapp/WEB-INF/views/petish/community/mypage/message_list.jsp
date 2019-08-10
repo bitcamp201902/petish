@@ -63,6 +63,8 @@
 	href="/resources/img/apple-touch-icon-152x152.png">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
 <!-- CSS파일 추가 -->
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
@@ -124,10 +126,12 @@
 										<div class="col-md-12">
 											<div class="tile">
 												<div class="tile-body">
+													<button type="button" class="btn btn-outline-dark" id="delete-choice" style='margin-bottom:5px;'>선택삭제</button><br>
 													<table class="table table-hover table-bordered"
 														id="ajaxList">
 
 													</table>
+									
 													<div class="receivedfooter"></div>
 													<div class="sentfooter"></div>
 												</div>
@@ -136,13 +140,7 @@
 										</div>
 									</div>
 								</div>
-							</div>
-							<div
-								class="box-footer d-flex flex-wrap align-items-center justify-content-between">
-									<a href="" class="btn btn-secondary mt-0" id="delete-choice">선택
-										삭제</a>
-							</div>
-							<!-- </form> -->
+							</div>					
 						</div>
 					</div>
 				</div>
@@ -176,11 +174,10 @@
 							name='content1' readonly></textarea>
 					</div>
 					<input type="hidden" name="sender_id">
-					<div class="text-left">
-						<input type="button" value="삭제" class="modalDeleteBtn">
-					</div>
 						<div class="text-right">
+						<input type="button" value="삭제" class="modalDeleteBtn">
 						<input type="button" value="답장" class="modalAnswerBtn">
+					</div>
 					</div>
 				</div>
 			</div>
@@ -212,7 +209,7 @@
 						<textarea id="message_content" rows="10" class="form-control"
 							name='content2' readonly></textarea>
 					</div>
-					<div class="text-left">
+					<div class="text-right">
 						<input type="button" value="삭제" class="modalDeleteBtn">
 					</div>
 				</div>
@@ -656,12 +653,12 @@
 														+ list[i].nickname + "</td>";
 													str += "<td class='nondeco'>"
 														+ list[i].sent_date + "</a></td>";
-													str += "<td class='nondeco'>";
+													str += "<td class='nondeco' style='text-align:center'>";
 													
 													if(list[i].read == 0){
-														str += "안읽음</td>/tr>";
+														str += "<i class='far fa-envelope' style='font-size:24px;'></i></td>/tr>";
 													}else if(list[i].read == 1){
-														str += "읽음</td>/tr>";
+														str += "<i class='far fa-envelope-open' style='font-size:24px;color:grey'></i></td>/tr>";
 													}
 													
 												};
@@ -706,12 +703,11 @@
 													+ list[i].nickname + "</td>";	
 												str += "<td>"
 													+ list[i].sent_date + "</td>";
-												str += "<td>";
-												
+												str += "<td class='nondeco' style='text-align:center'>";
 												if(list[i].read == 0){
-													str += "안읽음</td>/tr>";
+													str += "<i class='far fa-envelope' style='font-size:24px;'></i></td>/tr>";
 												}else if(list[i].read == 1){
-													str += "읽음</td>/tr>";
+													str += "<i class='far fa-envelope-open' style='font-size:24px;color:grey'></i></td>/tr>";
 												}
 											}
 											

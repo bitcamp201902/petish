@@ -100,7 +100,7 @@
 	</update>
 	
 	<select id="checkNewMessage" parameterType="Long" resultType="int">
-		select count(*) from message_tb where receiver_id = #{user_id} and read = 0
+		select count(*) from message_tb where receiver_id = #{user_id} and read = 0 and deleted=0
 	</select>
 </mapper>
 

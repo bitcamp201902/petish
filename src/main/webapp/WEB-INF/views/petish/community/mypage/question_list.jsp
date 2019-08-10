@@ -105,7 +105,7 @@
 									<form action="./insert">
 										<div class="row">
 											<div class="col-sm-6 col-md-3">
-												<div class="form-group">
+												<div style='padding-left:15px;padding-right:15px;'>
 													<label for="category">문의 유형</label> <select id="category"
 														class="form-control" name="category_id">
 														<option >문의유형 선택</option>
@@ -116,13 +116,13 @@
 												</div>
 											</div>
 											<div class="col-sm-12">
-												<div class="form-group">
+												<div style='padding-left:15px;padding-right:15px;'>
 													<label>문의 제목</label> <input type="text"
 														class="form-control" name="title">
 												</div>
 											</div>
-											<div class="col-sm-12">
-												<div class="form-group">
+											<div class="col-sm-12" style="left-">
+												<div style='padding-left:15px;padding-right:15px;'>
 													<label>문의 내용</label>
 													<textarea class="form-control" rows="15" name="content"></textarea>
 												</div>
@@ -265,14 +265,14 @@
 							+ list[i].category + "</td>";
 							str += "<td><a href='' class='nondeco'>"
 							+ list[i].title + "</td>";
-							str += "<td><a href='' class='nondeco'>"
+							str += "<td>"
 							+ list[i].created_date + "</td>";
-							str += "<td><a href='' class='nondeco'>";
+							str += "<td style='text-align:center;''>";
 																	
 							if(list[i].replied == 0){
-							str += "답변대기</a></td>";
+							str += "<button type='button' class='btn btn-sm btn-default'>답변대기</button></a></td>";
 							}else if(list[i].replied == 1){
-							str += "답변완료</a></td>";
+							str += " <button type='button' class='btn btn-sm btn-danger'>답변완료</button></td>";
 							}
 							str += "</tr><tr><td colspan='4'><pre>";
 							str += list[i].content+"</pre></td></tr>";

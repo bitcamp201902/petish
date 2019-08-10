@@ -10,7 +10,7 @@
 
 <%
 	UserResponseDTO_Mypage user = (UserResponseDTO_Mypage) request.getAttribute("user");
-
+	int newMessage =(int) request.getAttribute("newMessage");
 %>
 
 <!DOCTYPE html>
@@ -61,7 +61,8 @@
 	href="/resources/img/apple-touch-icon-144x144.png">
 <link rel="apple-touch-icon" sizes="152x152"
 	href="/resources/img/apple-touch-icon-152x152.png">
-
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
 <script src="/resources/js/mypage/mypage.js"></script>
@@ -116,8 +117,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 								<img class="profile" src="<%=user.getPicture()%>"
 									style="margin-right: 30px;"> <a><%=user.getNickname()%>(<%=user.getUsername()%>***)</a>
 								│ 정회원 │ <a class="nondeco"
-									href="/mypage/modifyform/<%=user.getId()%>"><i
-									class="fa fa-list">회원정보수정</a></i>
+									href="/mypage/modifyform/<%=user.getId()%>"><i class='fas fa-id-card' style='font-size:24px;color:grey'></i> 회원정보수정</a>
 								<script>
 									var user_id =
 								<%=user.getId()%>
@@ -126,6 +126,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 								<%
 									Long user_id = user.getId();
 								%>
+								 │ <a href="./message/list" style='color:black;'><i class='far fa-envelope' style='font-size:24px;color:grey;'></i> <%=newMessage %></a>
 							</div>
 						</div>
 						<ul id="pills-tab" role="tablist"

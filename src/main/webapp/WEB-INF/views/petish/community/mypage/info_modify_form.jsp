@@ -123,13 +123,14 @@
 								<tr style="height: 1.5cm;">
 									<td class="font-grey"><label
 										class="control-label col-md-8">닉네임</label></td>
-									<td style="padding-right: 15px;">
+									<td>
+									<div>
 									<input type="text"
-										class="form-control" name="nickname"
-										value=<%=dto.getNickname()%> id="nicknameInput">
+										name="nickname"
+										value=<%=dto.getNickname()%> id="nicknameInput" style='width:70%;height:0.961cm;'>
+									<input type="button" class="btn btn-template-outlined joinBtn" id="nicknameDuplicationCheckButton" value="중복확인" style='width:2cm;'></div>
 										<input type="hidden" id="nicknameDuplicationCheckResult" name="nicknameDuplicationCheckResult" value="false">
 										<input type="hidden" id="nicknameDuplicateCheck" name="nicknameDuplicateCheck" value="false">
-										<button type="button" class="btn btn-template-outlined joinBtn" id="nicknameDuplicationCheckButton">중복확인</button>
 									<label id="nicknameCheckFalseResult" class="inp" style="display:none; margin-top:0px;">
 									<font size="1" color='red'>이미 존재하는 nickname입니다.</font>
 									</label>
@@ -148,7 +149,7 @@
 											<input type="text" style="width: 70%; height: 0.961cm;"
 												name="address" id="addressInput" value="<%=dto.getAddress()%>"
 												readonly> 
-											<input class="btn btn-template-outlined joinBtn" onclick="openZipcode()" value="주소검색">
+											<input class="btn btn-template-outlined joinBtn" onclick="openZipcode()" value="주소검색" style='width:2cm;'>
 										</div></td>
 								</tr>
 								<tr style="height: 1.5cm;" class="gender">
@@ -195,13 +196,14 @@
 								class="box-footer d-flex flex-wrap align-items-center justify-content-between"
 								style="margin-top: 1cm;">
 								<div class="left-col">
-									<a href="" class="btn btn-secondary mt-0" id="deleteUser">회원
-										탈퇴</a>
+									<button type="button" class="btn btn-outline-dark">
+										회원탈퇴
+									</button>
 								</div>
 
 								<div class="right-col">
-									<button type="submit" id="modifyBtn">
-										수정하기<i class="fa fa-save"></i>
+									<button type="submit" class="btn btn-outline-primary" id="modifyBtn">
+										수정하기
 									</button>
 								</div>
 							</div>
@@ -262,7 +264,6 @@
 	var a = $("#nicknameInput");
 	a.blur(function(){
 		if("<%=loginedUser.getNickname()%>" != a.val()){
-			alert("닉네임 중복확인을 해주세요");
 			$("#modifyBtn").attr("disabled", "disabled");
 			//버튼 비활성화
 		}else{
