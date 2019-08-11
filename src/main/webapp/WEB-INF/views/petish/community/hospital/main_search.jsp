@@ -39,8 +39,8 @@
 
 <%@ include file="/WEB-INF/views/commons/link.jspf" %>
 <body>
-	
-	<%@ include file="/WEB-INF/views/commons/top.jspf"%>
+	<div id="all">
+		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
 	
 	
 	
@@ -133,7 +133,7 @@
 						</div>
 					</div>
 				</div>
-
+		</div>
 	<!-- /////////////////////////////////// 지  도  //////////////////////////////////////// -->
 	<!-- Javascript files-->
 	<script src="/resources/vendor/popper.js/umd/popper.min.js"> </script>
@@ -350,8 +350,7 @@
 						output += '<div class="image">';
 						output += '<a href="/hospital/'+item.id+'"name="link">';
 						var imglist = item.hospital_img.split(",");
-						console.log(imglist[0]);
-						output += '<img src="/resources/img/hospital/' + imglist[0] + '" alt="" class="img-fluid rounded-circle" style="height: 250px; width:250px;"></a>';
+						output += '<img src="/resources/img/hospital/'+imglist[0]+'" alt="" class="img-fluid rounded-circle" style="height: 250px; width:250px;"></a>';
 						output += '</div>';
 						output += '<h4 style="font-size: 25px;">';
 						output += '<a href="/hospital/'+item.id+'"name="link">'+item.hospital_name+'</a></h4>';
@@ -410,5 +409,6 @@
 	}
 	
 	</script>
+	
 </body>
 </html>

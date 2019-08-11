@@ -119,6 +119,35 @@ img {vertical-align: middle;}
 	left:0;
 	border-radius: 3px 0 0 3px;
 }
+
+.dropdown {
+	position: relative;
+	display: inline-block;
+}
+
+.dropdown-content {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.dropdown-content a {
+	color: grey;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+
+.dropdown-content a:hover {
+	background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+	display: block;
+}
 </style>
 </head>
 
@@ -296,7 +325,39 @@ img {vertical-align: middle;}
        		</div>
 		</div>
 	</div>
-
+	
+	<div id="new-modal" tabindex="-1" role="dialog" aria-hidden="true"
+		class="modal fade">
+		<div role="document" class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 align="center" class="modal-title">쪽지보내기</h4>
+					<button type="button" data-dismiss="modal" aria-label="Close"
+						class="close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>받는사람</label> <input class="form-control" name='nickname'
+							readonly>
+					</div>
+					<input type="hidden" name="receiver_id">
+					<div class="form-group">
+						<label>제목</label> <input class="form-control" name='title'>
+					</div>
+					<div class="form-group">
+						<label>내용</label>
+						<textarea id="message_content" rows="10" class="form-control"
+							name='content'></textarea>
+					</div>
+					<div class="text-left">
+						<input type="button" value="보내기" class="modalSendBtn">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Javascript files-->
 	
 	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
@@ -315,6 +376,78 @@ img {vertical-align: middle;}
 	
 	<script src="/resources/js/hospital/star.js"></script>
 	<script>
+	var newModal = $("#new-modal"); //모달창
+	var modalInputReceivedNickname3 = newModal.find("input[name='nickname']"); //모달창 받는사람
+	var modalInputReceiver_id3 = newModal.find("input[name='receiver_id']"); //모달창 받는 user_id
+	var modalInputTitle3 = newModal.find("input[name='title']"); //모달창 제목
+	var modalInputContent3 = newModal.find("textarea[name='content']"); //모달창 내용
+	var modalSendBtn = $(".modalSendBtn"); //모달 보내기 버튼
+
+
+	//쪽지작성 모달 열기(닉네임 및 아이디 전달)
+	function openMessageForm() {
+		var showmodal = $(".showmodal");
+		showmodal.on("click", function(e) {
+			<%if(loginedUser == null){%>
+				$('#login-modal').modal('show');
+			<%}else{%>
+				var id = $(this).data("id");
+				var nick = $(this).data("nick");
+				modalInputReceiver_id3.val(id);
+				modalInputReceivedNickname3.val(nick);
+				$("#new-modal").modal("show");
+			<%}%>
+			}); 
+		}
+
+
+	//쪽지보내기 버튼 클릭시
+	modalSendBtn.on("click", function(e) {
+		<%if(loginedUser == null){%>
+			$('#login-modal').modal('show');
+		<%}else{%>
+			var user_id = '<%=loginedUser.getId()%>';
+			var message = {
+			title : modalInputTitle3.val(),
+			content : modalInputContent3.val(),
+			sender_id : user_id,
+			receiver_id : modalInputReceiver_id3.val()
+			}
+			messageService.writeMessage(message, function(result) {
+			alert("result : " + result);
+			$("#new-modal").modal("hide");
+			location.reload();
+			});
+		<%}%>
+	});
+
+
+	//쪽지보내기 ajax메서드
+	var messageService = (function() {
+		function writeMessage(message, callback, error) {
+			$.ajax({
+				type : 'post',
+				url : '/mypage/api/message/new',
+				data : JSON.stringify(message),
+				contentType : "application/json; charset=utf-8",
+				success : function(result, status, xhr) {
+			if (callback) {
+			callback(result);
+				}
+			},
+			error : function(xhr, status, er) {
+				if (error) {
+					error(er);
+				}
+			}
+			})
+		}
+		return {
+			writeMessage : writeMessage
+			};
+		})();
+	
+	
 	var slideIndex = 1;
 	showSlides(slideIndex);
 
@@ -532,7 +665,24 @@ img {vertical-align: middle;}
 					output += '<span style ="width:'+(item.score*10.0)+'%"></span>';
 					output += '</span>';
 					output += '</td>';
-					output += '<td>'+item.nickname+'</td>';
+					output += '<td><div class="dropdown">'+item.nickname;
+					<%if (loginedUser != null){ %>
+						var user_id ='<%=loginedUser.getId()%>'
+						if(user_id != item.user_id){ //로그인된 유저와 글쓴이가 같지않을 경우
+							output += "<div class='dropdown-content'><a href='/member/detail/"+item.user_id+"'>작성게시글 보기</a>";
+							output += "<a href='#' data-toggle='modal' class='showmodal' data-target='#new-modal'"
+							output += "data-id="+item.user_id+"";
+							output += " data-nick="+item.nickname;
+							output += ">쪽지보내기</a></div>"	
+						}
+					<%}else{%>
+						output += "<div class='dropdown-content'><a href='/member/detail/"+item.user_id+"'>작성게시글 보기</a>";
+						output += "<a href='#' data-toggle='modal' class='showmodal' "
+						output += "data-id="+item.user_id+"";
+						output += " data-nick="+item.nickname;
+						output += ">쪽지보내기</a></div>"
+					<%}%>
+					output += '</div></td>';
 					output += '<td>'+item.content;
 					<%if (loginedUser != null){ %> //로그인이 되어있을경우
 						var user_id ='<%=loginedUser.getId()%>'
@@ -559,6 +709,8 @@ img {vertical-align: middle;}
 						$('#reviews').append(output);
 					<%}%>
 				});
+				openMessageForm();
+				
 				//페이징 처리 반복문
 				for(var i = data.paging.startPage; i<=data.paging.endPage; i++){
 					var output='';
@@ -586,6 +738,7 @@ img {vertical-align: middle;}
 		
 		
 	}
+	
 	</script>
 	
 	<script>
@@ -651,9 +804,7 @@ img {vertical-align: middle;}
 				//평점 0점으로 초기화
 				$(".star-input").find("output>b").text(0);
 			
-			<%}%>
-			
-			
+			<%}%>			
 		});
 		
 		
