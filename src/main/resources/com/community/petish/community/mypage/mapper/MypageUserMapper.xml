@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.petish.community.mypage.mapper.MypageUserMapper">
+
+	<!-- 아이디로 회원정보 가져오기 -->
+<<<<<<< HEAD:src/main/resources/com/community/petish/mypage/mapper/MypageUserMapper.xml
+	<select id="findUser" parameterType="long" resultType="com.community.petish.mypage.dto.response.UserResponseDTO_Mypage">
+=======
+	<select id="findUser" parameterType="long" resultType="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage">
+>>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/resources/com/community/petish/community/mypage/mapper/MypageUserMapper.xml
+		select id, username, nickname, picture, deleted, address, concern_id, gender
+		from user_tb
+		where id =#{id}
+	</select> 
+	
+	<!-- 비밀번호 포함한 회원정보 수정 -->
+<<<<<<< HEAD:src/main/resources/com/community/petish/mypage/mapper/MypageUserMapper.xml
+	<update id="modifyUserInfoAll" parameterType="com.community.petish.mypage.dto.request.UserModifyRequestDTO_Mypage">
+=======
+	<update id="modifyUserInfoAll" parameterType="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage">
+>>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/resources/com/community/petish/community/mypage/mapper/MypageUserMapper.xml
+		update user_tb set nickname=#{nickname},address=#{address}, password=#{password}, concern_id=#{concern_id}, gender=#{gender}
+		where id = #{id}
+	</update>
+	
+	<!-- 비밀번호 제외한 회원정보 수정 -->
+<<<<<<< HEAD:src/main/resources/com/community/petish/mypage/mapper/MypageUserMapper.xml
+	<update id="modifyUserInfo" parameterType="com.community.petish.mypage.dto.request.UserModifyRequestDTO_Mypage">
+=======
+	<update id="modifyUserInfo" parameterType="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage">
+>>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/resources/com/community/petish/community/mypage/mapper/MypageUserMapper.xml
+		update user_tb set nickname=#{nickname}, concern_id=#{concern_id}, gender=#{gender}, address=#{address}
+		where id = #{id}
+	</update>
+
+	<!-- 프로필 사진 수정 -->
+<<<<<<< HEAD:src/main/resources/com/community/petish/mypage/mapper/MypageUserMapper.xml
+	<update id="modifyPicture" parameterType="com.community.petish.mypage.dto.request.UserModifyPictureDTO_Mypage">
+=======
+	<update id="modifyPicture" parameterType="com.community.petish.community.mypage.dto.request.UserModifyPictureDTO_Mypage">
+>>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/resources/com/community/petish/community/mypage/mapper/MypageUserMapper.xml
+		update user_tb set picture=#{picture}
+		where id = #{id}
+	</update>
+	
+</mapper>

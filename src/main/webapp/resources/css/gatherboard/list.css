@@ -8,6 +8,10 @@ button.btn.btn-template-outlined {
 
 }
 
+#top-category {
+	margin-top: 40px;
+}
+
 .table{
 	margin: auto; 
 	text-align: center;

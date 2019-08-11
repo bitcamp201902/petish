@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.petish.community.mypage.mapper.QuestionMapper">
+	
+<<<<<<< HEAD:src/main/resources/com/community/petish/mypage/mapper/QuestionMapper.xml
+	<resultMap type="com.community.petish.mypage.dto.response.QuestionResponseDTO" id="QuestionResultMap">
+=======
+	<resultMap type="com.community.petish.community.mypage.dto.response.QuestionResponseDTO" id="QuestionResultMap">
+>>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/resources/com/community/petish/community/mypage/mapper/QuestionMapper.xml
+		<result property="id" column="ID" />
+		<result property="title" column="TITLE" />
+		<result property="content" column="CONTENT" />
+		<result property="replied" column="REPLIED" />
+		<result property="category" column="CATEGORY"/>
+		<result property="user_id" column="USER_ID" />
+		<result property="created_date" column="CREATED_DATE" />
+		<result property="deleted" column="DELETED" />
+		<result property="category_id" column="CATEGORY_ID"/>
+	</resultMap>
+	
+	<!-- 문의 등록-->
+<<<<<<< HEAD:src/main/resources/com/community/petish/mypage/mapper/QuestionMapper.xml
+	<insert id="insertQuestion" parameterType="com.community.petish.mypage.dto.request.QuestionRequestDTO">
+		insert into QUESTION_TB (id, TITLE, CONTENT, USER_ID, CATEGORY_ID) values 
+=======
+	<insert id="insertQuestion" parameterType="com.community.petish.community.mypage.dto.request.QuestionRequestDTO">
+		insert into QUESTION_TB (id, TITLE, CONTENT, USER_ID, CATEGORY_ID) values
+>>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/resources/com/community/petish/community/mypage/mapper/QuestionMapper.xml
+		((select max(id) from question_tb)+1, #{title}, #{content}, #{user_id}, #{category_id})
+	</insert>
+	
+	<!-- 문의 조회 -->
+	<select id="getQuestionList" parameterType="Long" resultMap="QuestionResultMap">
+		SELECT q1.category_id, q1.id, q1.title, q1.content, q1.replied, q2.category, q1.user_id, q1.created_date, deleted
+		FROM question_tb q1, question_category_tb q2
+		WHERE (q1.category_id=q2.id) and (q1.user_id = #{user_id}) order by id desc
+	</select> 
+	
+	<!-- 문의 조회 +페이징 -->
+	<select id="getQuestionListWithPaging" resultMap="QuestionResultMap">
+		<![CDATA[
+		select category_id, id, title, content, replied, category, user_id, created_date, deleted
+		from
+		(select rownum rn, q1.category_id, q1.id, q1.title, q1.content, q1.replied, q2.category, q1.user_id, q1.created_date, deleted
+		FROM question_tb q1, question_category_tb q2
+		WHERE rownum <= #{pageNum} * #{amount} and (q1.category_id=q2.id) and (q1.user_id = #{user_id}) order by id desc)
+		where rn > (#{pageNum} -1)*#{amount}
+		]]>
+	</select>
+	
+	<!-- 문의 삭제 -->
+	<update id="deleteQuestion" parameterType="Long">
+		UPDATE QUESTION_TB SET DELETED = 1 WHERE ID=#{id}
+	</update>
+	
+	<!-- 사용자의 삭제 안된 글 갯수 확인 -->
+	<select id="getUndeleted" resultType="int" parameterType="Long">
+		SELECT COUNT (*) FROM QUESTION_TB WHERE DELETED = 0 and user_id = #{user_id}
+	</select>
+	
+	<select id="getQuestionCnt" resultType="int" parameterType="Long">
+	<![CDATA[
+		select count(*)
+		from question_tb
+		where user_id=#{user_id} and deleted=0
+	]]>
+	</select>
+	
+</mapper>

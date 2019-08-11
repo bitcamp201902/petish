@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-    <%@ page import="com.community.petish.user.dto.response.LoginedUser"%>
+    <%@ page import="com.community.petish.community.user.dto.response.LoginedUser"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,17 +91,22 @@
 		var sessionid = "<%= user%>";
 		if(sessionid == "null"){
 			opener.$('#addressInput').val(addr);
+			opener.$('#userAddress').val(addr);
 			
 		}
 		else{
 			
 			opener.$('#place').val(addr);
+			opener.$('#userAddress').val(addr);
+			if(opener.map != null){
+				opener.setMarker(lng.Ga, lng.Ha); //클릭한곳 마커 찍어주는 함수
+			}
 		}
 		//opener.ps.keywordSearch(addr, opener.placesSearchCB);
 		//opener.marker.setPosition(mouselatLng);
 		//opener.marker.setMap(map);
 		
-		opener.setMarker(lng.Ga, lng.Ha); //클릭한곳 마커 찍어주는 함수
+		
 
 		self.close();
 	}

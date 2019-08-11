@@ -1,8 +1,10 @@
+<<<<<<< HEAD:src/main/webapp/WEB-INF/views/petish/community/mypage/question_list.jsp
 <%@page import="com.community.petish.mypage.dto.response.QuestionResponseDTO"%>
+=======
+>>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/webapp/WEB-INF/views/petish/mypage/question_list.jsp
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.*" %>
-<%@ page import="com.community.petish.mypage.*" %>
+<%@ page import="com.community.petish.community.mypage.dto.response.QuestionResponseDTO" %>
 <%
 	QuestionResponseDTO dto = null;
 %>
@@ -302,6 +304,7 @@
 									
 			});
 	</script>
+<<<<<<< HEAD:src/main/webapp/WEB-INF/views/petish/community/mypage/question_list.jsp
 	<!-- Javascript files-->
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>
 	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
@@ -318,5 +321,8 @@
 		src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
 	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
 	<script src="/resources/js/front.js"></script>
+=======
+
+>>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/webapp/WEB-INF/views/petish/mypage/question_list.jsp
 </body>
 </html>

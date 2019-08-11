@@ -40,11 +40,20 @@
             </props>
         </property>
     </bean>
+    
+    <!-- 트랜젝션 매니저 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!-- @Transactional 애노테이션을 sacn하기 위한 설정 -->
+	<tx:annotation-driven/>
 
-	<mybatis-spring:scan base-package="com.community.petish.*.mapper"/>
-	
-	<mybatis-spring:scan base-package="com.community.petish.*.*.mapper"/>
-	
+	<mybatis-spring:scan base-package="com.community.petish.community.*.mapper"/>
+	<mybatis-spring:scan base-package="com.community.petish.community.*.*.mapper"/>
+
+    <mybatis-spring:scan base-package="com.community.petish.admin.*.mapper"/>
+    <mybatis-spring:scan base-package="com.community.petish.admin.*.*.mapper" />
+
 	<context:component-scan base-package="com.community.petish" />
 
 </beans>
