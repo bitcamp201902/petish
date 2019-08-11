@@ -68,19 +68,6 @@ public class AdminUserController {
 		return "petish/admin/user";
 	}
 	
-	@RequestMapping(value="/report", produces="application/json;charset=UTF-8")
-	public ModelAndView report() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("petish/admin/report");
-		return mv;
-	}
-	
-	@RequestMapping(value="/question", produces="application/json;charset=UTF-8")
-	public ModelAndView question() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("petish/admin/question");
-		return mv;
-	}
 	
 	
 }
