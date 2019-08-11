@@ -65,7 +65,7 @@
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-<script src="/resources/js/mypage/mypage.js"></script>
+
 <style>
 <!--
 css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
@@ -600,6 +600,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 
 		//2. 내가 댓글 쓴 글
 		commented.on("click", function(e) {
+			alert("하이");
 			showCommentedList();
 			pageNum = 1;
 		})

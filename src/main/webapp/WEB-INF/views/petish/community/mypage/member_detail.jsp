@@ -63,7 +63,7 @@
 
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-<script src="/resources/js/mypage/mypage.js"></script>
+
 <style>
 <!--
 css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
