@@ -1,14 +1,7 @@
 <%@page import="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage"%>
 <%@page import="com.community.petish.community.mypage.dto.request.MessageRequestDTO"%>
 <%@page import="com.community.petish.community.mypage.dto.response.MessageResponseDTO"%>
-<%@ page import="java.util.*"%>
-<%@ page import="com.community.petish.community.mypage.*"%>
 <%
-	/* ArrayList<MessageResponseDTO> receivedList = (ArrayList) request.getAttribute("receivedList");
-	int undeletedReceived = (int) request.getAttribute("undeletedReceived");
-	ArrayList<MessageResponseDTO> sentList = (ArrayList) request.getAttribute("sentList");
-	int undeletedSent = (int) request.getAttribute("undeletedSent"); */
-	
 	MessageResponseDTO dto = null;
 %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -131,9 +124,19 @@
 														id="ajaxList">
 
 													</table>
-									
+												
 													<div class="receivedfooter"></div>
 													<div class="sentfooter"></div>
+													<select name='type'>
+														<option value=''>--</option>
+														<option value='T'>제목</option>
+														<option value='S'>보낸사람</option>
+														<option value='R'>받는사람</option>
+													</select>
+													<input type='text' name='keyword' />
+													<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+													<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+													<button>Search</button>
 												</div>
 
 											</div>

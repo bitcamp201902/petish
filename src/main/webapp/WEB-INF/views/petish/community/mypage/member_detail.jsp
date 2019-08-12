@@ -228,7 +228,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 			//1. 내가 쓴 글
 			function getWritingList(param, callback, error) {
 
-				 var page = param.page || 1; 
+				var page = param.page || 1; 
 				var member_id = <%=member.getId()%>
 				$.getJSON("/member/api/Writinglist/" + member_id + "/" + page + ".json",
 						function(data) {
@@ -481,8 +481,9 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 								for (var i = 0, len = list.length || 0; i < len; i++) {
 									str += "<tr><td class='font-grey'>"
 											+ list[i].boardType + "</td>";
-									str += "<td><a href='' class='nondeco'>"
-											+ list[i].title + "</td>";
+											str += "<td><a href='"
+												+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+												+ list[i].title + "</a></td>";
 									str += "<td class='nondeco'>"
 											+ list[i].created_date + "</td>";
 									str += "<td class='nondeco'>"
@@ -522,8 +523,9 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 								for (var i = 0, len = list.length || 0; i < len; i++) {
 									str += "<tr><td class='font-grey'>"
 											+ list[i].boardType + "</td>";
-									str += "<td><a href='' class='nondeco'>"
-											+ list[i].title + "</td>";
+											str += "<td><a href='"
+												+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+												+ list[i].title + "</a></td>";
 									str += "<td class='dropdown'><div class='nondeco'>"
 											+ list[i].nickname
 											+ "</div>"
@@ -572,9 +574,9 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
 									str += "<tr><td class='font-grey'>자유게시판</td>";
-									str += "<td><a href='' class='nondeco'>"
-											+ list[i].title
-											+ "</a></td>";
+									str += "<td><a href='"
+										+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+										+ list[i].title + "</a></td>";
 									str += "<td><div class='dropdown'><div class='nondeco'>"
 										+ list[i].nickname
 										+ "</a>";
