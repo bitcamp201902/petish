@@ -114,7 +114,7 @@
     				output += '<tr>';
     				output += '<td>'+item.id+'</td>';
     				output += '<td>'+item.board_table_name+'</td>';
-    				output += '<td><a href="'+item.board_table_address+'list">'+item.post_id+'</a></td>';
+    				output += '<td><a href="'+item.board_table_address+''+item.post_id+'">'+item.post_id+'</a></td>';
     				output += '<td>'+item.category_name+'</td>';
     				output += '<td>'+item.nickname+'</td>';
     				output += '<td>'+item.created_date+'</td>';

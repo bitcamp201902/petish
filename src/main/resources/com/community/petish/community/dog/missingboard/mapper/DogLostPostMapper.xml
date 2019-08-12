@@ -155,7 +155,7 @@
 			select dog_lost_post_id_seq.nextval from dual
 		</selectKey>
 
-		insert into dog_lost_post_tb
+		insert into dog_lost_post_tb(id, dog_name,dog_age,dog_gender,dog_description,dog_image,dog_lost_date,phone_number,dog_lost_address, reward, view_count, create_date,updated_date,found,deleted,region_id,user_id,species_id)
 		values(
 		#{id},
 		#{dog_name,
