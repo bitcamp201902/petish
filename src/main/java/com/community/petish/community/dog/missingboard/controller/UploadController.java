@@ -101,7 +101,7 @@ public class UploadController {
 		//업로드 할 경로
 		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/missingboard/dog");
 		
-		String uploadPathSplit = "C:\\Users\\bitcamp\\Documents\\workspace-sts-3.9.8.RELEASE\\petish_new\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\petish";
+		//String uploadPathSplit = "C:\\Users\\bitcamp\\Documents\\workspace-sts-3.9.8.RELEASE\\petish_new\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\petish";
 		
 		String test = uploadPath.substring(0, uploadPath.lastIndexOf("\\resources"));
 		System.out.println("test + " + test);
