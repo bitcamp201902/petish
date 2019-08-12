@@ -28,7 +28,11 @@ $(function() {
 
     $('#joinButton').on('click', function(event) {
         handledJoinClick(event);
-    })
+    });
+
+    $('#password_input').on("keyup", function(event) {
+        handledPressKey(event);
+    });
 
 });
 
@@ -71,6 +75,12 @@ const handledLoginClick = (event) => {
 		}
 
 	})
+};
+
+const handledPressKey = (event) => {
+    if (event.key === "Enter") {
+        handledLoginClick(event);
+    }
 };
 
 const requestUsernameCertification = () => {
