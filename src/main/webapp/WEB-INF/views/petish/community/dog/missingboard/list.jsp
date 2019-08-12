@@ -2,8 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 <%@ page import="com.community.petish.community.dog.missingboard.dto.*"%>
-<%@ page import="com.community.petish.community.dog.missingboard.domain.*"%>
-<%@ page import="com.community.petish.community.user.dto.response.LoginedUser"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
@@ -30,39 +28,13 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
-<!-- Bootstrap CSS-->
-<link rel="stylesheet"
-	href="/resources/vendor/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome CSS-->
-<link rel="stylesheet"
-	href="/resources/vendor/font-awesome/css/font-awesome.min.css">
-<!-- Google fonts - Roboto-->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
-<!-- Bootstrap Select-->
-<link rel="stylesheet"
-	href="/resources/vendor/bootstrap-select/css/bootstrap-select.min.css">
-<!-- owl carousel-->
-<link rel="stylesheet"
-	href="/resources/vendor/owl.carousel/assets/owl.carousel.css">
-<link rel="stylesheet"
-	href="/resources/vendor/owl.carousel/assets/owl.theme.default.css">
-<!-- theme stylesheet-->
-<link rel="stylesheet" href="/resources/css/style.lightblue.css"
-	id="theme-stylesheet">
-<!-- Custom stylesheet - for your changes-->
-<link rel="stylesheet" href="/resources/css/custom.css">
-<!-- Favicon and apple touch icons-->
 
 <!-- Tweaks for older IEs-->
 <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->	
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
 
-<!-- CSS 파일 추가 -->
 <link href="/resources/css/missingboard/list.css" rel="stylesheet">
-
-<!-- JS 파일 추가 -->
 <script src="/resources/js/missingboard/list.js"></script>
 
 </head>
@@ -108,7 +80,7 @@
 		<div id="content">
 			<div class="container">
 				<div style="text-align: right; margin: 1rem">
-					<button class="btn btn-template-outlined" id="writeBtn" >글쓰기				
+					<button class="btn btn-template-outlined write-button" id="writeBtn" >글쓰기
 					</button>
 				</div>
 
@@ -318,9 +290,9 @@
 	//반응형
 	function resize(){
 		if(window.innerWidth < 576){
-			
+
 			$('th[name=mobile-none]').css('display','none');
-			
+
 			$('.found').attr('float','left');
 			$('.found').width('40px');
 			$('.dogImage').width('100px');
@@ -328,63 +300,63 @@
 			$('.title').attr('display','unset!important');
 			$('.writer').width('70px');
 			$('.writer').attr('display','block');
-			
+
 			$('th[name=mobile-image]').css('width','100px');
 			$('th[name=mobile-image]').css('heigh','100px');
-			
+
 			$('.table td').css('padding','5px');
-			$('.table th').css('padding','5px');			
+			$('.table th').css('padding','5px');
 		}
-		else {			
+		else {
 			$('th[name=mobile-none]').css('display','flexible');
-		}		
+		}
 	}
-	
-	$(window).resize(function(){		
+
+	$(window).resize(function(){
 		resize();
 	});
-	
-	$(document).ready(function(){		
+
+	$(document).ready(function(){
 		resize();
-		
+
 		//로그인 확인
 		   $('#writeBtn').on("click", function(e){
 			   <% if(loginedUser == null){ %>
-				   alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");				   
-				   $('#login-modal').modal("show");	
-				   
+				   alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");
+				   $('#login-modal').modal("show");
+
 			   <%}else{%>
 			   		window.location.href='/dog/missingboard/writeForm';
 			   <%}%>
 		   });
-		
+
 		 //쪽지 전송 시 로그인 확인
 		   $('#message-btn').on("click", function(e){
 			   <% if(loginedUser == null){ %>
 				   alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");
-				   $('#login-modal').modal("show");				   
-			   <%} else{%>		   
+				   $('#login-modal').modal("show");
+			   <%} else{%>
 			   		$(this).attr('data-target',"#message-modal");
 			   		$('#message-modal').modal("show");
 			   <%}%>
 		   });
-		 
+
 		   //쪽지 전송
-			 $('#modalSendBtn').click(function(event){			 
+			 $('#modalSendBtn').click(function(event){
 				   event.preventDefault();
-				   
+
 				   var messageModal = $("#message-modal"); //모달창
-				   
+
 				   var modalInputTitle = messageModal.find("input[name='title']"); //모달창 제거
 				   var modalInputContent = messageModal.find("textarea[name='content']"); //모달창 내용
 				   var senderId = $("#sender_id").val();
 				   var receiverId = $("#receiver_id").val();
-				   
+
 				   var modalSendBtn = $("#modalSendBtn"); //모달 보내기 버튼
-				   
+
 				   var msg = $("#message_form").serialize();
 				   alert(msg);
-			       
+
 		           $.ajax({
 		               url : '/mypage/api/message/new',
 		               type : 'post',
@@ -393,7 +365,7 @@
 		               dataType : "json",
 		               beforeSend : function(){
 		            	   if(senderId == "" || senderId == "null"){
-		            		   alert("로그인 후 이용할 수 있습니다. 로그인 해주세요.");		            		   
+		            		   alert("로그인 후 이용할 수 있습니다. 로그인 해주세요.");
 		            		   return false;
 		            	   }
 		            	   else{
@@ -414,51 +386,51 @@
 			           }
 		           });
 			 });
-				 
+
 		//즉시 실행 함수
-		   (function(){			  
-			<% 
+		   (function(){
+			<%
 			 	for (int i = 0; i < dtoList.size() ; i++) {
-					DogLostPostResponseListDTO dto = (DogLostPostResponseListDTO) dtoList.get(i);					
-					int index = i;					
+					DogLostPostResponseListDTO dto = (DogLostPostResponseListDTO) dtoList.get(i);
+					int index = i;
 			%>
-			
+
 			 var id = <%=dto.getId()%>;
-			 
-	          $.getJSON("/dog/missingboard/getAttachList/<%=dto.getId()%>", function(arr){              
-	              
+
+	          $.getJSON("/dog/missingboard/getAttachList/<%=dto.getId()%>", function(arr){
+
                   var str = "";
 	              //첨부된 이미지 파일 출력
 	              $(arr).each(function(i, attach){
-	            	  
-	                  if(attach.fileType){	                	
+
+	                  if(attach.fileType){
 	                    var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/"+attach.uuid +"_"+attach.fileName); //파일 이름(썸네일)
-	              			                   
-	                    str += "<img id='lostdogImg' src='/display?fileName="+fileCallPath+"'>";                                   
-	                  	
-	                    return false; //첨부된 사진들 중 맨 첫번쨰 사진만 출력	                    
-	                   }	                  
+
+	                    str += "<img id='lostdogImg' src='/display?fileName="+fileCallPath+"'>";
+
+	                    return false; //첨부된 사진들 중 맨 첫번쨰 사진만 출력
+	                   }
 	              });
 
 	              $("#imageInsert<%=index%>").append(str);
-	                
-	              });//end getjson 
-	              
-	          <%	      
+
+	              });//end getjson
+
+	          <%
 			 	}
 			 %>
-	        })();//end function	    
-			    
+	        })();//end function
+
 		//삭제 확인 메세지
 		if ('${delete_msg}' == "success")
 			alert("게시글 삭제 완료");
 		else if ('${delete_msg}' == "failure")
 			alert("게시글 삭제 실패");
-		
+
 		//각각 페이지 버튼
 		 var actionForm = $("#actionForm");
 	 	 //var paginateBtn = $(""')
-		
+
 	 	 $("a[name='pagination_button']").on("click", function(e){
 
 				e.preventDefault();
@@ -466,26 +438,26 @@
 				actionForm.find("input[name='pageNum']").val($(this).attr("href"));
 				actionForm.submit();
 			});
-		 
+
 		//검색
 		 var searchForm = $("#searchForm");
 		 $("#searchBtn").on("click", function(e){
-			 
+
 			 if(!searchForm.find("option:selected").val()){
 				 alert("검색종류를 선택하세요");
 				 return false;
-			 }			 
+			 }
 			 if(!searchForm.find("input[name='keyword']").val()){
 				 alert("키워드를 입력하세요");
 				 return false;
 			 }
-			 
+
 			 //검색 결과 페이지 1페이지
 			 searchForm.find("input[name='pageNum']").val("1");
 			 e.preventDefault();
-			 
+
 			 searchForm.submit();
-		 })		 
+		 })
 	});
 	</script>
 
