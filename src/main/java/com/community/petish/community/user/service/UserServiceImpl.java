@@ -46,6 +46,18 @@ public class UserServiceImpl implements UserService{
 		
 		String encodedPassword = passwordEncoder.encode(saveUserParams.getPassword());
 		saveUserParams.setPassword(encodedPassword);
+
+		String picture;
+		if ( saveUserParams.getGender().equals("남자")) {
+		  picture = "/resources/img/user/picture_man.jpg";
+    } else {
+		  picture = "/resources/img/user/picture_woman.jpg";
+    }
+
+    saveUserParams.setPicture(picture);
+
+		log.info("회원 가입 시도 saveUserParams = {}, picture = {}", saveUserParams, picture);
+
 		Long userId =  userMapper.save(saveUserParams);
 		return userId;
 	}
@@ -100,7 +112,7 @@ public class UserServiceImpl implements UserService{
 		session.setAttribute("CERTIFICATE_NUMBER", certificateNumber);
 		session.setAttribute("USERNAME", username);
 
-	    log.info("이메일 인증 요청 username = {}, 메일 내용 = {}", username, mailContent);
+		log.info("이메일 인증 요청 username = {}, 메일 내용 = {}", username, mailContent);
 
 	}
 
@@ -110,6 +122,9 @@ public class UserServiceImpl implements UserService{
 		String usernameFromApi = (String) session.getAttribute("USERNAME");
 		Boolean isCertificated =  certificateNumber.equals(certificateNumberFromApi) && username.equals(usernameFromApi);
 		log.info("인증 번호 확인 certificate number = {}, certificate number from api = {}, 인증 성공 = {}", certificateNumber, certificateNumberFromApi, isCertificated);
+		if (isCertificated) {
+		  session.invalidate();
+    }
 		return isCertificated;
 	}
 
