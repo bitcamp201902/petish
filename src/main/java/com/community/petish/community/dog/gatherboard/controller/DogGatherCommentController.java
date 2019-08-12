@@ -23,7 +23,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import lombok.extern.log4j.Log4j;
 
-@RequestMapping("/dog/gatherboard")
+@RequestMapping("/dog/gatherboard/comments")
 @RestController
 @Log4j
 public class DogGatherCommentController {

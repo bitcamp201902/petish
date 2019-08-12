@@ -15,6 +15,7 @@
         <ul class="app-breadcrumb breadcrumb side">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
           <li class="breadcrumb-item">강아지</li>
+          <li class="breadcrumb-item active"><a href="/admin/dog/gatherboard">정모 게시판</a></li>
           <li class="breadcrumb-item active"><a href="/admin/dog/gatherboard">강아지 게시판</a></li>
         </ul>
       </div>
@@ -22,26 +23,31 @@
         <div class="col-md-12">
           <div class="tile">
             <div class="tile-body">
-              <table class="table table-hover table-striped" id="sampleTable">
-                <thead>
-                  <tr>
-                    <th>번호</th>
-                    <th>상태</th>
-                    <th>지역</th>
-                    <th>크기</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>작성일자</th>
-                    <th>조회</th>
-                    <th>삭제</th>
-                  </tr>
-                </thead>
-                <tbody id="gatherboardList">
-                 
-                </tbody>
-              </table>
-              <div id="ddd">
-              </div>
+           		<div id="postCount"></div>
+	              <table class="table table-hover table-striped" id="sampleTable">
+	                <thead class="text-center">
+	                  <tr>
+	                    <th>번호</th>
+	                    <th>지역</th>
+	                    <th>크기</th>
+	                    <th>제목</th>
+	                    <th>작성자</th>
+	                    <th>작성일자</th>
+	                    <th>조회</th>
+	                    <th>상태</th>
+	                    <th>삭제</th>
+	                  </tr>
+	                </thead>
+	                <tbody id="gatherboardList" class="text-center">
+					        </tbody>
+	              </table>
+	              <div>
+	                   <div class="post-footer d-flex justify-content-center"></div>
+	              </div>
+	              <!-- page-form -->       
+                <form id="page_form">
+						      <input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}'>
+					      </form>	  
             </div>
           </div>
         </div>
