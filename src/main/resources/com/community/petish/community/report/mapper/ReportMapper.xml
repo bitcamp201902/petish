@@ -22,7 +22,7 @@
 	
 	<result property="post_id" column="POST_ID" />
 	<result property="board_table_name" column="BOARD_TABLE_NAME" />
-	<result property="board_table_address" column="BOARD_TABLE_ADDERSS" />	
+	<result property="board_table_address" column="BOARD_TABLE_ADDRESS" />	
 	<result property="user_id" column="USER_ID" />	
 	<result property="nickname" column="NICKNAME" />
 </resultMap>
