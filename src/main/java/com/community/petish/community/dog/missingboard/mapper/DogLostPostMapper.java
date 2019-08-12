@@ -34,5 +34,5 @@ public interface DogLostPostMapper {
 	int deletePost(Long id);
 	
 	//쪽지 전송(파라미터 : 게시글 아이디)
-	int sendMessage(@Param("id") Long id, @Param("content") String content);	
+	int sendMessage(@Param("id") Long id,  @Param("content") String content, @Param("senderId") Long senderId);
 }
