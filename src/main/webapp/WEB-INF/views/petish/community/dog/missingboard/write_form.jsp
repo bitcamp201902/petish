@@ -44,6 +44,7 @@
 <!-- datetimepicker 추가 -->
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
 
+
 </head>
 
 <body>
@@ -277,8 +278,6 @@
 			</div>
 		</div>
 	</div>
-
-	<script src="/resources/js/missingboard/write_modify.js"></script>
 
 	<!-- JS 파일 추가 -->
 	<script src="/resources/js/missingboard/write_modify.js"></script>
