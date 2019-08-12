@@ -50,7 +50,7 @@
 		                    	<li class="dropdown-item"><a href="/dog/freeboard/list" class="nav-link">자유게시판</a></li>
 		                    	<li class="dropdown-item"><a href="/dog/gatherboard" class="nav-link">정모게시판</a></li>
 			                    <li class="dropdown-item"><a href="/dog/infoboard/list" class="nav-link">건강</a></li>
-			                    <li class="dropdown-item"><a href="/dog/missingboard/list" class="nav-link">실종견</a></li>
+			                    <li class="dropdown-item"><a href="/dog/missingboard" class="nav-link">실종견</a></li>
 		                  </ul>
 		                </li>
 						<!-- Dog END -->
@@ -60,7 +60,7 @@
 			                    <li class="dropdown-item"><a href="/cat/freeboard/list" class="nav-link">자유게시판</a></li>
 			                    <li class="dropdown-item"><a href="/cat/gatherboard" class="nav-link">정모게시판</a></li>
 			                    <li class="dropdown-item"><a href="/cat/infoboard/list" class="nav-link">건강</a></li>
-			                    <li class="dropdown-item"><a href="/cat/missingboard/list" class="nav-link">실종묘</a></li>
+			                    <li class="dropdown-item"><a href="/cat/missingboard" class="nav-link">실종묘</a></li>
 		                  </ul>
 		                </li>
 						<!-- Cat END -->
