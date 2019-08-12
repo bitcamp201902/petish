@@ -1,11 +1,13 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="com.community.petish.community.user.dto.response.LoginedUser"%>
-<link rel="stylesheet" href="/resources/css/top/top.css">
-<link rel="stylesheet" href="/resources/css/top/modal.css?after">
-<link rel="stylesheet" href="/resources/vendor/font-awesome/css/font-awesome.min.css">
+
 <!-- JavaScript File -->
 <%@ include file="/WEB-INF/views/commons/link.jspf" %>
 <%@ include file="/WEB-INF/views/commons/script.jspf" %>
+
+<link rel="stylesheet" href="/resources/css/top/top.css">
+<link rel="stylesheet" href="/resources/css/top/modal.css?after">
+<link rel="stylesheet" href="/resources/vendor/font-awesome/css/font-awesome.min.css">
 
 <%
 	LoginedUser loginedUser = (LoginedUser) session.getAttribute("LOGIN_USER");
@@ -33,7 +35,7 @@
 	<header class="nav-holder make-sticky">
 		<div id="navbar" role="navigation" class="navbar navbar-expand-lg">
 			<div class="container">
-				<a href="/dog/freeboard/list" class="navbar-brand home">
+				<a href="/" class="navbar-brand home">
                     <img src="/resources/img/logo.png" id="logo" alt="Universal logo" class="d-none d-md-inline-block">
                     <img src="/resources/img/logo.png" id="logo" alt="Universal logo" class="d-inline-block d-md-none">
                     <span class="sr-only"></span>
