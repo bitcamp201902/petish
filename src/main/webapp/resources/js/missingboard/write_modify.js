@@ -66,7 +66,7 @@ function showUploadResult(uploadResultArr) {
 			str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 			str += "<img src='/display?fileName=" + fileCallPath + "'>";
 			str += "</div>";
-			str + "</li>";
+			str += "</li>";
 
 			console.log("(obj.image)str : " + str);
 		}
