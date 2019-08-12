@@ -209,7 +209,7 @@
 	<!-- 게시글 등록 시 쪽지 전송 -->
 	<insert id="sendMessage">
 		INSERT INTO message_tb(id, title, content, sender_id, receiver_id)
-		SELECT ((select NVL(max(id), 0) from MESSAGE_tb) + 1), '[실종견 알림]', #{content, jdbcType=VARCHAR}, 1, u.id
+		SELECT ((select NVL(max(id), 0) from MESSAGE_tb) + 1), '[실종견 알림]', #{content, jdbcType=VARCHAR}, #{senderId}, u.id
 		FROM user_tb u, dog_lost_post_tb d
 		WHERE d.id=#{id}
 		AND SUBSTR(u.address, 0, INSTR(u.address, ' ', 1, 3)) = SUBSTR(d.dog_lost_address, 0, INSTR(d.dog_lost_address, ' ', 1, 3))

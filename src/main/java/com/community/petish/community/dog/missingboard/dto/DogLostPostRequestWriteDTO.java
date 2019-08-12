@@ -34,7 +34,7 @@ public class DogLostPostRequestWriteDTO {
 	
 	private int found; //발견
 	
-	private int user_id; //유저 식별자
+	private Long user_id; //유저 식별자
 	private int species_id; //강아지 종류 식별자	
 	
 	private List<AttachFileVO> attachList; //이미지 업로드

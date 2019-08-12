@@ -95,6 +95,7 @@ public class DogLostPostServiceImpl implements DogLostPostService{
 		String address = dto.getDog_lost_address();
 		
 		Long id = dto.getId(); //게시글 번호
+		Long senderId = dto.getUser_id(); //발신자
 		
 		String postURL = "/dog/missingboard/"+id; //실종견 게시글 주소
 		//String content = "["+ address + "]" + " 실종견 게시글이 등록되었습니다.\r" + postURL;
@@ -109,7 +110,7 @@ public class DogLostPostServiceImpl implements DogLostPostService{
 		String content = sb.toString();
 		System.out.println("content : " + content);
 		
-		int messageResult = mapper.sendMessage(id, content);
+		int messageResult = mapper.sendMessage(id, content, senderId);
 		System.out.println("보낸 매세지 : " + messageResult);
 		
 		if(messageResult >= 0) {
