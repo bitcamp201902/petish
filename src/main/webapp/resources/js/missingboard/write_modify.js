@@ -1,4 +1,5 @@
 //첨부 사진 추가
+var formObj = $("#dogLostPostForm");
 var regex = new RegExp("(.*?)\.(exe|sh|zip|alz)$");
 var maxSize = 5242880; // 5MB
 
@@ -199,10 +200,8 @@ inputBtn.on("click", function(e) {
 			$("input[name='dog_gender']").prop("value", "암컷")
 		}
 	});
-
-	// 첨부 이미지
-	var formObj = $("#dogLostPostForm");
 	
+	// 첨부 이미지
 	var str = "";
 	var fileName = "";
 	var uuid = "";
