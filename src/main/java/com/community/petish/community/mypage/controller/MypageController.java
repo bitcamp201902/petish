@@ -104,6 +104,7 @@ public class MypageController {
 	   public String uploadFormPost(MultipartFile[] uploadFile, HttpServletRequest request, UserModifyPictureDTO_Mypage dto) {
 
 	      String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/mypage");
+	      log.info(uploadPath);
 	      for (MultipartFile multipartFile : uploadFile) {
 
 	         log.info("-------------------------------------");
