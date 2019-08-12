@@ -8,8 +8,6 @@
 
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 
-<%--	<%@ include file="/WEB-INF/views/commons/link.jspf" %>--%>
-<%--    <%@ include file="/WEB-INF/views/commons/script.jspf" %>--%>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
 
     <link rel="stylesheet" href="/resources/css/mypet/mypet.css">
