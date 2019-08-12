@@ -1,11 +1,9 @@
-<%@page import="com.community.petish.community.user.dto.UserResponseDTO_Mypage"%>
-<%@page import="com.community.petish.community.mypage.dto.Writings_LikedDTO"%>
-<%@page import="com.community.petish.community.mypage.dto.Writings_CommentedDTO"%>
-<%@page import="com.community.petish.community.mypage.dto.MyWritingsDTO"%>
+<%@page import="com.community.petish.community.mypage.dto.response.Writings_LikedDTO"%>
+<%@page import="com.community.petish.community.mypage.dto.response.Writings_CommentedDTO"%>
+<%@page import="com.community.petish.community.mypage.dto.response.MyWritingsDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.*"%>
-<%@ page import="com.community.petish.community.mypage.*"%>
+<%@ page import="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%
@@ -62,9 +60,8 @@
 <link rel="apple-touch-icon" sizes="152x152"
 	href="/resources/img/apple-touch-icon-152x152.png">
 
-<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-<script src="/resources/js/mypage/mypage.js"></script>
+
 <style><!-- css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 .dropdown {
 	position: relative;
@@ -680,21 +677,6 @@
 							
 						});
 	</script>
-	<!-- Javascript files-->
-	<script src="/resources/vendor/jquery/jquery.min.js"></script>
-	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
-	<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/resources/vendor/jquery.cookie/jquery.cookie.js"></script>
-	<script src="/resources/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
-	<script
-		src="/resources/vendor/jquery.counterup/jquery.counterup.min.js"></script>
-	<script src="/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
-	<script
-		src="/resources/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
-	<script src="/resources/js/jquery.parallax-1.1.3.js"></script>
-	<script
-		src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
-	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
-	<script src="/resources/js/front.js"></script>
+    <script src="/resources/js/mypage/mypage.js"></script>
 </body>
 </html>

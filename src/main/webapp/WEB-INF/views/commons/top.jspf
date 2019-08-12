@@ -4,7 +4,9 @@
 <link rel="stylesheet" href="/resources/css/top/modal.css?after">
 <link rel="stylesheet" href="/resources/vendor/font-awesome/css/font-awesome.min.css">
 <!-- JavaScript File -->
-<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<%@ include file="/WEB-INF/views/commons/link.jspf" %>
+<%@ include file="/WEB-INF/views/commons/script.jspf" %>
+
 <%
 	LoginedUser loginedUser = (LoginedUser) session.getAttribute("LOGIN_USER");
 %>
@@ -86,7 +88,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li class="dropdown-item"><a href="/mypage/" class="nav-link" style="font-size: 0.9rem;">마이페이지</a></li>
-								<li class="dropdown-item"><a href="/mypage/message/list" class="nav-link" style="font-size:0.9rem;">쪽지함</a></li>
+								<li class="dropdown-item"><a href="/mypage/message/list" class="nav-link" style="font-size:0.9rem;">쪽지함   <i class='fa fa-envelope' style='font-size:15px;color:grey;'>3</i></a></li>
 								<li class="dropdown-item"><a href="/mypage/question/list" class="nav-link" style="font-size:0.9rem;">문의함</a></li>
 								<li class="dropdown-item"><a href="#" class="nav-link" id="logout-button" style="font-size: 0.9rem;">로그아웃</a></li>
 							</ul>

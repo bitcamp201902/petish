@@ -662,38 +662,6 @@
 		}
 	});
 	</script>
-	
-	
-	<!-- Javascript files-->
-	
-	<script src="/resources/vendor/popper.js/umd/popper.min.js">
-		
-	</script>
-	<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/resources/vendor/jquery.cookie/jquery.cookie.js">
-		
-	</script>
-	<script src="/resources/vendor/waypoints/lib/jquery.waypoints.min.js">
-		
-	</script>
-	<script
-		src="/resources/vendor/jquery.counterup/jquery.counterup.min.js">
-		
-	</script>
-	<script src="/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
-	<script
-		src="/resources/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
-	<script src="/resources/js/jquery.parallax-1.1.3.js"></script>
-	<script
-		src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
-	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
-	<script src="/resources/js/front.js"></script>
-
-	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
-	<script src="/resources/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
-	<script src="/resources/js/datepicker_missingboard.js"></script>
-	<script src="/resources/js/boardMap/modify_map.js"></script>
-	<script src="/resources/js/region.js"></script>
 
 </body>
 </html>

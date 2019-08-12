@@ -1,4 +1,4 @@
-package com.community.petish.community.mypage.dto;
+package com.community.petish.community.mypage.dto.request;
 
 import org.springframework.stereotype.Component;
 
@@ -20,5 +20,7 @@ public class QuestionRequestDTO {
 
 	// 문의카테고리 식별자
 	private int category_id;
+	
+	private Long  id;
 	
 }

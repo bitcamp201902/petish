@@ -202,7 +202,7 @@
 			</div>
 		</div>
 	
-		<%@ include file="/WEB-INF/views/commons/script.jspf" %>
+<%--		<%@ include file="/WEB-INF/views/commons/script.jspf" %>--%>
 		<!-- include list.js -->
 		<script src="/resources/js/gatherboard/list.js"></script>
 

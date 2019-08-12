@@ -1,5 +1,6 @@
 $(document).ready(function() {
 
+
 	$("#qnaList tr:odd").addClass("odd");
 	$("#qnaList tr:not(.odd)").hide();
 	$("#qnaList tr:first-child").show(); // 열머리글 보여주기
@@ -10,5 +11,5 @@ $(document).ready(function() {
 
 	});
 
-});
 
+});	

@@ -24,8 +24,6 @@
 <meta charset="utf-8">
 <title>정모게시판 글 수정</title>
 	
-	<%@ include file="/WEB-INF/views/commons/link.jspf" %>
-		
 	<!-- datetimepicker 추가 -->
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" >
 	<!-- include summernote css/js-->

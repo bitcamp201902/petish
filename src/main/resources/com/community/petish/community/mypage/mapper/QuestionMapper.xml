@@ -4,7 +4,7 @@
 
 <mapper namespace="com.community.petish.community.mypage.mapper.QuestionMapper">
 	
-	<resultMap type="com.community.petish.community.mypage.dto.QuestionResponseDTO" id="QuestionResultMap">
+	<resultMap type="com.community.petish.community.mypage.dto.response.QuestionResponseDTO" id="QuestionResultMap">
 		<result property="id" column="ID" />
 		<result property="title" column="TITLE" />
 		<result property="content" column="CONTENT" />
@@ -17,10 +17,9 @@
 	</resultMap>
 	
 	<!-- 문의 등록-->
-	<insert id="insertQuestion" parameterType="com.community.petish.community.mypage.dto.QuestionRequestDTO">
-		insert into QUESTION_TB (id, TITLE, CONTENT, USER_ID, CATEGORY_ID) values 
-		( (select NVL(max(id), 0) from question_tb ) + 1,
-		#{title}, #{content}, #{user_id}, #{category_id})
+	<insert id="insertQuestion" parameterType="com.community.petish.community.mypage.dto.request.QuestionRequestDTO">
+		insert into QUESTION_TB (id, TITLE, CONTENT, USER_ID, CATEGORY_ID) values
+		((select max(id) from question_tb)+1, #{title}, #{content}, #{user_id}, #{category_id})
 	</insert>
 	
 	<!-- 문의 조회 -->
@@ -52,5 +51,12 @@
 		SELECT COUNT (*) FROM QUESTION_TB WHERE DELETED = 0 and user_id = #{user_id}
 	</select>
 	
+	<select id="getQuestionCnt" resultType="int" parameterType="Long">
+	<![CDATA[
+		select count(*)
+		from question_tb
+		where user_id=#{user_id} and deleted=0
+	]]>
+	</select>
 	
 </mapper>

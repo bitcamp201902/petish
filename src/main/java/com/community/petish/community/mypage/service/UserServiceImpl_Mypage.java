@@ -1,11 +1,12 @@
 package com.community.petish.community.mypage.service;
 
-import com.community.petish.community.user.dto.UserModifyPictureDTO_Mypage;
-import com.community.petish.community.user.dto.UserModifyRequestDTO_Mypage;
-import com.community.petish.community.user.dto.UserResponseDTO_Mypage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.community.petish.community.mypage.mapper.MypageUserMapper;
+import com.community.petish.community.mypage.dto.request.UserModifyPictureDTO_Mypage;
+import com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage;
+import com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage;
 import com.community.petish.community.mypage.mapper.MypageUserMapper;
 
 import lombok.extern.log4j.Log4j;

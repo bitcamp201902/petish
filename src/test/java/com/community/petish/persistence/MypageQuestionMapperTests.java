@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.community.petish.community.mypage.dto.QuestionResponseDTO;
-import com.community.petish.community.mypage.dto.QuestionRequestDTO;
+import com.community.petish.community.mypage.dto.response.QuestionResponseDTO;
+import com.community.petish.community.mypage.dto.request.QuestionRequestDTO;
 import com.community.petish.community.mypage.mapper.QuestionMapper;
 
 import lombok.Setter;
@@ -44,7 +44,7 @@ public class MypageQuestionMapperTests {
 	//read test => 성공
 	@Test
 	public void testRead() {
-		ArrayList<QuestionResponseDTO> list= null; 
+		ArrayList<QuestionResponseDTO> list= null;
 		log.info(list);
 		HashMap<String, Integer> map = new HashMap<String, Integer>();
 		map.put("user_id", new Integer(1));

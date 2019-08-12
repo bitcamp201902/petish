@@ -3,11 +3,12 @@ package com.community.petish.admin.user.service;
 import java.util.List;
 
 import com.community.petish.admin.user.mapper.AdminMapper;
+import com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage;
+import com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.community.petish.admin.user.domain.getUserListDTO;
-import com.community.petish.community.user.dto.UserResponseDTO_Mypage;
 
 @Service("adminService")
 public class AdminServiceImpl implements AdminService {
@@ -60,7 +61,7 @@ public class AdminServiceImpl implements AdminService {
 		return adminMapper.getUser(id);
 	}
 	@Override
-	public Integer modifyUser(UserResponseDTO_Mypage modifyUser) {
+	public Integer modifyUser(UserModifyRequestDTO_Mypage modifyUser) {
 		return adminMapper.modifyUser(modifyUser);
 	}
 	

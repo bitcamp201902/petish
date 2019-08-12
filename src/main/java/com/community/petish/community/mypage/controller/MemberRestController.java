@@ -1,10 +1,5 @@
 package com.community.petish.community.mypage.controller;
 
-import java.util.List;
-
-import com.community.petish.community.mypage.dto.MyWritingsDTO;
-import com.community.petish.community.mypage.dto.Writings_CommentedDTO;
-import com.community.petish.community.mypage.dto.Writings_LikedDTO;
 import com.community.petish.community.mypage.service.DefaultService;
 import com.community.petish.community.mypage.service.MessageService;
 import com.community.petish.community.mypage.service.QuestionService;
@@ -18,61 +13,64 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.community.petish.community.mypage.dto.Criteria;
+import com.community.petish.community.mypage.dto.response.CommentedPageDTO;
+import com.community.petish.community.mypage.dto.response.Criteria;
+import com.community.petish.community.mypage.dto.response.LikedPageDTO;
+import com.community.petish.community.mypage.dto.response.WritingPageDTO;
 
 import lombok.extern.log4j.Log4j;
 
 @RestController
 @Log4j
-@RequestMapping("/user/api/*")
+@RequestMapping("/member/api/*")
 public class MemberRestController {
-	
-	@Autowired
-	private QuestionService questionServiceImpl;
-	@Autowired
-	private MessageService messageServiceImpl;
-	@Autowired
-	private UserService_Mypage userServiceImpl;
-	@Autowired
+
+  @Autowired
 	private DefaultService defaultServiceImpl;
 
-	//default
-		//default-내가 쓴 글 리스트
-		@GetMapping(value="/Writinglist/{member_id}",
-				produces = {
+	
+		@GetMapping(value="/Writinglist/{member_id}/{page}",
+				produces = {	
 						MediaType.APPLICATION_XML_VALUE,
 						MediaType.APPLICATION_JSON_UTF8_VALUE})
-		public ResponseEntity<List<MyWritingsDTO>> getWritingList(
-					Criteria cri, @PathVariable("member_id") int member_id){
+		public ResponseEntity<WritingPageDTO> getWritingList(
+					@PathVariable("member_id") Long member_id,
+					@PathVariable("page") int page
+					){
 					log.info("Writinglist");
+					log.info(member_id);
+					log.info("페이지"+page);
+					Criteria cri = new Criteria(page,10, member_id);
 					cri.setUser_id(member_id);
-					return new ResponseEntity<>(defaultServiceImpl.getMyWritingsWithPaging(cri), HttpStatus.OK);
+					return new ResponseEntity<>(defaultServiceImpl.getWritingListPaging(cri), HttpStatus.OK);
 				}
 		
-		//default-내가 댓글 쓴 글 리스트
-		@GetMapping(value="/Commentedlist/{member_id}",
+		@GetMapping(value="/Commentedlist/{member_id}/{page}",
 				produces = {
 						MediaType.APPLICATION_XML_VALUE,
 						MediaType.APPLICATION_JSON_UTF8_VALUE})
-		public ResponseEntity<List<Writings_CommentedDTO>> getCommentedList(
-					Criteria cri, @PathVariable("member_id") int member_id){
+		public ResponseEntity<CommentedPageDTO> getCommentedList(
+					@PathVariable("member_id") Long member_id,
+					@PathVariable("page") int page
+					){
 					log.info("Commentedlist");
+					Criteria cri = new Criteria(page,10, member_id);
 					cri.setUser_id(member_id);
-					return new ResponseEntity<>(defaultServiceImpl.getCommentedWithPaging(cri), HttpStatus.OK);
+					return new ResponseEntity<>(defaultServiceImpl.getCommentedListPaging(cri), HttpStatus.OK);
 				}
 
-		//default-내가 좋아요 한 글 리스트
-		@GetMapping(value="/Likedlist/{member_id}",
+		@GetMapping(value="/Likedlist/{member_id}/{page}",
 				produces = {
 						MediaType.APPLICATION_XML_VALUE,
 						MediaType.APPLICATION_JSON_UTF8_VALUE})
-		public ResponseEntity<List<Writings_LikedDTO>> getLikedList(
-					Criteria cri, @PathVariable("member_id") int member_id){
+		public ResponseEntity<LikedPageDTO> getLikedList(
+					@PathVariable("member_id") Long member_id,
+					@PathVariable("page") int page
+					){
 					log.info("Likedlist");
+					Criteria cri = new Criteria(page,10, member_id);
 					cri.setUser_id(member_id);
-					return new ResponseEntity<>(defaultServiceImpl.getLikedWithPaging(cri), HttpStatus.OK);
+					return new ResponseEntity<>(defaultServiceImpl.getLikedListPaging(cri), HttpStatus.OK);
 				}
-		
-		//message
 		
 }

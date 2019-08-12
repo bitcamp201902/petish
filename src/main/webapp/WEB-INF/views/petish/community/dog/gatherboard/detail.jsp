@@ -483,7 +483,7 @@
 		</div>
 
     <!-- script 파일 추가 -->
-	<%@ include file="/WEB-INF/views/commons/script.jspf" %>
+<%--	<%@ include file="/WEB-INF/views/commons/script.jspf" %>--%>
 	<!-- include category.js -->
 	<script src="/resources/js/gatherboard/post.js"></script>
 	<script src="/resources/js/gatherboard/chat.js"></script>

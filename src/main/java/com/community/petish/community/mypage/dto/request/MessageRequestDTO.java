@@ -1,4 +1,4 @@
-package com.community.petish.community.mypage.dto;
+package com.community.petish.community.mypage.dto.request;
 
 import lombok.Data;
 

@@ -13,7 +13,7 @@
 <meta charset="utf-8">
 <title>정모게시판 글 작성</title>
 	
-	<%@ include file="/WEB-INF/views/commons/link.jspf" %>
+<%--	<%@ include file="/WEB-INF/views/commons/link.jspf" %>--%>
 		
 	<!-- datetimepicker 추가 -->
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" >
@@ -179,7 +179,7 @@
 		</div>
 		
 	</div>
-	<%@ include file="/WEB-INF/views/commons/script.jspf" %>	
+<%--	<%@ include file="/WEB-INF/views/commons/script.jspf" %>	--%>
 	<!-- 다음지도 api 추가 -->
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
 	
