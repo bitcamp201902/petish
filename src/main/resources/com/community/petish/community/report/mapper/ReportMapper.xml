@@ -28,9 +28,9 @@
 
 <!-- 신고 작성 -->
 <insert id="insertReport" parameterType="com.community.petish.community.report.dto.ReportRequestDTO">
-	insert into report_post_tb
+	insert into report_post_tb (id, description, created_date, deleted, category_id, board_id, post_id, user_id)
 	values(
-	REPORT_ID_SEQ.nextval,
+	((select NVL(max(id), 0) from report_post_tb) + 1),
 	#{description, jdbcType=VARCHAR},
 	sysdate, 0,
 	#{category_id, jdbcType=INTEGER},

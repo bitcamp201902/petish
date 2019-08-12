@@ -15,8 +15,8 @@ create index IDX_DOG_MISSING_COMMENT on DOG_LOST_COMMENT_TB(POST_ID  desc, ID as
 
 	<!-- 댓글 추가 -->
 	<insert id="insertComment" parameterType="com.community.petish.community.dog.missingboard.dto.DogLostCommentRequestDTO">
-		insert into DOG_LOST_COMMENT_TB(CONTENT, POST_ID, USER_ID)
-		values (#{content}, #{post_id}, #{user_id})
+		insert into DOG_LOST_COMMENT_TB(ID, CONTENT, CREATED_DATE, UPDATED_DATE, DELETED, POST_ID, USER_ID)
+		values(((select NVL(max(id), 0) from DOG_LOST_COMMENT_TB) + 1), #{content}, sysdate, sysdate, 0, #{post_id}, #{user_id})
 	</insert>
 	
 	<!-- 댓글 조회 -->

@@ -155,23 +155,21 @@
 			select dog_lost_post_id_seq.nextval from dual
 		</selectKey>
 
-		insert into dog_lost_post_tb
+		insert into dog_lost_post_tb(id, dog_name, dog_age, dog_gender,
+		dog_description, dog_image, dog_lost_date, phone_number,
+		dog_lost_address, reward, view_count, create_date, updated_date,
+		found, deleted, region_id, user_id, species_id)
 		values(
 		#{id},
-		#{dog_name,
-		jdbcType=VARCHAR},
+		#{dog_name,jdbcType=VARCHAR},
 		#{dog_age, jdbcType=VARCHAR},
-		#{dog_gender,
-		jdbcType=VARCHAR},
+		#{dog_gender, jdbcType=VARCHAR},
 		#{dog_description, jdbcType=VARCHAR},
-		#{dog_image,
-		jdbcType=VARCHAR},
+		#{dog_image, jdbcType=VARCHAR},
 		#{dog_lost_date, jdbcType=DATE},
-		#{phone_number,
-		jdbcType=VARCHAR},
+		#{phone_number, jdbcType=VARCHAR},
 		#{dog_lost_address, jdbcType=DATE},
-		#{reward,
-		jdbcType=INTEGER},
+		#{reward, jdbcType=INTEGER},
 		0, sysdate, sysdate, 0, 0, 1,
 		#{user_id},
 		#{species_id}
@@ -210,9 +208,8 @@
 
 	<!-- 게시글 등록 시 쪽지 전송 -->
 	<insert id="sendMessage">
-		INSERT INTO message(title, content, sender_id,
-		receiver_id)
-		SELECT '[실종견 알림]', #{content, jdbcType=VARCHAR}, 1, u.id
+		INSERT INTO message(id, title, content, sender_id, receiver_id)
+		SELECT ((select NVL(max(id), 0) from MESSAGE) + 1), '[실종견 알림]', #{content, jdbcType=VARCHAR}, 1, u.id
 		FROM user_tb u, dog_lost_post_tb d
 		WHERE d.id=#{id}
 		AND
