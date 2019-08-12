@@ -12,15 +12,15 @@ const resizeIcon = () => {
         $('.like-icon').addClass('fa-lg');
         $('.comment-icon').addClass('fa-lg');
     }
-}
+};
 
 $(window).ready(function() {
     resizeIcon();
-}) 
+});
 
 $(window).resize(function() {
     resizeIcon();
-})
+});
 
 const checkAuthentication = (callback, param) => {
 	$.ajax({
@@ -39,11 +39,11 @@ const checkAuthentication = (callback, param) => {
 			}
 		}
 	})
-}
+};
 
 const likeDoubleClick = () => {
     likeClick();
-}
+};
 
 const likeClick = () => {
     
@@ -52,7 +52,7 @@ const likeClick = () => {
 	checkAuthentication(likePost, id);
 	
 //    likePost(id);
-}
+};
 
 const likePost = (id) => {
 	$.ajax({
@@ -74,7 +74,7 @@ const likePost = (id) => {
 			console.log("좋아요 오청 실패");
 		}
 	})
-}
+};
 
 const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -86,7 +86,7 @@ const handleKeyPress = (e) => {
         
         e.target.value = '';
     }
-}
+};
 
 const addReply = (formData) => {
 	
@@ -107,7 +107,7 @@ const addReply = (formData) => {
 	    	$("#login-modal").modal("show");
 	    }
 	})
-}
+};
 
 
 const openPost = (id) => {
@@ -118,7 +118,7 @@ const openPost = (id) => {
 	makeLikeStatus(id);
 	
     $('#mypet-detail-modal').modal('show');
-}
+};
 
 const makePostPart = (id) => {
 	let userId;
@@ -135,36 +135,38 @@ const makePostPart = (id) => {
 				imageTag = "<img src=" + images[0] + ">";
 				
 			} else {
-				
-				imageTag = '<div id="mypetPictureExample">';
-				imageTag += '	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">'
+
+				imageTag = '	<div id="mypet-detail-carousel" class="carousel slide" data-ride="carousel" data-interval="false">';
 				imageTag +='		<div class="carousel-inner">';
 							
 				for ( i in images ) {
 					let img;
-					
+
 					if ( i == 0 ) {
 						img = '<div class="carousel-item active" >';
 					} else {
 						img = '<div class="carousel-item" >';
 					}
-					
-					img += '<img class="d-block w-100" src=' + images[i] + '>' +
-					'</div>';
+
+					img += '<div class="carousel-item-inner">';
+					img += '<div class="img-wrapper">';
+					img += '<img src=' + images[i] + '/>';
+					img += '</div>';
+					img += '</div>';
+					img += '</div>';
 					imageTag += img;
 				}
 				
 				imageTag += '	</div>';
-				imageTag += '		<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">';
+				imageTag += '		<a class="carousel-control-prev" href="#mypet-detail-carousel" role="button" data-slide="prev">';
 				imageTag += '			<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
 				imageTag += '			<span class="sr-only">Previous</span>';
 				imageTag += '		</a>';
-				imageTag += '		<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">';
+				imageTag += '		<a class="carousel-control-next" href="#mypet-detail-carousel" role="button" data-slide="next">';
 				imageTag += '			<span class="carousel-control-next-icon" aria-hidden="true"></span>';
 				imageTag += '			<span class="sr-only">Next</span>';
 				imageTag += '		</a>';
-				imageTag += '	</div>'
-				imageTag += '</div>';
+				imageTag += '	</div>';
 
 			}
 			
@@ -175,8 +177,7 @@ const makePostPart = (id) => {
 			$('#post-content').html(result.content);
 
 			// date 변환
-			let createdDate = new Date(result.createdDate);
-		    $('#created-date').html(createdDate.toDateString());
+            $('#created-date').html(makeDateString(new Date(result.createdDate)));
 		    
 		    //userId 부여
 		    let userId = result.userId;
@@ -197,7 +198,7 @@ const makePostPart = (id) => {
 	        
 	    }
 	});
-}
+};
 
 const makeCommentPart = (id) => {
 	$.ajax({
@@ -223,7 +224,7 @@ const makeCommentPart = (id) => {
                 reply += value.content;
                 reply += "</div>";
                 reply += "<div class='reply-created-date'>";
-                reply += new Date(value.createdDate).toDateString();
+                reply += makeDateString(new Date(value.createdDate));
                 reply += "</div>";
                 reply += "</div>";
 				$("#mypet-replies-body").append(reply);
@@ -242,7 +243,25 @@ const makeCommentPart = (id) => {
 			})
 		}
 	})
-}
+};
+
+const makeDateString = (date) => {
+
+    let createdDate = new Date(date);
+    let createdDateYear = createdDate.getFullYear();
+    let createdDateMonth = createdDate.getMonth();
+    if ( createdDateMonth < 10) {
+        createdDateMonth = "0" + createdDateMonth;
+    }
+    let createdDateDay = createdDate.getDay();
+    if (createdDateDay < 10) {
+        createdDateDay = "0" + createdDateDay;
+    }
+
+    let createdDateString = createdDateYear + "." + createdDateMonth + "." + createdDateDay;
+
+    return createdDateString;
+};
 
 const makeLikePart = (id) => {
 	$.ajax({
@@ -256,7 +275,7 @@ const makeLikePart = (id) => {
 			
 		}
 	})
-}
+};
 
 const makeLikeStatus = (id) => {
 	$.ajax({
@@ -275,7 +294,7 @@ const makeLikeStatus = (id) => {
 			
 		}
 	})
-}
+};
 
 let page = 1;
 let isEndPage = false;
@@ -307,7 +326,7 @@ const makeMypetPostList = (pageNum, hashtag) => {
 			
 		}
 	})
-}
+};
 
 $(window).scroll(function() {
 
@@ -319,5 +338,5 @@ $(window).scroll(function() {
 
 $(window).ready(function() {
 	makeMypetPostList(page);
-})
+});
 
