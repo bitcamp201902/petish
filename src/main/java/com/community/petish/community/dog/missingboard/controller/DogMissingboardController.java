@@ -35,7 +35,7 @@ import com.community.petish.community.dog.missingboard.service.DogLostPostServic
 
 import lombok.extern.slf4j.Slf4j;
 
-@RequestMapping("/dog/missingboard/*")
+@RequestMapping("/dog/missingboard")
 @Controller
 @Slf4j
 public class DogMissingboardController {
@@ -62,7 +62,7 @@ public class DogMissingboardController {
 	}
 	
 	//게시글 리스트(페이징)
-	@RequestMapping("/list")
+	@RequestMapping("")
 	public String dogMissingBoardListPaging(Criteria cri, Model model) throws ParseException {
 
 		cri.setPageNum(cri.getPageNum());
