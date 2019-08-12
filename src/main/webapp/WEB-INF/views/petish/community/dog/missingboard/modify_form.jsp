@@ -282,7 +282,7 @@
 											<%
 												for (int i = 0; i < des.length; i++) {
 											%>
-											<input type="text" name="dog_description<%=i + 1%>"
+											<input type="text" class="form-control" name="dog_description<%=i + 1%>"
 												id="description<%=i + 1%>" value="<%=des[i]%>"
 												style="display: inline-block; width: 80%; margin-top: 5px;">
 											<button onclick="removeRow()" type="button" style="font-size: 0.9rem; margin-left:-0.2rem;"
@@ -377,8 +377,9 @@
 		</div>
 	</div>
 
-	<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-
+	<!-- JS 파일 추가 -->
+	<script src="/resources/js/missingboard/write_modify.js"></script>
+	
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
 

@@ -228,7 +228,8 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 			//1. 내가 쓴 글
 			function getWritingList(param, callback, error) {
 
-				var page = param.page || 1; 
+				 var page = param.page || 1; 
+
 				var member_id = <%=member.getId()%>
 				$.getJSON("/member/api/Writinglist/" + member_id + "/" + page + ".json",
 						function(data) {

@@ -1,6 +1,7 @@
 <%@page import="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage"%>
 <%@page import="com.community.petish.community.mypage.dto.request.MessageRequestDTO"%>
 <%@page import="com.community.petish.community.mypage.dto.response.MessageResponseDTO"%>
+
 <%
 	MessageResponseDTO dto = null;
 %>

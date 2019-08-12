@@ -4,7 +4,8 @@
 <mapper namespace="com.community.petish.community.dog.missingboard.mapper.AttachFileMapper">
 
 <insert id="insert">
-insert into attach_tb (uuid, uploadpath, filename, filetype, postid)
+insert into attach_tb
+(uuid, uploadPath, fileName, fileType, postId)
 values(#{uuid}, #{uploadPath}, #{fileName}, #{fileType}, #{postId})
 </insert>
 

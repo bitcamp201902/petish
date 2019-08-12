@@ -39,3 +39,29 @@ function sizeSearch() {
 		categoryForm.submit();
 	}
 }
+
+function writeFormClick() {
+	$.ajax({
+		type: "GET",
+		url: "/api/users/authenticate",
+		success: function(data) {
+			location.href="/dog/gatherboard/writeForm";
+		},
+		error: function(error) {
+			$("#login-modal").modal("show");
+		}
+	})
+}
+
+function detailClick(boardID) {
+	$.ajax({
+		type: "GET",
+		url: "/api/users/authenticate",
+		success: function(data) {
+			location.href="/dog/gatherboard/"+boardID+"";
+		},
+		error: function(error) {
+			$("#login-modal").modal("show");
+		}
+	})
+}

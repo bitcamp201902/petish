@@ -255,7 +255,7 @@ img {vertical-align: middle;}
 
 		<div class="container">
 			<div class="fa fa-list fa-2x" aria-hidden="true" id="subject">
-				<span>진료 과목</span>
+				<span class="menu1" style="font-size: 23px;">진료 과목</span>
 			</div>
 			<c:forTokens var="jinryo" items="${hospital.hospital_check }" delims=",">
 				<div class="fa fa-circle" style="font-size:18px;" id="subject">

@@ -13,7 +13,7 @@ function commentList(param) {
 	$('#commentList').empty();
 
 	$.ajax({
-		url:'/dog/gatherboard/commentList',
+		url:'/dog/gatherboard/comments/commentList',
 		type:'GET',
 		data : params,
 		contentType:'application/x-www-form-urlencoded; charset=UTF-8',
@@ -149,7 +149,7 @@ $('#input_data').click(function(event){
 	var params = $("#insert_form").serialize(); //입력데이터를 쿼리스트링으로 만들어준다.
 	
 	jQuery.ajax({
-		url : '/dog/gatherboard/insertComment',
+		url : '/dog/gatherboard/comments/insertComment',
 		type : 'POST',
 		data : params,
 		contentType:'application/x-www-form-urlencoded; charset=UTF-8',
@@ -180,7 +180,7 @@ $('#input_data').click(function(event){
 function getComment(id) {
 	
 	jQuery.ajax({
-		url : '/dog/gatherboard/'+id,
+		url : '/dog/gatherboard/comments/'+id,
 		type : 'GET',
 		contentType:'application/x-www-form-urlencoded; charset=UTF-8',
 		dataType : "json",
@@ -200,7 +200,7 @@ function modifyComment(id, callback, error) {
 
 	$.ajax({
 		type : 'put',
-		url : '/dog/gatherboard/modifyComment/' + id,
+		url : '/dog/gatherboard/comments/modifyComment/' + id,
 		data : JSON.stringify(comment),
 		contentType : "application/json; charset=utf-8",
 		success : function(result, status, xhr) {
@@ -232,7 +232,7 @@ function removeComment(id) {
 	if(confirm("삭제하시겠습니까?")) {		
 		$.ajax({
 			type : 'put',
-			url : '/dog/gatherboard/removeComment/' + id,
+			url : '/dog/gatherboard/comments/removeComment/' + id,
 			contentType : "application/json; charset=utf-8",
 			success : function(result, status, xhr) {
 				if(result) {

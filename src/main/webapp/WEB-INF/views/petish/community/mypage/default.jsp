@@ -469,6 +469,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 								for (var i = 0, len = list.length || 0; i < len; i++) {
 									str += "<tr><td class='font-grey'>"
 											+ list[i].boardType + "</td>";
+
 									str += "<td><a href='"
 											+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
 											+ list[i].title + "</a></td>";
@@ -514,6 +515,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 											str += "<td><a href='"
 												+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
 												+ list[i].title + "</a></td>";
+
 									str += "<td class='dropdown'><div class='nondeco'>"
 											+ list[i].nickname
 											+ "</div>"

@@ -103,7 +103,6 @@
 <link href="/resources/css/commons/kakaomap.css?ver=1" rel="stylesheet">
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
 <link href="/resources/css/missingboard/detail.css" rel="stylesheet">
-<link href="/resources/css/missingboard/detail2.css" rel="stylesheet">
 <link href="/resources/css/report.css" rel="stylesheet">
 
 </head>
@@ -464,9 +463,7 @@
     </div>
    
    <!-- JS 파일 추가 -->
-   <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-
-   <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>   
+   <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
    <script type="text/javascript" src="/resources/js/missingboard/detail.js"></script>
    <script type="text/javascript" src="/resources/js/missingboard/comment.js"></script>
    <script type="text/javascript" src="/resources/js/report.js"></script>   

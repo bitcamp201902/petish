@@ -14,6 +14,7 @@
 	String userName = user.getUsername();
 	Long userId = user.getId();
 	String userNickName = user.getNickname();
+	Long boardId = 2L;
 	
 	//DogSize
 	Long sizeID = (Long)request.getAttribute("sizeID");
@@ -97,7 +98,7 @@
 										class="img-fluid rounded-circle"></td>
 									<td>
 										<div class="nav navbar-nav ml-auto">
-											<a href="#" data-toggle="dropdown" class="dropdown"> <%= userNickName %></a>
+											<a href="#" data-toggle="dropdown" class="dropdown"> <%= writer %></a>
 											<div class="dropdown-menu">
 												<div class="dropdown"><a href="#" class="nav-link">게시글보기</a></div>
 												<div class="dropdown"><a href="#" class="nav-link">쪽지보내기</a></div>
@@ -212,7 +213,6 @@
 						                        <th>아이디</th>
 						                        <th>반려견</th>
 						                        <th>내용</th>
-						                        <th>신청취소</th>
 						                      </tr>
 						                    </thead>
 						                  <tbody>
@@ -220,27 +220,25 @@
 												for(int i=0; i<participantList.size(); i++) {
 													DogGatherParticipantDTO participant = participantList.get(i);		
 										%>
+										<%
+												// 본인이 참여 신청 한 경우
+												if(userName.equals(participant.getUSERNAME())) {
+											%>
+													<form action="/dog/gatherboard/cancelParticipant" method="post">
+													<input type="hidden" name="ID" value="<%=participant.getID() %>">
+													<input type="hidden" name="POST_ID" value="<%= participant.getPOST_ID() %>">
+														<button id="participantCancelBtn" type="submit" class="btn btn-template-outlined btn-sm">
+															신청취소
+														</button>
+													</form>
+											<%
+												} 
+											%>
 											 <tr class="text-center">
 												<td><b><%= i+1 %></b></td>
 												<td><%= participant.getNICKNAME() %></td>  
 												<td><%= participant.getDOG_SPECIES() %></td>
 												<td><%= participant.getREQUEST_CONTENT() %></td>
-											<%
-												// 본인이 참여 신청 한 경우
-												if(userName.equals(participant.getUSERNAME())) {
-											%>
-												<td class="text-center">
-													<form action="/dog/gatherboard/cancelParticipant" method="post">
-													<input type="hidden" name="ID" value="<%=participant.getID() %>">
-													<input type="hidden" name="POST_ID" value="<%= participant.getPOST_ID() %>">
-														<button type="submit" class="btn btn-template-outlined btn-sm">
-															신청취소
-														</button>
-													</form>
-												</td>
-											<%
-												} 
-											%>
 											</tr>											
 										<%
 												}
@@ -347,7 +345,7 @@
 							<!-- comment_page_form -->
 							<form id="page_form">
 								<input type="hidden" name="POST_ID" value=<%= post.getID() %>>
-								<input type="hidden" name="USER_ID" value=<%= userId %>> <!-- 로그인 기능 구현되면 수정해야 함 -->
+								<input type="hidden" name="USER_ID" value=<%= userId %>> 
 								<input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}'>
 							</form>
 	                         <div class="comment-footer d-flex justify-content-center"></div>
@@ -357,7 +355,7 @@
 							<h4 class="text-uppercase comment">댓글</h4>
 							<!-- comment insert form -->
 							<form id="insert_form" method="post">
-								<input type="hidden" name="USER_ID" value=<%= userId %>> <!-- 로그인 기능 구현되면 수정해야 함 -->
+								<input type="hidden" name="USER_ID" value=<%= userId %>> 
 								<input type="hidden" name="POST_ID" value=<%=post.getID() %>>
 								<input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}'>
 								<div class="row">
@@ -388,7 +386,7 @@
 								<div class="col-sm-12"> 
 										<!-- 게시자일떄만 수정/삭제  -->
 										<%
-											if(userName.equals(writer)) {
+											if(userNickName.equals(writer)) {
 										%>
 											<button id="modifyBtn" class="btn btn-template-outlined">
 												<i class="fa fa-pencil"></i> <a href="/dog/gatherboard/modifyForm/<%= post.getID()%>">수정</a>
