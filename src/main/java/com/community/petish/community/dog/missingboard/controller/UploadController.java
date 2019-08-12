@@ -133,22 +133,18 @@ public class UploadController {
 				log.info("uploadPath : " + uploadPath);
 				log.info("uploadFileName : " + uploadFileName);
 
-				//이미지 파일인지 체크
-				if (checkImageType(saveFile)) {
+        attachDTO.setImage(true);
+        //썸네일 이미지 파일명, 경로, 크기 지정해 생성
+        FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+        try{
+          Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+        }
+        catch(IllegalStateException e) {
+          log.info("Thumbnail error");
+          e.printStackTrace();
+        }
 
-					attachDTO.setImage(true);
-					//썸네일 이미지 파일명, 경로, 크기 지정해 생성
-					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-					try{
-						Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
-					}
-					catch(IllegalStateException e) {
-						log.info("Thumbnail error");
-						e.printStackTrace();
-					}
-
-					thumbnail.close();
-				}
+        thumbnail.close();
 				//파일 리스트에 추가
 				list.add(attachDTO);
 
