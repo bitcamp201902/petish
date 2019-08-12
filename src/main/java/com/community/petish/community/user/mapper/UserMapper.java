@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.community.petish.community.user.domain.User;
 import com.community.petish.community.user.dto.request.SaveUserParams;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper {
 
