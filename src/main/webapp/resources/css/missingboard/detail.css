@@ -1,4 +1,4 @@
-<!--½Å°í-->
+<!--ï¿½Å°ï¿½-->
 #report-btn {
 /* 	justify-content: right; */
 }
@@ -12,7 +12,7 @@ table{
 	border-collapse: unset!important;
 }
 
-button.btn.btn-template-outlined{
+button.btn.btn-template-outlined.custom-button{
 	float: right;
 	margin-right:15px;
 	margin-top:20px;
@@ -55,7 +55,7 @@ div.panel.panel-default.sidebar-menu{
 	margin-top:40px;	
 }
 
-button.btn.btn-template-outlined{
+button.btn.btn-template-outlined.custom-button{
 	margin-right: 2rem;
 }
 .btn.btn-danger{
@@ -68,7 +68,7 @@ table{
    border-collapse: unset!important;
 }
 
-button.btn.btn-template-outlined{
+button.btn.btn-template-outlined.custom-button{
    float: right;
    margin-right:15px;
    margin-top:20px;
@@ -124,7 +124,7 @@ div.panel.panel-default.sidebar-menu{
    margin-top:40px;   
 }
 
-button.btn.btn-template-outlined{
+button.btn.btn-template-outlined.custom-button{
    margin-right: 2rem;
 }
 
@@ -211,7 +211,7 @@ th, td {
    text-align:center;
 }
 
-/* ÀÌ¹ÌÁö ½½¶óÀÌµå */
+/* ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ */
 * {
    box-sizing: border-box
 }
@@ -311,35 +311,37 @@ th, td {
 }
 
 .report-modal-title {
-  /*  min-width: 65px; */
+    /*  min-width: 65px; */
+}
+@-webkit-keyframes fade {
 
-@
--webkit-keyframes fade {
-   from {opacity: .4
-}
+    from {
+        opacity: .4
+    }
 
-to {
-   opacity: 1
-}
-
-}
-@
-keyframes fade {
-   from {opacity: .4
-}
-
-to {
-   opacity: 1
-}
+    to {
+        opacity: 1
+    }
 
 }
+
+@keyframes fade {
+
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
+
+}
+
 label {
-   text-align: left !important;
+    text-align: left !important;
 }
 
-}
-
-/* ¹ÝÀÀÇü */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 @media ( max-width :400px) {
    .poster-table {
       width: 100%;
@@ -365,7 +367,7 @@ label {
 
 @media screen and (max-width:750px){
 
-   .btn.btn-template-outlined{
+   .btn.btn-template-outlined.custom-button{
       margin-bottom:10px;
    }
    .date{
@@ -380,17 +382,17 @@ label {
    div.col-sm-3.col-md-2.text-center-xs{
       display:none;
    }
-   button.btn.btn-template-outlined{
+   button.btn.btn-template-outlined.custom-button{
       margin-right: 1rem
    }
-   button.re.btn.btn-template-outlined{
+   button.re.btn.btn-template-outlined.custom-button{
       width:110px;
       margin-right:1px;
    }
-   button.write.btn.btn-template-outlined{
+   button.write.btn.btn-template-outlined.custom-button{
       margin-right:1px;
    }
-   button.list.btn.btn-template-outlined{
+   button.list.btn.btn-template-outlined.custom-button{
       margin-right:10px;
    }
    .btn.btn-danger{
@@ -414,7 +416,7 @@ table{
    border-collapse: unset!important;
 }
 
-button.btn.btn-template-outlined{
+button.btn.btn-template-outlined.custom-button{
    float: right;
    margin-right:15px;
    margin-top:20px;
@@ -470,7 +472,7 @@ div.panel.panel-default.sidebar-menu{
    margin-top:40px;   
 }
 
-button.btn.btn-template-outlined{
+button.btn.btn-template-outlined.custom-button{
    margin-right: 2rem;
 }
 
@@ -557,7 +559,7 @@ th, td {
    text-align:center;
 }
 
-/* ÀÌ¹ÌÁö ½½¶óÀÌµå */
+/* ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ */
 * {
    box-sizing: border-box
 }
@@ -656,33 +658,31 @@ th, td {
    margin:0.5rem!important;
 }
 
-@
--webkit-keyframes fade {
-   from {opacity: .4
+@-webkit-keyframes fade {
+    from {
+       opacity: .4
+    }
+
+    to {
+    opacity: 1
+    }
 }
 
-to {
-   opacity: 1
+@keyframes fade {
+    from {
+        opacity: .4
+    }
+
+    to {
+        opacity: 1
+    }
 }
 
-}
-@
-keyframes fade {
-   from {opacity: .4
-}
-
-to {
-   opacity: 1
-}
-
-}
 label {
    text-align: left !important;
 }
 
-}
-
-/* ¹ÝÀÀÇü */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 @media ( max-width :400px) {
    .poster-table {
       width: 100%;
@@ -708,7 +708,7 @@ label {
 
 @media screen and (max-width:750px){
 
-   .btn.btn-template-outlined{
+   .btn.btn-template-outlined.custom-button{
       margin-bottom:10px;
    }
    .date{
@@ -723,17 +723,17 @@ label {
    div.col-sm-3.col-md-2.text-center-xs{
       display:none;
    }
-   button.btn.btn-template-outlined{
+   button.btn.btn-template-outlined.custom-button{
       margin-right: 1rem
    }
-   button.re.btn.btn-template-outlined{
+   button.re.btn.btn-template-outlined.custom-button{
       width:110px;
       margin-right:1px;
    }
-   button.write.btn.btn-template-outlined{
+   button.write.btn.btn-template-outlined.custom-button{
       margin-right:1px;
    }
-   button.list.btn.btn-template-outlined{
+   button.list.btn.btn-template-outlined.custom-button{
       margin-right:10px;
    }
    .btn.btn-danger{
