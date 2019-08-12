@@ -1,9 +1,5 @@
-<<<<<<< HEAD:src/main/java/com/community/petish/community/mypage/dto/response/request/MessageRequestDTO.java
-package com.community.petish.mypage.dto.request;
-=======
-package com.community.petish.community.mypage.dto.request;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/java/com/community/petish/community/mypage/dto/request/MessageRequestDTO.java
 
+package com.community.petish.community.mypage.dto.request;
 import lombok.Data;
 
 //message 사용자에게 입력받아 db에 저장할 때 쓰일 DTO

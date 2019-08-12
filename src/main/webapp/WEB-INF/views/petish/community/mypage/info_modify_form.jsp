@@ -1,16 +1,8 @@
-<<<<<<< HEAD:src/main/webapp/WEB-INF/views/petish/community/mypage/info_modify_form.jsp
-<%@page import="com.community.petish.mypage.dto.response.UserResponseDTO_Mypage"%>
-<%@page
-	import="com.community.petish.mypage.dto.request.UserModifyRequestDTO_Mypage"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-=======
 <%@page import="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage"%>
-<%@page import="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage"%>
+<%@page
+	import="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage" %>
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/webapp/WEB-INF/views/petish/mypage/info_modify_form.jsp
 
 <%
 	UserResponseDTO_Mypage dto = (UserResponseDTO_Mypage) request.getAttribute("dto");
@@ -66,12 +58,8 @@
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-<<<<<<< HEAD:src/main/webapp/WEB-INF/views/petish/community/mypage/info_modify_form.jsp
 </script>
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-=======
-
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/webapp/WEB-INF/views/petish/mypage/info_modify_form.jsp
 <script src="/resources/js/mypage/mypage.js"></script>
 <script src="/resources/js/boardMap/write_map.js"></script>
 
@@ -270,15 +258,9 @@
 			}
 		})
 	};
-<<<<<<< HEAD:src/main/webapp/WEB-INF/views/petish/community/mypage/info_modify_form.jsp
 	
 	$("#nicknameDuplicationCheckButton").on("click", checkNicknameDuplication);
 	
-=======
-	
-	$("#nicknameDuplicationCheckButton").on("click", checkNicknameDuplication);
-	
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/webapp/WEB-INF/views/petish/mypage/info_modify_form.jsp
 	var a = $("#nicknameInput");
 	a.blur(function(){
 		if("<%=loginedUser.getNickname()%>" != a.val()){
@@ -290,7 +272,6 @@
 	});
 	</script>
 
-<<<<<<< HEAD:src/main/webapp/WEB-INF/views/petish/community/mypage/info_modify_form.jsp
 	<!-- Javascript files-->
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>
 	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
@@ -307,7 +288,5 @@
 		src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
 	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
 	<script src="/resources/js/front.js"></script>
-=======
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/webapp/WEB-INF/views/petish/mypage/info_modify_form.jsp
 </body>
 </html>

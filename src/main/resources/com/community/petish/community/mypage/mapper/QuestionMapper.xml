@@ -4,11 +4,7 @@
 
 <mapper namespace="com.community.petish.community.mypage.mapper.QuestionMapper">
 	
-<<<<<<< HEAD:src/main/resources/com/community/petish/mypage/mapper/QuestionMapper.xml
-	<resultMap type="com.community.petish.mypage.dto.response.QuestionResponseDTO" id="QuestionResultMap">
-=======
 	<resultMap type="com.community.petish.community.mypage.dto.response.QuestionResponseDTO" id="QuestionResultMap">
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/resources/com/community/petish/community/mypage/mapper/QuestionMapper.xml
 		<result property="id" column="ID" />
 		<result property="title" column="TITLE" />
 		<result property="content" column="CONTENT" />
@@ -21,13 +17,9 @@
 	</resultMap>
 	
 	<!-- 문의 등록-->
-<<<<<<< HEAD:src/main/resources/com/community/petish/mypage/mapper/QuestionMapper.xml
-	<insert id="insertQuestion" parameterType="com.community.petish.mypage.dto.request.QuestionRequestDTO">
-		insert into QUESTION_TB (id, TITLE, CONTENT, USER_ID, CATEGORY_ID) values 
-=======
+
 	<insert id="insertQuestion" parameterType="com.community.petish.community.mypage.dto.request.QuestionRequestDTO">
 		insert into QUESTION_TB (id, TITLE, CONTENT, USER_ID, CATEGORY_ID) values
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/resources/com/community/petish/community/mypage/mapper/QuestionMapper.xml
 		((select max(id) from question_tb)+1, #{title}, #{content}, #{user_id}, #{category_id})
 	</insert>
 	

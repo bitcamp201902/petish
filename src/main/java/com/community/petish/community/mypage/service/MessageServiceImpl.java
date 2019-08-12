@@ -1,27 +1,11 @@
-<<<<<<< HEAD:src/main/java/com/community/petish/mypage/service/MessageServiceImpl.java
-package com.community.petish.mypage.service;
 
-import java.util.ArrayList;
-=======
 package com.community.petish.community.mypage.service;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/java/com/community/petish/community/mypage/service/MessageServiceImpl.java
+
 
 import com.community.petish.community.mypage.mapper.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD:src/main/java/com/community/petish/mypage/service/MessageServiceImpl.java
-import com.community.petish.mypage.dto.request.MessageRequestDTO;
-import com.community.petish.mypage.dto.response.CheckNewMessageDTO;
-import com.community.petish.mypage.dto.response.Criteria;
-import com.community.petish.mypage.dto.response.MessageResponseDTO;
-import com.community.petish.mypage.dto.response.ReceivedMessagePageDTO;
-import com.community.petish.mypage.dto.response.SentMessagePageDTO;
-import com.community.petish.mypage.mapper.MessageMapper;
-
-import lombok.extern.log4j.Log4j;
-
-=======
 import com.community.petish.community.mypage.dto.request.MessageRequestDTO;
 import com.community.petish.community.mypage.dto.response.Criteria;
 import com.community.petish.community.mypage.dto.response.MessageResponseDTO;
@@ -30,7 +14,6 @@ import com.community.petish.community.mypage.dto.response.SentMessagePageDTO;
 
 import lombok.extern.log4j.Log4j;
 
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/java/com/community/petish/community/mypage/service/MessageServiceImpl.java
 @Log4j
 @Service
 public class MessageServiceImpl implements MessageService{

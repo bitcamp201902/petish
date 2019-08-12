@@ -1,8 +1,6 @@
-<<<<<<< HEAD:src/main/java/com/community/petish/community/mypage/dto/response/response/Writings_CommentedDTO.java
-package com.community.petish.mypage.dto.response;
-=======
+
 package com.community.petish.community.mypage.dto.response;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/java/com/community/petish/community/mypage/dto/response/Writings_CommentedDTO.java
+
 
 import java.sql.Date;
 

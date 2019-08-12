@@ -8,13 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-<<<<<<< HEAD
-import com.community.petish.mypage.dto.response.Criteria;
-import com.community.petish.mypage.service.DefaultService;
-import com.community.petish.mypage.service.DefaultServiceImpl;
-=======
 import com.community.petish.community.mypage.service.DefaultServiceImpl;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84
+
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;

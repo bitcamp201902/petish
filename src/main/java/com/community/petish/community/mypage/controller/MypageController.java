@@ -21,30 +21,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
-<<<<<<< HEAD:src/main/java/com/community/petish/mypage/controller/MypageController.java
-import com.community.petish.mypage.dto.request.QuestionRequestDTO;
-import com.community.petish.mypage.dto.request.UserModifyPictureDTO_Mypage;
-import com.community.petish.mypage.dto.request.UserModifyRequestDTO_Mypage;
-import com.community.petish.mypage.dto.response.Criteria;
-import com.community.petish.mypage.dto.response.MessageResponseDTO;
-import com.community.petish.mypage.dto.response.MyWritingsDTO;
-import com.community.petish.mypage.dto.response.QuestionResponseDTO;
-import com.community.petish.mypage.dto.response.UserResponseDTO_Mypage;
-import com.community.petish.mypage.dto.response.Writings_CommentedDTO;
-import com.community.petish.mypage.dto.response.Writings_LikedDTO;
-import com.community.petish.mypage.service.DefaultService;
-import com.community.petish.mypage.service.MessageService;
-import com.community.petish.mypage.service.QuestionService;
-import com.community.petish.mypage.service.UserService_Mypage;
-import com.community.petish.user.dto.response.LoginedUser;
-=======
+import com.community.petish.community.mypage.dto.request.QuestionRequestDTO;
+import com.community.petish.community.mypage.dto.request.UserModifyPictureDTO_Mypage;
+import com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage;
+import com.community.petish.community.mypage.dto.response.Criteria;
+import com.community.petish.community.mypage.dto.response.MessageResponseDTO;
+import com.community.petish.community.mypage.dto.response.MyWritingsDTO;
+import com.community.petish.community.mypage.dto.response.QuestionResponseDTO;
+import com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage;
+import com.community.petish.community.mypage.dto.response.Writings_CommentedDTO;
+import com.community.petish.community.mypage.dto.response.Writings_LikedDTO;
+import com.community.petish.community.mypage.service.DefaultService;
+import com.community.petish.community.mypage.service.MessageService;
+import com.community.petish.community.mypage.service.QuestionService;
+import com.community.petish.community.mypage.service.UserService_Mypage;
+import com.community.petish.community.user.dto.response.LoginedUser;
+
 import com.community.petish.community.mypage.dto.request.QuestionRequestDTO;
 import com.community.petish.community.mypage.dto.request.UserModifyPictureDTO_Mypage;
 import com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage;
 import com.community.petish.community.mypage.dto.response.Criteria;
 import com.community.petish.community.mypage.dto.response.QuestionResponseDTO;
 import com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/java/com/community/petish/community/mypage/controller/MypageController.java
+
 
 import lombok.extern.log4j.Log4j;
 

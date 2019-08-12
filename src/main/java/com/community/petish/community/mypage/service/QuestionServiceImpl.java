@@ -5,19 +5,13 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD:src/main/java/com/community/petish/mypage/service/QuestionServiceImpl.java
-import com.community.petish.mypage.dto.request.QuestionRequestDTO;
-import com.community.petish.mypage.dto.response.Criteria;
-import com.community.petish.mypage.dto.response.QuestionPageDTO;
-import com.community.petish.mypage.dto.response.QuestionResponseDTO;
-import com.community.petish.mypage.mapper.QuestionMapper;
-=======
+
 import com.community.petish.community.mypage.dto.request.QuestionRequestDTO;
 import com.community.petish.community.mypage.dto.response.Criteria;
 import com.community.petish.community.mypage.dto.response.QuestionPageDTO;
 import com.community.petish.community.mypage.dto.response.QuestionResponseDTO;
 import com.community.petish.community.mypage.mapper.QuestionMapper;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/java/com/community/petish/community/mypage/service/QuestionServiceImpl.java
+
 
 @Service
 public class QuestionServiceImpl implements QuestionService{

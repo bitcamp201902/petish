@@ -3,18 +3,11 @@ package com.community.petish.community.mypage.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD:src/main/java/com/community/petish/mypage/service/UserServiceImpl_Mypage.java
-import com.community.petish.mypage.dto.request.UserModifyPictureDTO_Mypage;
-import com.community.petish.mypage.dto.request.UserModifyRequestDTO_Mypage;
-import com.community.petish.mypage.dto.response.UserResponseDTO_Mypage;
-import com.community.petish.mypage.mapper.MypageUserMapper;
-=======
 import com.community.petish.community.mypage.mapper.MypageUserMapper;
 import com.community.petish.community.mypage.dto.request.UserModifyPictureDTO_Mypage;
 import com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage;
 import com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage;
 import com.community.petish.community.mypage.mapper.MypageUserMapper;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/java/com/community/petish/community/mypage/service/UserServiceImpl_Mypage.java
 
 import lombok.extern.log4j.Log4j;
 

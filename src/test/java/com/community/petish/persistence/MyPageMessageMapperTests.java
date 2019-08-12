@@ -6,14 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-<<<<<<< HEAD
-import com.community.petish.mypage.dto.request.MessageRequestDTO;
-import com.community.petish.mypage.dto.response.MessageResponseDTO;
-import com.community.petish.mypage.mapper.MessageMapper;
-=======
 import com.community.petish.community.mypage.dto.response.MessageResponseDTO;
 import com.community.petish.community.mypage.mapper.MessageMapper;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84
+
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;

@@ -1,12 +1,5 @@
-<<<<<<< HEAD:src/main/java/com/community/petish/community/mypage/dto/response/response/MessageResponseDTO.java
-package com.community.petish.mypage.dto.response;
 
-import java.sql.Date;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
-=======
 package com.community.petish.community.mypage.dto.response;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/java/com/community/petish/community/mypage/dto/response/MessageResponseDTO.java
 
 import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;

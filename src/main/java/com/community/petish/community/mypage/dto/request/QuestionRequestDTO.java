@@ -1,8 +1,6 @@
-<<<<<<< HEAD:src/main/java/com/community/petish/community/mypage/dto/response/request/QuestionRequestDTO.java
-package com.community.petish.mypage.dto.request;
-=======
+
 package com.community.petish.community.mypage.dto.request;
->>>>>>> fda4f2d15939573444b0292410cb1859f5983d84:src/main/java/com/community/petish/community/mypage/dto/request/QuestionRequestDTO.java
+
 
 import org.springframework.stereotype.Component;
 

@@ -10,7 +10,6 @@
 <body>
 <h1>인덱스페이지</h1>
 	<div id="all">
-		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
 	</div>
 </body>
 <script>
