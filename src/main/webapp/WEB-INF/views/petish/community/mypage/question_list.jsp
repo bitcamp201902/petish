@@ -145,13 +145,10 @@
 											</div>
 										</div>
 									</form>
-
 								</div>
 							</div>
 						</div>
-						<div class="content"></div>
 					</div>
-					<!-- </form> -->
 				</div>
 			</div>
 		</div>

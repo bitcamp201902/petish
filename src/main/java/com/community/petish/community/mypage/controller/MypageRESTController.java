@@ -71,7 +71,7 @@ public class MypageRESTController {
 			produces = {
 					MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_UTF8_VALUE})
-	public ResponseEntity<ReceivedMessagePageDTO> getReceivedList(
+	public ResponseEntity<ReceivedMessagePageDTO> getReceivedListWithSearch(
 				@PathVariable("page") int page,
 				HttpSession session){
 				log.info("receivedList");
@@ -80,6 +80,7 @@ public class MypageRESTController {
 				log.info("받은메세지리스트 page = {}"+ page);
 				return new ResponseEntity<>(messageServiceImpl.getReceivedMessagePaging(cri), HttpStatus.OK);
 			}
+	
 	
 	@GetMapping(value="message/sentList/{page}",
 			produces = {

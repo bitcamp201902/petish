@@ -32,11 +32,20 @@ public class MessageServiceImpl implements MessageService{
 	@Override
 	public ReceivedMessagePageDTO getReceivedMessagePaging(Criteria cri) {
 		log.info("받은 쪽지 갯수"+messageMapper.getSentCnt(cri.getUser_id()));
+//		log.info("타입" + cri.getType());
+//		log.info("키워드" + cri.getKeyword());
 		return new ReceivedMessagePageDTO(
 				messageMapper.getReceivedCnt(cri.getUser_id()),
 				messageMapper.getReceivedMessageWithPaging(cri));
 	}
 
+//	@Override
+//	public ReceivedMessagePageDTO getReceivedMessagePagingWithSearch(Criteria cri) {
+//		return new ReceivedMessagePageDTO(
+//				messageMapper.getReceivedCnt(cri.getUser_id()),
+//				messageMapper.getReceivedMessageWithPaging(cri));
+//	}
+	
 	//3. 보낸 쪽지 리스트 조회
 	@Override
 	public SentMessagePageDTO getSentMessagePaging(Criteria cri) {
@@ -94,4 +103,5 @@ public class MessageServiceImpl implements MessageService{
 		int res = messageMapper.checkNewMessage(user_id);
 		return res;
 	}
+
 }

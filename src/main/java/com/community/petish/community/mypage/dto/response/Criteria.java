@@ -13,6 +13,9 @@ public class Criteria {
 	private int amount;
 	private long user_id;
 	
+//	private String type;
+//	private String keyword;
+	
 	public Criteria() {
 		this(1,10,0);
 	}
@@ -23,4 +26,7 @@ public class Criteria {
 		this.user_id = user_id;
 	}
 	
+//	public String[] getTypeArr() {
+//		return type == null? new String[] {} : type.split("");
+//	}
 }

@@ -15,6 +15,26 @@
 		<result property="nickname" column="NICKNAME"/>
 	</resultMap>
 	
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'T'.toString()">
+							title like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'S'.toString()">
+							u.nickname like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'R'.toString()">
+							u.nickname like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>	
+	
 	<!-- 1. 쪽지 작성 -->
 	<insert id="writeMessage" parameterType="com.community.petish.community.mypage.dto.request.MessageRequestDTO">
 		insert into message_tb (id, title, content, sender_id, receiver_id)
@@ -28,7 +48,7 @@
 		from
 		(SELECT rownum rn, m.id, m.title, m.content, m.sent_date, m.read, m.deleted, u.nickname 
 		from message_tb m, user_tb u
-		where 
+		where
 		rownum <= #{pageNum} * #{amount} and receiver_id = #{user_id} and m.sender_id=u.id and m.deleted=0)
 		where rn > (#{pageNum} -1)*#{amount} 
 		order by id desc

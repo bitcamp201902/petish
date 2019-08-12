@@ -15,13 +15,13 @@ public interface MessageService {
 	//public ArrayList<MessageResponseDTO> getReceivedMessageList(Long user_id);
 	// 받은 쪽지 리스트 조회+페이징
 	ReceivedMessagePageDTO getReceivedMessagePaging(Criteria cri);
+//	ReceivedMessagePageDTO getReceivedMessagePagingWithSearch(Criteria cri);
 
 		
 	// 3. 보낸 쪽지 리스트 조회
 	//public ArrayList<MessageResponseDTO> getSentMessageList(Long user_id);
 	// 보낸 쪽지 리스트 조회+페이징
 	SentMessagePageDTO getSentMessagePaging(Criteria cri);
-
 	// 4. 받은 쪽지 상세조회
 	MessageResponseDTO receivedMessageDetail(Long id);
 	

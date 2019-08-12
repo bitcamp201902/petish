@@ -59,12 +59,13 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
 </script>
+
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script src="/resources/js/mypage/mypage.js"></script>
 <script src="/resources/js/boardMap/write_map.js"></script>
-
 <script src="/commons/kakaomap.jsp"></script>
 <link rel="stylesheet" href="/resources/css/commons/kakaomap.css"></link>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
 
 </head>
 
