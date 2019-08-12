@@ -97,7 +97,7 @@
 										class="img-fluid rounded-circle"></td>
 									<td>
 										<div class="nav navbar-nav ml-auto">
-											<a href="#" data-toggle="dropdown" class="dropdown"> <%= userNickName %></a>
+											<a href="#" data-toggle="dropdown" class="dropdown"> <%= writer %></a>
 											<div class="dropdown-menu">
 												<div class="dropdown"><a href="#" class="nav-link">게시글보기</a></div>
 												<div class="dropdown"><a href="#" class="nav-link">쪽지보내기</a></div>
@@ -212,7 +212,6 @@
 						                        <th>아이디</th>
 						                        <th>반려견</th>
 						                        <th>내용</th>
-						                        <th>신청취소</th>
 						                      </tr>
 						                    </thead>
 						                  <tbody>
@@ -220,27 +219,25 @@
 												for(int i=0; i<participantList.size(); i++) {
 													DogGatherParticipantDTO participant = participantList.get(i);		
 										%>
+										<%
+												// 본인이 참여 신청 한 경우
+												if(userName.equals(participant.getUSERNAME())) {
+											%>
+													<form action="/dog/gatherboard/cancelParticipant" method="post">
+													<input type="hidden" name="ID" value="<%=participant.getID() %>">
+													<input type="hidden" name="POST_ID" value="<%= participant.getPOST_ID() %>">
+														<button id="participantCancelBtn" type="submit" class="btn btn-template-outlined btn-sm">
+															신청취소
+														</button>
+													</form>
+											<%
+												} 
+											%>
 											 <tr class="text-center">
 												<td><b><%= i+1 %></b></td>
 												<td><%= participant.getNICKNAME() %></td>  
 												<td><%= participant.getDOG_SPECIES() %></td>
 												<td><%= participant.getREQUEST_CONTENT() %></td>
-											<%
-												// 본인이 참여 신청 한 경우
-												if(userName.equals(participant.getUSERNAME())) {
-											%>
-												<td class="text-center">
-													<form action="/dog/gatherboard/cancelParticipant" method="post">
-													<input type="hidden" name="ID" value="<%=participant.getID() %>">
-													<input type="hidden" name="POST_ID" value="<%= participant.getPOST_ID() %>">
-														<button type="submit" class="btn btn-template-outlined btn-sm">
-															신청취소
-														</button>
-													</form>
-												</td>
-											<%
-												} 
-											%>
 											</tr>											
 										<%
 												}
@@ -388,7 +385,7 @@
 								<div class="col-sm-12"> 
 										<!-- 게시자일떄만 수정/삭제  -->
 										<%
-											if(userName.equals(writer)) {
+											if(userNickName.equals(writer)) {
 										%>
 											<button id="modifyBtn" class="btn btn-template-outlined">
 												<i class="fa fa-pencil"></i> <a href="/dog/gatherboard/modifyForm/<%= post.getID()%>">수정</a>

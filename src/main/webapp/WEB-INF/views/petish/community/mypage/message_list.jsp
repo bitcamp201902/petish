@@ -1,5 +1,14 @@
-<%@ page import="com.community.petish.community.mypage.dto.response.MessageResponseDTO" %>
+<%@page import="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage"%>
+<%@page import="com.community.petish.community.mypage.dto.request.MessageRequestDTO"%>
+<%@page import="com.community.petish.community.mypage.dto.response.MessageResponseDTO"%>
+<%@ page import="java.util.*"%>
+<%@ page import="com.community.petish.community.mypage.*"%>
 <%
+	/* ArrayList<MessageResponseDTO> receivedList = (ArrayList) request.getAttribute("receivedList");
+	int undeletedReceived = (int) request.getAttribute("undeletedReceived");
+	ArrayList<MessageResponseDTO> sentList = (ArrayList) request.getAttribute("sentList");
+	int undeletedSent = (int) request.getAttribute("undeletedSent"); */
+	
 	MessageResponseDTO dto = null;
 %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
@@ -58,6 +67,7 @@
 
 <!-- CSS파일 추가 -->
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 </head>
 <style>
 .modal {
@@ -250,7 +260,9 @@
 					var receivedfooter = $(".receivedfooter");
 					var sentfooter = $(".sentfooter");
 					var listUL = $("#ajaxList");
-
+					
+								
+					
 					//받은 쪽지 모달
 					var receivedModal = $("#receive-modal");
 					var modalInputSentNickname1 = receivedModal
@@ -286,7 +298,8 @@
 					var modalDeleteBtn = $(".modalDeleteBtn");
 					var modalAnswerBtn = $(".modalAnswerBtn");
 					var modalSendBtn = $(".modalSendBtn");
-
+					
+					
 					//메세지리스트에서 a태그(메세지 제목)을 누르면, 해당 글 id의 세부데이터를 받아서 모달로 보내준다
 					
 					//받은 쪽지 상세보기
@@ -320,7 +333,8 @@
 						});	
 					});
 					};
-
+			
+					
 					//받은쪽지에서 답장하기 누르면 기존 모달 꺼지고 새로운 모달 열림 
 					modalAnswerBtn.on("click", function(e){
 						$("#receive-modal").modal("hide");
@@ -756,6 +770,23 @@
 						})
 				});
 	</script>
+	<!-- Javascript files-->
+	<script src="/resources/vendor/jquery/jquery.min.js"></script>
+	<script src="/resources/vendor/popper.js/umd/popper.min.js">
+		
+	</script>
+	<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/resources/vendor/jquery.cookie/jquery.cookie.js"></script>
+	<script src="/resources/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
+	<script
+		src="/resources/vendor/jquery.counterup/jquery.counterup.min.js"></script>
+	<script src="/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
+	<script
+		src="/resources/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
+	<script
+		src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
+	<script src="/resources/js/front.js"></script>
 
 </body>
 </html>

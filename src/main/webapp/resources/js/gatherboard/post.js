@@ -111,3 +111,11 @@ function participantCheck(size) {
 	
 	return true;
 }
+
+$(document).ready(function() {
+	   jQuery.datetimepicker.setLocale('kr'); // 달력 한글표시
+
+	   $('#datetimepicker').datetimepicker({ // 달력함수
+	      minDate : "+0D"
+	   });
+	});

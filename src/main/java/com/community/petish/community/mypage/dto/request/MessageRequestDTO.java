@@ -1,5 +1,5 @@
-package com.community.petish.community.mypage.dto.request;
 
+package com.community.petish.community.mypage.dto.request;
 import lombok.Data;
 
 //message 사용자에게 입력받아 db에 저장할 때 쓰일 DTO

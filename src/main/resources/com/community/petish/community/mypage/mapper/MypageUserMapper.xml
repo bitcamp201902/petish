@@ -6,12 +6,14 @@
 
 	<!-- 아이디로 회원정보 가져오기 -->
 	<select id="findUser" parameterType="long" resultType="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage">
+
 		select id, username, nickname, picture, deleted, address, concern_id, gender
 		from user_tb
 		where id =#{id}
 	</select> 
 	
 	<!-- 비밀번호 포함한 회원정보 수정 -->
+
 	<update id="modifyUserInfoAll" parameterType="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage">
 		update user_tb set nickname=#{nickname},address=#{address}, password=#{password}, concern_id=#{concern_id}, gender=#{gender}
 		where id = #{id}

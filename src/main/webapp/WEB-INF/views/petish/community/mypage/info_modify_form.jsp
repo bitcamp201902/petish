@@ -1,8 +1,8 @@
 <%@page import="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage"%>
-<%@page import="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage"%>
+<%@page
+	import="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage" %>
 
 <%
 	UserResponseDTO_Mypage dto = (UserResponseDTO_Mypage) request.getAttribute("dto");
@@ -58,7 +58,8 @@
 
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-
+</script>
+<script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <script src="/resources/js/mypage/mypage.js"></script>
 <script src="/resources/js/boardMap/write_map.js"></script>
 
@@ -271,5 +272,21 @@
 	});
 	</script>
 
+	<!-- Javascript files-->
+	<script src="/resources/vendor/jquery/jquery.min.js"></script>
+	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
+	<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="/resources/vendor/jquery.cookie/jquery.cookie.js"></script>
+	<script src="/resources/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
+	<script
+		src="/resources/vendor/jquery.counterup/jquery.counterup.min.js"></script>
+	<script src="/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
+	<script
+		src="/resources/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
+	<script src="/resources/js/jquery.parallax-1.1.3.js"></script>
+	<script
+		src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
+	<script src="/resources/js/front.js"></script>
 </body>
 </html>
