@@ -27,46 +27,6 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
-<!-- Bootstrap CSS-->
-<link rel="stylesheet"
-	href="/resources/vendor/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome CSS-->
-<link rel="stylesheet"
-	href="/resources/vendor/font-awesome/css/font-awesome.min.css">
-<!-- Google fonts - Roboto-->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
-<!-- Bootstrap Select-->
-<link rel="stylesheet"
-	href="/resources/vendor/bootstrap-select/css/bootstrap-select.min.css">
-<!-- owl carousel-->
-<link rel="stylesheet"
-	href="/resources/vendor/owl.carousel/assets/owl.carousel.css">
-<link rel="stylesheet"
-	href="/resources/vendor/owl.carousel/assets/owl.theme.default.css">
-<!-- theme stylesheet-->
-<link rel="stylesheet" href="/resources/css/style.lightblue.css"
-	id="theme-stylesheet">
-<!-- Custom stylesheet - for your changes-->
-<link rel="stylesheet" href="/resources/css/custom.css">
-<!-- Favicon and apple touch icons-->
-<link rel="shortcut icon" href="/resources/img/favicon.ico"
-	type="image/x-icon">
-<link rel="apple-touch-icon" href="/resources/img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="57x57"
-	href="/resources/img/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="72x72"
-	href="/resources/img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76"
-	href="/resources/img/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114"
-	href="/resources/img/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120"
-	href="/resources/img/apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144"
-	href="/resources/img/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152"
-	href="/resources/img/apple-touch-icon-152x152.png">
 
 <!-- datetimepicker 추가 -->
 <link rel="stylesheet" type="text/css"
@@ -84,7 +44,7 @@
 			//로그인 확인
 			if(loginedUser == null){
 				out.println("<script>");
-				out.println("location.href='/dog/missingboard/list'");
+				out.println("location.href='/dog/missingboard'");
 				out.println("</script>");
 			}
 		%>
@@ -131,14 +91,14 @@
 
 									<div class="col-sm-6 col-md-2">
 										<div class="form-group">
-											<label for="category">이름</label> <input type="text"
+											<label for="DOG_NAME">이름</label> <input type="text"
 												name="dog_name" id="DOG_NAME" value=<%=dto.getDog_name()%>
 												class="form-control">
 										</div>
 									</div>
 									<div class="col-sm-6 col-md-2">
 										<div class="form-group">
-											<label for="category">나이</label> <input type="text"
+											<label for="DOG_AGE">나이</label> <input type="text"
 												name="dog_age" id="DOG_AGE" value=<%=dto.getDog_age()%>
 												class="form-control">
 										</div>
@@ -147,7 +107,7 @@
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">종</label> <select id="SPECIES_ID"
+											<label for="SPECIES_ID">종</label> <select id="SPECIES_ID"
 												name="species_id" value="<%=dto.getSpecies_id()%>"
 												class="form-control">
 												<option value="0">종 선택</option>
@@ -198,36 +158,28 @@
 										<div class="form-group">
 											<label>성별</label>
 											<div class="checkbox" style="padding-top: 10px;">
-												<%
-													if (dto.getDog_gender().equals("수컷")) {
-												%>
 												<label class="radioContainer" style="border-right:2rem;">수컷
-												<input type="radio" value="수컷" name="dog_gender" id="DOG_GENDER_M" checked>
+												<input type="radio" value="수컷" name="dog_gender" id="DOG_GENDER_M"
+                                                <%
+                                                    if (dto.getDog_gender().equals("수컷")) {
+                                                %>
+                                                       checked
+                                                <% } %>
+                                                >
 												<span class="radioCheckmark"></span>
 												</label>
 												
 												<label class="radioContainer">암컷
-												<input type="radio" value="암컷" name="dog_gender" id="DOG_GENDER_F">
+												<input type="radio" value="암컷" name="dog_gender" id="DOG_GENDER_F"
+                                                <%
+                                                    if ( dto.getDog_gender().equals("암컷")) {
+                                                %>
+                                                    checked
+                                                <% } %>
+                                                >
 												<span class="radioCheckmark"></span>
 												</label>
-												<%
-													} else {
-												%>
-												<label class="radioContainer" style="border-right:2rem;">수컷
-												<input type="radio" value="수컷" name="dog_gender" id="DOG_GENDER_M">
-												<span class="radioCheckmark"></span>
-												</label>
-												
-												<label class="radioContainer">암컷
-												<input type="radio" value="암컷" name="dog_gender" id="DOG_GENDER_F" checked>
-												<span class="radioCheckmark"></span>
-												</label>
-												<%
-													}
-												%>
-
 											</div>
-
 										</div>
 									</div>
 								</div>
@@ -266,7 +218,7 @@
 
 											<!-- 합친 특징 보냄 -->
 											<input type="hidden" name="dog_description">
-											<label for="password_old">특징</label>
+											<label>특징</label>
 											<%
 												if (des.length < 5) {
 												//특징 5개 미만일때만 추가 버튼 보여줌
@@ -304,18 +256,16 @@
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">연락처</label> <input type="text"
-												name="phone_number" id="PHONE_NUMBER"
-												value="<%=dto.getPhone_number()%>" class="form-control">
-
+											<label for="PHONE_NUMBER">연락처</label>
+                                            <input type="text" name="phone_number" id="PHONE_NUMBER"
+                                                value="<%=dto.getPhone_number()%>" class="form-control">
 										</div>
 									</div>
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">사례금</label> <input type="text"
-												name="reward" id="REWARD" value="<%=dto.getReward()%>"
-												class="form-control">
-
+											<label for="REWARD">사례금</label>
+                                            <input type="text" name="reward" id="REWARD"
+                                                value="<%=dto.getReward()%>" class="form-control">
 										</div>
 									</div>
 								</div>
@@ -324,8 +274,8 @@
 
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">실종 일시</label> <input
-												id="datetimepicker" name="dog_lost_date" type="datetime"
+											<label for="datetimepicker">실종 일시</label>
+                                            <input id="datetimepicker" name="dog_lost_date" type="datetime"
 												value="<fmt:formatDate pattern='yyyy/MM/dd HH:mm' value='<%=dto.getCreate_date()%>'/>"
 												class="form-control">
 
@@ -336,15 +286,15 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="category">실종 장소</label> <input id="place"
-												name="dog_lost_address" type="text"
+											<label for="place">실종 장소</label>
+                                            <input id="place" name="dog_lost_address" type="text"
 												value="<%=dto.getDog_lost_address()%>" class="form-control">
 										</div>
 									</div>
 									<div class="col-md-1.5" style="padding-top: 6px;">
 										<div class="form-group">
-											<label for="category"> </label> <input type="button"
-												class="form-control" value="검색"
+											<label for="search-button"> </label>
+                                            <input type="button" class="form-control" value="검색" id="search-button"
 												onclick="openZipcode(this.form)" />
 										</div>
 									</div>
@@ -385,12 +335,10 @@
 
 	<script>
 	function formCheck(){
-		var formObj = $("#modifyForm")
+		let formObj = $("#modifyForm");
 		
-		var found = $('input[name=found]').val();
-		
-		alert("foundcheck : " + found);
-		
+		let found = $('input[name=found]').val();
+
 		//return false;
 	}
 	
@@ -420,11 +368,12 @@
 	}	
 	
 	var species = "<%=dto.getDog_species()%>"		
-		//수정 전 강아지 종류 SELECT
-		$('#SPECIES_ID option').each(function() {
-			if (this.innerText == species) {
-				this.selected=true;
-			}
+
+    //수정 전 강아지 종류 SELECT
+    $('#SPECIES_ID option').each(function() {
+        if (this.innerText == species) {
+            this.selected=true;
+        }
 	});
 	
 	 $(document).ready(function() {
@@ -434,11 +383,9 @@
 		    
 		    if(checked){
 		    	$('input[name=found]').prop('value',"1");
-		    	alert($('input[name=found]').val());
 	       }
 	       else{
 	    	   $('input[name=found]').prop('value',"0");
-	    	   alert($('input[name=found]').val());
 	       }
 		 });
 		 
@@ -460,11 +407,11 @@
 		            str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' "
 		            str +=" data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
 		            str += "<span> "+ attach.fileName+"</span>";
-		            str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' "
+		            str += "<button type='button' data-file=\'"+fileCallPath+"\' data-type='image' ";
 		            str += "class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
 		            str += "<img src='/display?fileName="+fileCallPath+"'>";
 		            str += "</div>";
-		            str +"</li>";
+		            str += "</li>";
 		          }
 		          
 		       });		      
@@ -554,14 +501,14 @@
   				var fileCallPath =  encodeURIComponent( obj.uploadPath+ "/s_"+obj.uuid +"_"+obj.fileName);
   				
   				str += "<li data-path='"+obj.uploadPath+"'";
-  				str +=" data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
-  				str +" ><div>";
+  				str += " data-uuid='"+obj.uuid+"' data-filename='"+obj.fileName+"' data-type='"+obj.image+"'"
+  				str += " ><div>";
   				str += "<span> "+ obj.fileName+"</span>";
-  				str += "<button type='button' data-file=\'"+fileCallPath+"\' "
+  				str += "<button type='button' data-file=\'"+fileCallPath+"\' ";
   				str += "data-type='image' class='btn btn-warning btn-circle'><i class='fa fa-times'></i></button><br>";
   				str += "<img src='/display?fileName="+fileCallPath+"'>";
   				str += "</div>";
-  				str +"</li>";
+  				str += "</li>";
   			}
   	    });
   	    
@@ -623,10 +570,10 @@
 		//지도
 	    //지도 api 선택한 곳 마커 표시하기(주소까지 출력)
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-	   mapOption = {
-	       center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-	       level: 3 // 지도의 확대 레벨
-	   };  
+        mapOption = {
+            center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
+        };
 
 		// 지도를 생성합니다    
 		var map = new kakao.maps.Map(mapContainer, mapOption); 

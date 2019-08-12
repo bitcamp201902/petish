@@ -4,38 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <meta charset="utf-8">
 <title></title>
-
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
-<!-- Bootstrap CSS-->
-<link rel="stylesheet"
-	href="/resources/vendor/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome CSS-->
-<link rel="stylesheet"
-	href="/resources/vendor/font-awesome/css/font-awesome.min.css">
-<!-- Google fonts - Roboto-->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
-<!-- Bootstrap Select-->
-<link rel="stylesheet"
-	href="/resources/vendor/bootstrap-select/css/bootstrap-select.min.css">
-<!-- owl carousel-->
-<link rel="stylesheet"
-	href="/resources/vendor/owl.carousel/assets/owl.carousel.css">
-<link rel="stylesheet"
-	href="/resources/vendor/owl.carousel/assets/owl.theme.default.css">
-<!-- theme stylesheet-->
-<link rel="stylesheet" href="/resources/css/style.lightblue.css"
-	id="theme-stylesheet">
-<!-- Custom stylesheet - for your changes-->
-<link rel="stylesheet" href="/resources/css/custom.css">
-<!-- Favicon and apple touch icons-->
-<link rel="shortcut icon" href="/resources/img/favicon.ico"
-	type="image/x-icon">
 
 <!-- CSS 파일 추가 -->
 <link rel="stylesheet" type="text/css" href="/resources/css/missingboard/write_modify.css">
@@ -43,7 +16,6 @@
 <link rel="stylesheet" href="/resources/css/commons/kakaomap.css">
 <!-- datetimepicker 추가 -->
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
-
 
 </head>
 
@@ -86,7 +58,7 @@
 							</div>
 							<div class="col-lg-10 text-right p-3"
 								style="display: inline-block;">
-								<a href="/dog/missingboard/list"
+								<a href="/dog/missingboard"
 									class="btn btn-template-outlined" style="margin-top: 10px;">목록</a>
 							</div>
 							<h4>[실종견 정보 작성]</h4>
@@ -98,21 +70,21 @@
 								<div class="row">
 									<div class="col-sm-6 col-md-2">
 										<div class="form-group">
-											<label>이름</label> <input id="DOG_NAME" name="dog_name"
-												type="text" class="form-control">
+											<label for="DOG_NAME">이름</label>
+                                            <input id="DOG_NAME" name="dog_name" type="text" class="form-control">
 										</div>
 									</div>
 									<div class="col-sm-6 col-md-2">
 										<div class="form-group">
-											<label>나이</label> <input type="text" class="form-control"
-												name="dog_age" id="DOG_AGE">
+											<label for="DOG_AGE">나이</label>
+                                            <input type="text" class="form-control" name="dog_age" id="DOG_AGE">
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">종</label>
+											<label for="SPECIES_ID">종</label>
 											<select name="species_id" id="SPECIES_ID" class="form-control">
 												<option value="0">종 선택</option>
 												<option value="0">--------소형견--------</option>
@@ -219,7 +191,7 @@
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">실종 일시</label> <input
+											<label for="datetimepicker">실종 일시</label> <input
 												id="datetimepicker" name="dog_lost_date"
 												type="datetime" class="form-control">
 										</div>
@@ -228,7 +200,7 @@
 								<div class="row">
 									<div class="col-md-6">
 										<div class="form-group">
-											<label for="category">실종 장소</label> <input
+											<label for="place">실종 장소</label> <input
 												name="dog_lost_address" id="place" type="text"
 												class="form-control">
 										</div>
@@ -249,7 +221,7 @@
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">사례금</label> <input type="text"
+											<label for="REWARD">사례금</label> <input type="text"
 												class="form-control" name="reward" id="REWARD">
 										</div>
 									</div>
@@ -257,7 +229,7 @@
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="category">연락처</label> <input type="text"
+											<label for="PHONE_NUMBER">연락처</label> <input type="text"
 												class="form-control" name="phone_number" id="PHONE_NUMBER">
 										</div>
 									</div>
@@ -267,7 +239,7 @@
 										<input type="submit" value="확인"
 											class="btn btn-outline-primary" id="input_post"
 											name="input_post" style="margin: 1rem">
-										<button type="button" onclick="href='/dog/missingboard/list'" 
+										<button type="button" onclick="href='/dog/missingboard'"
 											class="btn btn-outline-primary">취소</button>
 									</div>
 								</div>
