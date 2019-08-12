@@ -51,18 +51,8 @@ public class DogGatherboardController {
 		   
 	//게시글 조회
 	@RequestMapping(value = "/{ID}")
-	public ModelAndView dogGatherboardDetail(@PathVariable("ID") Long postID, HttpSession session, Criteria cri, HttpServletResponse response) throws Exception {
-		LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
+	public ModelAndView dogGatherboardDetail(@PathVariable("ID") Long postID, Criteria cri, HttpServletResponse response) throws Exception {
 
-		if(user == null) {
-			response.setContentType("text/html charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>");
-			out.println("alert('로그인이 필요합니다!');");
-			out.println("location.href='/dog/gatherboard';");
-			out.println("</script>");
-			out.close();
-		}
 		int res = dogGatherService.updateViewCount(postID);
 		System.out.println("UpdateViewCountRes="+res);
 		
@@ -72,7 +62,7 @@ public class DogGatherboardController {
 			System.out.println("조회수 업데이트 성공!");
 			DogGatherPostVO post = dogGatherService.getDogGatherPost(postID);
 			String dogSpecies = dogGatherService.getDogSpecies(post.getSPECIES_ID());
-			String writer = dogGatherService.getUserName(post.getUSER_ID());
+			String writer = dogGatherService.getUserNickName(post.getUSER_ID());
 			Long sizeID = dogGatherService.getDogSizeID(post.getSPECIES_ID());
 			int commentCnt = dogGatherCommentService.getCommentCnt(postID);
 			int participantCount = dogGatherService.getDogGatherParticipantCount(postID);
@@ -105,26 +95,12 @@ public class DogGatherboardController {
 	
 	//게시글 작성폼
 	@RequestMapping("/writeForm")
-	public ModelAndView dogGatherboardWriteForm(HttpServletResponse response, HttpSession session) throws Exception {
-		LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
-
-		ModelAndView result = new ModelAndView();
+	public ModelAndView dogGatherboardWriteForm(HttpServletResponse response, HttpSession session) throws Exception {		
 		
-		if(user == null) {
-			response.setContentType("text/html charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>");
-			out.println("alert('로그인이 필요합니다!');");
-			out.println("location.href='/dog/gatherboard';");
-			out.println("</script>");
-			out.close();
-		}
-		else {			
-			result.setViewName("petish/community/dog/gatherboard/write_form");
+		ModelAndView result = new ModelAndView();		
+		result.setViewName("petish/community/dog/gatherboard/write_form");
 			
-			return result;
-		}
-		return null;
+		return result;
 	}
 	
 	//게시글 수정폼
@@ -255,71 +231,80 @@ public class DogGatherboardController {
 	
 	//정모 신청
 	@RequestMapping("/insertParticipant")
-	public String insertParticipant(HttpServletResponse response, DogGatherParticipantVO participantVO, DogGatherPostDTO postDTO) throws Exception {
-		System.out.println("insertParticipant start======================");
+	public String insertParticipant(HttpServletResponse response, HttpSession session, DogGatherParticipantVO participantVO, DogGatherPostDTO postDTO) throws Exception {
+		LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
 		String username = postDTO.getUSERNAME();
 		String species = postDTO.getSPECIES();
-		
 		// 설정한 인원 수
 		DogGatherPostVO post = dogGatherService.getDogGatherPost(participantVO.getPOST_ID());
 		int peopleCount = post.getPEOPLE_COUNT();
 		// 참가신청 수
 		int participantCount = dogGatherService.getDogGatherParticipantCount(participantVO.getPOST_ID());
-		
 		Long USER_ID = dogGatherService.getUserID(username);
-		System.out.println("species="+species);
 		Long SPECIES_ID = dogGatherService.getDogSpeciesID(species);
-		System.out.println("SPECIES_ID="+SPECIES_ID);
 		
-		if(participantCount < peopleCount) {
-
-			participantVO.setUSER_ID(USER_ID);
-			participantVO.setSPECIES_ID(SPECIES_ID);
-			System.out.println("ParticipantVO="+participantVO.toString());
-			
-			int getParticipant = dogGatherService.getDogGatherParticipant(participantVO);
-			System.out.println("getParticipant="+getParticipant);
-			
-			//참여신청을 한 적이 없을 경우
-			if(getParticipant == 0) {
+		System.out.println("userID="+user.getId()+",participantID="+post.getUSER_ID());
+		
+		if(user.getId()==post.getUSER_ID()) {
+			response.setContentType("text/html charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>");
+			out.println("alert('본인 글에 참여 신청을 할 수 없습니다!');");
+			out.println("history.go(-1);");
+			out.println("</script>");
+			out.close();
+			return null;			
+		} else {			
+			if(participantCount < peopleCount) {
 				
-				int res = dogGatherService.insertDogGatherParticipant(participantVO);
-				System.out.println("ParticipantRes="+res);
+				participantVO.setUSER_ID(USER_ID);
+				participantVO.setSPECIES_ID(SPECIES_ID);
+				System.out.println("ParticipantVO="+participantVO.toString());
 				
-				if(res!=0) {
-					System.out.println("참여 신청 성공!");
-					return "redirect:"+participantVO.getPOST_ID();
-				}
-				else {
+				int getParticipant = dogGatherService.getDogGatherParticipant(participantVO);
+				System.out.println("getParticipant="+getParticipant);
+				
+				//참여신청을 한 적이 없을 경우
+				if(getParticipant == 0) {
+					
+					int res = dogGatherService.insertDogGatherParticipant(participantVO);
+					System.out.println("ParticipantRes="+res);
+					
+					if(res!=0) {
+						System.out.println("참여 신청 성공!");
+						return "redirect:"+participantVO.getPOST_ID();
+					}
+					else {
+						response.setContentType("text/html charset=UTF-8");
+						PrintWriter out = response.getWriter();
+						out.println("<script>");
+						out.println("alert('참여 신청에 실패하였습니다!');");
+						out.println("history.go(-1);");
+						out.println("</script>");
+						out.close();
+						return null;
+					}
+				} else {
 					response.setContentType("text/html charset=UTF-8");
 					PrintWriter out = response.getWriter();
 					out.println("<script>");
-					out.println("alert('참여 신청에 실패하였습니다!');");
+					out.println("alert('이미 참여 신청이 완료된 정모입니다!');");
 					out.println("history.go(-1);");
 					out.println("</script>");
 					out.close();
 					return null;
 				}
-			} else {
+			}
+			else {
 				response.setContentType("text/html charset=UTF-8");
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('이미 참여 신청이 완료된 정모입니다!');");
+				out.println("alert('참여 인원수를 초과하였습니다!');");
 				out.println("history.go(-1);");
 				out.println("</script>");
 				out.close();
 				return null;
 			}
-		}
-		else {
-			response.setContentType("text/html charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			out.println("<script>");
-			out.println("alert('참여 인원수를 초과하였습니다!');");
-			out.println("history.go(-1);");
-			out.println("</script>");
-			out.close();
-			return null;
 		}
 	}
 	

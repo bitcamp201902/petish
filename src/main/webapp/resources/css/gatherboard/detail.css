@@ -63,6 +63,11 @@ width:16px;height:16px;background:lightblue;}
 	margin-bottom: 15px;
 }
 
+#participantCancelBtn {
+	float: right;
+	margin-bottom: 10px;
+}
+
 .chatNotice {
 	font-family: 'Do Hyeon', sans-serif;
 	letter-spacing: 2px;

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.community.petish.community.dog.missingboard.mapper.DogLostPostMapper">
+<mapper
+	namespace="com.community.petish.community.dog.missingboard.mapper.DogLostPostMapper">
 
 	<resultMap
 		type="com.community.petish.community.dog.missingboard.domain.DogLostPostVO"
@@ -78,9 +79,10 @@
 
 	<!-- 게시글 수 조회 -->
 	<select id="getPostCount" resultType="Integer">
-		SELECT COUNT(*) FROM dog_lost_post_tb WHERE DELETED=0
-	</select>	
-	
+		SELECT COUNT(*) FROM
+		dog_lost_post_tb WHERE DELETED=0
+	</select>
+
 	<sql id="criteria">
 		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
 			<foreach item='type' collection="typeArr">
@@ -91,34 +93,32 @@
 						</when>
 						<when test="type == 'W'.toString()">
 							NICKNAME like '%'||#{keyword}||'%'
-						</when>				
+						</when>
 					</choose>
 				</trim>
 			</foreach>
 		</trim>
-	</sql>	
-	
+	</sql>
+
 	<!-- 게시판 리스트(페이징 + 검색) -->
 	<select id="getDogLostList" resultMap="DogLostPostListDTO">
 	<![CDATA[
-		SELECT
-		ID, DOG_AGE, DOG_GENDER, DOG_LOST_ADDRESS,
-		VIEW_COUNT, CREATE_DATE, UPDATED_DATE, FOUND,
-		SPECIES_ID, DOG_SPECIES, NICKNAME
+		SELECT ID, DOG_AGE, DOG_GENDER, DOG_LOST_ADDRESS, VIEW_COUNT, CREATE_DATE, UPDATED_DATE, FOUND, SPECIES_ID, DOG_SPECIES, NICKNAME
 		FROM 
-		(SELECT rownum rn, post.ID, post.DOG_AGE, post.DOG_GENDER, post.DOG_LOST_ADDRESS,
-		post.VIEW_COUNT, post.CREATE_DATE, post.UPDATED_DATE, post.FOUND,
-		post.SPECIES_ID, species.DOG_SPECIES, u.NICKNAME
-		FROM dog_lost_post_tb post, dog_species_tb species, user_tb u
-		WHERE		
+			(SELECT rownum rn, ID, DOG_AGE, DOG_GENDER, DOG_LOST_ADDRESS, VIEW_COUNT, CREATE_DATE, UPDATED_DATE, FOUND, SPECIES_ID, DOG_SPECIES, NICKNAME
+    		FROM
+    			(SELECT post.ID, post.DOG_AGE, post.DOG_GENDER, post.DOG_LOST_ADDRESS, post.VIEW_COUNT, post.CREATE_DATE, post.UPDATED_DATE, post.FOUND, post.SPECIES_ID, species.DOG_SPECIES, u.NICKNAME
+				FROM dog_lost_post_tb post, dog_species_tb species, user_tb u
+				WHERE post.DELETED=0 AND species.ID=post.SPECIES_ID AND u.ID=post.USER_ID
+				ORDER BY post.FOUND ASC, post.CREATE_DATE DESC
+				)
+			WHERE	
 	]]>
 		<include refid="criteria"></include>
 				
 	<![CDATA[
-		rownum <= #{pageNum} * #{amount}
-		AND post.DELETED=0 AND species.ID=post.SPECIES_ID AND u.ID=post.USER_ID
-		ORDER BY FOUND ASC, CREATE_DATE DESC
-		)		
+			rownum <= #{pageNum} * #{amount}
+			)		
 		WHERE rn > (#{pageNum} - 1) * #{amount}
 	]]>
 	</select>
@@ -127,40 +127,51 @@
 	<select id="getPostDetail" parameterType="Long"
 		resultMap="DogLostPostDetailDTO">
 		SELECT
-		post.ID, post.DOG_NAME, post.DOG_AGE, post.DOG_GENDER, post.DOG_DESCRIPTION,
-		post.DOG_IMAGE, post.DOG_LOST_DATE, post.PHONE_NUMBER, post.DOG_LOST_ADDRESS, post.REWARD,
+		post.ID, post.DOG_NAME, post.DOG_AGE, post.DOG_GENDER,
+		post.DOG_DESCRIPTION,
+		post.DOG_IMAGE, post.DOG_LOST_DATE,
+		post.PHONE_NUMBER, post.DOG_LOST_ADDRESS, post.REWARD,
 		post.VIEW_COUNT, post.CREATE_DATE, post.UPDATED_DATE, post.FOUND,
 		post.USER_ID, post.SPECIES_ID, species.DOG_SPECIES, u.NICKNAME
-		FROM dog_lost_post_tb post, dog_species_tb species, user_tb u
-		WHERE post.SPECIES_ID = species.ID AND post.USER_ID = u.ID AND post.ID=#{id}
+		FROM
+		dog_lost_post_tb post, dog_species_tb species, user_tb u
+		WHERE
+		post.SPECIES_ID = species.ID AND post.USER_ID = u.ID AND post.ID=#{id}
 	</select>
-	
+
 	<!-- 게시글 조회 수 갱신 -->
 	<update id="updateViewCount" parameterType="Long">
-		UPDATE dog_lost_post_tb
+		UPDATE
+		dog_lost_post_tb
 		SET VIEW_COUNT = VIEW_COUNT+1
 		WHERE ID=#{id}
 	</update>
 
 	<!-- 게시글 작성 -->
-	<insert id="insertPost" parameterType="com.community.petish.community.dog.missingboard.dto.DogLostPostRequestWriteDTO">
+	<insert id="insertPost"
+		parameterType="com.community.petish.community.dog.missingboard.dto.DogLostPostRequestWriteDTO">
 
 		<selectKey keyProperty="id" order="BEFORE" resultType="Long">
-		select dog_lost_post_id_seq.nextval from dual
+			select dog_lost_post_id_seq.nextval from dual
 		</selectKey>
 
 		insert into dog_lost_post_tb
 		values(
 		#{id},
-		#{dog_name, jdbcType=VARCHAR},
+		#{dog_name,
+		jdbcType=VARCHAR},
 		#{dog_age, jdbcType=VARCHAR},
-		#{dog_gender, jdbcType=VARCHAR},
+		#{dog_gender,
+		jdbcType=VARCHAR},
 		#{dog_description, jdbcType=VARCHAR},
-		#{dog_image, jdbcType=VARCHAR},
+		#{dog_image,
+		jdbcType=VARCHAR},
 		#{dog_lost_date, jdbcType=DATE},
-		#{phone_number, jdbcType=VARCHAR},
+		#{phone_number,
+		jdbcType=VARCHAR},
 		#{dog_lost_address, jdbcType=DATE},
-		#{reward, jdbcType=INTEGER},
+		#{reward,
+		jdbcType=INTEGER},
 		0, sysdate, sysdate, 0, 0, 1,
 		#{user_id},
 		#{species_id}
@@ -173,7 +184,8 @@
 		parameterType="com.community.petish.community.dog.missingboard.dto.DogLostPostRequestWriteDTO">
 		update dog_lost_post_tb
 		set
-		DOG_NAME=#{dog_name, jdbcType=VARCHAR},
+		DOG_NAME=#{dog_name,
+		jdbcType=VARCHAR},
 		DOG_AGE=#{dog_age, jdbcType=INTEGER},
 		DOG_GENDER=#{dog_gender, jdbcType=VARCHAR},
 		DOG_DESCRIPTION=#{dog_description, jdbcType=VARCHAR},
@@ -181,7 +193,8 @@
 		DOG_LOST_DATE=#{dog_lost_date, jdbcType=DATE},
 		PHONE_NUMBER=#{phone_number, jdbcType=VARCHAR},
 		DOG_LOST_ADDRESS=#{dog_lost_address, jdbcType=DATE},
-		REWARD=#{reward, jdbcType=INTEGER},
+		REWARD=#{reward,
+		jdbcType=INTEGER},
 		UPDATED_DATE=sysdate,
 		FOUND=#{found},
 		SPECIES_ID=#{species_id, jdbcType=INTEGER}
@@ -194,13 +207,16 @@
 		SET DELETED=1
 		WHERE ID=#{id}
 	</update>
-	
+
 	<!-- 게시글 등록 시 쪽지 전송 -->
 	<insert id="sendMessage">
-		INSERT INTO message(title, content, sender_id, receiver_id)
+		INSERT INTO message(title, content, sender_id,
+		receiver_id)
 		SELECT '[실종견 알림]', #{content, jdbcType=VARCHAR}, 1, u.id
 		FROM user_tb u, dog_lost_post_tb d
 		WHERE d.id=#{id}
-		AND SUBSTR(u.address, 0, INSTR(u.address, ' ', 1, 3)) = SUBSTR(d.dog_lost_address, 0, INSTR(d.dog_lost_address, ' ', 1, 3))
+		AND
+		SUBSTR(u.address, 0, INSTR(u.address, ' ', 1, 3)) =
+		SUBSTR(d.dog_lost_address, 0, INSTR(d.dog_lost_address, ' ', 1, 3))
 	</insert>
 </mapper>

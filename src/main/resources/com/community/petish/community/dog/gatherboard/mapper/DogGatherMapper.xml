@@ -156,6 +156,10 @@ create index IDX_DOG_GATHER_POST on DOG_GATHER_POST_TB(ID desc, USER_ID asc);
 		select USERNAME from USER_TB where ID=#{ID}
 	</select>
 	
+	<select id="getUserNickName" resultType="String">
+		select NICKNAME from USER_TB where ID=#{ID}
+	</select>
+	
 	<select id="getDogSpeciesList" resultType="com.community.petish.community.dog.gatherboard.domain.DogSpeciesVO">
 		select * from DOG_SPECIES_TB where SIZE_ID=#{SIZE_ID}
 	</select>
