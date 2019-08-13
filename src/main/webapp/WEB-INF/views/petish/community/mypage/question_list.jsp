@@ -217,7 +217,8 @@
 							var str = "";
 							str += "<tr align='cen;ter' class='font-grey'><th>문의내용</th><th>제목</th><th>문의일자</th><th>답변상태</th></tr>"	
 							if (list == null || list.length == 0) {
-							return;
+								listUL.html(str);
+								return;
 							}
 																
 							for (var i = 0, len = list.length || 0; i < len; i++) {

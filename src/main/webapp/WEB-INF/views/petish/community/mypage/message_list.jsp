@@ -599,6 +599,7 @@
 											str += "</th><th>제목</th><th>보낸사람</th><th>보낸날짜</th><th>읽음</th></tr>";
 												
 												if (list == null || list.length == 0) {
+													listUL.html(str);
 													return;
 												}
 												
@@ -649,6 +650,7 @@
 											str += "<tr align='cen;ter' class='font-grey'><th><input type='checkbox' id='sent-check-all'></th><th>제목</th><th>받는사람</th><th>보낸날짜</th><th>읽음</th></tr>"
 											
 											if (list == null || list.length == 0) {
+												listUL.html(str);
 												return;
 											}
 											
