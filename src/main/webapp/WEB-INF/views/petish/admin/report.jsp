@@ -77,6 +77,7 @@
                     <th>신고카테고리</th>
                     <th>신고유저</th>
                     <th>신고날짜</th>
+                    <th>상태</th>
                   </tr>
                 </thead>
                 <tbody id="userTable">
@@ -99,7 +100,7 @@
       	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       	ga('create', 'UA-72504830-1', 'auto');
-      	ga('send', 'pageview');
+      	ga('send', 'pageview');		
       }
       
       function getReportList(){
@@ -118,6 +119,11 @@
     				output += '<td>'+item.category_name+'</td>';
     				output += '<td>'+item.nickname+'</td>';
     				output += '<td>'+item.created_date+'</td>';
+    				if(item.deleted){
+    					output += '<td>삭제됨</td>';
+    				}else{
+    					output += '<td></td>';
+    				}
     				output += '</tr>';
     				$('#userTable').append(output);
     			

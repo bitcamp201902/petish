@@ -26,6 +26,8 @@
 	<result property="board_table_address" column="BOARD_TABLE_ADDRESS" />	
 	<result property="user_id" column="USER_ID" />	
 	<result property="nickname" column="NICKNAME" />
+	<result property="deleted" column="DELETED" />
+	
 </resultMap>
 
 <!-- 신고 작성 -->
@@ -51,14 +53,14 @@
 
 <!-- 신고 리스트 -->
 <select id="getReportList" resultMap="ResponseDTO">
-	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME,p.board_id 
-	from report_post_tb p, report_category_tb c, board_name_tb b, user_tb u
-	where p.user_id = u.id and c.id=p.category_id and p.board_id = b.id
+	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME,p.board_id,d.deleted 
+	from report_post_tb p, report_category_tb c, board_name_tb b, user_tb u, dog_lost_post_tb d
+	where p.user_id = u.id and c.id=p.category_id and p.board_id = b.id and p.post_id=d.id
 </select>
 
 <!-- 신고 리스트 -->
 <select id="getDogMissingReportList" parameterType="Long" resultMap="ResponseDTO">
-	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME,p.board_id 
+	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME,p.board_id,p.deleted 
 	from report_post_tb p, report_category_tb c, board_name_tb b, user_tb u
 	where p.user_id = u.id and c.id=p.category_id and p.board_id = b.id and p.post_id = #{post_id} and p.board_id= #{board_id}
 </select>

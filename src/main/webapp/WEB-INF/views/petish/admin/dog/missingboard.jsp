@@ -49,8 +49,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>[<%=addrSplit%>] <%=dto.getDog_species()%> / <%=dto.getDog_gender()%>
-   / <%=dto.getDog_age()%></title>
+<title>Petish Admin</title>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
@@ -104,50 +103,57 @@
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
 <link href="/resources/css/missingboard/detail.css" rel="stylesheet">
 <link href="/resources/css/report.css" rel="stylesheet">
+<!-- Main CSS-->
+<link rel="stylesheet" type="text/css" href="/resources/css/admin/main.css">
+<!-- Font-icon css-->
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
+<script src="/resources/js/admin/jquery-3.2.1.min.js"></script>
 </head>
 
-<body>
-      <%@ include file="/WEB-INF/views/commons/top.jspf"%>
-      
-      <%
-    	//접속 아이디
-    	Long userId = null;
-        String userNickname = "";
-    	if(loginedUser != null){
-    		userId = loginedUser.getId();
-    		userNickname = loginedUser.getNickname();
-    		
-    		System.out.println("유저아이디 : " + userId);
-    		System.out.println("유저닉네임 : " + userNickname); 
-      }
-      %>
-      
-      <!-- 게시판명 -->
-      <div id="heading-breadcrumbs" class="border-top-0 border-bottom-0">
-         <div class="container">
-            <div class="row d-flex align-items-center flex-wrap">
-               <div class="col-md-7">
-                  <h1 class="h2">실종견 게시판</h1>
-               </div>
-               <div class="col-md-5">
-                  <ul class="breadcrumb d-flex justify-content-end">
-                  </ul>
-               </div>
-            </div>
-         </div>
+<body class="app sidebar-mini rtl">
+      <!-- Navbar-->
+    <header class="app-header"><a class="app-header__logo" href="index.html">Petish</a>
+      <!-- Sidebar toggle button--><a class="app-sidebar__toggle" href="#" data-toggle="sidebar" aria-label="Hide Sidebar"></a>
+      <!-- Navbar Right Menu-->
+      <ul class="app-nav">
+       
+      </ul>
+    </header>
+     <!-- Sidebar menu-->
+    <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
+    <aside class="app-sidebar">
+    
+      <ul class="app-menu">
+        <li><a class="app-menu__item" href="/admin"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
+        <li><a class="app-menu__item" href="/admin/user"><i class="app-menu__icon fa fa-user-circle"></i><span class="app-menu__label">User</span></a></li>
+        
+                
+        <li class="treeview"><a class="app-menu__item active" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i><span class="app-menu__label">Pages</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a class="treeview-item" href="/admin/report"><i class="icon fa fa-circle-o"></i> 신고페이지</a></li>
+            <li><a class="treeview-item" href="/admin/question"><i class="icon fa fa-circle-o"></i> 문의페이지</a></li>
+            
+          </ul>
+        </li>
+      </ul>
+    </aside>
+    <main class="app-content">
+      <div class="app-title">
+        <div>
+          <h1><i class="fa fa-file-text"></i>Pages</h1>
+          <p>신고게시판</p>
+        </div>
+        <ul class="app-breadcrumb breadcrumb side">
+          <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
+          <li class="breadcrumb-item">Pages</li>
+          <li class="breadcrumb-item active"><a href="/admin/report">신고게시판</a></li>
+        </ul>
       </div>
-
-
-      <div class="container">
-
+      <div class="row">
+		<div class="tile" style="width: 100%;">
          <!-- LEFT COLUMN _________________________________________________________-->
          <div id="blog-post" class="col-md-13">
-            
-            <button type="submit" class="btn btn-template-outlined">
-               <i class="fa fa-align-justify"></i>
-               <a href="<c:url value='/dog/missingboard/list'/>"> 목록 </a>
-            </button>
 
             <!-- 글 제목 -->
             <div class="panel-heading">
@@ -302,40 +308,7 @@
             <div class="comment-footer d-flex justify-content-center"></div>
 		</div>
 		
-		<!-- 댓글 입력창 -->
-		<h4 class="comment">댓글 작성</h4>
 		
-		<form id="insert_form" method="post">
-			<!-- comments -->
-			<input type="hidden" name="user_id" value=<%= userId %>> 
-			<input type="hidden" name="post_id" value=<%=dto.getId() %>>
-			<input type="hidden" name="pageNum" value=<%= pageNum %>>
-			
-			<div class="row">
-				<div class="col-sm-4">
-					<div class="form-group">
-						<label for="name">아이디<span class="required text-primary">*</span></label>						
-						<input id="NICKNAME" name="nickname" type="text" class="form-control" value="<%=userNickname %>" readonly>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12">
-					<div class="form-group">
-						<label for="comment">내 용 <span class="required text-primary">*</span></label>
-						<textarea id="CONTENT" name="content" rows="4" class="form-control"></textarea>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12 text-right">
-					<button class="re btn btn-template-outlined" id="input_data">
-						<i class="fa fa-comment-o"></i> 댓글 등록
-					</button>
-				</div>
-			</div>
-		</form>
-		<!-- comment insert form END -->
          
          <div style="margin: 2rem"></div>
 
@@ -354,23 +327,72 @@
                   </div>
             </div>
          </div>
-         <div style="margin: 5rem"></div>
-         <c:forEach var="reportList" items="${dogMissingReportList }">
-         	<div>신고내용 : <c:out value="${reportList.description }"></c:out></div>
-         </c:forEach>
+         <div class="row">
+       		 <div class="col-md-12">
+       			  <div class="tile">
+          			  <div class="tile-body">
+              			<table class="table table-hover table-striped" id="sampleTable">
+               			 <thead>
+               				<tr>
+                  				<th>유저닉네임</th>
+                  				<th>신고카테고리</th>
+                  				<th>신고내용</th>
+                    			<th>신고날짜</th>
+                    		</tr>
+                		</thead>
+               		 	<tbody id="userTable">
+                 			<c:forEach var="reportList" items="${dogMissingReportList }">
+                 				<tr>
+                 				<td>${reportList.nickname }</td>
+                 				<td>${reportList.category_name }</td>
+                 				<td>${reportList.description }</td>
+                 				<td>${reportList.created_date }</td>
+                 				</tr>
+         					</c:forEach>
+               		 	</tbody>	
+              			</table>
+            		</div>
+          		</div>
+       	 	</div>
+    	</div>     
+         
+         
       </div>
-   </div>
+   
    <!-- all -->
+   </div> <!-- class tile -->
+  </div> <!-- class row --> 
+ </main>
 
    
    <!-- JS 파일 추가 -->
+   
    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
    <script type="text/javascript" src="/resources/js/missingboard/detail.js"></script>
    <script type="text/javascript" src="/resources/js/missingboard/comment.js"></script>
    <script type="text/javascript" src="/resources/js/report.js"></script>   
-   
+  	<script src="/resources/js/admin/popper.min.js"></script>
+    <script src="/resources/js/admin/bootstrap.min.js"></script>
+    <script src="/resources/js/admin/main.js"></script>
+    <!-- The javascript plugin to display page loading on top-->
+    <script src="/resources/js/admin/plugins/pace.min.js"></script>
+    <!-- Page specific javascripts-->
+    <!-- Data table plugin-->
+    <script type="text/javascript" src="/resources/js/admin/plugins/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="/resources/js/admin/plugins/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript"></script>   
    <script>
-   $(document).ready(function() {	   
+   if(document.location.hostname == 'pratikborsadiya.in') {
+     	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+     	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+     	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+     	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+     	ga('create', 'UA-72504830-1', 'auto');
+     	ga('send', 'pageview');		
+    }
+   
+   $(document).ready(function() {
+	   $('#sampleTable').DataTable();
 	   (function(){
           //var id = '<c:out value="${dto.id}"/>';
           
@@ -495,6 +517,7 @@
      dots[slideIndex-1].className += " active";
    }
    
-   </script>   
+   </script>
+   
 </body>
 </html>

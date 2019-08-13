@@ -16,5 +16,7 @@ public class ReportResponseDTO {
 	private String board_table_name; //게시판 이름
 	private String board_table_address;
 	private Long user_id; //유저 식별자
-	private String nickname; //유저 닉네임	
+	private String nickname; //유저 닉네임
+	
+	private Integer deleted;
 }
