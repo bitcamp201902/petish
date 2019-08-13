@@ -36,7 +36,7 @@
 		</div>
 		<div id="content">
 			<div class="container">	
-						<button type="submit" class="btn btn-template-outlined" onclick="writeFormClick();">
+						<button type="submit" class="btn btn-template-outlined write-button" onclick="writeFormClick();">
 							<a>
 							글쓰기
 							</a>
