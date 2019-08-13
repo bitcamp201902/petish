@@ -139,6 +139,11 @@ a[href="#demo"] span:hover {
     float: right;
 }
 
+.s-likes-icon-active {
+    cursor: pointer;
+    color: dodgerblue;
+}
+
 /* 반응형 */
 @media (max-width: 400px ) {
     #mypet-modal-dialog {
