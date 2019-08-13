@@ -102,9 +102,6 @@ const addReply = (formData) => {
 	    	makeCommentPart(postId);
 	    },
 	    error: function(error, status, xhr) {
-	    	alert("로그인이 필요합니다.");
-	    	$(".modal").modal("hide");
-	    	$("#login-modal").modal("show");
 	    }
 	})
 };
