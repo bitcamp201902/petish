@@ -54,6 +54,13 @@
 													
 												</table>
 												<div class="questionfooter"></div>
+												<select name='type'>
+														<option value=''>--</option>
+														<option value='T'>제목</option>
+														<option value='C'>문의유형</option>
+												</select>
+												<input type='text' name='keyword' />
+												<button>Search</button>
 											</div>
 										</div>
 									</div>
@@ -65,7 +72,7 @@
 									<form action="./insert">
 										<div class="row">
 											<div class="col-sm-6 col-md-3">
-												<div style='padding-left:15px;padding-right:15px;'>
+												<div style='padding-left:15px;padding-right:15px;min-width:5cm;'>
 													<label for="category">문의 유형</label> <select id="category"
 														class="form-control" name="category_id">
 														<option >문의유형 선택</option>
@@ -99,7 +106,6 @@
 											</div>
 										</div>
 									</form>
-
 								</div>
 							</div>
 						</div>

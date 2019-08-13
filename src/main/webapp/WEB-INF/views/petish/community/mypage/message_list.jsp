@@ -95,6 +95,16 @@
 									
 													<div class="receivedfooter"></div>
 													<div class="sentfooter"></div>
+													<select name='type'>
+														<option value=''>--</option>
+														<option value='T'>제목</option>
+														<option value='S'>보낸사람</option>
+														<option value='R'>받는사람</option>
+													</select>
+													<input type='text' name='keyword' />
+													<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
+													<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
+													<button id='searchBtn'>Search</button>
 												</div>
 
 											</div>
