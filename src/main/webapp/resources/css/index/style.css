@@ -407,7 +407,8 @@ header .navbar .cta-btn a:hover {
 }
 
 .heading-wrap .back-text-dark {
-  color: #e3e3e3 !important;
+    color: #b5e3d5 !important;
+    opacity : 0.3;
 }
 
 .lead {
