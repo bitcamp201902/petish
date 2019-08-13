@@ -59,14 +59,12 @@
 	href="/resources/img/apple-touch-icon-144x144.png">
 <link rel="apple-touch-icon" sizes="152x152"
 	href="/resources/img/apple-touch-icon-152x152.png">
+	<link rel="stylesheet" href="/resources/css/mypage/mypage.css">
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-<link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-
+</head>
 <style>
-<!--
-css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 .dropdown {
 	position: relative;
 	display: inline-block;
@@ -95,10 +93,7 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 .dropdown:hover .dropdown-content {
 	display: block;
 }
-
 </style>
-</head>
-
 <body>
 	<div id="all">
 
@@ -685,20 +680,5 @@ css에 넣고 싶은데 적용이 안돼요ㅜㅜ -->
 		});
 	</script>
 	<!-- Javascript files-->
-	<script src="/resources/vendor/jquery/jquery.min.js"></script>
-	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
-	<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/resources/vendor/jquery.cookie/jquery.cookie.js"></script>
-	<script src="/resources/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
-	<script
-		src="/resources/vendor/jquery.counterup/jquery.counterup.min.js"></script>
-	<script src="/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
-	<script
-		src="/resources/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
-	<script src="/resources/js/jquery.parallax-1.1.3.js"></script>
-	<script
-		src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
-	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
-	<script src="/resources/js/front.js"></script>
 </body>
 </html>

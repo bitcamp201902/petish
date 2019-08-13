@@ -230,7 +230,7 @@
 							for (var i = 0, len = list.length || 0; i < len; i++) {
 							str += "<tr class='odd'><td class='font-grey'>"
 							+ list[i].category + "</td>";
-							str += "<td><a href='' class='nondeco'>"
+							str += "<td>"
 							+ list[i].title + "</td>";
 							str += "<td>"
 							+ list[i].created_date + "</td>";
