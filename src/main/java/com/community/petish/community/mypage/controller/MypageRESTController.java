@@ -67,6 +67,24 @@ public class MypageRESTController {
 	@Autowired
 	private DefaultService defaultServiceImpl;
 	
+	@GetMapping(value="message/receivedList/{page}/{type}/{keyword}",
+			produces = {
+					MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<ReceivedMessagePageDTO> getReceivedListWithSearch(
+				@PathVariable("page") int page,
+				@PathVariable("type") String type,
+				@PathVariable("keyword") String keyword,
+				HttpSession session){
+				log.info("receivedList");
+				LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
+				Criteria cri = new Criteria(page,10, user.getId());
+				cri.setType(type);
+				cri.setKeyword(keyword);
+				log.info(page+"/"+type+"/"+keyword);
+				return new ResponseEntity<>(messageServiceImpl.getReceivedMessagePaging(cri), HttpStatus.OK);
+			}
+	
 	@GetMapping(value="message/receivedList/{page}",
 			produces = {
 					MediaType.APPLICATION_XML_VALUE,
@@ -77,7 +95,7 @@ public class MypageRESTController {
 				log.info("receivedList");
 				LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
 				Criteria cri = new Criteria(page,10, user.getId());
-				log.info("받은메세지리스트 page = {}"+ page);
+				log.info(page+"/");
 				return new ResponseEntity<>(messageServiceImpl.getReceivedMessagePaging(cri), HttpStatus.OK);
 			}
 	
@@ -95,6 +113,24 @@ public class MypageRESTController {
 			return new ResponseEntity<>(messageServiceImpl.getSentMessagePaging(cri), HttpStatus.OK);
 			}
 
+	@GetMapping(value="message/sentList/{page}/{type}/{keyword}",
+			produces = {
+					MediaType.APPLICATION_XML_VALUE,
+					MediaType.APPLICATION_JSON_UTF8_VALUE})
+	public ResponseEntity<SentMessagePageDTO> getSentListWithSearch(
+			@PathVariable("page") int page,
+			@PathVariable("type") String type,
+			@PathVariable("keyword") String keyword,
+			HttpSession session){
+			log.info("sentList");
+			LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
+			Criteria cri = new Criteria(page,10, user.getId());
+			cri.setType(type);
+			cri.setKeyword(keyword);
+			log.info(page+"/"+type+"/"+keyword);
+			return new ResponseEntity<>(messageServiceImpl.getSentMessagePaging(cri), HttpStatus.OK);
+			}
+	
 	@GetMapping(value = "/message/received/{id}", produces = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_UTF8_VALUE })
 	public ResponseEntity<MessageResponseDTO> receivedMessageDetail(@PathVariable("id") Long id) {

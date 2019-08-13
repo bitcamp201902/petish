@@ -98,13 +98,11 @@
 													<select name='type'>
 														<option value=''>--</option>
 														<option value='T'>제목</option>
-														<option value='S'>보낸사람</option>
-														<option value='R'>받는사람</option>
+														<option value='N'>닉네임</option>
 													</select>
 													<input type='text' name='keyword' />
-													<input type='hidden' name='pageNum' value='${pageMaker.cri.pageNum}'>
-													<input type='hidden' name='amount' value='${pageMaker.cri.amount}'>
-													<button id='searchBtn'>Search</button>
+													<button id='searchReceivedBtn'>Search</button>
+													<button id='searchSentdBtn'>Search</button>
 												</div>
 
 											</div>
@@ -356,9 +354,24 @@
 						//받은 메세지 리스트
 						function getReceivedList(param, callback, error) {
 							var page = param.page || 1;
-							$.get("/mypage/api/message/receivedList/" + page + ".json",
+							var typeOption = document.getElementsByName("type");
+		                    var selectedIndex = typeOption[0].selectedIndex;
+		                    var type = document.getElementsByTagName("option")[selectedIndex].value;
+		                    var keyword = $('input[name=keyword]').val();
+		                    if(type == ""){
+		                    	$.get("/mypage/api/message/receivedList/" + page + ".json",
+										function(data) {
+											if (callback) {
+												callback(data.receivedCnt, data.list);
+											}
+										}).fail(function(xhr, status, err) {
+									if (error) {
+										error();
+									}
+								});
+		                    }else{
+							$.get("/mypage/api/message/receivedList/" + page + "/" + type + "/" + keyword + ".json",
 									function(data) {
-							
 										if (callback) {
 											callback(data.receivedCnt, data.list);
 										}
@@ -367,11 +380,18 @@
 									error();
 								}
 							});
+		                    }
+							
 						}
 						
 						//보낸 메세지 리스트
 						function getSentList(param, callback, error) {
 							var page = param.page || 1;
+							var typeOption = document.getElementsByName("type");
+		                    var selectedIndex = typeOption[0].selectedIndex;	
+		                    var type = document.getElementsByTagName("option")[selectedIndex].value;
+		                    var keyword = $('input[name=keyword]').val();
+		                    if(type == ""){
 							$.get("/mypage/api/message/sentList/" + page + ".json",
 									function(data) {
 								if (callback) {
@@ -382,6 +402,18 @@
 							error();
 								}
 							});
+							}else{
+								$.get("/mypage/api/message/sentList/" + page + "/" + type + "/"+ keyword + ".json",
+										function(data) {
+									if (callback) {
+										callback(data.sentCnt, data.list);
+									}
+								}).fail(function(xhr, status, err) {
+								if (error) {
+								error();
+									}
+								});
+							}
 						}
 						
 						//메세지 세부조회 메서드
@@ -720,6 +752,7 @@
 						.find("input[name='nickname']");
 
 				     	showReceivedList();
+				     	$("#searchSentdBtn").hide();
 				         //선택 삭제 버튼
 				         $('#delete-choice').click(function() {
 				          	var list = $(":checked");
@@ -735,11 +768,22 @@
 				        received.on("click", function(e){
 								showReceivedList();
 								pageNum = 1;
+								$("#searchReceivedBtn").show();
+								$("#searchSentdBtn").hide();
 						})
-							
+						$("#searchReceivedBtn").on("click", function(e){
+								showReceivedList();
+						})
+						
 						sent.on("click", function(e){
 								showSentList();
 								pageNum = 1;
+								$("#searchReceivedBtn").hide();
+								$("#searchSentdBtn").show();
+						})
+						
+						$("#searchSentdBtn").on("click", function(e){
+								showSentList();
 						})
 				});
 	</script>

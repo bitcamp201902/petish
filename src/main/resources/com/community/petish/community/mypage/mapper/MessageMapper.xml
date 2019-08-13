@@ -1,109 +1,140 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-	
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
 <mapper namespace="com.community.petish.community.mypage.mapper.MessageMapper">
-	<resultMap type="com.community.petish.community.mypage.dto.response.MessageResponseDTO" id="MessageResultMap">
-		<result property="id" column="ID" />
-		<result property="title" column="TITLE" />
-		<result property="content" column="CONTENT" />
-		<result property="sent_date" column="SENT_DATE" />
-		<result property="read" column="READ" />
-		<result property="deleted" column="DELETED" />
-		<result property="sender_id" column="SENDER_ID" />
-		<result property="receiver_id" column="RECEIVER_ID" />
-		<result property="nickname" column="NICKNAME"/>
-	</resultMap>
-	
-	<!-- 1. 쪽지 작성 -->
-	<insert id="writeMessage" parameterType="com.community.petish.community.mypage.dto.request.MessageRequestDTO">
-		insert into message_tb (id, title, content, sender_id, receiver_id)
-		values ((select max(id) from message_tb)+1,#{title}, #{content}, #{sender_id}, #{receiver_id})
-	</insert>
-	
-	<!-- 2. 받은 쪽지 리스트 조회 +페이징 -->
-	<select id="getReceivedMessageWithPaging" resultMap="MessageResultMap" >
-		<![CDATA[
-		select id, title, content, sent_date, read, deleted, nickname
-		from
-		(SELECT rownum rn, m.id, m.title, m.content, m.sent_date, m.read, m.deleted, u.nickname 
-		from message_tb m, user_tb u
-		where 
-		rownum <= #{pageNum} * #{amount} and receiver_id = #{user_id} and m.sender_id=u.id and m.deleted=0)
-		where rn > (#{pageNum} -1)*#{amount} 
-		order by id desc
-		]]>
-	</select>
-	
-	<!-- 3. 보낸 쪽지 리스트 조회 -->
-	<select id="getSentMessageWithPaging" resultMap="MessageResultMap">
-		<![CDATA[
-		select id, title, content, sent_date, read, deleted, nickname
-		from
-		(select rownum rn, m.id, m.title, m.content, m.sent_date, m.read, m.deleted, u.nickname
-		from message_tb m, user_tb u
-		where rownum <= #{pageNum} * #{amount}  and m.sender_id = #{user_id} and m.receiver_id=u.id and m.deleted=0)
-		where rn > (#{pageNum} -1)*#{amount}
-		order by id desc
-		]]>
-	</select>
-	
-	<select id="getReceivedCnt" resultType="int">
+   <resultMap type="com.community.petish.community.mypage.dto.response.MessageResponseDTO" id="MessageResultMap">
+      <result property="id" column="ID" />
+      <result property="title" column="TITLE" />
+      <result property="content" column="CONTENT" />
+      <result property="sent_date" column="SENT_DATE" />
+      <result property="read" column="READ" />
+      <result property="deleted" column="DELETED" />
+      <result property="sender_id" column="SENDER_ID" />
+      <result property="receiver_id" column="RECEIVER_ID" />
+      <result property="nickname" column="NICKNAME"/>
+   </resultMap>
+   
+   <!-- 1. 쪽지 작성 -->
+   <insert id="writeMessage" parameterType="com.community.petish.community.mypage.dto.request.MessageRequestDTO">
+      insert into message_tb (id, title, content, sender_id, receiver_id)
+      values ((select max(id) from message_tb)+1,#{title}, #{content}, #{sender_id}, #{receiver_id})
+   </insert>
+   
+   <!-- 2. 받은 쪽지 리스트 조회 +페이징 -->
+   <select id="getReceivedMessageWithPaging" resultMap="MessageResultMap" >
+   <![CDATA[
+      select id, title, content, sent_date, read, deleted, nickname
+      from
+      (SELECT rownum rn, m.id, m.title, m.content, m.sent_date, m.read, m.deleted, u.nickname 
+      from message_tb m, user_tb u
+      where
+      rownum <= #{pageNum} * #{amount} and receiver_id = #{user_id} and m.sender_id=u.id and m.deleted=0
+      ]]>
+      <foreach item='type' collection="typeArr">
+         <choose>
+            <when test="type == 'T'.toString()">
+               and title like '%'||#{keyword}||'%'
+            </when>
+            <when test="type == 'N'.toString()">
+                and nickname in (select nickname from user_tb where nickname like '%'||#{keyword}||'%')
+            </when>
+            <when test="type == null">
+            
+            </when>
+         </choose>
+      </foreach>
+      <![CDATA[
+      )
+      where rn > (#{pageNum} -1)*#{amount} 
+      order by id desc
+      ]]>
+   </select>
+   
+   <!-- 3. 보낸 쪽지 리스트 조회 -->
+   <select id="getSentMessageWithPaging" resultMap="MessageResultMap">
+      <![CDATA[
+      select id, title, content, sent_date, read, deleted, nickname
+      from
+      (select rownum rn, m.id, m.title, m.content, m.sent_date, m.read, m.deleted, u.nickname
+      from message_tb m, user_tb u
+      where rownum <= #{pageNum} * #{amount}  and m.sender_id = #{user_id} and m.receiver_id=u.id and m.deleted=0
+      ]]>
+      <foreach item='type' collection="typeArr">
+         <choose>
+            <when test="type == 'T'.toString()">
+               and title like '%'||#{keyword}||'%'
+            </when>
+            <when test="type == 'N'.toString()">
+                and nickname in (select nickname from user_tb where nickname like '%'||#{keyword}||'%')
+            </when>
+            <when test="type == null">
+            
+            </when>
+         </choose>
+      </foreach>
+      <![CDATA[
+      )
+      where rn > (#{pageNum} -1)*#{amount}
+      order by id desc
+      ]]>
+   </select>
+   
+   <select id="getReceivedCnt" resultType="int">
+      <![CDATA[
+      select count(*)
+      from message_tb
+      where receiver_id=#{user_id} and deleted=0
+      ]]>
+   </select>
+   
+   <select id="getSentCnt" resultType="int" parameterType="Long">
+   
+      select count(*)
+      from message_tb
+      where
+      sender_id=#{user_id} and deleted=0
+   
+   </select>
+   
+   <!-- 4. 받은 쪽지 상세조회 -->
+   <select id="receivedMessageDetail" resultMap="MessageResultMap" parameterType="Long" >
+      select m.id, m.title, m.content, m.sent_date, u.nickname, m.sender_id
+      from message_tb m, user_tb u
+      where m.id = #{id} and m.sender_id=u.id
+   </select>
+   
+   <!-- 5. 보낸 쪽지 상세조회 -->
+   <select id="sentMessageDetail" resultMap="MessageResultMap" parameterType="Long" >
+      select m.id, m.title, m.content, m.sent_date, m.receiver_id, m.sender_id, u.nickname 
+      from message_tb m, user_tb u
+      where m.id = #{id} and m.receiver_id=u.id
+   </select>
+   
+   <!-- 6. 쪽지 삭제 -->
+   <update id="deleteMessage" parameterType="Long">
+      update message_tb set deleted=1 where id=#{id}
+    </update>
 
-		select count(*)
-		from message_tb
-		where receiver_id=#{user_id} and deleted=0
+   <!-- 7. 받은 메세지중 삭제안된 메세지 갯수 -->
+   <select id="getUndeletedReceived" parameterType="Long" resultType="int">
+      select count(*) from message_tb where deleted = 0 and receiver_id = #{user_id}
+   </select>
 
-	</select>
-	
-	<select id="getSentCnt" resultType="int" parameterType="Long">
-	
-		select count(*)
-		from message_tb
-		where
-		sender_id=#{user_id} and deleted=0
-	
-	</select>
-	
-	<!-- 4. 받은 쪽지 상세조회 -->
-	<select id="receivedMessageDetail" resultMap="MessageResultMap" parameterType="Long" >
-		select m.id, m.title, m.content, m.sent_date, u.nickname, m.sender_id
-		from message_tb m, user_tb u
-		where m.id = #{id} and m.sender_id=u.id
-	</select>
-	
-	<!-- 5. 보낸 쪽지 상세조회 -->
-	<select id="sentMessageDetail" resultMap="MessageResultMap" parameterType="Long" >
-		select m.id, m.title, m.content, m.sent_date, m.receiver_id, m.sender_id, u.nickname 
-		from message_tb m, user_tb u
-		where m.id = #{id} and m.receiver_id=u.id
-	</select>
-	
-	<!-- 6. 쪽지 삭제 -->
-	<update id="deleteMessage" parameterType="Long">
-		update message_tb set deleted=1 where id=#{id}
- 	</update>
-
-	<!-- 7. 받은 메세지중 삭제안된 메세지 갯수 -->
-	<select id="getUndeletedReceived" parameterType="Long" resultType="int">
-		select count(*) from message_tb where deleted = 0 and receiver_id = #{user_id}
-	</select>
-
-	<!-- 8. 보낸 메세지중 삭제안된 메세지 갯수 -->
-	<select id="getUndeletedSent" parameterType="Long" resultType="int">
-		select count(*) from message_tb where deleted = 0 and sender_id= #{user_id}
-	</select>
-	
-	<!-- 9. 쪽지 읽음으로 변경 -->
-	<update id="changeReadAttr" parameterType="com.community.petish.community.mypage.dto.request.MessageRequestDTO">
-		update message_tb set read=1 where id=#{id} and receiver_id=#{receiver_id}
-	</update>
-	
-	<select id="checkNewMessage" parameterType="Long" resultType="int">
-		select count(*) from message_tb where receiver_id = #{user_id} and read = 0 and deleted=0
-	</select>
+   <!-- 8. 보낸 메세지중 삭제안된 메세지 갯수 -->
+   <select id="getUndeletedSent" parameterType="Long" resultType="int">
+      select count(*) from message_tb where deleted = 0 and sender_id= #{user_id}
+   </select>
+   
+   <!-- 9. 쪽지 읽음으로 변경 -->
+   <update id="changeReadAttr" parameterType="com.community.petish.community.mypage.dto.request.MessageRequestDTO">
+      update message_tb set read=1 where id=#{id} and receiver_id=#{receiver_id}
+   </update>
+   
+   <select id="checkNewMessage" parameterType="Long" resultType="int">
+      select count(*) from message_tb where receiver_id = #{user_id} and read = 0 and deleted=0
+   </select>
 </mapper>
-
 
 
 
