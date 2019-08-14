@@ -623,12 +623,7 @@
 <script>
 	var latitude ='';
 	var longitude ='';
-	navigator.geolocation.getCurrentPosition(function(position) {
-	  console.log(position.coords.latitude + ", " + position.coords.longitude);
-	  latitude = position.coords.latitude;
-	  longitude = position.coords.longitude;
-	  geocoder.coord2RegionCode(longitude, latitude, callback);
-	});
+	
 	
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
@@ -764,7 +759,12 @@
 		} 
 		else 
 		{
-			//nothing..asdfsadfsadfsfad
+			navigator.geolocation.getCurrentPosition(function(position) {
+				  console.log(position.coords.latitude + ", " + position.coords.longitude);
+				  latitude = position.coords.latitude;
+				  longitude = position.coords.longitude;
+				  geocoder.coord2RegionCode(longitude, latitude, callback);
+			});
 		}
 	}
 
