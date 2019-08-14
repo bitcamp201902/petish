@@ -89,7 +89,7 @@
 							</div>
 
 							<input id="emergency" type="checkbox"> 응급진료
-
+							<img src="/resources/img/placeholder_red.png" style="width: 35px;height: 35px;">
 							<div class="col-md-3">
 								<button type="button" id="hos_search" class="btn btn-primary btn-block" style="background-color: gray;">Search</button>
 							</div>
@@ -161,7 +161,11 @@
 
 	// 지도를 생성합니다    
 	var map = new kakao.maps.Map(mapContainer, mapOption); 
-
+	
+	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+	var zoomControl = new kakao.maps.ZoomControl();
+	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+	
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
 
