@@ -1,15 +1,24 @@
+$(function() {
+    $(".carousel-control-prev").hide();
+    $(".carousel-control-next").hide();
+
+    $("#fileInput").on("change", function(event) {
+        makeImageCarousel(event.target);
+    });
+
+    $("#submit-button").on("click", function(event) {
+        postUpload(event.target.form);
+    })
+});
+
 const makeImageCarousel = (file) => {
 	
 	let fileList = file.files;
-	
-	console.log("file 불러오기");
-	
+
 	if (!fileList) {
 		return;
 	}
-	
-	console.log("file null 확인");
-	
+
 	for (let file of fileList) {
 		if (file.size > 2097152) {
 			alert("사진 사이즈는 2MB이하만 가능합니다.");
@@ -22,11 +31,17 @@ const makeImageCarousel = (file) => {
 			return;
 		}
 	}
-	
-	console.log("file validation check");
-	
+
 	$("div").remove(".carousel-item");
-	
+
+	if ( fileList.length == 1 ) {
+	    $(".carousel-control-next").hide();
+	    $(".carousel-control-prev").hide();
+    } else {
+	    $(".carousel-control-next").show();
+	    $(".carousel-control-prev").show();
+    }
+
 	for (let i = 0; i < fileList.length; i++) {
 
 		let reader = new FileReader();
@@ -39,30 +54,35 @@ const makeImageCarousel = (file) => {
 		
 		reader.onload = function(e) {
 
-			let img = '<div class="carousel-item" id=picture' + (i + 1) +'>' + 
-				'<img class="d-block w-100" src=' + e.target.result + '>' +
-				'</div>';
+			let img = '<div class="carousel-item" id=picture' + (i + 1) +'>' +
+                '<div class="carousel-item-inner">' +
+                '<div class="img-wrapper">' +
+				'<img src=' + e.target.result + '>' +
+				'</div>' +
+                '</div>' +
+                '</div>';
+
 
 			$('.carousel-inner').append(img);
-		}
+		};
 		
 		reader.readAsDataURL(fileList[i]);
 	}
 	
-}
+};
 
 const isImage = (fileName) => {
 	let pattern = /jpg$|gif$|png$|jpeg$/i;
 	return fileName.match(pattern);
-}
+};
 
 const initializeFileInput = (fileInput) => {
 	fileInput.value = "";
-}
+};
 
 const handledPostUpload = (form) => {
 	checkAuthentication(postUpload, form);
-}
+};
 
 const postUpload = (form) => {
 	let formData = new FormData(form);
@@ -83,7 +103,7 @@ const postUpload = (form) => {
 		
 		}
 	})
-}
+};
 
 const checkAuthentication = (callback, param) => {
 	$.ajax({
@@ -102,4 +122,4 @@ const checkAuthentication = (callback, param) => {
 			}
 		}
 	})
-}
+};
