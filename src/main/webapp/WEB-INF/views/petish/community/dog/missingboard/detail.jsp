@@ -430,7 +430,7 @@
    <script type="text/javascript" src="/resources/js/report.js"></script>   
    
    <script>
-   $(document).ready(function() {	   
+   $(document).ready(function() {	
 	   (function(){
           //var id = '<c:out value="${dto.id}"/>';
           
@@ -554,11 +554,15 @@
 
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
-	
+    var infowindow = new kakao.maps.InfoWindow({zindex:1});
 	//원래 게시글의 모임장소 주소를 좌표로 바꿔주고 지도에 표시해주는 함수//********************************************************
 	var callback = function(result, status) {
 	    if (status === kakao.maps.services.Status.OK) {
-	        setMarker(result[0].x, result[0].y);
+	    	var detailAddr ='<div>주소 : '+result[0].address_name+'</div>';
+	    	var content = '<div class="bAddr">' +
+            '<span class="title">법정동 주소정보</span>' + 
+            detailAddr +  '</div>';
+	        setMarker(result[0].x, result[0].y,content);
 	    }
 	};
 	// '서울 서초구 서초동 1303-34'에 게시글의 모임장소(db값) 넣어준다.**********************************************************
@@ -573,7 +577,7 @@
         image: markerImage // 마커이미지 설정
 	});
 	//검색 하고 마커 찍어주는 함수
-	function setMarker(fa, ga){
+	function setMarker(fa, ga,content){
 		//검색창에서 클릭한 좌표로 이동된 지도를 다시 생성
 		mapOption = {
 		        center: new kakao.maps.LatLng(ga, fa), // 지도의 중심좌표
@@ -584,6 +588,9 @@
 		//해당 위치에 마커를 표시
 		marker.setPosition(new kakao.maps.LatLng(ga, fa));
 		marker.setMap(map);
+		
+        infowindow.setContent(content);
+        infowindow.open(map, marker);
 	}
    </script>
    
