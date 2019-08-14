@@ -21,17 +21,20 @@
 	<result property="category_name" column="CATEGORY_NAME" />
 	
 	<result property="post_id" column="POST_ID" />
+	<result property="board_id" column="BOARD_ID" />
 	<result property="board_table_name" column="BOARD_TABLE_NAME" />
 	<result property="board_table_address" column="BOARD_TABLE_ADDRESS" />	
 	<result property="user_id" column="USER_ID" />	
 	<result property="nickname" column="NICKNAME" />
+	<result property="deleted" column="DELETED" />
+	
 </resultMap>
 
 <!-- 신고 작성 -->
 <insert id="insertReport" parameterType="com.community.petish.community.report.dto.ReportRequestDTO">
-	insert into report_post_tb (id, description, created_date, deleted, category_id, board_id, post_id, user_id)
+	insert into report_post_tb
 	values(
-	((select NVL(max(id), 0) from report_post_tb) + 1),
+	REPORT_ID_SEQ.nextval,
 	#{description, jdbcType=VARCHAR},
 	sysdate, 0,
 	#{category_id, jdbcType=INTEGER},
@@ -50,13 +53,20 @@
 
 <!-- 신고 리스트 -->
 <select id="getReportList" resultMap="ResponseDTO">
-	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME 
+	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME,p.board_id
 	from report_post_tb p, report_category_tb c, board_name_tb b, user_tb u
 	where p.user_id = u.id and c.id=p.category_id and p.board_id = b.id
 </select>
 
+<!-- 신고 리스트 -->
+<select id="getDogMissingReportList" parameterType="Long" resultMap="ResponseDTO">
+	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME,p.board_id,p.deleted 
+	from report_post_tb p, report_category_tb c, board_name_tb b, user_tb u
+	where p.user_id = u.id and c.id=p.category_id and p.board_id = b.id and p.post_id = #{post_id} and p.board_id= #{board_id}
+</select>
+
 <!-- 신고 조회 -->
-<select id="getReport" parameterType="Long" resultMap="ResponseDTO">
+<select id="getReport" resultMap="ResponseDTO">
 	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, p.POST_ID, u.NICKNAME 
 	from report_post_tb p, report_category_tb c, board_name_tb b, user_tb u
 	where DELETED=0
