@@ -59,7 +59,7 @@
 </select>
 
 <!-- 신고 리스트 -->
-<select id="getDogMissingReportList" parameterType="Long" resultMap="ResponseDTO">
+<select id="getBoardReportList" parameterType="Long" resultMap="ResponseDTO">
 	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME,p.board_id,p.deleted 
 	from report_post_tb p, report_category_tb c, board_name_tb b, user_tb u
 	where p.user_id = u.id and c.id=p.category_id and p.board_id = b.id and p.post_id = #{post_id} and p.board_id= #{board_id}
