@@ -28,7 +28,7 @@ body {
 }
 
 #columns figure:hover {
-    
+
     /*            border: 1px solid #eee;*/
     background-color: #eee;
 }
@@ -171,8 +171,8 @@ a[href="#demo"] span:hover {
         max-height: 300px;
     }
     .img-wrapper > img {
+        height: 300px;
         max-width: 300px;
-        max-height: 300px;
     }
     #profile-area.modal-body {
         height: 40px;
@@ -217,8 +217,8 @@ a[href="#demo"] span:hover {
     }
 
     .img-wrapper > img {
+        height: 300px;
         max-width: 300px;
-        max-height: 300px;
     }
     #profile-area.modal-body {
         height: 40px;
@@ -262,8 +262,8 @@ a[href="#demo"] span:hover {
         max-height: 350px;
     }
     .img-wrapper > img {
+        height: 350px;
         max-width: 500px;
-        max-height: 350px;
     }
     #profile-area.modal-body {
         height: 60px;
@@ -309,8 +309,8 @@ a[href="#demo"] span:hover {
     }
 
     .img-wrapper > img {
+        height: 400px;
         max-width: 600px;
-        max-height: 400px;
     }
 
     #profile-area.modal-body {
