@@ -23,6 +23,11 @@ function commentList(param) {
 		
 		success:function(result) {
 			
+			if(result == "" || result == null){
+				$('#commentList').append("<p style='margin:auto'>등록된 댓글이 없습니다. 댓글을 등록해주세요.</p>");
+				return;
+			}
+			
 			for(var i in result) {
 				
 				var count = '댓글  ' + result[i].count;
@@ -35,40 +40,47 @@ function commentList(param) {
 				output += '<input type="hidden" id="commentCountVal" value=result[i].count>';
 				
 				//유저 프로필 사진
-				output += '<div class="col-sm-3 col-md-2 text-center-xs">'; //프로필 이미지
-				output += '<p><img src="/resources/img/user.png" class="img-fluid rounded-circle" style="max-width:70%"></p>'; 
+				output += '<div class="replyer-image-container">'; //프로필 이미지
+				output += '<img src="/resources/img/user.png" class="replyer-image" style="max-width:70%">'; 
 				output += '</div>';
 				
-				if(result[i].nickname == $("#nickname").val()) { 
-					output += '<div class="col-sm-9 col-md-10">';
-				}				
-				else {
-					output += '<div class="col-sm-9 col-md-10" style="height:130px">'; 
-				}
-				
+				output += '<div class="reply-content" id="reply-content' + result[i].id + '">';				
 				output += '<h5 class="text-uppercase" style="display:inline-block; padding-right:1rem">' + result[i].nickname + '</h5>';
 				output += '<a class="posted">';
-				output += '<i class="fa fa-clock-o" style="padding-right:0.2rem"></i>' + result[i].created_date ;
+				output += '<i class="fa fa-clock-o" style="padding-right:0.2rem"></i>' + result[i].created_date + '</a>';
+				
 				//수정 시에만 출력
 				if(result[i].created_date != result[i].updated_date){
-				output += '<i class="fa fa-history" style="padding:0 0.2rem 0 1.5rem; "></i>' + result[i].updated_date + ' 수정됨</a>';
+					output += '<a class="posted">';
+					output += '<i class="fa fa-history" style="padding:0 0.2rem 0 1.5rem; "></i>' + result[i].updated_date + ' 수정됨</a>';
 				}
-				output += '<input type="hidden" class="form-control" id="commentContent'+result[i].id+'" style="width:90%" value="'+result[i].content+'">';
-				output += '<li id="commentBlock'+result[i].id+'" style="display:block">';
-				output += '<a id="commentInnerText'+result[i].id+'">' + result[i].content +'</a>';   
+				
+				output += '<input type="hidden" class="form-control comment-input-form" id="commentContent'+result[i].id+'" value="'+result[i].content+'">';
+				output += '<div id="commentBlock'+result[i].id+'">';
+				
+				output += '<div id="commentInnerText'+result[i].id+'" class="modify-comment">' + result[i].content +'</div>';   
 				
 				//본인이 작성한 댓글일 경우
-				if(result[i].nickname == $("#NICKNAME").val()) { 
-					output += '<button id="commentUpdateBtn" class="btn btn-template-outlined" onclick="button('+result[i].id+')" style="float:right"><i class="fa fa-reply"></i> 수정</button></li>';
+				if(result[i].nickname == $("#NICKNAME").val()) {		
+					
+					output += '<div class="nav navbar-nav ml-auto modify-remove-navbar">';
+					output += '<a href="#" data-toggle="dropdown" class="dropdown modify-remove-dropdown"><img src="/resources/img/reply-modify-button.png" class="modifyBtn" onclick="buttonChange('+result[i].id+')"></a>';
+					output += '<div class="dropdown-menu modify-remove-dropdown-menu" role="menu">';
+					output += '<div class="dropdown">';
+					output += '<a href="#" class="nav-link"><a onclick="button('+result[i].id+')">수정</a>';
+					output += '</div>';
+					output += '<div class="dropdown">';
+					output += '<a href="#" class="nav-link" id="message-btn" data-toggle="modal"><a onclick="removeComment('+result[i].id+')">삭제</a></a>';
+					output += '</div>';
+					output += '</div>';
+					output += '</div>';
+					
+					output += '</div>';
+					
 				}
-				output += '<div style="width:90%">'
-				output += '<input id="commentCloseBtn'+result[i].id+'" onclick="closeComment('+result[i].id+')" type="hidden" class="btn btn-template-outlined" value="닫기" style="float:right; margin-top:20px">';	
-				output += '<input id="commentDeleteBtn'+result[i].id+'" onclick="removeComment('+result[i].id+')" type="hidden" class="btn btn-template-outlined" value="삭제" style="float:right; margin-right:15px; margin-top:20px">';
-				output += '<input id="commentModifyBtn'+result[i].id+'" onclick="modifyComment('+result[i].id+')" type="hidden" class="btn btn-template-outlined" value="수정" style="float:right; margin-right:15px; margin-top:20px">';
-				output += '</div></div>';
+				output += '</div>';
 				
-				console.log("output:"+output);
-				
+				console.log("output:"+output);				
 				//댓글 append
 				$('#commentList').append(output);	
 			}			
@@ -77,12 +89,11 @@ function commentList(param) {
 			
 			//댓글 페이지 번호 출력
 			commentCount();
-
 		},
+		
 		error:function(request, status, error) {
 			alert("ajax통신 실패!!");
-			alert("code : " + request.status+"\n"+"message : " + request.responseText + "\n" + "error : " + error);
-			
+			alert("code : " + request.status+"\n"+"message : " + request.responseText + "\n" + "error : " + error);			
 		}
 	});	
 }
@@ -95,7 +106,8 @@ function commentCount() {
 	var commentCnt = cnt;
 	
 	//댓글 없으면 페이징 출력X
-	if(commentCnt == 0) return;	
+	if(commentCnt == 0) return;
+	
 	var endNum = Math.ceil(pageNum / 10.0) * 10;
 	var startNum = endNum - 9;
 	
@@ -157,10 +169,22 @@ function button(id) {
 	var contentVal = $("#commentContent"+id+"").val();
 	var loginModal = $("#login-modal");
 	
+	//output += '<input id="commentModifyBtn'+result[i].id+'" onclick="modifyComment('+result[i].id+')" type="hidden" class="btn btn-template-outlined buttons" value="수정" style="float:right; margin-right:15px; margin-top:20px">';
+	
 	$('#commentBlock'+id+'').attr({"style":"display:none"});
 	$('#commentContent'+id+'').attr({"type":"text", "value":contentVal});
+	$('#reply-content'+id+'').append('<div><input id="commentModifyBtn'+id+'" onclick="modifyComment('+id+')" type="hidden" class="btn btn-template-outlined buttons" value="수정" style="float:right; margin-right:15px; margin-top:20px"></div>');
+	
 	$('#commentCloseBtn'+id+'').attr({"type":"button"});
 	$('#commentDeleteBtn'+id+'').attr({"type":"button"});
+	$('#commentModifyBtn'+id+'').attr({"type":"button"});
+}
+
+function buttonChange(id) {
+	
+	var contentVal = $("#commentContent"+id+"").val();
+	var loginModal = $("#login-modal");
+	
 	$('#commentModifyBtn'+id+'').attr({"type":"button"});
 }
 
@@ -222,8 +246,7 @@ function insertComment(){
 			alert("ajax통신 실패!!!");
 		}
 	});
-	//기본 이벤트 제거
-	
+	//기본 이벤트 제거	
 }
 
 

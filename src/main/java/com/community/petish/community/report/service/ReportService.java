@@ -15,7 +15,7 @@ public interface ReportService {
 	//신고 리스트
 	List<ReportResponseDTO> getReportList();
 	List<ReportResponseDTO> getBoardReportList(Long board_id, Long post_id);
-	
+
 	//신고 조회
 	ReportResponseDTO getReport(Long id);
 	

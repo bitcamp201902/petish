@@ -21,6 +21,7 @@ import com.community.petish.community.dog.gatherboard.dto.response.CommentPageDT
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO;
 import com.community.petish.community.dog.gatherboard.service.DogGatherCommentService;
 import com.community.petish.community.dog.gatherboard.service.DogGatherService;
+
 import com.community.petish.community.dog.missingboard.dto.DogLostPostResponseDetailDTO;
 import com.community.petish.community.dog.missingboard.service.DogLostCommentService;
 import com.community.petish.community.dog.missingboard.service.DogLostPostService;
@@ -128,5 +129,5 @@ public class AdminReportController {
 		return result;
 		
 	}
-	
+
 }

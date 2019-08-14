@@ -18,6 +18,7 @@ public interface ReportMapper{
 	//신고 리스트
 	List<ReportResponseDTO> getReportList();
 	List<ReportResponseDTO> getBoardReportList(@Param("board_id") Long board_id, @Param("post_id") Long post_id);
+
 	//신고 조회
 	ReportResponseDTO getReport(Long id);
 	

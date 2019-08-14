@@ -41,5 +41,4 @@ public class ReportServiceImpl implements ReportService{
 		System.out.println("reportservice : "+post_id+", "+board_id);
 		return mapper.getBoardReportList(board_id, post_id);
 	}
-	
 }

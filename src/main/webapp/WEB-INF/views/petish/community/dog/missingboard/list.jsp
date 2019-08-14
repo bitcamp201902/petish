@@ -37,9 +37,10 @@
 <link href="/resources/css/missingboard/list.css" rel="stylesheet">
 <script src="/resources/js/missingboard/list.js"></script>
 
+<link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="font-family: 'Do Hyeon', sans-serif;">
 	<div id="all">
 
 		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
@@ -121,11 +122,11 @@
 							<%
 								if (dto.getFound() == 0) {
 							%>
-							<td><span class="found btn btn-sm btn-danger">미발견</span></td>
+							<td><span class="found btn btn-sm btn-danger found-buttons">미발견</span></td>
 							<%
 								} else {
 							%>
-							<td><span class="found btn btn-sm btn-info">발견</span></td>
+							<td><span class="found btn btn-sm btn-info found-buttons">발견</span></td>
 							<%
 								}
 							%>
@@ -137,7 +138,7 @@
 							<td colspan="10">
 								<a href="/dog/missingboard/<%=dto.getId()%>" class="title" id="title">[<%=addrSplit%>]
 									<%=dto.getDog_species()%> / <%=dto.getDog_gender()%> / <%=dto.getDog_age()%></a>
-								<a style="padding: 0.15rem"></a> <span class="badge badge-secondary"><%=dto.getCommentCount() %></span></td>
+								<a style="padding: 0.15rem"></a> <span class="badge badge-secondary comment-count"><%=dto.getCommentCount() %></span></td>
 							<td>
 								<div class="nav navbar-nav ml-auto">
 									<a href="#" data-toggle="dropdown" class="dropdown writer"><%=dto.getNickname() %></a>
