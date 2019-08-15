@@ -117,6 +117,19 @@ a[href="#demo"] span:hover {
     display: flex;
 }
 
+.replyer-image-container {
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.replyer-image {
+    border-radius: 100%;
+    max-width: 100%;
+}
+
 .replyer > .user-profile-picture {
     padding: 0 10px;
 }
@@ -171,7 +184,7 @@ a[href="#demo"] span:hover {
         max-height: 300px;
     }
     .img-wrapper > img {
-        height: 300px;
+        max-height: 300px;
         max-width: 300px;
     }
     #profile-area.modal-body {
@@ -217,7 +230,7 @@ a[href="#demo"] span:hover {
     }
 
     .img-wrapper > img {
-        height: 300px;
+        max-height: 300px;
         max-width: 300px;
     }
     #profile-area.modal-body {
@@ -262,7 +275,7 @@ a[href="#demo"] span:hover {
         max-height: 350px;
     }
     .img-wrapper > img {
-        height: 350px;
+        max-height: 350px;
         max-width: 500px;
     }
     #profile-area.modal-body {
@@ -309,7 +322,7 @@ a[href="#demo"] span:hover {
     }
 
     .img-wrapper > img {
-        height: 400px;
+        max-height: 400px;
         max-width: 600px;
     }
 
