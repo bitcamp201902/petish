@@ -2,15 +2,12 @@ package com.community.petish.community.mypet.comment.controller;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.community.petish.community.mypet.comment.dto.request.UpdateMypetCommentParams;
 import com.community.petish.community.mypet.comment.dto.response.MypetCommentListResponse;
 import com.community.petish.community.mypet.comment.service.MypetCommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class MypetCommentRestController {
 
 	@Autowired
-  MypetCommentService mypetCommentService;
+	MypetCommentService mypetCommentService;
 	
 	@PostMapping
 	public void saveComment(HttpServletRequest request) {
@@ -36,5 +33,21 @@ public class MypetCommentRestController {
 		
 		return mypetCommentListResponse;
 		
+	}
+
+	@PutMapping(consumes = { MediaType.APPLICATION_JSON_UTF8_VALUE })
+	public void updateComment(@RequestBody UpdateMypetCommentParams updateMypetCommentParams) {
+
+		log.info("update 요청, updateMypetCommentParams = {}", updateMypetCommentParams);
+
+		mypetCommentService.updateComment(updateMypetCommentParams);
+
+	}
+
+	@DeleteMapping("/{commentId}")
+	public void deleteComment(@PathVariable("commentId") Long commentId) {
+		log.info("mypet comment 삭제 요청, commentId = {}", commentId);
+
+		mypetCommentService.deleteComment(commentId);
 	}
 }
