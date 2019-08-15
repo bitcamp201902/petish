@@ -19,12 +19,51 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
-
+<!-- Bootstrap CSS-->
+<link rel="stylesheet"
+	href="/resources/vendor/bootstrap/css/bootstrap.min.css">
+<!-- Font Awesome CSS-->
+<link rel="stylesheet"
+	href="/resources/vendor/font-awesome/css/font-awesome.min.css">
+<!-- Google fonts - Roboto-->
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
+<!-- Bootstrap Select-->
+<link rel="stylesheet"
+	href="/resources/vendor/bootstrap-select/css/bootstrap-select.min.css">
+<!-- owl carousel-->
+<link rel="stylesheet"
+	href="/resources/vendor/owl.carousel/assets/owl.carousel.css">
+<link rel="stylesheet"
+	href="/resources/vendor/owl.carousel/assets/owl.theme.default.css">
+<!-- theme stylesheet-->
+<link rel="stylesheet" href="/resources/css/style.lightblue.css"
+	id="theme-stylesheet">
+<!-- Custom stylesheet - for your changes-->
+<link rel="stylesheet" href="/resources/css/custom.css">
+<!-- Favicon and apple touch icons-->
+<link rel="shortcut icon" href="/resources/img/favicon.ico"
+	type="image/x-icon">
+<link rel="apple-touch-icon" href="/resources/img/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="57x57"
+	href="/resources/img/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="72x72"
+	href="/resources/img/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76"
+	href="/resources/img/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114"
+	href="/resources/img/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120"
+	href="/resources/img/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144"
+	href="/resources/img/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152"
+	href="/resources/img/apple-touch-icon-152x152.png">
+	<link rel="stylesheet" href="/resources/css/mypage/mypage.css">
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-<link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-
+</head>
 <style>
 .dropdown {
 	position: relative;
@@ -54,10 +93,7 @@
 .dropdown:hover .dropdown-content {
 	display: block;
 }
-
 </style>
-</head>
-
 <body>
 	<div id="all">
 
@@ -413,23 +449,27 @@
 							},
 							function(writingsCnt, list) {
 
+								var str = "";
+								
 								if (page == -1) {
 									pageNum = Math.ceil(writingsCnt / 10.0);
+									listUL.html(str);
 									showWritingList(pageNum);
 									return;
 								}
-								var str = "";
-								str += "<tr align='cen;ter' class='font-grey'><th>게시판명</th><th>제목</th><th>작성일자</th><th>조회수</th></tr>"
+								str += "<tr align='cen;ter' class='font-grey'><th>게시판명</th><th>제목</th><th>작성일자</th><th>조회수</th></tr>";
 
 								if (list == null || list.length == 0) {
+									listUL.html(str);
 									return;
 								}
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
 									str += "<tr><td class='font-grey'>"
 											+ list[i].boardType + "</td>";
-									str += "<td><a href='' class='nondeco'>"
-											+ list[i].title + "</td>";
+									str += "<td><a href='"
+											+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+											+ list[i].title + "</a></td>";
 									str += "<td class='nondeco'>"
 											+ list[i].created_date + "</td>";
 									str += "<td class='nondeco'>"
@@ -463,14 +503,16 @@
 								str += "<tr align='center' class='font-grey'><th>게시판명</th><th>제목</th><th>작성자</th><th>작성일자</th><th>조회수</th></tr>"
 
 								if (list == null || list.length == 0) {
+									listUL.html(str);
 									return;
 								}
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
 									str += "<tr><td class='font-grey'>"
 											+ list[i].boardType + "</td>";
-									str += "<td><a href='' class='nondeco'>"
-											+ list[i].title + "</td>";
+											str += "<td><a href='"
+												+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+												+ list[i].title + "</a></td>";
 									str += "<td class='dropdown'><div class='nondeco'>"
 											+ list[i].nickname
 											+ "</div>"
@@ -513,14 +555,16 @@
 								str += "<tr align='center' class='font-grey'><th>게시판명</th><th>제목</th><th>작성자</th><th>작성일자</th><th>조회수</th></tr>"
 
 								if (list == null || list.length == 0) {
+									listUL.html(str);
 									return;
 								}
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
-									str += "<tr><td class='font-grey'>자유게시판</td>";
-									str += "<td><a href='' class='nondeco'>"
-											+ list[i].title
-											+ "</a></td>";
+									str += "<tr><td class='font-grey'>"
+										+ list[i].boardType + "</td>";
+										str += "<td><a href='"
+											+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+											+ list[i].title + "</a></td>";
 									str += "<td><div class='dropdown'><div class='nondeco'>"
 										+ list[i].nickname
 										+ "</a>";
@@ -635,5 +679,6 @@
 		
 		});
 	</script>
+	<!-- Javascript files-->
 </body>
 </html>

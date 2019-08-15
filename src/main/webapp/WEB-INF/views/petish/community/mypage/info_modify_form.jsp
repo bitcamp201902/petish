@@ -106,7 +106,7 @@
 										class="control-label col-md-8">주소</label></td>
 									<td><div>
 											<input type="text" style="width: 70%; height: 0.961cm;"
-												name="address" id="addressInput" value="<%=dto.getAddress()%>"
+												name="address" id="place" value="<%=dto.getAddress()%>"
 												readonly> 
 											<input class="btn btn-template-outlined joinBtn" onclick="openZipcode()" value="주소검색" style='width:2cm;'>
 										</div></td>

@@ -27,4 +27,6 @@ public class Writings_LikedDTO {
 	Date created_date;
 	//조회수
 	Integer view_count;
+	
+	String board_table_address;
 }

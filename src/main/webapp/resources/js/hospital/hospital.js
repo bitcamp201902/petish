@@ -19,23 +19,23 @@
         //지역 마다 변경될 카테고리
         var target = document.getElementById("sml_region");
        //지역(큰범위) 카테고리의 option value 값을 비교
-        if(e.value == "1") var d = seoul;
-        else if(e.value == "2") var d = gyeonggi;
-        else if(e.value == "3") var d = inchun;
-        else if(e.value == "4") var d = kangwon;
-        else if(e.value == "5") var d = daejeon;
-        else if(e.value == "6") var d = saejong;
-        else if(e.value == "7") var d = chungnam;
-        else if(e.value == "8") var d = chungbuk;
-        else if(e.value == "9") var d = busan;
-        else if(e.value == "10") var d = ulsan;
-        else if(e.value == "11") var d = kyungnam;
-        else if(e.value == "12") var d = kyungbuk;
-        else if(e.value == "13") var d = daegu;
-        else if(e.value == "14") var d = gwangju;
-        else if(e.value == "15") var d = jeonnam;
-        else if(e.value == "16") var d = jeonbuk;
-        else if(e.value == "17") var d = jeju;
+        if(e.value == "서울") var d = seoul;
+        else if(e.value == "경기") var d = gyeonggi;
+        else if(e.value == "인천") var d = inchun;
+        else if(e.value == "강원") var d = kangwon;
+        else if(e.value == "대전") var d = daejeon;
+        else if(e.value == "세종") var d = saejong;
+        else if(e.value == "충남") var d = chungnam;
+        else if(e.value == "충북") var d = chungbuk;
+        else if(e.value == "부산") var d = busan;
+        else if(e.value == "울산") var d = ulsan;
+        else if(e.value == "경남") var d = kyungnam;
+        else if(e.value == "경북") var d = kyungbuk;
+        else if(e.value == "대구") var d = daegu;
+        else if(e.value == "광주") var d = gwangju;
+        else if(e.value == "전남") var d = jeonnam;
+        else if(e.value == "전북") var d = jeonbuk;
+        else if(e.value == "제주") var d = jeju;
        
         target.options.length = 0;
        //var d=seoul 일때 seoul 배열의 갯수만큼 변경되는 카테고리안에 <option value=seoul[x]>seoul[x]</option> 태그를 추가
@@ -73,23 +73,23 @@
         //지역 마다 변경될 카테고리
         var target = document.getElementById("sml_region");
        //지역(큰범위) 카테고리의 option value 값을 비교
-        if(val == "1") var d = seoul;
-        else if(val == "2") var d = gyeonggi;
-        else if(val == "3") var d = inchun;
-        else if(val == "4") var d = kangwon;
-        else if(val == "5") var d = daejeon;
-        else if(val == "6") var d = saejong;
-        else if(val == "7") var d = chungnam;
-        else if(val == "8") var d = chungbuk;
-        else if(val == "9") var d = busan;
-        else if(val == "10") var d = ulsan;
-        else if(val == "11") var d = kyungnam;
-        else if(val == "12") var d = kyungbuk;
-        else if(val == "13") var d = daegu;
-        else if(val == "14") var d = gwangju;
-        else if(val == "15") var d = jeonnam;
-        else if(val == "16") var d = jeonbuk;
-        else if(val == "17") var d = jeju;
+        if(val == "서울") var d = seoul;
+        else if(val == "경기") var d = gyeonggi;
+        else if(val == "인천") var d = inchun;
+        else if(val == "강원") var d = kangwon;
+        else if(val == "대전") var d = daejeon;
+        else if(val == "세종") var d = saejong;
+        else if(val == "충남") var d = chungnam;
+        else if(val == "충북") var d = chungbuk;
+        else if(val == "부산") var d = busan;
+        else if(val == "울산") var d = ulsan;
+        else if(val == "경남") var d = kyungnam;
+        else if(val == "경북") var d = kyungbuk;
+        else if(val == "대구") var d = daegu;
+        else if(val == "광주") var d = gwangju;
+        else if(val == "전남") var d = jeonnam;
+        else if(val == "전북") var d = jeonbuk;
+        else if(val == "제주") var d = jeju;
        
         target.options.length = 0;
        //var d=seoul 일때 seoul 배열의 갯수만큼 변경되는 카테고리안에 <option value=seoul[x]>seoul[x]</option> 태그를 추가

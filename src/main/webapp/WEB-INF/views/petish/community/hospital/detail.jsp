@@ -54,7 +54,7 @@ img {vertical-align: middle;}
 
 /* On hover, add a black background color with a little bit see-through */
 .prev:hover, .next:hover {
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(192,192,192,0.3);
 }
 
 /* Caption text */
@@ -257,11 +257,11 @@ img {vertical-align: middle;}
 			<div class="fa fa-list fa-2x" aria-hidden="true" id="subject">
 				<span class="menu1" style="font-size: 23px;">진료 과목</span>
 			</div>
-			<c:forTokens var="jinryo" items="${hospital.hospital_check }" delims=",">
-				<div class="fa fa-circle" style="font-size:18px;" id="subject">
-					<span>${ jinryo}</span>
-				</div>
-			</c:forTokens>
+			<div class="fa fa-circle" style="font-size:18px; display:inline-block;" id="subject">
+				<c:forTokens var="jinryo" items="${hospital.hospital_check }" delims=",">
+					<span>${ jinryo} / </span>
+				</c:forTokens>
+			</div>
 			
 		</div>
 

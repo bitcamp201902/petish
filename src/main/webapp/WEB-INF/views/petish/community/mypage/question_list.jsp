@@ -54,6 +54,13 @@
 													
 												</table>
 												<div class="questionfooter"></div>
+												<select name='type'>
+														<option value=''>--</option>
+														<option value='T'>제목</option>
+														<option value='C'>문의유형</option>
+												</select>
+												<input type='text' name='keyword' />
+												<button>Search</button>
 											</div>
 										</div>
 									</div>
@@ -65,7 +72,7 @@
 									<form action="./insert">
 										<div class="row">
 											<div class="col-sm-6 col-md-3">
-												<div style='padding-left:15px;padding-right:15px;'>
+												<div style='padding-left:15px;padding-right:15px;min-width:5cm;'>
 													<label for="category">문의 유형</label> <select id="category"
 														class="form-control" name="category_id">
 														<option >문의유형 선택</option>
@@ -99,7 +106,6 @@
 											</div>
 										</div>
 									</form>
-
 								</div>
 							</div>
 						</div>
@@ -217,13 +223,14 @@
 							var str = "";
 							str += "<tr align='cen;ter' class='font-grey'><th>문의내용</th><th>제목</th><th>문의일자</th><th>답변상태</th></tr>"	
 							if (list == null || list.length == 0) {
-							return;
+								listUL.html(str);
+								return;
 							}
 																
 							for (var i = 0, len = list.length || 0; i < len; i++) {
 							str += "<tr class='odd'><td class='font-grey'>"
 							+ list[i].category + "</td>";
-							str += "<td><a href='' class='nondeco'>"
+							str += "<td>"
 							+ list[i].title + "</td>";
 							str += "<td>"
 							+ list[i].created_date + "</td>";

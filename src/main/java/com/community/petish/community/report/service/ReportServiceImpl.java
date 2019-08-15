@@ -27,11 +27,18 @@ public class ReportServiceImpl implements ReportService{
 	
 	//신고 리스트
 	public List<ReportResponseDTO> getReportList(){
+		
 		return mapper.getReportList();
 	}
 		
 	//신고 조회
 	public ReportResponseDTO getReport(Long id) {
 		return mapper.getReport(id);
+	}
+
+	@Override
+	public List<ReportResponseDTO> getDogMissingReportList(Long board_id, Long post_id) {
+		System.out.println("reportservice : "+post_id+", "+board_id);
+		return mapper.getDogMissingReportList(board_id, post_id);
 	}
 }
