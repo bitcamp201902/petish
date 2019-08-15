@@ -16,6 +16,10 @@ const resizeIcon = () => {
 
 $(window).ready(function() {
     resizeIcon();
+
+    $('#comment-save-part').on("keypress", function(event) {
+    	handleKeyPress(event);
+	})
 });
 
 $(window).resize(function() {
@@ -26,9 +30,10 @@ const checkAuthentication = (callback, param) => {
 	$.ajax({
 		type: "GET",
 		url: "/api/users/authenticate",
-		success: function(data, status, xhr) {
+		dataType: "json",
+		success: function(loginedUserData, status, xhr) {
 			if (callback) {
-				callback(param);
+				callback(loginedUserData, param);
 			}
 		},
 		error: function(error, status, xhr) {
@@ -54,7 +59,7 @@ const likeClick = () => {
 //    likePost(id);
 };
 
-const likePost = (id) => {
+const likePost = (loginedUserData, id) => {
 	$.ajax({
 		type: "POST",
 		url: "/api/mypet/posts/likes/" + id,
@@ -82,13 +87,12 @@ const handleKeyPress = (e) => {
         let formData = new FormData(e.target.form);
         
         checkAuthentication(addReply, formData);
-//        addReply(formData);
-        
+
         e.target.value = '';
     }
 };
 
-const addReply = (formData) => {
+const addReply = (loginedUserData, formData) => {
 	
 	let postId = formData.get("postId");
 	
@@ -117,12 +121,12 @@ const openPost = (id) => {
     $('#mypet-detail-modal').modal('show');
 };
 
-const makePostPart = (id) => {
+const makePostPart = (postId) => {
 	let userId;
 	
 	$.ajax({
 	    type:"GET",
-	    url:"/api/mypet/posts/" + id,
+	    url:"/api/mypet/posts/" + postId,
 	    success: function(result, status, xhr) {
 			let images = result.image.split(",");
 			let imageTag;
@@ -189,9 +193,17 @@ const makePostPart = (id) => {
 		    
 		    $.ajax({
 				type: "GET",
-				url: "/api/users/" + userId,
+				url: "/api/users/" + result.userId,
 				success: function(result, status, xhr) {
-					$('#post-creator').html(result.nickname);
+					let userTag = "";
+					userTag += "<div class='replyer-image-container' id='user" + result.id + "'>";
+					userTag += '<img src="' + result.profileImage + '" class="replyer-image">';
+					userTag += "</div>";
+					userTag += '<div class="reply-content" id="post-user-' + result.id + '">';
+					userTag += '<h5 id="replyer-nickname-' + result.id +  '" class="text-uppercase" style="display:inline-block; padding-right:1rem">' + result.nickname + '</h5>';
+					userTag += '</div>';
+					getLoginedUserInfo(makeUpdateDeleteButtonForPost, result.id, postId);
+					$('#profile-area').html(userTag);
 				},
 				error: function(error, status, xhr) {
 					
@@ -205,6 +217,50 @@ const makePostPart = (id) => {
 	});
 };
 
+const makeUpdateDeleteButtonForPost = (loginedUserData, userId, postId) => {
+	if ( loginedUserData.id == userId) {
+		let reply = "";
+		reply += '<div class="nav navbar-nav ml-auto modify-remove-navbar">';
+		reply += '<a href="#" data-toggle="dropdown" class="dropdown modify-remove-dropdown"><img src="/resources/img/reply-modify-button.png" class="modifyBtn" style="float: right"></a>';
+		reply += '<div class="dropdown-menu modify-remove-dropdown-menu" role="menu">';
+		reply += '<div class="dropdown">';
+		reply += '<a onclick="modifyPost('+ postId +')">수정</a>';
+		reply += '</div>';
+		reply += '<div class="dropdown">';
+		reply += '<a href="#" class="nav-link" id="message-btn" data-toggle="modal"><a onclick="removePost(' + postId +')">삭제</a></a>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+
+		$("#post-user-" + userId).append(reply);
+	} else {
+		let reply = "";
+		reply += '<div class="nav navbar-nav ml-auto modify-remove-navbar" >';
+		reply += '<a href="#" data-toggle="dropdown" class="dropdown modify-remove-dropdown"><img src="/resources/img/reply-modify-button.png" class="modifyBtn" style="float: right"></a>';
+		reply += '<div class="dropdown-menu modify-remove-dropdown-menu" role="menu">';
+		reply += '<div class="dropdown">';
+		reply += '<a onclick="reportPost('+ postId +')">신고</a>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+
+		$("#post-user-" + userId).append(reply);
+	}
+};
+
+const modifyPost = (postId) => {
+
+};
+
+const removePost = (postId) => {
+
+};
+
+const reportPost = (postId) => {
+
+};
+
 const makeCommentPart = (id) => {
 	$.ajax({
 		type: "GET",
@@ -216,29 +272,40 @@ const makeCommentPart = (id) => {
 				let reply = "<div id='commentId" + value.commentId + "' class='mypet-reply'>";
 				reply += "<div class='replyer'>";
 				reply += "<div class='replyer-wrapper'>";
-				reply += "<div class='user-profile-picture'>";
-				reply += "<i class='fas fa-user-circle fa-lg'></i>";
-				reply += "</div>";
-                reply += "<div class='user-profile-info'>";
-                reply += "<a class='userId" + value.userId + " user-detail' href=''>";
-                reply += "</a>";
-                reply += "</div>";
-                reply += "</div>";
-                reply += "</div>";
-                reply += "<div class='reply-content'>";
-                reply += value.content;
-                reply += "</div>";
-                reply += "<div class='reply-created-date'>";
-                reply += makeDateString(new Date(value.createdDate));
-                reply += "</div>";
-                reply += "</div>";
+				reply += "<div id='replyer-picture-" + value.userId + "' class='replyer-image-container replyer-picture-" + value.userId + "'>";
+				reply += '</div>';
+
+				reply += '<div class="reply-content" id="reply-content' + value.commentId + '">';
+				reply += '<h5 id="replyer-nickname-' + value.userId +  '" class="text-uppercase replyer-nickname-' + value.userId + '" style="display:inline-block; padding-right:1rem"></h5>';
+				reply += '<a class="posted">';
+				reply += '<i class="fa fa-clock-o" style="padding-right:0.2rem"></i>' + makeDateString(new Date(value.createdDate)) + '</a>';
+
+				//수정 시에만 출력
+				if(value.created_date != value.updated_date){
+					reply += '<a class="posted">';
+					reply += '<i class="fa fa-history" style="padding:0 0.2rem 0 1.5rem; "></i>' + value.updated_date + ' 수정됨</a>';
+				}
+
+				reply += '<input type="hidden" class="form-control comment-input-form" id="commentContent'+ value.commentId +'" value="'+ value.content +'">';
+				reply += '<div id="commentBlock'+ value.commentId +'">';
+
+				reply += '<div id="commentInnerText' + value.commentId + '" class="modify-comment">' + value.content +'</div>';
+
+				//본인이 작성한 댓글일 경우
+				getLoginedUserInfo(makeUpdateDeleteButton, value.userId, value.commentId, id);
+
+				reply += '</div>';
+
+				//댓글 append
 				$("#mypet-replies-body").append(reply);
 				
 				$.ajax({
 					type: "GET",
 					url: "/api/users/" + value.userId,
 					success: function(result, status, xhr) {
-						$('.userId'+value.userId).html(result.nickname);
+						$('.replyer-nickname-'+value.userId).html(result.nickname);
+						let profileImage = '<img src="' + result.profileImage + '" class="replyer-image">';
+						$('.replyer-picture-' + value.userId).html(profileImage);
 					},
 					error: function(error, status, xhr) {
 						
@@ -250,11 +317,124 @@ const makeCommentPart = (id) => {
 	})
 };
 
+const makeUpdateDeleteButton = (loginedUserData, commentUserId, commentId, postId) => {
+	if (loginedUserData.id == commentUserId) {
+		let reply = "";
+		reply += '<div class="nav navbar-nav ml-auto modify-remove-navbar">';
+		reply += '<a href="#" data-toggle="dropdown" class="dropdown modify-remove-dropdown"><img src="/resources/img/reply-modify-button.png" class="modifyBtn" onclick="buttonChange('+ commentId +')"></a>';
+		reply += '<div class="dropdown-menu modify-remove-dropdown-menu" role="menu">';
+		reply += '<div class="dropdown">';
+		reply += '<a onclick="button('+ commentId + "," + postId +')">수정</a>';
+		reply += '</div>';
+		reply += '<div class="dropdown">';
+		reply += '<a href="#" class="nav-link" id="message-btn" data-toggle="modal"><a onclick="removeComment('+ commentId +', ' + postId +')">삭제</a></a>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+
+		$("#commentId" + commentId).append(reply);
+	}
+};
+
+const getLoginedUserInfo = (callback, param1, param2, param3) => {
+	$.ajax({
+		type: "GET",
+		url: "/api/users/authenticate",
+		dataType: "json",
+		success : function(loginedUser) {
+			if(callback) {
+				callback(loginedUser, param1, param2, param3);
+			}
+		}
+	})
+};
+
+//버튼 속성 변경
+function button(commentId, postId) {
+
+	var contentVal = $("#commentContent"+commentId+"").val();
+	var loginModal = $("#login-modal");
+
+	//output += '<input id="commentModifyBtn'+result[i].id+'" onclick="modifyComment('+result[i].id+')" type="hidden" class="btn btn-template-outlined buttons" value="수정" style="float:right; margin-right:15px; margin-top:20px">';
+
+	$('#commentBlock'+commentId+'').attr({"style":"display:none"});
+	$('#commentContent'+commentId+'').attr({"type":"text", "value":contentVal});
+	$('#reply-content'+commentId+'').append('<div><input id="commentModifyBtn'+commentId+'" onclick="modifyComment('+ commentId + ", " + postId+')" type="hidden" class="btn btn-template-outlined buttons" value="수정" style="float:right; margin-right:15px; margin-top:20px"></div>');
+
+	$('#commentCloseBtn'+commentId+'').attr({"type":"button"});
+	$('#commentDeleteBtn'+commentId+'').attr({"type":"button"});
+	$('#commentModifyBtn'+commentId+'').attr({"type":"button"});
+}
+
+function buttonChange(id) {
+
+	let contentVal = $("#commentContent"+id+"").val();
+	let loginModal = $("#login-modal");
+
+	$('#commentModifyBtn'+id+'').attr({"type":"button"});
+}
+
+//댓글 수정
+function modifyComment(id, postId, callback, error) {
+	let comment = {"commentId":id, "content":$('#commentContent'+id+'').val()};
+
+	$.ajax({
+		type : 'put',
+		url : '/api/mypet/comments',
+		data : JSON.stringify(comment),
+		contentType : "application/json; charset=utf-8",
+		success : function(result, status, xhr) {
+			makeCommentPart(postId);
+		},
+		error : function(xhr, status, er) {
+			if(error) {
+				error(er);
+			}
+		}
+	});
+}
+
+//댓글 삭제
+function removeComment(commentId, postId) {
+
+	if(confirm("삭제하시겠습니까?")) {
+		$.ajax({
+			type : 'delete',
+			url : '/api/mypet/comments/' + commentId,
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				makeCommentPart(postId)
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error(er);
+				}
+			}
+		});
+	}
+	else {
+		//alert('삭제 취소!');
+		closeComment(id);
+	}
+}
+
+//댓글 닫기
+function closeComment(id) {
+	$("#commentContent"+id+"").attr({"type":"hidden"});
+	$("#commentModifyBtn"+id+"").attr({"type":"hidden"});
+	$("#commentDeleteBtn"+id+"").attr({"type":"hidden"});
+	$("#commentCloseBtn"+id+"").attr({"type":"hidden"});
+	$("#commentBlock"+id+"").attr({"style":"display:block"});
+}
+
 const makeDateString = (date) => {
 
     let createdDate = new Date(date);
     let createdDateYear = createdDate.getFullYear();
     let createdDateMonth = createdDate.getMonth();
+    let createdDateHour = createdDate.getHours();
+    let createdDateMinute = createdDate.getMinutes();
     if ( createdDateMonth < 10) {
         createdDateMonth = "0" + createdDateMonth;
     }
@@ -262,8 +442,14 @@ const makeDateString = (date) => {
     if (createdDateDay < 10) {
         createdDateDay = "0" + createdDateDay;
     }
+    if (createdDateHour < 10) {
+    	createdDateHour = "0" + createdDateHour;
+	}
+    if (createdDateMinute < 10) {
+    	createdDateMinute = "0" + createdDateMinute;
+	}
 
-    let createdDateString = createdDateYear + "." + createdDateMonth + "." + createdDateDay;
+    let createdDateString = createdDateYear + "." + createdDateMonth + "." + createdDateDay + " " + createdDateHour + ":" + createdDateMinute;
 
     return createdDateString;
 };
