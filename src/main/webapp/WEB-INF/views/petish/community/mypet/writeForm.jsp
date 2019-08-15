@@ -10,14 +10,13 @@
 
     <link rel="stylesheet" href="/resources/css/mypet/mypet.css">
     <link rel="stylesheet" href="/resources/css/mypet/mypetForm.css">
-    <script src="/resources/js/mypet/writeForm.js"></script>
 
 </head>
 <body>
 	<div id="all">
-  
+
   	<%@ include file="/WEB-INF/views/commons/top.jspf" %>
-  	
+
     <!-- MyPet Write Start -->
     <div id="heading-breadcrumbs">
 		<div class="container">
@@ -25,7 +24,7 @@
 				<div class="col-md-7">
 					<h1 class="h2">마이펫</h1>
 				</div>
-				
+
 				<div class="col-md-5">
 					<ul class="breadcrumb d-flex justify-content-end">
 						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -35,58 +34,58 @@
 			</div>
 		</div>
 	</div>
-      
-	<div class="text-center">      
+
+	<div class="text-center">
 		<div class="heading">
 	      <h2>마이펫 글 작성</h2>
 	    </div>
 	</div>
-          
+
 	<div class="bar pt-0">
 		<div class="col-md-8 mx-auto">
-		
-			<div id="mypetPictureExample" class="col-sm-12">
-				<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">
+
+			<div id="write-form-carousel" class="col-sm-12">
+				<div id="mypet-detail-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
 					<div class="carousel-inner">
-						
+
 					</div>
-					<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+					<a class="carousel-control-prev" href="#mypet-detail-carousel" role="button" data-slide="prev">
 						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
 						<span class="sr-only">Previous</span>
 					</a>
-					<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+					<a class="carousel-control-next" href="#mypet-detail-carousel" role="button" data-slide="next">
 						<span class="carousel-control-next-icon" aria-hidden="true"></span>
 						<span class="sr-only">Next</span>
 					</a>
 				</div>
 			</div>
-			
-			
+
+
 			<form enctype="multipart/form-data">
 				<div class="row">
 					<div class="col-sm-12">
 						<div class="form-group">
 	                   		<label for="fileInput">사진 첨부</label>
-							<input id="fileInput" type="file" multiple="multiple" name="file" onchange="makeImageCarousel(this)">
+							<input id="fileInput" type="file" multiple="multiple" name="file">
 						</div>
 					</div>
-	
+
 					<div class="col-sm-12">
 						<div class="form-group">
 							<label for="firstname">제목</label>
 							<input id="firstname" type="text" name="title" class="form-control">
                       	</div>
                     </div>
-                    
+
                     <div class="col-sm-12">
                     	<div class="form-group">
                     		<label for="message">내용</label>
                     		<textarea id="message" name="content" class="form-control"></textarea>
                       	</div>
                     </div>
-                    
+
                     <div class="col-sm-12 text-center">
-                    	<input class="btn btn-template-outlined" type="button" value='등록' onclick="handledPostUpload(this.form)" />
+                    	<input id="submit-button" class="btn btn-template-outlined" type="button" value='등록'/>
                    		<input type="reset" class="btn btn-template-outlined" value="취소" />
                     </div>
 				</div>
@@ -94,7 +93,7 @@
 		</div>
 	</div>
    <!-- MyPet Write END -->
-   
-    </div>
-  </body>
+	</div>
+	</body>
+	<script src="/resources/js/mypet/writeForm.js"></script>
 </html>
