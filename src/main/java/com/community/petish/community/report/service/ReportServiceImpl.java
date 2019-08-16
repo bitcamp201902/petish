@@ -37,8 +37,8 @@ public class ReportServiceImpl implements ReportService{
 	}
 
 	@Override
-	public List<ReportResponseDTO> getDogMissingReportList(Long board_id, Long post_id) {
+	public List<ReportResponseDTO> getBoardReportList(Long board_id, Long post_id) {
 		System.out.println("reportservice : "+post_id+", "+board_id);
-		return mapper.getDogMissingReportList(board_id, post_id);
+		return mapper.getBoardReportList(board_id, post_id);
 	}
 }
