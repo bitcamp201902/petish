@@ -182,7 +182,7 @@ public class DogMissingboardController {
 			log.info("삭제 실패");
 			rttr.addFlashAttribute("delete_msg", "failure");
 		}
-		return "redirect:/dog/missingboard/list";
+		return "redirect:/dog/missingboard";
 	}
 	
 	// 첨부 파일 삭제

@@ -1,5 +1,8 @@
 /* myPet Write,Modify */
-
+#write-form-carousel {
+    display: flex;
+    justify-content: center;
+}
 /* text area */
 #message {
 	height: 500px;

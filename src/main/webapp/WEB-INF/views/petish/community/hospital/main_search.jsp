@@ -60,23 +60,23 @@
 								<div class="form-group">
 									<select id="region" onchange="categoryChange(this)" class="form-control">
 										<option value="0">지역</option>
-										<option value="1">서울</option>
-										<option value="2">경기</option>
-										<option value="3">인천</option>
-										<option value="4">강원</option>
-										<option value="5">대전</option>
-										<option value="6">세종</option>
-										<option value="7">충남</option>
-										<option value="8">충북</option>
-										<option value="9">부산</option>
-										<option value="10">울산</option>
-										<option value="11">경남</option>
-										<option value="12">경북</option>
-										<option value="13">대구</option>
-										<option value="14">광주</option>
-										<option value="15">전남</option>
-										<option value="16">전북</option>
-										<option value="17">제주</option>
+                                    <option value="서울">서울</option>
+                                    <option value="경기">경기</option>
+                                    <option value="인천">인천</option>
+                                    <option value="강원">강원</option>
+                                    <option value="대전">대전</option>
+                                    <option value="세종">세종</option>
+                                    <option value="충남">충남</option>
+                                    <option value="충북">충북</option>
+                                    <option value="부산">부산</option>
+                                    <option value="울산">울산</option>
+                                    <option value="경남">경남</option>
+                                    <option value="경북">경북</option>
+                                    <option value="대구">대구</option>
+                                    <option value="광주">광주</option>
+                                    <option value="전남">전남</option>
+                                    <option value="전북">전북</option>
+                                    <option value="제주">제주</option>
 									</select>
 								</div>
 							</div>
@@ -89,7 +89,7 @@
 							</div>
 
 							<input id="emergency" type="checkbox"> 응급진료
-
+							<img src="/resources/img/placeholder_red.png" style="width: 35px;height: 35px;">
 							<div class="col-md-3">
 								<button type="button" id="hos_search" class="btn btn-primary btn-block" style="background-color: gray;">Search</button>
 							</div>
@@ -161,7 +161,11 @@
 
 	// 지도를 생성합니다    
 	var map = new kakao.maps.Map(mapContainer, mapOption); 
-
+	
+	// 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+	var zoomControl = new kakao.maps.ZoomControl();
+	map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+	
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
 

@@ -64,11 +64,13 @@
 <link href="/resources/css/commons/kakaomap.css?ver=1" rel="stylesheet">
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
 <link href="/resources/css/missingboard/detail.css" rel="stylesheet">
+<link href="/resources/css/missingboard/comment.css" rel="stylesheet">
 <link href="/resources/css/report.css" rel="stylesheet">
 
+<link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="font-family: 'Do Hyeon', sans-serif;">
       <%@ include file="/WEB-INF/views/commons/top.jspf"%>
       
       <%
@@ -133,7 +135,7 @@
                   /
                   <%=dto.getDog_age()%></h2>
             </div>
-
+            
             <!-- 게시 정보 -->
             <table>
                <tr>
@@ -169,7 +171,7 @@
          <div class="d-flex justify-content-center">
             <table class="poster-table">
                <tr>
-                  <th colspan="2" class="poster-title"><b>강아지를 찾습니다</b></th>
+                  <th colspan="2" class="poster-title">강아지를 찾습니다</th>
                </tr>
                <tr>
                
@@ -217,7 +219,7 @@
                </tr>
                
                <tr>
-                  <th colspan="2" class="phonenumber-info">
+                  <th colspan="2" class="phonenumber-reward-info">
                   <i class="fa fa-phone" id="phone-icon"></i><b><%=dto.getPhone_number()%></b>
                   <div style="padding-top:1rem;">사례금 <%=dto.getReward()%></div>              
                   </th>
@@ -233,24 +235,17 @@
 
         <!-- 댓글창 -->
 		<div id="comments">
-						
-			<% if (commentCount == 0) {%>
-			<h4>댓글  0</h4>
-			<a>등록된 댓글이 없습니다. 댓글을 작성해주세요!</a>
-			<script>$('.d-flex').css("display","none")</script>		
-			<%}
 			
-			else { %>
+			<!-- 댓글 갯수 -->
 			<h4 class="text-uppercase" id="commentCount">
 			<input type="text" id="commentCountVal">
 			</h4>
-			
-			<section class="bar bg-gray mb-0">			
+			<!-- 댓글 내용 -->
+			<section>			
 			<div id="commentList" class="row comment">
 			<!-- 댓글 출력 -->
 			</div>			
 			</section>
-			<%} %>
 			
 			<!-- 댓글 페이징 -->
 			<div style="padding:3rem">
@@ -282,19 +277,24 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="form-group">
+					<div class="form-group comment-div">
 						<label for="comment">내 용 <span class="required text-primary">*</span></label>
-						<textarea id="CONTENT" name="content" rows="4" class="form-control"></textarea>
+						
+						<div class="comment-and-button">
+							<div class="comment-form">							
+							<textarea id="CONTENT" name="content" rows="4" class="form-control "></textarea>						
+							</div>
+							
+							<div class="comment-button-div">
+								<button class="re btn btn-template-outlined comment-input-button" id="input_data">댓글 등록</button>
+							</div>
+						</div>
 					</div>
+					
+						
 				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-12 text-right">
-					<button class="re btn btn-template-outlined custom-button" id="input_data">
-						<i class="fa fa-comment-o"></i> 댓글 등록
-					</button>
-				</div>
-			</div>
+			
 		</form>
 		<!-- comment insert form END -->
          
@@ -337,7 +337,7 @@
    <!-- 신고 모달창 -->
    <div id="report-modal" tabindex="-1" role="dialog" aria-hidden="true"
       class="modal fade">
-      <div role="document" class="modal-dialog">
+      <div role="document" class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
             <div class="modal-header">
                <h4 align="center" class="modal-title">게시글 신고</h4>
@@ -430,7 +430,7 @@
    <script type="text/javascript" src="/resources/js/report.js"></script>   
    
    <script>
-   $(document).ready(function() {	   
+   $(document).ready(function() {	
 	   (function(){
           //var id = '<c:out value="${dto.id}"/>';
           
@@ -554,20 +554,30 @@
 
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
-
+    var infowindow = new kakao.maps.InfoWindow({zindex:1});
 	//원래 게시글의 모임장소 주소를 좌표로 바꿔주고 지도에 표시해주는 함수//********************************************************
 	var callback = function(result, status) {
 	    if (status === kakao.maps.services.Status.OK) {
-	        setMarker(result[0].x, result[0].y);
+	    	var detailAddr ='<div>주소 : '+result[0].address_name+'</div>';
+	    	var content = '<div class="bAddr">' +
+            '<span class="title">법정동 주소정보</span>' + 
+            detailAddr +  '</div>';
+	        setMarker(result[0].x, result[0].y,content);
 	    }
 	};
 	// '서울 서초구 서초동 1303-34'에 게시글의 모임장소(db값) 넣어준다.**********************************************************
 	geocoder.addressSearch("<%=dto.getDog_lost_address()%>", callback);
-	
-	var marker = new kakao.maps.Marker();
-
+	 var imageSrc = '/resources/img/missingboard/lostdogLocation.png', // 마커이미지의 주소입니다    
+     imageSize = new kakao.maps.Size(100, 100), // 마커이미지의 크기입니다
+     imageOption = {offset: new kakao.maps.Point(50, 100)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);  
+     
+     var marker = new kakao.maps.Marker({
+        map: map,
+        image: markerImage // 마커이미지 설정
+	});
 	//검색 하고 마커 찍어주는 함수
-	function setMarker(fa, ga){
+	function setMarker(fa, ga,content){
 		//검색창에서 클릭한 좌표로 이동된 지도를 다시 생성
 		mapOption = {
 		        center: new kakao.maps.LatLng(ga, fa), // 지도의 중심좌표
@@ -578,6 +588,9 @@
 		//해당 위치에 마커를 표시
 		marker.setPosition(new kakao.maps.LatLng(ga, fa));
 		marker.setMap(map);
+		
+        infowindow.setContent(content);
+        infowindow.open(map, marker);
 	}
    </script>
    

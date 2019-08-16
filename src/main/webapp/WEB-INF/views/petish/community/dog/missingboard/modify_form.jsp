@@ -35,9 +35,10 @@
 <!-- CSS 파일 추가 -->
 <link rel="stylesheet" type="text/css" href="/resources/css/missingboard/write_modify.css">
 <link rel="stylesheet" href="/resources/css/commons/kakaomap.css">
+<link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="font-family: 'Do Hyeon', sans-serif;">
 	<div id="all">
 		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
 		<%

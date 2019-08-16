@@ -17,9 +17,10 @@
 <!-- datetimepicker 추가 -->
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css">
 
+<link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
 
-<body>
+<body style="font-family: 'Do Hyeon', sans-serif;">
 	<div id="all">
 		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
 		<%

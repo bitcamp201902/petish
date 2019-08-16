@@ -52,6 +52,24 @@ border-top: 1px solid lightgray;
 	height:150px !important;
 	max-height:150px !important;
 }
+.found-buttons{
+	font-weight:200!important;
+	font-size: 0.85rem!important;
+}
+.title, .writer ,.postDate, .view, .found, .dogImage{
+	font-size:1.1rem;
+}
+.write-button{
+	font-size:1rem!important;
+}
+.title{
+	color:black;
+}
+.comment-count{
+	vertical-align:middle!important;
+	font-size: 0.8rem!important;
+    background-color: #808080!important;
+}
 
 @media (max-width:400px) {
 #lostdogImg{
@@ -77,7 +95,7 @@ th.image.border-top-0{
 width:70px;
 }
 th.title.border-top-0{
-width:70px;
+width:80px;
 }
 th.writer.border-top-0{
 width:70px;

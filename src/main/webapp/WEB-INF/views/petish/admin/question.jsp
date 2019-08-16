@@ -152,7 +152,7 @@
 				if(retVal.res == "OK"){
 					//데이타 성공일때 이벤트 작성
 					$("#new-modal").modal("hide");
-					getQuestionList();
+					window.location.href="/admin/question";
 				}
 				else{
 					alert("Modify Fail!!!");

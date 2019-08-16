@@ -21,7 +21,28 @@
 			AND deleted = 0
 			order by id desc
 	</select>
-	
+
+	<select id="findByCommentId" resultType="com.community.petish.community.mypet.comment.domain.MypetComment">
+		SELECT * FROM mypet_comment_tb
+			WHERE id = #{commentId}
+	</select>
+
+	<update id="update">
+
+		UPDATE mypet_comment_tb
+		SET content = #{content}, updated_date = sysdate
+		WHERE id = #{commentId}
+
+	</update>
+
+	<update id="delete">
+
+		UPDATE mypet_comment_tb
+		SET deleted = 1
+		WHERE id = #{commentId}
+
+	</update>
+
 	<select id="countLikeByCommentId">
 		SELECT count(*) from mypet_comment_like_tb 
 			WHERE comment_id = #{commentId} 

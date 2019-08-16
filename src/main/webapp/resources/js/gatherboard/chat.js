@@ -18,7 +18,7 @@ $(document).ready(function(){
     }
     
     var textarea = document.getElementById("messageWindow");
-    var webSocket = new WebSocket('ws://192.168.1.12:8080/broadcasting'); /* 서버 IP 주소에 맞게 변경 */
+    var webSocket = new WebSocket('ws://192.168.1.5:8080/broadcasting'); /* 서버 IP 주소에 맞게 변경 */
     var inputMessage = document.getElementById('inputMessage');
     webSocket.onerror = function(event) {
         onError(event)
