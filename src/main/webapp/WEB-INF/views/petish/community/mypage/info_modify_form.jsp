@@ -217,8 +217,6 @@
 		})
 	};
 	
-	$("#nicknameDuplicationCheckButton").on("click", checkNicknameDuplication);
-	
 	var a = $("#nicknameInput");
 	a.blur(function(){
 		if("<%=loginedUser.getNickname()%>" != a.val()){

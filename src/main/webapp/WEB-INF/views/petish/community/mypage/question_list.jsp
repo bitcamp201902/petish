@@ -54,13 +54,6 @@
 													
 												</table>
 												<div class="questionfooter"></div>
-												<select name='type'>
-														<option value=''>--</option>
-														<option value='T'>제목</option>
-														<option value='C'>문의유형</option>
-												</select>
-												<input type='text' name='keyword' />
-												<button>Search</button>
 											</div>
 										</div>
 									</div>

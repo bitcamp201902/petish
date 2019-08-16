@@ -286,6 +286,7 @@
 						});
 						
 						messageService.changeReadAttr(id, <%=loginedUser.getId()%>);
+						showReceivedList(pageNum);
 						
 					});
 					
@@ -343,7 +344,6 @@
 					
 					//모달 닫기버튼 누르면 화면 리로드됨
 					$(".close").on("click", function(e){
-						location.reload();
 					})
 
 					
@@ -766,10 +766,10 @@
 				         });
 				         
 				        received.on("click", function(e){
-								showReceivedList();
-								pageNum = 1;
 								$("#searchReceivedBtn").show();
 								$("#searchSentdBtn").hide();
+								showReceivedList();
+								pageNum = 1;
 						})
 						$("#searchReceivedBtn").on("click", function(e){
 								showReceivedList();

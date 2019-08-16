@@ -509,30 +509,30 @@
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
 									str += "<tr><td class='font-grey'>"
-											+ list[i].boardType + "</td>";
-											str += "<td><a href='"
-												+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
-												+ list[i].title + "</a></td>";
-									str += "<td class='dropdown'><div class='nondeco'>"
-											+ list[i].nickname
-											+ "</div>"
+										+ list[i].boardType + "</td>";
+										str += "<td><a href='"
+											+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+											+ list[i].title + "</a></td>";
+									str += "<td><div class='dropdown'><div class='nondeco'>"
+										+ list[i].nickname
 									if(<%=loginedUser.getId()%>==list[i].user_id){
-												
+										
 									}else{
-									str += "<div class='dropdown-content'><a href='/member/detail/"+list[i].user_id+"'>작성게시글 보기</a>";
-                                    str += "<a href='' data-toggle='modal' class='showmodal'"
-                                    str += "data-id="+list[i].user_id+"";
+                                    str += "<div class='dropdown-content'><a href='/member/detail/"+list[i].user_id+"'>작성게시글 보기</a>";
+                                    str += "<a href='#' data-toggle='modal' class='showmodal' data-target='#new-modal'"
+                                    str += "data-id="+list[i].id+"";
                                     str += " data-nick="+list[i].nickname;
                                     str += ">쪽지보내기</a></div>"
 									};
 									str += "</div></td>";
+	
 									str += "<td class='nondeco'>"
-											+ list[i].created_date + "</td>";
+											+ list[i].created_date
+											+ "</td>";
 									str += "<td class='nondeco'>"
-											+ list[i].view_count + "</td>";
-
+											+ list[i].view_count
+											+ "</td>";
 								}
-
 								listUL.html(str);
 								showCommentedPage(commentedCnt);
 								openMessageForm();
@@ -567,7 +567,6 @@
 											+ list[i].title + "</a></td>";
 									str += "<td><div class='dropdown'><div class='nondeco'>"
 										+ list[i].nickname
-										+ "</a>";
 									if(<%=loginedUser.getId()%>==list[i].user_id){
 										
 									}else{
