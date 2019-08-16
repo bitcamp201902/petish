@@ -77,7 +77,6 @@
                     <th>신고카테고리</th>
                     <th>신고유저</th>
                     <th>신고날짜</th>
-                    <th>상태</th>
                   </tr>
                 </thead>
                 <tbody id="userTable">
@@ -119,11 +118,7 @@
     				output += '<td>'+item.category_name+'</td>';
     				output += '<td>'+item.nickname+'</td>';
     				output += '<td>'+item.created_date+'</td>';
-    				if(item.deleted){
-    					output += '<td>삭제됨</td>';
-    				}else{
-    					output += '<td></td>';
-    				}
+    				
     				output += '</tr>';
     				$('#userTable').append(output);
     			
