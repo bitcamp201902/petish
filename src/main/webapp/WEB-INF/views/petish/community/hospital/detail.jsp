@@ -17,13 +17,13 @@
 	<link rel="stylesheet" href="/resources/css/hospital/detail.css?ver=1">
 	<link rel="stylesheet" href="/resources/css/write-modify.css">
 <script src="/resources/vendor/jquery/jquery.min.js"></script>
-
+<link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
 
 <%@ include file="/WEB-INF/views/commons/link.jspf" %>
 
 
-<body>
+<body style="font-family: 'Do Hyeon', sans-serif;">
 	<div id="all">
 
 		<%@ include file="/WEB-INF/views/commons/top.jspf" %>

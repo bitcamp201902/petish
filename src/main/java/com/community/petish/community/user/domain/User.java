@@ -1,5 +1,7 @@
 package com.community.petish.community.user.domain;
 
+
+
 import java.util.Date;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,7 +29,7 @@ public class User {
 	private String address;
 	private String gender;
 	private String picture;
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm")
 	private Date join_date;
 	private DATE updated_date;
 	private int deleted;
