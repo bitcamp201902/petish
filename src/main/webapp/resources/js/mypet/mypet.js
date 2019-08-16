@@ -302,10 +302,17 @@ const makeCommentPart = (id) => {
 				$.ajax({
 					type: "GET",
 					url: "/api/users/" + value.userId,
-					success: function(result, status, xhr) {
-						$('.replyer-nickname-'+value.userId).html(result.nickname);
-						let profileImage = '<img src="' + result.profileImage + '" class="replyer-image">';
-						$('.replyer-picture-' + value.userId).html(profileImage);
+					success: function(loginedUserData, status, xhr) {
+					    user = "<td><div class='dropdown user-dropdown'><div class='nondeco'>" + loginedUserData.nickname;
+					    user += "<div class='dropdown-content user-dropdown-content'><a href='/member/detail/" + loginedUserData.id + "'>작성게시글 보기</a>";
+                        user += "<a href='#' data-toggle='modal' class='showmodal' data-target='#new-modal' data-id='" + loginedUserData.id + "' data-nick='" + loginedUserData.nickname + "' >쪽지보내기</a></div>";
+                        user += "</div></td>";
+
+						$('.replyer-nickname-' + loginedUserData.id ).html(user);
+						let profileImage = '<img src="' + loginedUserData.profileImage + '" class="replyer-image">';
+						$('.replyer-picture-' + loginedUserData.id).html(profileImage);
+
+						openMessageForm();
 					},
 					error: function(error, status, xhr) {
 						

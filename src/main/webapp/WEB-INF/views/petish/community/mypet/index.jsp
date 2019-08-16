@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="/resources/css/mypet/mypet.css">
     <link rel="stylesheet" href="/resources/css/mypet/comment.css">
     <link rel="stylesheet" href="/resources/css/mypet/mypetvote.css">
-    <script src="/resources/js/mypet/mypet.js"></script>
-    <script src="/resources/js/mypet/mypetvote.js"></script>
+    <link rel="stylesheet" href="/resources/css/commons/message.css">
 
 </head>
 <body style="font-family: 'Do Hyeon', sans-serif ">
@@ -32,7 +31,7 @@
                 <h2>마이펫</h2>
             </div>
         </div>
-        
+
         <div class="board-body">
             <div id="columns" >
 
@@ -45,7 +44,7 @@
 		<!-- 투표창 모달 시 -->
 		<div class="modal fade" id="mypet-vote-modal">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-resizer">
-            	<div class="modal-content vote-modal"> 
+            	<div class="modal-content vote-modal">
 
 	                <div class="modal-header vote-modal-header">
 	                    <div class="vote-modal-header-content">
@@ -58,14 +57,14 @@
                 	<div class="modal-body vote-modal-body">
                     	<form id="vote-form">
                     	<div class="vote-candidate-container">
-                        
+
 							<div class="vote-candidate-wrapper" id="1">
 								<div class="vote-candidate">
 									<div class="vote-image-wrapper">
 										<div class="vote-image">
 											<img src="https://c.pxhere.com/photos/b1/90/dog_puppy_pet_animal_cute_labrador-855217.jpg!d" >
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="vote-select-wrapper">
                                         <div class="vote-selector">
                                             <input type="radio" name="vote-candidate" value="1">
@@ -73,14 +72,14 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="vote-candidate-wrapper" id="2">
                                 <div class="vote-candidate">
                                     <div class="vote-image-wrapper">
                                         <div class="vote-image">
                                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP_-HHVJrxrUwVgcif6cpBPCp18jayAdpwXyecnu7bxdueXa2U">
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="vote-select-wrapper">
                                         <div class="vote-selector">
                                             <input type="radio" name="vote-candidate" value="2">
@@ -88,14 +87,14 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="vote-candidate-wrapper" id="3">
                                 <div class="vote-candidate">
                                     <div class="vote-image-wrapper">
                                         <div class="vote-image">
                                             <img src="https://tul.imgix.net/content/article/puppy-pinot-sydney.jpg?auto=format,compress&w=740&h=486&fit=crop&crop=edges">
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="vote-select-wrapper">
                                         <div class="vote-selector">
                                             <input type="radio" name="vote-candidate" value="3">
@@ -103,14 +102,14 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="vote-candidate-wrapper" id="4">
                                 <div class="vote-candidate">
                                     <div class="vote-image-wrapper">
                                         <div class="vote-image">
                                             <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c9/Puppy_Up_Close.jpg/1062px-Puppy_Up_Close.jpg">
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="vote-select-wrapper">
                                         <div class="vote-selector">
                                             <input type="radio" name="vote-candidate" value="4">
@@ -118,7 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                                
+
                         </div>
                     	</form>
                 	</div>
@@ -156,9 +155,9 @@
                                         </div>
                                     </div>
 
-                                </div> 
+                                </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="mypet-content-body">
@@ -202,5 +201,12 @@
         </div>
         <!-- 조회창 모달  -->
 
+    <%@ include file="/WEB-INF/views/commons/sendMessage.jspf" %>
+
 </body>
+
+    <script src="/resources/js/commons/message.js"></script>
+    <script src="/resources/js/mypet/mypet.js"></script>
+    <script src="/resources/js/mypet/mypetvote.js"></script>
+
 </html>
