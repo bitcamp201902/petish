@@ -228,5 +228,15 @@ public class MypageRESTController {
 						return new ResponseEntity<>(questionServiceImpl.getQuestionListPaging(cri), HttpStatus.OK);
 			}
 	
+	@GetMapping(value="/newMessageCnt",
+			produces = {
+				MediaType.APPLICATION_XML_VALUE,
+				MediaType.APPLICATION_JSON_UTF8_VALUE})
+		public int getNewMessageCnt(
+					HttpSession session){
+						log.info("getNewMessageCnt");
+						LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
+						return messageServiceImpl.checkNewMessage(user.getId());
+			}
 	
 }

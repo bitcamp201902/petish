@@ -8,7 +8,7 @@
 
 <%
 	UserResponseDTO_Mypage user = (UserResponseDTO_Mypage) request.getAttribute("user");
-	int newMessage =(int) request.getAttribute("newMessage");
+
 %>
 
 <!DOCTYPE html>
@@ -120,7 +120,6 @@
 								<%
 									Long user_id = user.getId();
 								%>
-								 │ <a href="./message/list" style='color:black;'><i class='far fa-envelope' style='font-size:24px;color:grey;'></i> <%=newMessage %></a>
 							</div>
 						</div>
 						<ul id="pills-tab" role="tablist"

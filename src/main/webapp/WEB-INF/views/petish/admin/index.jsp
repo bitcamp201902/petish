@@ -209,8 +209,8 @@
     	      var ctx2 = $('#radarChartDemo').get(0).getContext("2d");
     	      var radarChart = new Chart(ctx2).Radar(rdata);
     	  },
-    	  error: function (xhr, status, errormsg) {
-    	    alert('Failed!' + errormsg);
+    	  error: function (xhr, status, error) {
+    	    alert('Failed!' + error);
     	  }
     	})
     

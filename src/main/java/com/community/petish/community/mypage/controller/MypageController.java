@@ -69,9 +69,6 @@ public class MypageController {
 		log.info(user.getId());
 		UserResponseDTO_Mypage userResponse = userServiceImpl.findUser(user.getId());
 		model.addAttribute("user", userResponse);
-		int newMessage = messageServiceImpl.checkNewMessage(user.getId());
-		model.addAttribute("newMessage", newMessage);
-		log.info("새로운쪽지"+newMessage);
 		return "petish/community/mypage/default";
 	}
 

@@ -87,7 +87,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li class="dropdown-item"><a href="/mypage/" class="nav-link" style="font-size: 0.9rem;">마이페이지</a></li>
-								<li class="dropdown-item"><a href="/mypage/message/list" class="nav-link" style="font-size:0.9rem;">쪽지함   <i class='fa fa-envelope' style='font-size:15px;color:grey;'></i></a></li>
+								<li class="dropdown-item"><a href="/mypage/message/list" class="nav-link" style="font-size:0.9rem;">쪽지함  <i class='fa fa-envelope' style='font-size:15px;color:grey;'></i><p id="newMessageCnt"></p></a></li>
 								<li class="dropdown-item"><a href="/mypage/question/list" class="nav-link" style="font-size:0.9rem;">문의함</a></li>
 								<li class="dropdown-item"><a href="#" class="nav-link" id="logout-button" style="font-size: 0.9rem;">로그아웃</a></li>
 							</ul>
@@ -285,3 +285,20 @@
 <% } else { %>
 <script src="/resources/js/top/non-logined.js"></script>
 <% } %>
+
+
+<script>
+
+$.ajax({
+	  type: 'get',
+	  url: '/mypage/api/newMessageCnt',
+	  dataType: 'json',
+	  success: function (html, status) {
+		var newMessageCnt = $("#newMessageCnt");
+		newMessageCnt[0].innerText=html;
+	  },
+	  error: function (xhr, status, error) {
+	    alert('Failed!'+error);
+	  }
+	})
+</script>
