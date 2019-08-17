@@ -125,7 +125,7 @@
     	      			pointStrokeColor: "#fff",
     	      			pointHighlightFill: "#fff",
     	      			pointHighlightStroke: "rgba(151,187,205,1)",
-    	      			data: [28, 48, 40, 50, 10]
+    	      			data: [5, 5, 5, 5, 5]
     	      		}
     	      	]
     	      };
@@ -168,8 +168,7 @@
       var ctxp2 = $("#pieChartConcern").get(0).getContext("2d");
       var pieChart2 = new Chart(ctxp2).Pie(pdata2);
       
-      var ctx2 = $('#radarChartDemo').get(0).getContext("2d");
-      var radarChart = new Chart(ctx2).Radar(rdata);
+     
     </script>
     <!-- Google analytics script-->
     <script type="text/javascript">
@@ -206,7 +205,7 @@
     	  dataType: 'json',
     	  success: function (html, status) {
     		  var array = rdata.datasets[0].data;
-    		  array[1]=html;
+    		  array[0]=html;
     	      var ctx2 = $('#radarChartDemo').get(0).getContext("2d");
     	      var radarChart = new Chart(ctx2).Radar(rdata);
     	  },
