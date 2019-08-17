@@ -17,12 +17,12 @@
     <link rel="stylesheet" href="/resources/css/commons/message.css">
 
 </head>
-<body style="font-family: 'Do Hyeon', sans-serif ">
+<body class="bg-light" style="font-family: 'Do Hyeon', sans-serif ">
 <div class="all">
 
-	<%@ include file="/WEB-INF/views/commons/top.jspf" %>
+	<%@ include file="/WEB-INF/views/commons/mypet_top.jspf" %>
 
-    <div class="container-fluid">
+    <div class="container-fluid body-section">
 
         <div class="board-header">
             <div class="title">

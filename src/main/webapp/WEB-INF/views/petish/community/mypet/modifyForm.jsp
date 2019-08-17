@@ -15,7 +15,7 @@
 <body>
    <div id="all">
    
-   	<%@ include file="/WEB-INF/views/commons/top.jspf" %>
+   	<%@ include file="/WEB-INF/views/commons/mypet_top.jspf" %>
    	
     <!-- MyPet Write Start -->
       <div id="heading-breadcrumbs">
