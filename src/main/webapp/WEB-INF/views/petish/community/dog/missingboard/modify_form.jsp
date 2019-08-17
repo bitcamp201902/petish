@@ -38,9 +38,9 @@
 <link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
 
-<body style="font-family: 'Do Hyeon', sans-serif;">
+<body class="bg-light" style="font-family: 'Do Hyeon', sans-serif;">
 	<div id="all">
-		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
+		<%@ include file="/WEB-INF/views/commons/dog_top.jspf"%>
 		<%
 			//로그인 확인
 			if(loginedUser == null){
@@ -49,6 +49,8 @@
 				out.println("</script>");
 			}
 		%>
+
+		<div class="content-fluid body-section">
 
 		<div id="heading-breadcrumbs">
 			<div class="container">
@@ -326,6 +328,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 
 	<!-- JS 파일 추가 -->

@@ -70,8 +70,9 @@
 <link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
 
-<body style="font-family: 'Do Hyeon', sans-serif;">
-      <%@ include file="/WEB-INF/views/commons/top.jspf"%>
+<body class="bg-light" style="font-family: 'Do Hyeon', sans-serif;">
+<div class="all">
+      <%@ include file="/WEB-INF/views/commons/dog_top.jspf"%>
       
       <%
     	//접속 아이디
@@ -85,7 +86,9 @@
     		System.out.println("유저닉네임 : " + userNickname); 
       }
       %>
-      
+
+      <div class="content-fluid body-section">
+
       <!-- 게시판명 -->
       <div id="heading-breadcrumbs" class="border-top-0 border-bottom-0">
          <div class="container">
@@ -421,6 +424,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
    
    <!-- JS 파일 추가 -->
