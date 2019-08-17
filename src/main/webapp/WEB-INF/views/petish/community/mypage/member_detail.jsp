@@ -21,7 +21,7 @@
 
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-
+<link href="/resources/css/fonts.css" rel="stylesheet">
 <style>
 .dropdown {
 	position: relative;
@@ -55,7 +55,7 @@
 </style>
 </head>
 
-<body>
+<body style="font-family: 'Do Hyeon', sans-serif;">>
 	<div id="all">
 
 		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
@@ -431,7 +431,7 @@
 									return;
 								}
 								var str = "";
-								str += "<tr align='cen;ter' class='font-grey'><th>게시판명</th><th>제목</th><th>작성일자</th><th>조회수</th></tr>"
+								str += "<tr align='center' ><th>게시판명</th><th>제목</th><th>작성일자</th><th>조회수</th></tr>"
 
 								if (list == null || list.length == 0) {
 									listUL.html(str);
@@ -439,13 +439,13 @@
 								}
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
-									str += "<tr><td class='font-grey'>"
+									str += "<tr><td>"
 											+ list[i].boardType + "</td>";
-									str += "<td><a href='' class='nondeco'>"
+									str += "<td><a href=''>"
 											+ list[i].title + "</td>";
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].created_date + "</td>";
-									str += "<td class='nondeco'>"
+									str += "<td >"
 											+ list[i].view_count + "</td>";
 
 								}
@@ -480,12 +480,12 @@
 								}
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
-									str += "<tr><td class='font-grey'>"
+									str += "<tr><td>"
 										+ list[i].boardType + "</td>";
 										str += "<td><a href='"
-											+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+											+ list[i].board_table_address + "detail/" + list[i].id + "'>"
 											+ list[i].title + "</a></td>";
-									str += "<td><div class='dropdown'><div class='nondeco'>"
+									str += "<td><div class='dropdown'><div>"
 										+ list[i].nickname
 									if(<%=loginedUser.getId()%>==list[i].user_id){
 										
@@ -498,10 +498,10 @@
 									};
 									str += "</div></td>";
 	
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].created_date
 											+ "</td>";
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].view_count
 											+ "</td>";
 								}								
@@ -524,7 +524,7 @@
 									return;
 								}
 								var str = "";
-								str += "<tr align='center' class='font-grey'><th>게시판명</th><th>제목</th><th>작성자</th><th>작성일자</th><th>조회수</th></tr>"
+								str += "<tr align='center'><th>게시판명</th><th>제목</th><th>작성자</th><th>작성일자</th><th>조회수</th></tr>"
 
 								if (list == null || list.length == 0) {
 									listUL.html(str);
@@ -532,11 +532,11 @@
 								}
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
-									str += "<tr><td class='font-grey'>자유게시판</td>";
+									str += "<tr><td >자유게시판</td>";
 									str += "<td><a href='' class='nondeco'>"
 											+ list[i].title
 											+ "</a></td>";
-									str += "<td><div class='dropdown'><div class='nondeco'>"
+									str += "<td><div class='dropdown'><div >"
 										+ list[i].nickname
 										+ "</a>";
 									if(<%=loginedUser.getId()%>==list[i].user_id){
@@ -550,10 +550,10 @@
 									};
 									str += "</div></td>";
 	
-									str += "<td class='nondeco'>"
+									str += "<td >"
 											+ list[i].created_date
 											+ "</td>";
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].view_count
 											+ "</td>";
 								}

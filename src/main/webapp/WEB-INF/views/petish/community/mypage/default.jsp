@@ -110,7 +110,7 @@
 							<div style="margin: 0.5cm;">
 								<img class="profile" src="<%=user.getPicture()%>"
 									style="margin-right: 30px;"> <a><%=user.getNickname()%>(<%=user.getUsername()%>***)</a>
-								│ 정회원 │ <a class="nondeco"
+								│ 정회원 │ <a class="nondeco"  style="font-family: 'Do Hyeon', sans-serif;"
 									href="/mypage/modifyform/<%=user.getId()%>"><i class='fas fa-id-card' style='font-size:24px;color:grey'></i> 회원정보수정</a>
 								<script>
 									var user_id =
@@ -150,7 +150,7 @@
 
 
 												<table class="table table-hover table-bordered"
-													id="ajaxList">
+													id="ajaxList" style="font-family: 'Do Hyeon', sans-serif;" >
 
 												</table>
 												<div class="writingfooter"></div>
@@ -458,7 +458,7 @@
 									showWritingList(pageNum);
 									return;
 								}
-								str += "<tr align='cen;ter' class='font-grey'><th>게시판명</th><th>제목</th><th>작성일자</th><th>조회수</th></tr>";
+								str += "<tr align='center'><th>게시판명</th><th>제목</th><th>작성일자</th><th>조회수</th></tr>";
 
 								if (list == null || list.length == 0) {
 									listUL.html(str);
@@ -466,14 +466,14 @@
 								}
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
-									str += "<tr><td class='font-grey'>"
+									str += "<tr><td>"
 											+ list[i].boardType + "</td>";
 									str += "<td><a href='"
-											+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+											+ list[i].board_table_address + "detail/" + list[i].id + ">"
 											+ list[i].title + "</a></td>";
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].created_date + "</td>";
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].view_count + "</td>";
 
 								}
@@ -509,12 +509,12 @@
 								}
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
-									str += "<tr><td class='font-grey'>"
+									str += "<tr><td>"
 										+ list[i].boardType + "</td>";
 										str += "<td><a href='"
-											+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+											+ list[i].board_table_address + "detail/" + list[i].id + "'>"
 											+ list[i].title + "</a></td>";
-									str += "<td><div class='dropdown'><div class='nondeco'>"
+									str += "<td><div class='dropdown'><div>"
 										+ list[i].nickname
 									if(<%=loginedUser.getId()%>==list[i].user_id){
 										
@@ -527,10 +527,10 @@
 									};
 									str += "</div></td>";
 	
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].created_date
 											+ "</td>";
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].view_count
 											+ "</td>";
 								}
@@ -561,12 +561,12 @@
 								}
 
 								for (var i = 0, len = list.length || 0; i < len; i++) {
-									str += "<tr><td class='font-grey'>"
+									str += "<tr><td>"
 										+ list[i].boardType + "</td>";
 										str += "<td><a href='"
-											+ list[i].board_table_address + "detail/" + list[i].id + "' class='nondeco'>"
+											+ list[i].board_table_address + "detail/" + list[i].id + "'>"
 											+ list[i].title + "</a></td>";
-									str += "<td><div class='dropdown'><div class='nondeco'>"
+									str += "<td><div class='dropdown'><div>"
 										+ list[i].nickname
 									if(<%=loginedUser.getId()%>==list[i].user_id){
 										
@@ -579,10 +579,10 @@
 									};
 									str += "</div></td>";
 	
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].created_date
 											+ "</td>";
-									str += "<td class='nondeco'>"
+									str += "<td>"
 											+ list[i].view_count
 											+ "</td>";
 								}
