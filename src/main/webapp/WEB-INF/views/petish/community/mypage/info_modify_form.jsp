@@ -97,12 +97,6 @@
 								</tr>
 								<tr style="height: 1.5cm;">
 									<td class="font-grey"><label
-										class="control-label col-md-8">휴대폰</label></td>
-									<td><input type="button" value="휴대폰인증"> <input
-										type="hidden" value="" name="phone"></td>
-								</tr>
-								<tr style="height: 1.5cm;">
-									<td class="font-grey"><label
 										class="control-label col-md-8">주소</label></td>
 									<td><div>
 											<input type="text" style="width: 70%; height: 0.961cm;"

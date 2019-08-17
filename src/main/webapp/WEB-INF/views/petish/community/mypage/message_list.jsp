@@ -779,16 +779,21 @@
 				         });
 				         
 				        received.on("click", function(e){
+					        	document.getElementsByName("type")[0].selectedIndex=null;
+					        	document.getElementsByName("keyword")[0].value=null;
 								$("#searchReceived").show();
 								$("#searchSent").hide();
 								showReceivedList();
 								pageNum = 1;
 						})
 						$("#searchReceivedBtn").on("click", function(e){
+								
 								showReceivedList();
 						})
 						
 						sent.on("click", function(e){
+								document.getElementsByName("type")[0].selectedIndex=null;
+				        		document.getElementsByName("keyword")[0].value=null;
 								showSentList();
 								pageNum = 1;
 								$("#searchReceived").hide();
