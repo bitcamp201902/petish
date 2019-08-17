@@ -515,9 +515,9 @@
 											+ list[i].title + "</a></td>";
 									str += "<td><div class='dropdown'><div>"
 										+ list[i].nickname
-									if(<%=loginedUser.getId()%>==list[i].user_id){
-										
-									}else{
+									if((<%=loginedUser.getId()%>==list[i].user_id) || (<%=loginedUser.getId()%>==null)){
+									}
+									else{
                                     str += "<div class='dropdown-content'><a href='/member/detail/"+list[i].user_id+"'>작성게시글 보기</a>";
                                     str += "<a href='#' data-toggle='modal' class='showmodal' data-target='#new-modal'"
                                     str += "data-id="+list[i].id+"";
@@ -613,7 +613,6 @@
 		function openMessageForm() {
 
 			var showmodal = $(".showmodal");
-
 			//쪽지보내기(모달)관련 이벤트
 			showmodal.on("click", function(e) {
 				var id = $(this).data("id");
@@ -621,6 +620,7 @@
 				modalInputReceiver_id3.val(id);
 				modalInputReceivedNickname3.val(nick);
 				$("#new-modal").modal("show");
+
 			});
 
 		}
