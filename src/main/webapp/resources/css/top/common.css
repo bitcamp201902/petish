@@ -1,0 +1,31 @@
+a {
+color: #b5e3d5;
+}
+
+a:hover {
+color: #8ed2be;
+}
+
+.page-item.active .page-link {
+    color: #b5e3d5;
+}
+
+.btn-template-outlined {
+    background: none;
+    border: 1px solid #b5e3d5 !important;
+    color: #b5e3d5;
+    border-radius: 0 !important;
+    text-decoration: none;
+}
+
+.navbar {
+    background: none;
+}
+
+.navbar-dark .navbar-toggler {
+    /*color: #b5e3d5;*/
+}
+
+.dropdown-menu {
+    left: inherit;
+}
