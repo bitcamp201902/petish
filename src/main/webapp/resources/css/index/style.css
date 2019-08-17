@@ -136,7 +136,7 @@ header .navbar-brand span {
 }
 
 header .navbar {
-  background: black !important;
+  background: none !important; /* black */
   padding-top: .5rem;
   padding-bottom: .5rem;
 }
