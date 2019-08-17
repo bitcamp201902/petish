@@ -37,7 +37,7 @@
           <div class="widget-small warning coloured-icon"><i class="icon fa fa-files-o fa-3x"></i>
             <div class="info">
               <h4>Uploades</h4>
-              <p><b>*</b></p>
+              <p id=newWritingsCnt></p>
             </div>
           </div>
         </div>
@@ -115,7 +115,7 @@
       	]
       };
       var rdata = {
-    	      	labels: ["마이펫", "고양이", "강아지"],
+    	      	labels: ["강아지", "고양이", "고슴도치", "토끼", "이구아나"],
     	      	datasets: [
     	      		{
     	      			label: "My Second dataset",
@@ -125,7 +125,7 @@
     	      			pointStrokeColor: "#fff",
     	      			pointHighlightFill: "#fff",
     	      			pointHighlightStroke: "rgba(151,187,205,1)",
-    	      			data: [28, 48, 40]
+    	      			data: [28, 48, 40, 50, 10]
     	      		}
     	      	]
     	      };
@@ -181,6 +181,41 @@
       	ga('create', 'UA-72504830-1', 'auto');
       	ga('send', 'pageview');
       }
+    </script>
+    
+    <script>
+ 
+    
+    $.ajax({
+    	  type: 'get',
+    	  url: '/admin/statistics/getAllNewWritingsCnt',
+    	  dataType: 'json',
+    	  success: function (html, status) {
+    	    var newWritingsCnt = $("#newWritingsCnt");
+    	    newWritingsCnt[0].innerText=html;
+    	  },
+    	  error: function (xhr, status, errormsg) {
+    	    alert('Failed!' + errormsg);
+    	  }
+    	})
+    	
+    	
+    $.ajax({
+    	  type: 'get',
+    	  url: '/admin/statistics/getDogNewWritingsCnt',
+    	  dataType: 'json',
+    	  success: function (html, status) {
+    		  var array = rdata.datasets[0].data;
+    		  array[1]=html;
+    	      var ctx2 = $('#radarChartDemo').get(0).getContext("2d");
+    	      var radarChart = new Chart(ctx2).Radar(rdata);
+    	  },
+    	  error: function (xhr, status, errormsg) {
+    	    alert('Failed!' + errormsg);
+    	  }
+    	})
+    
+
     </script>
   </body>
 </html>

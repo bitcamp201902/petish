@@ -63,6 +63,7 @@
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+<link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
 <style>
 .dropdown {
@@ -94,7 +95,7 @@
 	display: block;
 }
 </style>
-<body>
+<body style="font-family: 'Do Hyeon', sans-serif;">
 	<div id="all">
 
 		<%@ include file="/WEB-INF/views/commons/top.jspf"%>

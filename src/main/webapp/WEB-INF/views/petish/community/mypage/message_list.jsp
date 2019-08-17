@@ -95,6 +95,7 @@
 									
 													<div class="receivedfooter"></div>
 													<div class="sentfooter"></div>
+													<div id=searchReceived>
 													<select name='type'>
 														<option value=''>--</option>
 														<option value='T'>제목</option>
@@ -102,7 +103,16 @@
 													</select>
 													<input type='text' name='keyword' />
 													<button id='searchReceivedBtn'>Search</button>
+													</div>
+													<div>
+													<select name='type'>
+														<option value=''>--</option>
+														<option value='T'>제목</option>
+														<option value='N'>닉네임</option>
+													</select>
+													<input type='text' name='keyword' />
 													<button id='searchSentdBtn'>Search</button>
+													</div>
 												</div>
 
 											</div>

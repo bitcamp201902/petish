@@ -131,7 +131,7 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li class="nav-item cta-btn"><a href="/mypage/" class="nav-link" style="font-size: 0.9rem;">마이페이지</a></li>
-                            <li class="nav-item cta-btn"><a href="/mypage/message/list" class="nav-link" style="font-size:0.9rem;">쪽지함   <i class='fa fa-envelope' style='font-size:15px;color:grey;'>3</i></a></li>
+                            <li class="nav-item cta-btn"><a href="/mypage/message/list" class="nav-link" style="font-size:0.9rem;">쪽지함   <i class='fa fa-envelope' style='font-size:15px;color:grey;'></i></a></li>
                             <li class="nav-item cta-btn"><a href="/mypage/question/list" class="nav-link" style="font-size:0.9rem;">문의함</a></li>
                             <li class="nav-item cta-btn"><a href="#" class="nav-link" id="logout-button" style="font-size: 0.9rem;">로그아웃</a></li>
                         </ul>
@@ -143,12 +143,7 @@
                         </a>
                     </li>
                     <%} %>
-
-                    <!-- <li class="nav-item cta-btn">
-                      <a class="nav-link" href="contact.html">Contact Us</a>
-                    </li> -->
                 </ul>
-
             </div>
         </div>
     </nav>
@@ -910,6 +905,5 @@
 	}
 	
 	</script>
-<!— </div> —>
 </body>
 </html>
