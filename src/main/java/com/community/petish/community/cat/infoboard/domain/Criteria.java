@@ -12,6 +12,8 @@ public class Criteria {
 	private String searchKeyword;
 	private int categoryId;
 	
+
+
 	public Criteria()	{
 		this(1,10);
 	}
@@ -21,8 +23,13 @@ public class Criteria {
 		this.amount = amount;
 	}
 
+	
+
 	public String[] getSearchTypeArr() {
 		return searchType == null? new String[] {}: searchType.split("");				
 	}
 	
+//	public String[] getCategorytypeArr() {
+//		return categorytype == null? new String[] {}: categorytype.split("");				
+//	}
 }

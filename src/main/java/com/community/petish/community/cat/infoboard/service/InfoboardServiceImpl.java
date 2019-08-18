@@ -34,7 +34,7 @@ public class InfoboardServiceImpl implements InfoboardService	{
 	@Override
 	public void create(CatInfoboardVO catinfoboardvo) throws Exception{
 		
-		int id = catinfoboardvo.getID();
+		Long id = catinfoboardvo.getID();
 		String title = catinfoboardvo.getTITLE();
 		String content = catinfoboardvo.getCONTENT();
 		Date create_date = catinfoboardvo.getCREATE_DATE();
@@ -42,7 +42,7 @@ public class InfoboardServiceImpl implements InfoboardService	{
 		int view_count  = catinfoboardvo.getVIEW_COUNT();
 		int deleted = catinfoboardvo.getDELETED();
 		int category_id = catinfoboardvo.getCATEGORY_ID();
-		int user_id = catinfoboardvo.getUSER_ID();
+		Long user_id = catinfoboardvo.getUSER_ID();
 		
 		catinfoboardvo.setID(id);
 		catinfoboardvo.setTITLE(title);
@@ -94,50 +94,50 @@ public class InfoboardServiceImpl implements InfoboardService	{
 	public int getTotal(Criteria cri) {
 		return infoboardMapper.getTotalCount(cri);
 	}
-/*
-	@Override
-	public String reply_check(LikeVO likevo) throws Exception {
-		LikeVO likeVO = infoboardMapper.reply_check(likevo);
-		String msg = "";
-		
-		if(likeVO != null) {
-			msg = "fail";
-		}else {
-			msg = String.valueOf(replyRecommend(likevo));
-		}
-		return msg;
-	}
 
-	@Override
-	public Integer replyRecommend(LikeVO likevo) throws Exception {
-		infoboardMapper.replyRecommend(likevo);
-		Integer num = 0;
-		if(likevo.getDISLIKE_LIKE() == 1) {
-			updateReplyRecommend(likevo);
-			num = getReplyRecommend(likevo.getCOMMENT_ID());
-		}else {
-			updateReplyDecommend(likevo);
-			num = getReplyDecommend(likevo.getCOMMENT_ID());
-		}
-		return num;
-	}
-	
-	private Integer getReplyRecommend(int COMMENT_ID) {
-		Integer num = infoboardMapper.getReplyRecommend(COMMENT_ID);
-		return num;
-	}
+//	@Override
+//	public String reply_check(LikeVO likevo) throws Exception {
+//		LikeVO likeVO = infoboardMapper.reply_check(likevo);
+//		String msg = "";
+//		
+//		if(likeVO != null) {
+//			msg = "fail";
+//		}else {
+//			msg = String.valueOf(replyRecommend(likevo));
+//		}
+//		return msg;
+//	}
+//
+//	@Override
+//	public Integer replyRecommend(LikeVO likevo) throws Exception {
+//		infoboardMapper.replyRecommend(likevo);
+//		Integer num = 0;
+//		if(likevo.getDISLIKE_LIKE() == 1) {
+//			updateReplyRecommend(likevo);
+//			num = getReplyRecommend(likevo.getCOMMENT_ID());
+//		}else {
+//			updateReplyDecommend(likevo);
+//			num = getReplyDecommend(likevo.getCOMMENT_ID());
+//		}
+//		return num;
+//	}
+//	
+//	private Integer getReplyRecommend(int COMMENT_ID) {
+//		Integer num = infoboardMapper.getReplyRecommend(COMMENT_ID);
+//		return num;
+//	}
+//
+//	private Integer getReplyDecommend(int COMMENT_ID) {
+//		Integer num = infoboardMapper.getReplyDecommend(COMMENT_ID);
+//		return num;
+//	}
+//
+//	private void updateReplyDecommend(LikeVO likevo) {
+//		infoboardMapper.updateReplyDecommend(likevo);
+//	}
+//
+//	private void updateReplyRecommend(LikeVO likevo) {
+//		infoboardMapper.updateReplyRecommend(likevo);
+//	}
 
-	private Integer getReplyDecommend(int COMMENT_ID) {
-		Integer num = infoboardMapper.getReplyDecommend(COMMENT_ID);
-		return num;
-	}
-
-	private void updateReplyDecommend(LikeVO likevo) {
-		infoboardMapper.updateReplyDecommend(likevo);
-	}
-
-	private void updateReplyRecommend(LikeVO likevo) {
-		infoboardMapper.updateReplyRecommend(likevo);
-	}
-*/ 
 }

@@ -29,7 +29,7 @@
 <select id="reply_check" parameterType="com.community.petish.community.cat.infoboard.domain.LikeVO" resultMap="LikeMap">
 	select *
 	from cat_info_comment_like_tb
-	where COMMENT_ID = #{COMMENT_ID} and ID = 1
+	where COMMENT_ID = #{COMMENT_ID} and ID = #{ID}
 </select>
 
 <insert id="replyRecommend" parameterType="com.community.petish.community.cat.infoboard.domain.LikeVO">
@@ -37,13 +37,13 @@
 </insert>
 
 <update id="updateReplyRecommend" parameterType="com.community.petish.community.cat.infoboard.domain.LikeVO">
-	update cat_info_post_tb_z
+	update cat_info_comment_like_tb
 	set DISLIKE_LIKE = (select count(DISLIKE_LIKE) from cat_info_comment_like_tb where DISLIKE_LIKE = #{DISLIKE_LIKE})
     where ID = #{ID}
 </update>
 
 <update id="updateReplyDecommend" parameterType="com.community.petish.community.cat.infoboard.domain.LikeVO">
-	update cat_info_post_tb_z
+	update cat_info_comment_like_tb
 	set DISLIKE_LIKE = (select count(DISLIKE_LIKE) from cat_info_comment_like_tb where DISLIKE_LIKE = #{DISLIKE_LIKE})
     where ID = #{ID}
 </update>
@@ -57,7 +57,7 @@
 <select id="getReplyDecommend" parameterType="int" resultType="int">
 	select DISLIKE_LIKE
 	from cat_info_comment_like_tb
-	where ID = 1
+	where ID = #{ID}
 </select>
 좋아요  끝-->
 

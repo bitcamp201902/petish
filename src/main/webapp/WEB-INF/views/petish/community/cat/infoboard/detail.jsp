@@ -110,12 +110,313 @@ $(document).ready(function(){
 });
 </script>
 -->
+
+<script>
+$(document).ready(function(){
+
+	commentList();
+});
+
+//댓글 목록
+function commentList(param) {
+	var params = $("#page_form").serialize(); //입력데이터를 쿼리스트링으로 만들어준다.
+	var dislike_like = "${dislike_like}";
+	var dislike_like_like = $("#dislike_like_like");
+	//alert("params"+params);
+	$('#commentCount').empty();
+	$('#commentList').empty();
+
+	//alert('params='+params);
+	//alert('commentList Test Start!');
+
+	$.ajax({
+		url:'/cat/infoboard/comments/commentList',
+		type:'GET',
+		data : params,
+		contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+		dataType:"json",
+		success:function(result) {
+			for(var i in result) {
+				var count = '댓글 개수 : ' + result[i].count;
+				
+				//var image = '';
+				var output = '';
+				var modifyBtn = '';
+				var deleteBtn = '';
+				output += '<input type="hidden" id="commentCountVal" value='+result[i].count+'>';
+				output += '<div class="col-sm-3 col-md-2 text-center-xs">'; //프로필 이미지
+				output += '<p><img src="/resources/img/women.jpg" class="img-fluid rounded-circle" style="max-width:80%"></p>'; 
+				output += '</div>';
+				if(result[i].username == $("#USERNAME").val()) { 
+					output += '<div class="col-sm-9 col-md-10">';
+				} else {					
+					output += '<div class="col-sm-9 col-md-10" style="height:150px">'; 
+				}
+				output += '<h5 class="text-uppercase">' + result[i].username + '</h5>';
+				
+				output += '<td class=like>';
+				output += '<a href= "" class="btn btn-template-outlined" id="dislike_like_like">';
+				output += '<i class="fa fa-heart-o"></i>'+dislike_like+'</a></td>';
+				
+				output += '<p class="posted">';
+				output += '<i class="fa fa-clock-o"></i> 등록일: ' + result[i].created_DATE ;
+				output += '&nbsp;&nbsp;&nbsp;&nbsp;수정일: ' + result[i].updated_DATE + '</p>';
+				output += '<input type="hidden" class="form-control" id="commentContent'+result[i].id+'" value="'+result[i].content+'">';
+				output += '<li id="commentBlock'+result[i].id+'" style="display:block">';
+				output += '<p id="commentInnerText'+result[i].id+'">' + result[i].content +'</p>';   
+				//본인이 작성한 댓글일 경우
+				if(result[i].username == $("#USERNAME").val()) { 
+					output += '<button id="commentUpdateBtn" class="btn btn-template-outlined" onclick="button('+result[i].id+')" style="float:right"><i class="fa fa-reply"></i> 수정</button></li>';
+				}
+				output += '<input id="commentCloseBtn'+result[i].id+'" onclick="closeComment('+result[i].id+')" type="hidden" class="btn btn-template-outlined" value="닫기" style="float:right; margin-top:20px">';	
+				output += '<input id="commentDeleteBtn'+result[i].id+'" onclick="removeComment('+result[i].id+')" type="hidden" class="btn btn-template-outlined" value="삭제" style="float:right; margin-right:15px; margin-top:20px">';
+				output += '<input id="commentModifyBtn'+result[i].id+'" onclick="modifyComment('+result[i].id+')" type="hidden" class="btn btn-template-outlined" value="수정" style="float:right; margin-right:15px; margin-top:20px">';
+				output += '</div>';
+				//console.log("output:"+output);
+				$('#commentList').append(output);	
+			}
+			$('#commentCount').append(count);
+			commentCount();
+		},
+		error:function() {
+			alert("ajax통신 실패!!");
+		},
+		complete: function() {
+			commentCount();
+		}
+	});
+	
+	dislike_like_like.on("click", function() {
+		$.ajax({
+			url : "/cat/infoboard/dislike_like",
+			data : {id : id, type : 1},
+			dataType : "text",
+			type : "post",
+			success: function(data){
+				if(data == "fail"){
+					alert("이미 누르셨습니다.");
+					return false;
+				}else{
+					dislike_like_like.html("<i class='fa fa-heart-o'></i>" + data);
+				}
+			},
+			error : function(){
+				alert("에러");
+			}
+		});
+	});
+
+}
+//#comments > div.comment-footer
+var CommentpageNum = 1;
+var commentPageFooter = $(".comment-footer");
+
+//댓글 페이지 번호 출력
+function commentCount() {
+	//alert("FOOTER에 들어오는 값 : " + JSON.stringify(commentPageFooter));
+	console.log(document.getElementById('commentCountVal'));
+	var commentCnt = document.getElementById('commentCountVal').value;
+	//alert("commentCnt="+commentCnt);
+	//alert(replyCnt);
+		
+	var endNum = Math.ceil(CommentpageNum / 10.0) * 10;
+	var startNum = endNum - 9;
+	
+	var prev = startNum != 1;
+	var next = false;
+	
+	if(endNum * 10 >= commentCnt) {
+		endNum = Math.ceil(commentCnt/10.0);
+	}
+	
+	if(endNum * 10 < commentCnt) {
+		next = true;
+	}
+	
+	var str = "<div><ul class='pagination pull-right'>";
+	
+	if(prev) {
+		str += "<li class='page-item'><a class='page-link' href='"+(startNum -1)+"'><<</a></li>";
+	}
+	
+	for(var i = startNum ; i <= endNum; i++) {
+		var active = CommentpageNum == i? "active":"";
+		
+		str+= "<li class='page-item "+active+"'><a class='page-link' href='"+i+"'>"+i+"</a></li>";
+	}
+	
+	if(next) {
+		str += "<li class='page-item'><a class='page-link' href='"+(endNum + 1)+"'>>></a></li>";
+	}
+	
+	str += "</ul></div>";
+	
+	console.log(str);
+	$(".comment-footer").html(str);
+}
+
+//페이지의 번호를 클릭했을 때 새로운 댓글을 가져오도록 하기
+commentPageFooter.on("click", "li a", function(e){
+	e.preventDefault();
+	console.log("page click");
+	
+	var targetPageNum = $(this).attr("href");
+	
+	console.log("targetPageNum: " + targetPageNum);
+	
+	pageNum = targetPageNum;
+	
+	var actionForm = $("#page_form");
+	actionForm.find("input[name='pageNum']").val(pageNum);
+	
+	var params = $("#page_form").serialize();
+	commentList(params);
+});
+
+//버튼 속성 변경
+function button(id) {
+	//alert("button id="+id);
+	
+	var contentVal = $("#commentContent"+id+"").val();
+	
+	$('#commentBlock'+id+'').attr({"style":"display:none"});
+	$('#commentContent'+id+'').attr({"type":"text", "value":contentVal});
+	$('#commentCloseBtn'+id+'').attr({"type":"button"});
+	$('#commentDeleteBtn'+id+'').attr({"type":"button"});
+	$('#commentModifyBtn'+id+'').attr({"type":"button"});
+}
+
+
+//댓글 등록 버튼 눌렀을 경우
+function inputData() {
+	alert("등록?");
+	var params = $("#insert_form").serialize(); //입력데이터를 쿼리스트링으로 만들어준다.
+	alert("Insertparams="+params);
+	$.ajax({
+		url : '/cat/infoboard/comments/insertComment',
+		type : 'post',
+		data : params,
+		contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+		dataType : "json",
+		success : function(retVal) {
+			if(retVal.res == "OK") {
+				alert("댓글을 추가하였습니다!");
+				//초기화
+				$('textarea').val('');
+				var actionForm = $("#page_form");
+				
+				//현재 있는 페이지 유지
+				commentList(actionForm.find("input[name='pageNum']").val());
+			}
+			else {
+				alert("댓글 추가 실패!");
+			}
+		},
+		error:function() {
+			alert("ajax통신 실패!!!");
+		}
+	});
+	//기본 이벤트 제거
+	event.preventDefault();
+}
+
+
+
+//댓글 조회
+function getComment(id) {
+
+	jQuery.ajax({
+		url : '/cat/infoboard/comments/'+id,
+		type : 'GET',
+		contentType:'application/x-www-form-urlencoded; charset=UTF-8',
+		dataType : "json",
+		success : function(result) {
+			alert("댓글 조회 성공!");
+		},
+		error:function() {
+			alert("ajax통신 실패!!!");
+		}
+	});
+}
+
+//댓글 수정
+function modifyComment(id, callback, error) {
+
+	var comment = {id:id, content:$('#commentContent'+id+'').val()};
+	
+	$.ajax({
+		type : 'put',
+		url : '/cat/infoboard/comments/modifyComment/' + id,
+		data : JSON.stringify(comment),
+		contentType : "application/json; charset=utf-8",
+		success : function(result, status, xhr) {
+			if(result) {		
+				//alert(result);
+				var commentInnerText = document.getElementById('commentInnerText'+id+'');
+	
+				$("#commentContent"+id+"").attr({"type":"hidden", "value":$('#commentContent'+id+'').val()});
+				$("#commentModifyBtn"+id+"").attr({"type":"hidden"});
+				$("#commentDeleteBtn"+id+"").attr({"type":"hidden"});
+				$("#commentCloseBtn"+id+"").attr({"type":"hidden"});
+				$("#commentBlock"+id+"").attr({"style":"display:block"});
+				commentInnerText.innerText = $('#commentContent'+id+'').val();
+				//alert('댓글을 수정하였습니다!');
+			}
+		},
+		error : function(xhr, status, er) {
+			if(error) {
+				error(er);
+			}
+		}		
+	});
+
+}
+
+//댓글 삭제
+function removeComment(id) {
+	//alert("remove!");
+	if(confirm("삭제하시겠습니까?")) {		
+		$.ajax({
+			type : 'put',
+			url : '/cat/infoboard/comments/removeComment/' + id,
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				if(result) {
+					//alert('댓글삭제!');
+					commentList();
+				}
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error(er);
+				}
+			}
+		});
+	}
+	else {
+		//alert('삭제 취소!');
+		closeComment(id);
+	}
+}
+
+//댓글 닫기
+function closeComment(id) {
+	$("#commentContent"+id+"").attr({"type":"hidden"});
+	$("#commentModifyBtn"+id+"").attr({"type":"hidden"});
+	$("#commentDeleteBtn"+id+"").attr({"type":"hidden"});
+	$("#commentCloseBtn"+id+"").attr({"type":"hidden"});
+	$("#commentBlock"+id+"").attr({"style":"display:block"});
+}
+
+</script>
+
+
 </head>
-<body>
+<body class="bg-light">
 	<div id="all">
 
-		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
-
+		<%@ include file="/WEB-INF/views/commons/cat_top.jspf"%>
+<div class="container-fluid body-section">
 		<div id="heading-breadcrumbs" class="border-top-0 border-bottom-0">
 			<div class="container">
 				<div class="row d-flex align-items-center flex-wrap">
@@ -171,76 +472,61 @@ $(document).ready(function(){
 
 					<hr size="10px">
 					<p class="lead">${boardinfo.CONTENT}</p>
-					<div id="comments">
-						<h4 class="text-uppercase">댓글 수 2</h4>
-						<section class="bar bg-gray mb-0">
-							<div class="row comment">
-								<div class="col-sm-3 col-md-2 text-center-xs">
-									<p>
-										<img src="/resources/img/blog-avatar2.jpg" alt=""
-											class="img-fluid rounded-circle">
-									</p>
-								</div>
-								<div class="col-sm-9 col-md-10">
-									<h5 class="text-uppercase">Julie Alma</h5>
-							<div class=like><a href='#' class="btn btn-template-outlined" id="dislike_like_like">
-							<i class="fa fa-heart-o"></i>추천 : ${dislike_like}</a>
-							
-							<a href='#' class="btn btn-template-outlined" id="dislike_like_dislike">
-							<i class="fa fa-heart-o"></i>비추 : ${dislike_like}</a></div>
-									<p class="posted">
-										<i class="fa fa-clock-o"></i>
-										<fmt:formatDate pattern="yyyy-MM-dd a HH:mm:ss" value="${boardinfo.CREATE_DATE}" />
-									</p>
-									<p>좋은 글 감사합니다.</p>
 
+						<!-- comment -->	
+						<div id="comments">
+							<h4 class="text-uppercase" id="commentCount"></h4>
+							<section class="bar mb-0" id="commentSection">
+								<div id="commentList" class="row comment">
 								</div>
-							</div>
-							<div class="row comment last">
-								<div class="col-sm-3 col-md-2 text-center-xs">
-									<p>
-										<img src="/resources/img/blog-avatar.jpg" alt=""
-											class="img-fluid rounded-circle">
-									</p>
-								</div>
-								<div class="col-sm-9 col-md-10">
-									<h5 class="text-uppercase">Louise Armero</h5>
-									<p class="posted">
-										<i class="fa fa-clock-o"></i> 2019-07-03 09:25:23
-									</p>
-									<p>도움이 되었습니다.</p>
-								</div>
-							</div>
-						</section>
-					</div>
+						
+							</section>
+					<!-- comment_page_form -->
+							<form id="page_form">
+								<input type="hidden" name="POST_ID" value="${boardinfo.ID}">
+								<input type="hidden" name="USER_ID" value="${boardinfo.USER_ID}"> 
+								<input type="hidden" name="CommentpageNum" value="${pageMaker.criComment.pageNum}"> 
+								<input type="hidden" name="DISLIKE_LIKE" value="${DISLIKE_LIKE}">
+					<!--input type="hidden" name="pageNum" value=1> -->
+							</form>
+	                        	<div class="comment-footer d-flex justify-content-center"></div>
+						</div>
 
-					<div id="comment-form">
-						<h4 class="text-uppercase">댓글</h4>
-						<form role="form" method="post">
-							<div class="row">
-								<div class="col-sm-4">
-									<div class="form-group">
-										<label for="name">아이디 <span
-											class="required text-primary">*</span></label> <input id="name"
-											type="text" class="form-control">
+						<div id="comment-form">
+							<h4 class="text-uppercase comment">댓글</h4>
+					<!-- comment insert form -->
+							<form id="insert_form" method="post">
+								<input type="hidden" name="USER_ID" value="${boardinfo.USER_ID}"> 
+								<input type="hidden" name="POST_ID" value="${boardinfo.ID}">
+								<input type="hidden" name="CommentpageNum" value='${pageMaker.criComment.pageNum}'>
+								<div class="row">
+									<div class="col-sm-4">
+										<div class="form-group">
+											<label for="name">아이디<span class="required text-primary">*</span></label> 
+											<input id="NICKNAME" type="text" class="form-control" value="${boardinfo.USER_ID}" readonly>
+										</div>
 									</div>
 								</div>
-							</div>
-
-							<div class="row">
-								<div class="col-sm-12">
-									<div class="form-group">
-										<label for="comment">내 용 <span
-											class="required text-primary">*</span></label>
-										<textarea id="comment" rows="4" class="form-control"></textarea>
+								<div class="row">
+									<div class="col-sm-12">
+										<div class="form-group">
+											<label for="comment">내 용 <span class="required text-primary">*</span></label>
+											<textarea id="CONTENT" name="CONTENT" rows="4" class="form-control"></textarea>
+										</div>
 									</div>
 								</div>
+								<div class="row">
+									<div class="col-sm-12 text-right">
+										<button class="re btn btn-template-outlined" id="inputbutton" onclick="inputData()">
+											 댓글 등록
+										</button>
+									</div>
+								</div>
+								</form>
 							</div>
-						<div class="row">
-							<div class="col-sm-12 text-right">
-								<button class="re btn btn-template-outlined">
-									<i class="fa fa-comment-o"></i> 댓글 등록
-								</button>
+
+
+
 								
 								<div aria-label="Page navigation example" class="d-flex justify-content-left">
 									<input type="hidden" name="ID" value="${boardinfo.ID}">
@@ -303,13 +589,10 @@ $(document).ready(function(){
 								</div>
 							</div>
 						</div>
-					</form>
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3"></div>
-	</div>
-</div>
 	<!-- Javascript files-->
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>
 	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>

@@ -25,7 +25,7 @@ public interface InfoboardService {
 	public int getTotal(Criteria cri) throws Exception;
 	
 //	public String reply_check(LikeVO likevo) throws Exception;
-		
+//		
 //	public Integer replyRecommend(LikeVO likevo) throws Exception;
 
 }

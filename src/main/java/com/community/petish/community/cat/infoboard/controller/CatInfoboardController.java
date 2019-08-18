@@ -69,9 +69,9 @@ public class CatInfoboardController {
 		List<CatInfoboardVO> detail = service.getList(cri);
 		service.increaseViewcnt(ID,session);
 		
-		session.setAttribute("user_id", 1);
-		int user_id = (int)session.getAttribute("user_id");
-		LikeVO likevo = new LikeVO();
+//		session.setAttribute("user_id", 1);
+//		int user_id = (int)session.getAttribute("user_id");
+//		LikeVO likevo = new LikeVO();
 		
 //		String boardlike = service.reply_check(likevo);
 //		log.info("boardlike = {}", boardlike);
@@ -120,30 +120,30 @@ public class CatInfoboardController {
 		
 		return "redirect:/cat/infoboard/list";
 	}
-	/*
-	@ResponseBody
-    @RequestMapping(value = "/dislike_like", method = RequestMethod.POST, produces = "application/json")
-    public String dislike_like(HttpSession session, HttpServletRequest httpRequest) throws Exception {
-		
-//		String sessionid = (String) session.getAttribute("USER_ID");
-//		int USER_ID = ((CatInfoboardVO) httpRequest.getSession().getAttribute("USER_ID")).getUSER_ID();
-		int board = Integer.parseInt(httpRequest.getParameter("id"));
-		int type = Integer.parseInt(httpRequest.getParameter("type"));
-		
-		LikeVO likevo = new LikeVO();
-		//likevo.setUSER_ID(USER_ID);
-		likevo.setCOMMENT_ID(board);
-		likevo.setDISLIKE_LIKE(type);
-				
-		if(type == 1) {
-			System.out.println("1");
-			String msg = service.reply_check(likevo);
-			return msg;
-		}else {
-			System.out.println("0");
-			String msg = service.reply_check(likevo);
-			return msg;
-		}
-	}
-	*/
+	
+//	@ResponseBody
+//    @RequestMapping(value = "/dislike_like", method = RequestMethod.POST, produces = "application/json")
+//    public String dislike_like(HttpSession session, HttpServletRequest httpRequest) throws Exception {
+//		
+////		String sessionid = (String) session.getAttribute("USER_ID");
+////		int USER_ID = ((CatInfoboardVO) httpRequest.getSession().getAttribute("USER_ID")).getUSER_ID();
+//		int board = Integer.parseInt(httpRequest.getParameter("id"));
+//		int type = Integer.parseInt(httpRequest.getParameter("type"));
+//		
+//		LikeVO likevo = new LikeVO();
+//		//likevo.setUSER_ID(USER_ID);
+//		likevo.setCOMMENT_ID(board);
+//		likevo.setDISLIKE_LIKE(type);
+//				
+//		if(type == 1) {
+//			System.out.println("1");
+//			String msg = service.reply_check(likevo);
+//			return msg;
+//		}else {
+//			System.out.println("0");
+//			String msg = service.reply_check(likevo);
+//			return msg;
+//		}
+//	}
+	
 }

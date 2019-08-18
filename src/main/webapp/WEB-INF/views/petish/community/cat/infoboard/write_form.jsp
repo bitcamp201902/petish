@@ -80,11 +80,11 @@
 </script>
 </head>
 
-<body>
+<body class="bg-light">
 	<div id="all">
 
-		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
-
+		<%@ include file="/WEB-INF/views/commons/cat_top.jspf"%>
+<div class="container-fluid body-section">
 		<div id="heading-breadcrumbs">
 			<div class="container">
 				<div class="row d-flex align-items-center flex-wrap">
@@ -174,6 +174,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<!-- Javascript files-->
 	<script src="/resources/vendor/jquery/jquery.min.js"></script>
