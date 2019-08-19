@@ -8,9 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.community.petish.community.mypage.service.DefaultService;
-import com.community.petish.community.mypage.service.MessageService;
-import com.community.petish.community.mypage.service.QuestionService;
 import com.community.petish.community.mypage.service.UserService_Mypage;
 
 import lombok.extern.log4j.Log4j;
@@ -20,30 +17,21 @@ import lombok.extern.log4j.Log4j;
 public class UserController_Mypage {
 	
 	@Autowired
-	private QuestionService questionServiceImpl;
-	
-	@Autowired
-	private MessageService messageServiceImpl;
-	
-	@Autowired
-	private DefaultService defaultServiceImpl;
-	
-	@Autowired
-	private UserService_Mypage userServiceImpl;
+	private UserService_Mypage userServiceMypage;
 	
 	@RequestMapping("/kakaomap")
 	public String kakaomap() {
 		return "commons/kakaomap";
 	}
 	
-	@RequestMapping("/member/detail/{user_id}")
-	public String memberDetail(@PathVariable("user_id") Long user_id, Model model, HttpSession session) {
+	@RequestMapping("/member/detail/{member_id}")
+	public String memberDetail(@PathVariable("member_id") Long member_id, Model model, HttpSession session) {
 		//로그인 여부 확인
-		if(session.getAttribute("user_id")==null) {
-			return "petish/loginpage";
+		if(session.getAttribute("LOGIN_USER")==null) {
+			return "petish/community/mypage/index";
 		}else {
-			model.addAttribute("member", userServiceImpl.findUser(user_id));
-			return "petish/mypage/member_detail";
+			model.addAttribute("member", userServiceMypage.findUser(member_id));
+			return "petish/community/mypage/member_detail";
 		}
 	}
 	

@@ -28,7 +28,7 @@ body {
 }
 
 #columns figure:hover {
-    
+
     /*            border: 1px solid #eee;*/
     background-color: #eee;
 }
@@ -72,25 +72,20 @@ body {
     display:none;
 }
 
-.mypet-picture {
+#mypet-detail-carousel {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.1);
+}
+.carousel-item-inner {
     display: flex;
     justify-content: center;
+    align-items: center;
 }
-
-.picture {
-    width: 100%;
-    height: 100%;
-}
-
-.picture-wrapper {
+.img-wrapper {
+    margin: auto;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
 }
-
-.carousel-item > img {
-    align-self: center;
-}
-
 a[href="#demo"] span:hover {
     background-color: rgba(0, 0, 0, 0.8);
     background-size: 1rem;
@@ -122,6 +117,19 @@ a[href="#demo"] span:hover {
     display: flex;
 }
 
+.replyer-image-container {
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.replyer-image {
+    border-radius: 100%;
+    max-width: 100%;
+}
+
 .replyer > .user-profile-picture {
     padding: 0 10px;
 }
@@ -144,6 +152,11 @@ a[href="#demo"] span:hover {
     float: right;
 }
 
+.s-likes-icon-active {
+    cursor: pointer;
+    color: dodgerblue;
+}
+
 /* 반응형 */
 @media (max-width: 400px ) {
     #mypet-modal-dialog {
@@ -154,9 +167,25 @@ a[href="#demo"] span:hover {
         width: 300px;
         height: 420px;
     }
-    .picture img {
+    #mypet-detail-carousel {
+        width: 300px;
+        height: 300px;
+    }
+    .carousel-item-inner {
+        width: 300px;
+        height: 300px;
+    }
+    .carousel-item {
+        width: 300px;
+        height: 300px;
+    }
+    .img-wrapper {
         max-width: 300px;
         max-height: 300px;
+    }
+    .img-wrapper > img {
+        max-height: 300px;
+        max-width: 300px;
     }
     #profile-area.modal-body {
         height: 40px;
@@ -183,9 +212,26 @@ a[href="#demo"] span:hover {
         width: 300px;
         height: 420px;
     }
-    .picture img {
+    #mypet-detail-carousel {
+        width: 300px;
+        height: 300px;
+    }
+    .carousel-item-inner {
+        width: 300px;
+        height: 300px;
+    }
+    .carousel-item {
+        width: 300px;
+        height: 300px;
+    }
+    .img-wrapper {
         max-width: 300px;
         max-height: 300px;
+    }
+
+    .img-wrapper > img {
+        max-height: 300px;
+        max-width: 300px;
     }
     #profile-area.modal-body {
         height: 40px;
@@ -212,9 +258,25 @@ a[href="#demo"] span:hover {
         width: 500px;
         height: 600px;
     }
-    .picture img {
+    #mypet-detail-carousel {
+        width: 500px;
+        height: 350px;
+    }
+    .carousel-item-inner {
+        width: 500px;
+        height: 350px;
+    }
+    .carousel-item {
+        width: 500px;
+        height: 350px;
+    }
+    .img-wrapper {
         max-width: 500px;
         max-height: 350px;
+    }
+    .img-wrapper > img {
+        max-height: 350px;
+        max-width: 500px;
     }
     #profile-area.modal-body {
         height: 60px;
@@ -238,10 +300,32 @@ a[href="#demo"] span:hover {
         width: 600px;
         height: 700px;
     }
-    .picture img {
+
+    #mypet-detail-carousel {
+        width: 600px;
+        height: 400px;
+    }
+
+    .carousel-item-inner {
+        width: 600px;
+        height: 400px;
+    }
+
+    .carousel-item {
+        width: 600px;
+        height: 400px;
+    }
+
+    .img-wrapper {
         max-width: 600px;
         max-height: 400px;
     }
+
+    .img-wrapper > img {
+        max-height: 400px;
+        max-width: 600px;
+    }
+
     #profile-area.modal-body {
         height: 60px;
         padding: 10px;

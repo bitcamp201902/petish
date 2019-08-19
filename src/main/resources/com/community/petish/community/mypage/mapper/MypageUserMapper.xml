@@ -5,26 +5,28 @@
 <mapper namespace="com.community.petish.community.mypage.mapper.MypageUserMapper">
 
 	<!-- 아이디로 회원정보 가져오기 -->
-	<select id="findUser" parameterType="long" resultType="com.community.petish.community.user.dto.UserResponseDTO_Mypage">
+	<select id="findUser" parameterType="long" resultType="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage">
+
 		select id, username, nickname, picture, deleted, address, concern_id, gender
 		from user_tb
 		where id =#{id}
 	</select> 
 	
 	<!-- 비밀번호 포함한 회원정보 수정 -->
-	<update id="modifyUserInfoAll" parameterType="com.community.petish.community.user.dto.UserModifyRequestDTO_Mypage">
+
+	<update id="modifyUserInfoAll" parameterType="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage">
 		update user_tb set nickname=#{nickname},address=#{address}, password=#{password}, concern_id=#{concern_id}, gender=#{gender}
 		where id = #{id}
 	</update>
 	
 	<!-- 비밀번호 제외한 회원정보 수정 -->
-	<update id="modifyUserInfo" parameterType="com.community.petish.community.user.dto.UserModifyRequestDTO_Mypage">
+	<update id="modifyUserInfo" parameterType="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage">
 		update user_tb set nickname=#{nickname}, concern_id=#{concern_id}, gender=#{gender}, address=#{address}
 		where id = #{id}
 	</update>
 
 	<!-- 프로필 사진 수정 -->
-	<update id="modifyPicture" parameterType="com.community.petish.community.user.dto.UserModifyPictureDTO_Mypage">
+	<update id="modifyPicture" parameterType="com.community.petish.community.mypage.dto.request.UserModifyPictureDTO_Mypage">
 		update user_tb set picture=#{picture}
 		where id = #{id}
 	</update>

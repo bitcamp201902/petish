@@ -12,23 +12,28 @@ const resizeIcon = () => {
         $('.like-icon').addClass('fa-lg');
         $('.comment-icon').addClass('fa-lg');
     }
-}
+};
 
 $(window).ready(function() {
     resizeIcon();
-}) 
+
+    $('#comment-save-part').on("keypress", function(event) {
+    	handleKeyPress(event);
+	})
+});
 
 $(window).resize(function() {
     resizeIcon();
-})
+});
 
 const checkAuthentication = (callback, param) => {
 	$.ajax({
 		type: "GET",
 		url: "/api/users/authenticate",
-		success: function(data, status, xhr) {
+		dataType: "json",
+		success: function(loginedUserData, status, xhr) {
 			if (callback) {
-				callback(param);
+				callback(loginedUserData, param);
 			}
 		},
 		error: function(error, status, xhr) {
@@ -39,11 +44,11 @@ const checkAuthentication = (callback, param) => {
 			}
 		}
 	})
-}
+};
 
 const likeDoubleClick = () => {
     likeClick();
-}
+};
 
 const likeClick = () => {
     
@@ -52,9 +57,9 @@ const likeClick = () => {
 	checkAuthentication(likePost, id);
 	
 //    likePost(id);
-}
+};
 
-const likePost = (id) => {
+const likePost = (loginedUserData, id) => {
 	$.ajax({
 		type: "POST",
 		url: "/api/mypet/posts/likes/" + id,
@@ -74,7 +79,7 @@ const likePost = (id) => {
 			console.log("좋아요 오청 실패");
 		}
 	})
-}
+};
 
 const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
@@ -82,13 +87,12 @@ const handleKeyPress = (e) => {
         let formData = new FormData(e.target.form);
         
         checkAuthentication(addReply, formData);
-//        addReply(formData);
-        
+
         e.target.value = '';
     }
-}
+};
 
-const addReply = (formData) => {
+const addReply = (loginedUserData, formData) => {
 	
 	let postId = formData.get("postId");
 	
@@ -102,12 +106,9 @@ const addReply = (formData) => {
 	    	makeCommentPart(postId);
 	    },
 	    error: function(error, status, xhr) {
-	    	alert("로그인이 필요합니다.");
-	    	$(".modal").modal("hide");
-	    	$("#login-modal").modal("show");
 	    }
 	})
-}
+};
 
 
 const openPost = (id) => {
@@ -118,53 +119,63 @@ const openPost = (id) => {
 	makeLikeStatus(id);
 	
     $('#mypet-detail-modal').modal('show');
-}
+};
 
-const makePostPart = (id) => {
+const makePostPart = (postId) => {
 	let userId;
 	
 	$.ajax({
 	    type:"GET",
-	    url:"/api/mypet/posts/" + id,
+	    url:"/api/mypet/posts/" + postId,
 	    success: function(result, status, xhr) {
 			let images = result.image.split(",");
 			let imageTag;
 
 			if (images.length == 1) {
-				
-				imageTag = "<img src=" + images[0] + ">";
+			    
+			    imageTag = "<div class='carousel-inner'>";
+			    imageTag += "<div class='carousel-item active'>";
+			    imageTag += "<div class='carousel-item-inner'>";
+			    imageTag += "<div class='img-wrapper'>";
+				imageTag += "<img src=" + images[0] + ">";
+				imageTag += "</div>";
+				imageTag += "</div>";
+				imageTag += "</div>";
+				imageTag += "</div>";
 				
 			} else {
-				
-				imageTag = '<div id="mypetPictureExample">';
-				imageTag += '	<div id="carouselExampleControls" class="carousel slide" data-ride="carousel" data-interval="false">'
+
+				imageTag = '	<div id="mypet-detail-carousel" class="carousel slide" data-ride="carousel" data-interval="false">';
 				imageTag +='		<div class="carousel-inner">';
 							
 				for ( i in images ) {
 					let img;
-					
+
 					if ( i == 0 ) {
 						img = '<div class="carousel-item active" >';
 					} else {
 						img = '<div class="carousel-item" >';
 					}
-					
-					img += '<img class="d-block w-100" src=' + images[i] + '>' +
-					'</div>';
+
+					img += '<div class="carousel-item-inner">';
+					img += '<div class="img-wrapper">';
+					img += '<img src=' + images[i] + '/>';
+					img += '</div>';
+					img += '</div>';
+					img += '</div>';
 					imageTag += img;
 				}
 				
 				imageTag += '	</div>';
-				imageTag += '		<a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">';
+				imageTag += '		<a class="carousel-control-prev" href="#mypet-detail-carousel" role="button" data-slide="prev">';
 				imageTag += '			<span class="carousel-control-prev-icon" aria-hidden="true"></span>';
 				imageTag += '			<span class="sr-only">Previous</span>';
 				imageTag += '		</a>';
-				imageTag += '		<a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">';
+				imageTag += '		<a class="carousel-control-next" href="#mypet-detail-carousel" role="button" data-slide="next">';
 				imageTag += '			<span class="carousel-control-next-icon" aria-hidden="true"></span>';
 				imageTag += '			<span class="sr-only">Next</span>';
 				imageTag += '		</a>';
-				imageTag += '	</div>'
-				imageTag += '</div>';
+				imageTag += '	</div>';
 
 			}
 			
@@ -175,17 +186,24 @@ const makePostPart = (id) => {
 			$('#post-content').html(result.content);
 
 			// date 변환
-			let createdDate = new Date(result.createdDate);
-		    $('#created-date').html(createdDate.toDateString());
+            $('#created-date').html(makeDateString(new Date(result.createdDate)));
 		    
 		    //userId 부여
 		    let userId = result.userId;
 		    
 		    $.ajax({
 				type: "GET",
-				url: "/api/users/" + userId,
+				url: "/api/users/" + result.userId,
 				success: function(result, status, xhr) {
-					$('#post-creator').html(result.nickname);
+					let userTag = "";
+					userTag += "<div class='replyer-image-container' id='user" + result.id + "'>";
+					userTag += '<img src="' + result.profileImage + '" class="replyer-image">';
+					userTag += "</div>";
+					userTag += '<div class="reply-content" id="post-user-' + result.id + '">';
+					userTag += '<h5 id="replyer-nickname-' + result.id +  '" class="text-uppercase" style="display:inline-block; padding-right:1rem">' + result.nickname + '</h5>';
+					userTag += '</div>';
+					getLoginedUserInfo(makeUpdateDeleteButtonForPost, result.id, postId);
+					$('#profile-area').html(userTag);
 				},
 				error: function(error, status, xhr) {
 					
@@ -197,7 +215,51 @@ const makePostPart = (id) => {
 	        
 	    }
 	});
-}
+};
+
+const makeUpdateDeleteButtonForPost = (loginedUserData, userId, postId) => {
+	if ( loginedUserData.id == userId) {
+		let reply = "";
+		reply += '<div class="nav navbar-nav ml-auto modify-remove-navbar">';
+		reply += '<a href="#" data-toggle="dropdown" class="dropdown modify-remove-dropdown"><img src="/resources/img/reply-modify-button.png" class="modifyBtn" style="float: right"></a>';
+		reply += '<div class="dropdown-menu modify-remove-dropdown-menu" role="menu">';
+		reply += '<div class="dropdown">';
+		reply += '<a onclick="modifyPost('+ postId +')">수정</a>';
+		reply += '</div>';
+		reply += '<div class="dropdown">';
+		reply += '<a href="#" class="nav-link" id="message-btn" data-toggle="modal"><a onclick="removePost(' + postId +')">삭제</a></a>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+
+		$("#post-user-" + userId).append(reply);
+	} else {
+		let reply = "";
+		reply += '<div class="nav navbar-nav ml-auto modify-remove-navbar" >';
+		reply += '<a href="#" data-toggle="dropdown" class="dropdown modify-remove-dropdown"><img src="/resources/img/reply-modify-button.png" class="modifyBtn" style="float: right"></a>';
+		reply += '<div class="dropdown-menu modify-remove-dropdown-menu" role="menu">';
+		reply += '<div class="dropdown">';
+		reply += '<a onclick="reportPost('+ postId +')">신고</a>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+
+		$("#post-user-" + userId).append(reply);
+	}
+};
+
+const modifyPost = (postId) => {
+
+};
+
+const removePost = (postId) => {
+
+};
+
+const reportPost = (postId) => {
+
+};
 
 const makeCommentPart = (id) => {
 	$.ajax({
@@ -210,29 +272,47 @@ const makeCommentPart = (id) => {
 				let reply = "<div id='commentId" + value.commentId + "' class='mypet-reply'>";
 				reply += "<div class='replyer'>";
 				reply += "<div class='replyer-wrapper'>";
-				reply += "<div class='user-profile-picture'>";
-				reply += "<i class='fas fa-user-circle fa-lg'></i>";
-				reply += "</div>";
-                reply += "<div class='user-profile-info'>";
-                reply += "<a class='userId" + value.userId + " user-detail' href=''>";
-                reply += "</a>";
-                reply += "</div>";
-                reply += "</div>";
-                reply += "</div>";
-                reply += "<div class='reply-content'>";
-                reply += value.content;
-                reply += "</div>";
-                reply += "<div class='reply-created-date'>";
-                reply += new Date(value.createdDate).toDateString();
-                reply += "</div>";
-                reply += "</div>";
+				reply += "<div id='replyer-picture-" + value.userId + "' class='replyer-image-container replyer-picture-" + value.userId + "'>";
+				reply += '</div>';
+
+				reply += '<div class="reply-content" id="reply-content' + value.commentId + '">';
+				reply += '<h5 id="replyer-nickname-' + value.userId +  '" class="text-uppercase replyer-nickname-' + value.userId + '" style="display:inline-block; padding-right:1rem"></h5>';
+				reply += '<a class="posted">';
+				reply += '<i class="fa fa-clock-o" style="padding-right:0.2rem"></i>' + makeDateString(new Date(value.createdDate)) + '</a>';
+
+				//수정 시에만 출력
+				if(value.created_date != value.updated_date){
+					reply += '<a class="posted">';
+					reply += '<i class="fa fa-history" style="padding:0 0.2rem 0 1.5rem; "></i>' + value.updated_date + ' 수정됨</a>';
+				}
+
+				reply += '<input type="hidden" class="form-control comment-input-form" id="commentContent'+ value.commentId +'" value="'+ value.content +'">';
+				reply += '<div id="commentBlock'+ value.commentId +'">';
+
+				reply += '<div id="commentInnerText' + value.commentId + '" class="modify-comment">' + value.content +'</div>';
+
+				//본인이 작성한 댓글일 경우
+				getLoginedUserInfo(makeUpdateDeleteButton, value.userId, value.commentId, id);
+
+				reply += '</div>';
+
+				//댓글 append
 				$("#mypet-replies-body").append(reply);
 				
 				$.ajax({
 					type: "GET",
 					url: "/api/users/" + value.userId,
-					success: function(result, status, xhr) {
-						$('.userId'+value.userId).html(result.nickname);
+					success: function(loginedUserData, status, xhr) {
+					    user = "<td><div class='dropdown user-dropdown'><div class='nondeco'>" + loginedUserData.nickname;
+					    user += "<div class='dropdown-content user-dropdown-content'><a href='/member/detail/" + loginedUserData.id + "'>작성게시글 보기</a>";
+                        user += "<a href='#' data-toggle='modal' class='showmodal' data-target='#new-modal' data-id='" + loginedUserData.id + "' data-nick='" + loginedUserData.nickname + "' >쪽지보내기</a></div>";
+                        user += "</div></td>";
+
+						$('.replyer-nickname-' + loginedUserData.id ).html(user);
+						let profileImage = '<img src="' + loginedUserData.profileImage + '" class="replyer-image">';
+						$('.replyer-picture-' + loginedUserData.id).html(profileImage);
+
+						openMessageForm();
 					},
 					error: function(error, status, xhr) {
 						
@@ -242,7 +322,144 @@ const makeCommentPart = (id) => {
 			})
 		}
 	})
+};
+
+const makeUpdateDeleteButton = (loginedUserData, commentUserId, commentId, postId) => {
+	if (loginedUserData.id == commentUserId) {
+		let reply = "";
+		reply += '<div class="nav navbar-nav ml-auto modify-remove-navbar">';
+		reply += '<a href="#" data-toggle="dropdown" class="dropdown modify-remove-dropdown"><img src="/resources/img/reply-modify-button.png" class="modifyBtn" onclick="buttonChange('+ commentId +')"></a>';
+		reply += '<div class="dropdown-menu modify-remove-dropdown-menu" role="menu">';
+		reply += '<div class="dropdown">';
+		reply += '<a onclick="button('+ commentId + "," + postId +')">수정</a>';
+		reply += '</div>';
+		reply += '<div class="dropdown">';
+		reply += '<a href="#" class="nav-link" id="message-btn" data-toggle="modal"><a onclick="removeComment('+ commentId +', ' + postId +')">삭제</a></a>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+		reply += '</div>';
+
+		$("#commentId" + commentId).append(reply);
+	}
+};
+
+const getLoginedUserInfo = (callback, param1, param2, param3) => {
+	$.ajax({
+		type: "GET",
+		url: "/api/users/authenticate",
+		dataType: "json",
+		success : function(loginedUser) {
+			if(callback) {
+				callback(loginedUser, param1, param2, param3);
+			}
+		}
+	})
+};
+
+//버튼 속성 변경
+function button(commentId, postId) {
+
+	var contentVal = $("#commentContent"+commentId+"").val();
+	var loginModal = $("#login-modal");
+
+	//output += '<input id="commentModifyBtn'+result[i].id+'" onclick="modifyComment('+result[i].id+')" type="hidden" class="btn btn-template-outlined buttons" value="수정" style="float:right; margin-right:15px; margin-top:20px">';
+
+	$('#commentBlock'+commentId+'').attr({"style":"display:none"});
+	$('#commentContent'+commentId+'').attr({"type":"text", "value":contentVal});
+	$('#reply-content'+commentId+'').append('<div><input id="commentModifyBtn'+commentId+'" onclick="modifyComment('+ commentId + ", " + postId+')" type="hidden" class="btn btn-template-outlined buttons" value="수정" style="float:right; margin-right:15px; margin-top:20px"></div>');
+
+	$('#commentCloseBtn'+commentId+'').attr({"type":"button"});
+	$('#commentDeleteBtn'+commentId+'').attr({"type":"button"});
+	$('#commentModifyBtn'+commentId+'').attr({"type":"button"});
 }
+
+function buttonChange(id) {
+
+	let contentVal = $("#commentContent"+id+"").val();
+	let loginModal = $("#login-modal");
+
+	$('#commentModifyBtn'+id+'').attr({"type":"button"});
+}
+
+//댓글 수정
+function modifyComment(id, postId, callback, error) {
+	let comment = {"commentId":id, "content":$('#commentContent'+id+'').val()};
+
+	$.ajax({
+		type : 'put',
+		url : '/api/mypet/comments',
+		data : JSON.stringify(comment),
+		contentType : "application/json; charset=utf-8",
+		success : function(result, status, xhr) {
+			makeCommentPart(postId);
+		},
+		error : function(xhr, status, er) {
+			if(error) {
+				error(er);
+			}
+		}
+	});
+}
+
+//댓글 삭제
+function removeComment(commentId, postId) {
+
+	if(confirm("삭제하시겠습니까?")) {
+		$.ajax({
+			type : 'delete',
+			url : '/api/mypet/comments/' + commentId,
+			contentType : "application/json; charset=utf-8",
+			success : function(result, status, xhr) {
+				makeCommentPart(postId)
+			},
+			error : function(xhr, status, er) {
+				if(error) {
+					error(er);
+				}
+			}
+		});
+	}
+	else {
+		//alert('삭제 취소!');
+		closeComment(id);
+	}
+}
+
+//댓글 닫기
+function closeComment(id) {
+	$("#commentContent"+id+"").attr({"type":"hidden"});
+	$("#commentModifyBtn"+id+"").attr({"type":"hidden"});
+	$("#commentDeleteBtn"+id+"").attr({"type":"hidden"});
+	$("#commentCloseBtn"+id+"").attr({"type":"hidden"});
+	$("#commentBlock"+id+"").attr({"style":"display:block"});
+}
+
+const makeDateString = (date) => {
+
+    let createdDate = new Date(date);
+    let createdDateYear = createdDate.getFullYear();
+    let createdDateMonth = createdDate.getMonth();
+    let createdDateHour = createdDate.getHours();
+    let createdDateMinute = createdDate.getMinutes();
+    if ( createdDateMonth < 10) {
+        createdDateMonth = "0" + createdDateMonth;
+    }
+    let createdDateDay = createdDate.getDay();
+    if (createdDateDay < 10) {
+        createdDateDay = "0" + createdDateDay;
+    }
+    if (createdDateHour < 10) {
+    	createdDateHour = "0" + createdDateHour;
+	}
+    if (createdDateMinute < 10) {
+    	createdDateMinute = "0" + createdDateMinute;
+	}
+
+    let createdDateString = createdDateYear + "." + createdDateMonth + "." + createdDateDay + " " + createdDateHour + ":" + createdDateMinute;
+
+    return createdDateString;
+};
 
 const makeLikePart = (id) => {
 	$.ajax({
@@ -256,7 +473,7 @@ const makeLikePart = (id) => {
 			
 		}
 	})
-}
+};
 
 const makeLikeStatus = (id) => {
 	$.ajax({
@@ -275,7 +492,7 @@ const makeLikeStatus = (id) => {
 			
 		}
 	})
-}
+};
 
 let page = 1;
 let isEndPage = false;
@@ -291,7 +508,7 @@ const makeMypetPostList = (pageNum, hashtag) => {
 		data: {"pageNum" : pageNum, "hashtag" : hashtag},
 		success: function(data, status, xhr) {
 			page++;
-			if (page >= data.lastPage) {
+			if (page > data.lastPage) {
 				isEndPage = true;
 			}
 			$.each(data.posts, function(index, value) {
@@ -307,7 +524,7 @@ const makeMypetPostList = (pageNum, hashtag) => {
 			
 		}
 	})
-}
+};
 
 $(window).scroll(function() {
 
@@ -319,5 +536,5 @@ $(window).scroll(function() {
 
 $(window).ready(function() {
 	makeMypetPostList(page);
-})
+});
 

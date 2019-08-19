@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.community.petish.community.mypet.comment.domain.MypetComment;
+import com.community.petish.community.mypet.comment.dto.request.UpdateMypetCommentParams;
 import com.community.petish.community.mypet.comment.dto.response.MypetCommentListResponse;
 import com.community.petish.community.mypet.comment.mapper.MypetCommentMapper;
 import com.community.petish.community.user.dto.response.LoginedUser;
@@ -60,4 +61,17 @@ public class MypetCommentServiceImpl implements MypetCommentService{
 		return mypetCommentListResponse;
 	}
 
+	@Override
+	public void updateComment(UpdateMypetCommentParams updateMypetCommentParams) {
+		mypetCommentMapper.update(updateMypetCommentParams);
+		MypetComment comment = mypetCommentMapper.findByCommentId(updateMypetCommentParams.getCommentId());
+		log.info("수정 완료 comment = {}", comment);
+	}
+
+	@Override
+	public void deleteComment(Long commentId) {
+		mypetCommentMapper.delete(commentId);
+		MypetComment comment = mypetCommentMapper.findByCommentId(commentId);
+		log.info("삭제 완료 comment = {}", comment);
+	}
 }

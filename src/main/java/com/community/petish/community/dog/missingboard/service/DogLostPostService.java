@@ -8,16 +8,12 @@ import com.community.petish.community.dog.missingboard.dto.DogLostPostRequestWri
 import com.community.petish.community.dog.missingboard.dto.DogLostPostResponseDetailDTO;
 import com.community.petish.community.dog.missingboard.dto.DogLostPostResponseListDTO;
 
-public interface DogLostPostService {
-	
+public interface DogLostPostService {	
 	// 게시글 수
 	int getPostCount(Criteria cri);
 
 	// 게시글 리스트
 	List<DogLostPostResponseListDTO> getPostList(Criteria cri);
-	
-	// 게시글 리스트(페이징)
-	//List<DogLostPostResponseListDTO> getListWithPaging(Criteria cri);
 	
 	// 게시글 조회
 	DogLostPostResponseDetailDTO getPostDetail(Long id);
@@ -35,5 +31,5 @@ public interface DogLostPostService {
 	int delete(Long id);
 	
 	// 사진 첨부
-	List<AttachFileVO> getAttachList(Long postId);
+	List<AttachFileVO> getAttachList(Long postId);	
 }

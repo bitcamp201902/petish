@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.extern.slf4j.Slf4j;
 
-@RequestMapping("/dog/missingboard/*")
+//@RequestMapping("/dog/missingboard/*")
 @RestController
 @Slf4j
 public class DogMissingboardRestController {

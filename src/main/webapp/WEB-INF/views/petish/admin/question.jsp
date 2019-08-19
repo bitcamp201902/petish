@@ -74,10 +74,9 @@
                     <th>식별자</th>
                     <th>문의카테고리</th>
                     <th>제목</th>
-                    <th>문의내용</th>
-                    <th>유저식별자</th>
+                    <th>닉네임</th>
                     <th>문의날짜</th>
-                    <th>버튼</th>
+                    <th>답변상태</th>
                   </tr>
                 </thead>
                 <tbody id="userTable">
@@ -89,6 +88,41 @@
         </div>
       </div>
     </main>
+    <div id="new-modal" tabindex="-1" role="dialog" aria-hidden="true"
+		class="modal fade">
+		<div role="document" class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 align="center" class="modal-title">문의내역</h4>
+					<button type="button" data-dismiss="modal" aria-label="Close"
+						class="close">
+						<span aria-hidden="true">×</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="form-group">
+						<label>닉네임</label> <input class="form-control" id='nickname'
+							readonly>
+					</div>
+					<input type="hidden" id="id">
+					<div class="form-group">
+						<label>문의카테고리</label> <input class="form-control" id='category' readonly>
+					</div>
+					<div class="form-group">
+						<label>제목</label> <input class="form-control" id='title' readonly>
+					</div>
+					<div class="form-group">
+						<label>내용</label>
+						<textarea id="content" rows="10" class="form-control"
+							name='content'></textarea>
+					</div>
+					<div class="text-left">
+						<input type="button" value="답 변" onclick="questionRes()">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
     <!-- Essential javascripts for application to work-->
     <script src="/resources/js/admin/jquery-3.2.1.min.js"></script>
     <!-- Google analytics script-->
@@ -102,48 +136,67 @@
       	ga('create', 'UA-72504830-1', 'auto');
       	ga('send', 'pageview');
       }
-      function deleteUser(id){
-    	  /* $.ajax({
-  			url:'/admin/user/delete/'+id,
-  			type:'DELETE',
-  			success:function(data){
-  				if(data==true){
-  					getUserList();
-  				}
-  				else{
-  					alert("탈퇴실패!");
-  				}
-  			},
-  			error:function(request,status,error){
-  				alert("ajax 통신 실패!!!");
-  				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+     
+      function questionRes(){
+    	  var params ={
+    			  'id' : $('#id').val(),
+    	  		  'content' : $('#content').val()
+    	  };
+    	  $.ajax({
+    		url:'/admin/question/response',
+    		type:'PUT',
+    		data:JSON.stringify(params),
+    		contentType:'application/json; charset=utf-8',
+ 			dataType:'json',
+ 			success:function(retVal){
+				if(retVal.res == "OK"){
+					//데이타 성공일때 이벤트 작성
+					$("#new-modal").modal("hide");
+					window.location.href="/admin/question";
+				}
+				else{
+					alert("Modify Fail!!!");
+				}
+			},
+			error:function(request,status,error){
+				alert("ajax 통신 실패!!!");
+				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
 
-  			}
-  		  }); */
-  		  alert(id);
+			}
+    	  });
       }
-      function getUserList(){
+      function getQuestionList(){
     	  $('#userTable').empty();
     	  $.ajax({
-    		 url:'/admin/user/list',
+    		 url:'/admin/question/list',
     		 type:'GET',
     		 dataType:'json',
     		 success:function(data){
-    			 $.each(data.list, function(index, item){
+    			 $.each(data.questionList, function(index, item){
     				var output='';
     				output += '<tr>';
     				output += '<td>'+item.id+'</td>';
-    				output += '<td>'+item.username+'</td>';
+    				output += '<td>'+item.category+'</td>';
+    				output += '<td><a href=# id="quest'+item.id+'">'+item.title+'</a></td>';
+    				//output += '<td>'+item.content+'</td>';
     				output += '<td>'+item.nickname+'</td>';
-    				output += '<td>'+item.address+'</td>';
-    				output += '<td>'+item.gender+'</td>';
-    				output += '<td>'+item.join_date+'</td>';
-    				output += '<td><button type="button" class="btn btn-template-outlined" style="margin-right:10px; margin-bottom:3px;">수 정</button><button type="button" id="deletebtn_'+item.id+'" class="btn btn-template-outlined" style="margin-bottom:3px;">탈 퇴</button></td>';
-    				console.log(item.join_date);
+    				output += '<td>'+item.created_date+'</td>';
+    				if(item.replied){
+    					output += '<td>답변완료</td>';
+    				}else{
+    					output +='<td>답변대기</td>';
+    				}
+    				//output += '<td><button type="button" class="btn btn-template-outlined" style="margin-right:10px; margin-bottom:3px;">수 정</button><button type="button" id="deletebtn_'+item.id+'" class="btn btn-template-outlined" style="margin-bottom:3px;">탈 퇴</button></td>';
     				output += '</tr>';
-    				$('#userTable').append(output);
-    				$('#deletebtn_'+item.id+'').click(function(event){
-    					deleteUser(item.id);
+	    			$('#userTable').append(output);
+    				var questId = '#quest'+item.id;
+    				$(questId).click(function(){
+    					$('#new-modal').modal('show');
+    					$('#id').val(item.id);
+    					$('#category').val(item.category);
+    					$('#title').val(item.title);
+    					$('#nickname').val(item.nickname);
+    					$('#content').val(item.content+"\n=========================================\n안녕하세요 운영자입니다.");
     				});
     			 });
     			$('#sampleTable').DataTable();
@@ -154,7 +207,7 @@
     	  });
       }
       $(document).ready(function(){
-    	  getUserList();
+    	  getQuestionList();
       });
     </script>
     <script src="/resources/js/admin/popper.min.js"></script>

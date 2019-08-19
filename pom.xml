@@ -213,6 +213,11 @@
 		</dependency>
 		
 		<!-- jackson-databind -->
+	 	<dependency>
+	 		<groupId>com.fasterxml.jackson.core</groupId>
+	 		<artifactId>jackson-core</artifactId>
+	 		<version>2.9.6</version>
+	 	</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -233,6 +238,26 @@
 			<artifactId>gson</artifactId>
 			<version>2.8.5</version>
 		</dependency>
+		<dependency>	
+			<groupId>org.codehaus.jackson</groupId>		
+			<artifactId>jackson-mapper-asl</artifactId>		
+			<version>1.9.13</version>	
+		</dependency>
+		
+		<!--  WebSocket 기능 추가 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework-version}</version>
+	    </dependency>
+		
+		<!-- Provided Websocket API, because tomcat has its own implementation -->
+	  	<dependency>
+			<groupId>javax.websocket</groupId>
+			<artifactId>javax.websocket-api</artifactId>
+			<version>1.1</version>
+			<scope>provided</scope>
+	  	</dependency>
 
 		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
 		<dependency>
@@ -252,6 +277,13 @@
 		    <artifactId>thumbnailator</artifactId>
 		    <version>0.4.8</version>
 		</dependency>
+		
+		<!-- multipart -->
+		<dependency>
+          <groupId>servlets.com</groupId>
+          <artifactId>cos</artifactId>
+          <version>05Nov2002</version>
+      	</dependency>
 
         <!-- java mail sender -->
         <!-- https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->

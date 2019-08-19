@@ -27,7 +27,7 @@ public class HospitalController {
 	
 	@RequestMapping("/search")
 	public String hospitalSerachForm() {
-		return "petish/hospital/main_search";
+		return "petish/community/hospital/main_search";
 	}
 
 	@RequestMapping(value="/search/{addr}/{isEmer}/{page}", produces="application/json;charset=UTF-8")
@@ -113,7 +113,7 @@ public class HospitalController {
 		double score_star =avg*10;
 		
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("petish/hospital/detail");
+		mv.setViewName("petish/community/hospital/detail");
 		mv.addObject("hospital", hospital);
 		mv.addObject("imglist", imglist);
 		mv.addObject("score",avg);

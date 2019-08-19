@@ -79,7 +79,7 @@
 		<![CDATA[
 		SELECT id, title, content, image, created_date, user_id FROM
 			(
-			SELECT rownum, id, title, content, image, created_date, user_id
+			SELECT rownum rn, id, title, content, image, created_date, user_id
 			FROM mypet_post_tb
 			WHERE deleted = 0
 		]]>
@@ -90,7 +90,7 @@
 			AND rownum <= ${pageNum} * 20
 			ORDER BY id desc
 			)
-		WHERE rownum >  ( ${pageNum} - 1 ) * 20
+		WHERE rn >  ( ${pageNum} - 1 ) * 20
 		]]>
 	</select>
 	

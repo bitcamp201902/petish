@@ -18,6 +18,7 @@ public class SaveUserParams {
 	private String nickname;
 	private String address;
 	private String gender;
+	private String picture;
 	private String concern;
 	
 }

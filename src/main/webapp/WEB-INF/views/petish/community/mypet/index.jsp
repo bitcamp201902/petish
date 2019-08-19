@@ -5,24 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mypet</title>
-    
-	<%@ include file="/WEB-INF/views/commons/link.jspf" %>
-	
-    <%@ include file="/WEB-INF/views/commons/script.jspf" %>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="/resources/css/mypet/mypet.css">
+    <link rel="stylesheet" href="/resources/css/mypet/comment.css">
     <link rel="stylesheet" href="/resources/css/mypet/mypetvote.css">
-    <script src="/resources/js/mypet/mypet.js"></script>
-    <script src="/resources/js/mypet/mypetvote.js"></script>
-    
+    <link rel="stylesheet" href="/resources/css/commons/message.css">
+
 </head>
-<body>
+<body class="bg-light" style="font-family: 'Do Hyeon', sans-serif ">
 <div class="all">
 
-	<%@ include file="/WEB-INF/views/commons/top.jspf" %>
+	<%@ include file="/WEB-INF/views/commons/mypet_top.jspf" %>
 
-    <div class="container-fluid">
+    <div class="container-fluid body-section">
 
         <div class="board-header">
             <div class="title">
@@ -31,7 +31,7 @@
                 <h2>마이펫</h2>
             </div>
         </div>
-        
+
         <div class="board-body">
             <div id="columns" >
 
@@ -44,7 +44,7 @@
 		<!-- 투표창 모달 시 -->
 		<div class="modal fade" id="mypet-vote-modal">
 			<div class="modal-dialog modal-dialog-centered modal-dialog-resizer">
-            	<div class="modal-content vote-modal"> 
+            	<div class="modal-content vote-modal">
 
 	                <div class="modal-header vote-modal-header">
 	                    <div class="vote-modal-header-content">
@@ -57,14 +57,14 @@
                 	<div class="modal-body vote-modal-body">
                     	<form id="vote-form">
                     	<div class="vote-candidate-container">
-                        
+
 							<div class="vote-candidate-wrapper" id="1">
 								<div class="vote-candidate">
 									<div class="vote-image-wrapper">
 										<div class="vote-image">
 											<img src="https://c.pxhere.com/photos/b1/90/dog_puppy_pet_animal_cute_labrador-855217.jpg!d" >
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="vote-select-wrapper">
                                         <div class="vote-selector">
                                             <input type="radio" name="vote-candidate" value="1">
@@ -72,14 +72,14 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="vote-candidate-wrapper" id="2">
                                 <div class="vote-candidate">
                                     <div class="vote-image-wrapper">
                                         <div class="vote-image">
                                             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSP_-HHVJrxrUwVgcif6cpBPCp18jayAdpwXyecnu7bxdueXa2U">
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="vote-select-wrapper">
                                         <div class="vote-selector">
                                             <input type="radio" name="vote-candidate" value="2">
@@ -87,14 +87,14 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="vote-candidate-wrapper" id="3">
                                 <div class="vote-candidate">
                                     <div class="vote-image-wrapper">
                                         <div class="vote-image">
                                             <img src="https://tul.imgix.net/content/article/puppy-pinot-sydney.jpg?auto=format,compress&w=740&h=486&fit=crop&crop=edges">
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="vote-select-wrapper">
                                         <div class="vote-selector">
                                             <input type="radio" name="vote-candidate" value="3">
@@ -102,14 +102,14 @@
                                     </div>
                                 </div>
                             </div>
-                    
+
                             <div class="vote-candidate-wrapper" id="4">
                                 <div class="vote-candidate">
                                     <div class="vote-image-wrapper">
                                         <div class="vote-image">
                                             <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c9/Puppy_Up_Close.jpg/1062px-Puppy_Up_Close.jpg">
                                         </div>
-                                    </div>  
+                                    </div>
                                     <div class="vote-select-wrapper">
                                         <div class="vote-selector">
                                             <input type="radio" name="vote-candidate" value="4">
@@ -117,7 +117,7 @@
                                     </div>
                                 </div>
                             </div>
-                                
+
                         </div>
                     	</form>
                 	</div>
@@ -141,15 +141,7 @@
                 <div class="modal-content" id="mypet-modal-content">
 
                     <div class="modal-body" id="profile-area">
-                        <div class="user-profile-picture">
-                            <i class="fas fa-user-circle fa-2x" id="profile-icon"></i>
-                        </div>
-                            
-                        <div class="user-profile-info">
-                            <a id='post-creator' href="" class="user-detail">
-                                아이디
-                            </a>
-                        </div>
+
                     </div>
 
                     <div class='modal-body' id="content-area">
@@ -163,143 +155,43 @@
                                         </div>
                                     </div>
 
-                                </div> 
+                                </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="mypet-content-body">
                             <div class="mypet-title">
-                                <h4 id="post-title">우리 아기 이쁘죵</h4>
+                                <h4 id="post-title"></h4>
                             </div>
 
                             <div class="mypet-created-date">
-                                <span id="created-date">2019-06-11</span>
+                                <span id="created-date"></span>
                             </div>
 
                             <div class="mypet-content" id="post-content">
-                                어제 찍은 우리 아기 사진이에요~~<br>
-                                이게 뭐하는 짓인지<br>
-                                현타가 온다~~~~<br>
-                                어제 찍은 우리 아기 사진이에요~~<br>
-                                이게 뭐하는 짓인지<br>
-                                현타가 온다~~~~<br>
-                                어제 찍은 우리 아기 사진이에요~~<br>
-                                이게 뭐하는 짓인지<br>
-                                현타가 온다~~~~<br>
-                                어제 찍은 우리 아기 사진이에요~~<br>
-                                이게 뭐하는 짓인지<br>
-                                현타가 온다~~~~<br>
-                                어제 찍은 우리 아기 사진이에요~~<br>
-                                이게 뭐하는 짓인지<br>
-                                현타가 온다~~~~<br>
-                                어제 찍은 우리 아기 사진이에요~~<br>
-                                이게 뭐하는 짓인지<br>
-                                현타가 온다~~~~<br>
+
                             </div>
                         </div>
 
                         <div class="reply-like">
                             <table class="s-caption-table">
                                 <tr>
-                                    <td class="pr-1"> <i id="like-icon" class="like-icon fas fa-paw s-likes-icon" onclick="likeClick()"></i> 좋아요 <span class="s-likes" id="like-count">49</span> </td>
-                                    <td class="px-1"> <i id="comment-icon" class='comment-icon far fa-comment'></i> 댓글 <span id="comment-count" class="s-comments">3</span></td>
+                                    <td class="pr-1"> <i id="like-icon" class="like-icon fas fa-paw s-likes-icon" onclick="likeClick()"></i> 좋아요 <span class="s-likes" id="like-count"></span> </td>
+                                    <td class="px-1"> <i id="comment-icon" class='comment-icon far fa-comment'></i> 댓글 <span id="comment-count" class="s-comments"></span></td>
                                 </tr>
                             </table>
                         </div>
 
                         <div id="mypet-replies-body" class="mypet-replies">
 
-                            <!-- reply 한개 -->
-                            <div class="mypet-reply">
-
-                                <div class="replyer">
-                                    <div class="replyer-wrapper">
-                                        <div class="user-profile-picture">
-                                            <i class="fas fa-user-circle fa-lg"></i>
-                                        </div>
-                                            
-                                        <div class="user-profile-info">
-                                            <a href="">
-                                                User1
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="reply-content">
-                                    와 진짜 이쁘네요
-                                </div>
-
-                                
-
-                                <div class="reply-created-date">
-                                    2019-6-13
-                                </div>
-
-                            </div>
-
-                            <!-- reply 한 개 -->
-                            <div class="mypet-reply">
-
-                                <div class="replyer">
-                                    <div class="replyer-wrapper">
-                                        <div class="user-profile-picture">
-                                            <i class="fas fa-user-circle fa-lg"></i>
-                                        </div>
-                                            
-                                        <div class="user-profile-info">
-                                            <a href="">
-                                                User1
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="reply-content">
-                                    와 진짜 이쁘네요
-                                </div>
-
-                                <div class="reply-created-date">
-                                    2019-6-13
-                                </div>
-
-                            </div>
-
-                            <!-- reply 한 개 -->
-                            <div class="mypet-reply">
-
-                                <div class="replyer">
-                                    <div class="replyer-wrapper">
-                                        <div class="user-profile-picture">
-                                            <i class="fas fa-user-circle fa-lg"></i>
-                                        </div>
-                                            
-                                        <div class="user-profile-info">
-                                            <a href="">
-                                                User1
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="reply-content">
-                                    와 진짜 이쁘네요
-                                </div>
-
-                                <div class="reply-created-date">
-                                    2019-6-13
-                                </div>
-
-                            </div>
-
                         </div>
-                        
+
                     </div>
 
                     <div class="modal-body" id="reply-form">
                     	<form>
-	                        <input name="content" class="form-control" placeholder="댓글 달기..." onkeypress="handleKeyPress(event, this.id)">
+	                        <input name="content" id="comment-save-part" class="form-control" placeholder="댓글 달기...">
 	                        <input name="postId" id="post-id" type="hidden" value="2">
                     	</form>
                     </div>
@@ -309,5 +201,12 @@
         </div>
         <!-- 조회창 모달  -->
 
+    <%@ include file="/WEB-INF/views/commons/sendMessage.jspf" %>
+
 </body>
+
+    <script src="/resources/js/commons/message.js"></script>
+    <script src="/resources/js/mypet/mypet.js"></script>
+    <script src="/resources/js/mypet/mypetvote.js"></script>
+
 </html>

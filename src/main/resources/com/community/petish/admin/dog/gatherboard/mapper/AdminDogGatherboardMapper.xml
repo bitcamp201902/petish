@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.community.petish.admin.dog.gatherboard.mapper.AdminDogGatherboardMapper">
+
+	<!-- 페이징 -->
+	<select id="getListWithPaging" resultType="com.community.petish.admin.dog.gatherboard.dto.response.AdminDogGatherboardListDTO">
+	  <![CDATA[
+	   SELECT
+	      ID, USER_ID, REGION_NAME, DOG_SPECIES, DOG_SIZE, TITLE, NICKNAME, CREATED_DATE, VIEW_COUNT, GATHERING_DATE, DELETED
+	      FROM 
+	      (SELECT
+	      	rownum rn, ID, USER_ID, REGION_NAME, DOG_SPECIES, DOG_SIZE, TITLE, NICKNAME, CREATED_DATE, VIEW_COUNT, GATHERING_DATE, DELETED
+	      	FROM
+	      	 (SELECT post.id, post.user_id, region.region_name, member.nickname, post.deleted,
+	      		  species.dog_species, dog_size.dog_size, post.title, post.created_date, post.view_count, post.gathering_date
+		  	 FROM dog_gather_post_tb post, user_tb member, region_tb region, dog_species_tb species, dog_size_tb dog_size
+	      	 WHERE 
+	      	 post.id > 0 and post.user_id = member.id and post.region_id = region.id and 
+	      	 post.species_id = species.id and species.size_id = dog_size.id
+	      ORDER BY post.id DESC
+	      )  
+	      WHERE rownum <= #{pageNum} * #{amount}    
+	     ) 
+	    WHERE rn > (#{pageNum} - 1) * #{amount}
+	   ]]>
+	</select>
+
+	<select id="getDogGatherboardPostCount" resultType="int">
+	  <![CDATA[
+	      SELECT COUNT(ID)
+	      FROM DOG_GATHER_POST_TB
+	  ]]>
+
+	</select>
+	
+	<update id="restoreDogGatherPost">
+		update DOG_GATHER_POST_TB set DELETED = 0 where ID=#{ID}
+	</update>
+	
+</mapper>

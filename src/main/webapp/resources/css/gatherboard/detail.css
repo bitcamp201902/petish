@@ -1,16 +1,175 @@
+/* scroll */
+::-webkit-scrollbar{width: 16px;}
+::-webkit-scrollbar-track {background-color:#f1f1f1;}
+::-webkit-scrollbar-thumb {background-color:lightblue;}
+::-webkit-scrollbar-thumb:hover {background: #555;}
+::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {
+width:16px;height:16px;background:lightblue;} 
+
+.btn.btn-template-outlined.writeBtn {
+	margin-top: -10px;
+	float: right;
+}
+
+.btn.btn-template-outlined.listBtn {
+	margin-top: -10px;
+}
+
+#commentAll {
+	margin-top: 100px;
+}
+
+.bar {
+	padding: 5%;
+}
+
+.text-uppercase.comment {
+	margin-top: -70px;	
+}
+
+.chat {
+	width: 120px;
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	z-index: 1;
+}
+
+.chatBox {
+	overflow-y:hidden;
+	position: fixed;
+	right: 0;
+	bottom: 20%;
+	z-index: 2;
+	width: 400px;
+	background-color: lightblue;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+}
+
+.chatTopBar {
+    font-family: 'Do Hyeon', sans-serif;
+	letter-spacing: 2px;
+	color: #38a7bb;
+	padding: 3%;
+	margin: auto;
+	background-color: #38a7bb;
+    color: white;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+}
+
+#participantList-top {
+	margin-bottom: 15px;
+}
+
+#participantCancelBtn {
+	float: right;
+	margin-bottom: 10px;
+}
+
+.chatNotice {
+	font-family: 'Do Hyeon', sans-serif;
+	letter-spacing: 2px;
+	color: #38a7bb;
+	padding: 3%;
+	margin: auto;
+	background-color: lightslategray;
+    color: white;
+    border-radius: 10px;
+    text-align: center;
+}
+
+#messageWindow {
+	height:300px;
+	overflow-y:scroll; 
+	padding: 2%;
+}
+
+.onUser {
+	font-family: 'Do Hyeon', sans-serif;
+	letter-spacing: 2px;
+	padding: 2%;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#onUserListBtn {
+    font-family: 'Do Hyeon', sans-serif;	
+    float: right;
+}
+
+#onUser {
+	font-family: 'Do Hyeon', sans-serif;	
+	margin: auto;
+}
+
+.onUser {
+	text-aling: center;
+	margin: 3px;
+}
+
+#inputMessage {
+	font-family: 'Do Hyeon', sans-serif;
+	letter-spacing: 1px;
+	border-radius: 0 0 0 10px;	
+}
+
+#sendBtn {
+	font-family: 'Do Hyeon', sans-serif;
+	letter-spacing: 2px;
+	background-color: lightgray;
+    color: gray;
+	border-radius: 0 0 10px 0;
+}
+
+#errorMsg {
+	font-family: 'Do Hyeon', sans-serif;
+	letter-spacing: 2px;	
+}
+
 #report-btn {
 	justify-content: right;
 }
-.btn.btn-danger{
-	float:right;
-	margin-top:20px;
-	margin-right:20px;
-}
-button.btn.btn-template-outlined{
+
+#participantBtn {
 	float: right;
+}
+
+#commentUpdateBtn {
+	margin-right: auto;
+	margin-top: auto;
+}
+
+button.btn.btn-template-outlined {
 	margin-right:15px;
 	margin-top:20px;
 }
+
+button.btn.btn-template-outlined.btn-sm {
+	margin:auto;
+}
+
+#participantList {
+	width: 500px;
+}
+
+#modifyBtn {
+	float: left;
+}
+
+#deleteBtn {
+	float: left;
+}
+
+#report-btn {
+	float: right;
+	margin-bottom: 30px;
+}
+
+.heading {
+	margin-top:30px;
+}
+
 .name{
 	text-align:center;
 	width:40px;
@@ -44,7 +203,22 @@ div.panel.panel-default.sidebar-menu{
 	margin-top:40px;
 }
 
+#comments {
+	margin-top:60px;
+	margin-bottom:60px;
+}
+
+#commentBtn {
+	margin: auto;
+}
+
+#report-btn {
+	margin-top:30px;
+}
 @media screen and (max-width:750px){
+	.chatBox {
+		width: 30%;
+	}
 	.btn.btn-template-outlined{
 		margin-bottom:10px;
 	}

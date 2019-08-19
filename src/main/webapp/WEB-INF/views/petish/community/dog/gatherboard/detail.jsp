@@ -1,51 +1,66 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="java.util.*,java.sql.*,java.text.SimpleDateFormat,com.community.petish.community.dog.gatherboard.domain.DogGatherPostVO,com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO,com.community.petish.community.dog.gatherboard.domain.DogGatherCommentVO,
+				com.community.petish.community.user.dto.response.LoginedUser" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%
+	DogGatherPostVO post = (DogGatherPostVO)request.getAttribute("post");
+	LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
+
+	String addr = post.getGATHERING_ADDRESS();
+	String writer = (String)request.getAttribute("writer");
+	String userName = user.getUsername();
+	Long userID = user.getId();
+	String userNickName = user.getNickname();
+	Long boardId = 2L;
+	
+	//DogSize
+	Long sizeID = (Long)request.getAttribute("sizeID");
+	String size = "";
+	if(sizeID == 1L) {
+		size = "소";
+	}
+	else if(sizeID == 2L) {
+		size = "중";
+	}
+	else if(sizeID == 3L) {
+		size = "대";
+	}
+	
+	//정모 참여자 - DTO List
+	List<DogGatherParticipantDTO> participantList = (ArrayList<DogGatherParticipantDTO>)request.getAttribute("participantList");
+	int participantCount = (int)request.getAttribute("participantCount");
+	
+	Timestamp GATHRING_DATE = post.getGATHERING_DATE();
+	// 정모 날짜 지나면 신청 못하도록 구현
+	// 현재 시간 Timestamp 형식으로 구하기
+	// 앞에 변수가 크면 1, 작으면 -1, 같으면 0
+	SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss");
+	Calendar cal = Calendar.getInstance();
+	String today = null;
+	today = formatter.format(cal.getTime());
+	Timestamp ts = Timestamp.valueOf(today);
+	
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>서울숲에서 만나요</title>
-<meta name="description" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="all,follow">
-<!-- Bootstrap CSS-->
-<link rel="stylesheet" href="/resources/vendor/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome CSS-->
-<link rel="stylesheet" href="/resources/vendor/font-awesome/css/font-awesome.min.css">
-<!-- Google fonts - Roboto-->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
-<!-- Bootstrap Select-->
-<link rel="stylesheet" href="/resources/vendor/bootstrap-select/css/bootstrap-select.min.css">
-<!-- owl carousel-->
-<link rel="stylesheet" href="/resources/vendor/owl.carousel/assets/owl.carousel.css">
-<link rel="stylesheet" href="/resources/vendor/owl.carousel/assets/owl.theme.default.css">
-<!-- theme stylesheet-->
-<link rel="stylesheet" href="/resources/css/style.lightblue.css" id="theme-stylesheet">
-<!-- Custom stylesheet - for your changes-->
-<link rel="stylesheet" href="/resources/css/custom.css">
-<!-- Favicon and apple touch icons-->
-<link rel="shortcut icon" href="/resources/img/favicon.ico" type="image/x-icon">
-<link rel="apple-touch-icon" href="/resources/img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="57x57" href="/resources/img/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="72x72" href="/resources/img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="/resources/img/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="/resources/img/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="/resources/img/apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="/resources/mg/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="/resources/img/apple-touch-icon-152x152.png">
-<!-- Tweaks for older IEs-->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
-<link href="/resources/css/commons/kakaomap.css" rel="stylesheet">
-<link href="/resources/css/gatherboard/detail.css" rel="stylesheet">
+<title><%= post.getTITLE() %></title>
 
+<%@ include file="/WEB-INF/views/commons/link.jspf" %>
+<link rel="stylesheet" href="/resources/css/gatherboard/chat.css">
+<link rel="stylesheet" href="/resources/css/gatherboard/detail.css">
+<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1&display=swap&subset=korean" rel="stylesheet">
+<!-- script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.js"></script> -->
 </head>
 <body>
-	<div id="all">
-	
-		<%@ include file="/WEB-INF/views/commons/top.jspf" %>
 
-		<div id="heading-breadcrumbs" class="border-top-0 border-bottom-0">
+	<div id="all">
+<%@ include file="/WEB-INF/views/commons/top.jspf" %>
+
+		<div id="heading-breadcrumbs">
 			<div class="container">
 				<div class="row d-flex align-items-center flex-wrap">
 					<div class="col-md-7">
@@ -61,144 +76,117 @@
 
 		<div id="content">
 			<div class="container">
-			
-				
-					<!-- LEFT COLUMN _________________________________________________________-->
-					<div id="blog-post" class="col-md-13">
-						<button class="btn btn-template-outlined"
-							style="float: right;">
+			      <div class="row bar">
+					<div class="col-md-12">
+						<button class="btn btn-template-outlined writeBtn">
 							<a href="/dog/gatherboard/writeForm">
 							글쓰기
 							</a>
 						</button>
-						<button class="btn btn-template-outlined">					
-							<i class="fa fa-align-justify"></i><a href="/dog/gatherboard/list">목록</a>
+						<button class="btn btn-template-outlined listBtn">					
+							<i class="fa fa-align-justify"></i><a href="/dog/gatherboard" id="listBtn" onclick="listClick()">목록</a>
 						</button>
 				
 
 						<div class="panel-heading">
-							<h2 class="h3 panel-title">서울숲에서 만나요</h2>
+							<h2 class="h3 panel-title"><%= post.getTITLE() %></h2>
 						</div>
 
 						<table>
-					
 								<tr>
 									<td><img src="/resources/img/blog-avatar2.jpg" alt=""
 										class="img-fluid rounded-circle"></td>
 									<td>
 										<div class="nav navbar-nav ml-auto">
-											<a href="#" data-toggle="dropdown" class="dropdown"> Pet</a>
+											<a href="#" data-toggle="dropdown" class="dropdown"> <%= writer %></a>
 											<div class="dropdown-menu">
 												<div class="dropdown"><a href="#" class="nav-link">게시글보기</a></div>
 												<div class="dropdown"><a href="#" class="nav-link">쪽지보내기</a></div>
 											</div>
 										</div>
 									</td>
-									<td class=grade>준회원</td>
-									<td class=date>2019-07-01 23:02:53</td>
-									<td class=view><i class="fa fa-eye"></i>130186321</td>
-									<td class=like><a href="#" class="btn btn-template-outlined"><i
-											class="fa fa-heart-o"></i>13</a></td>
+									<td class=grade>정회원</td>
+									<td class=date>작성일 : <%= post.getCREATED_DATE() %></td>
+									<td class=date>수정일 : <%= post.getUPDATED_DATE() %></td>
+									<td class=view><i class="fa fa-eye"></i> 조회 : <%= post.getVIEW_COUNT() %></td>
 								</tr>
 							</table>
-
 							<hr size="10px">
-						<div class="heading">
-						<button class="btn btn-template-outlined" type="button" data-toggle="modal" data-target="#myLargeModal">
+<%
+	//정모 날짜가 지나지 않았을 경우
+	if(GATHRING_DATE.compareTo(ts) >= 1) {
+		System.out.println("정모 날짜 남음!");
+%>
+					<div class="heading">
+						<button id="participantBtn" class="btn btn-template-outlined" type="button" data-toggle="modal" data-target="#myLargeModal">
 							<i class="fa fa-sign-in"></i> 신청
 						</button>
 						
-						<button type="button" class="btn btn-template-outlined" data-toggle="modal" data-target="#mySmallModal">
+						<button id="participantBtn" type="button" class="btn btn-template-outlined" data-toggle="modal" data-target="#mySmallModal">
 							<i class="fa fa-users"></i>신청목록
 						</button>
 							<h3>참여 현황</h3>
-						
-						
-						</div>
+					</div>
 
 						<h4>
-							<span class="h1 counter">15</span> / 30명
+							<span class="h1 counter"><%= participantCount %></span> / <%= post.getPEOPLE_COUNT() %>
 						</h4>
-
-						
+						<%
+							if(participantCount >= post.getPEOPLE_COUNT()) {
+						%>
+							<p>참여 신청이 마감되었습니다.</p>
+						<%
+							} 
+						%>
+						<!-- Participant Modal -->
 						<div class="modal fade" id="myLargeModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
-							<div class="modal-dialog modal-lg" role="document">
+							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
-										<h3 class="modal-title" id="myModalLabel">신청</h3>
-										<button type="button" class="close" data-dismiss="modal"
-											aria-label="Close">
+										<h3 class="modal-title" id="myModalLabel">참여 신청</h3>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 											</button>
-										</div>
+									</div>
 										<div class="modal-body">
-
-											반려견 종
-											<div class="form-group">
-												<select id="state" class="form-control">
-													<option>종 선택</option>
-													<option>믹스견</option>
-													<option>스피츠</option>
-													<option>시츄</option>
-													<option>요크셔테리어</option>
-													<option>말티즈</option>
-													<option>포메라니안</option>
-													<option>푸들</option>
-													<option>치와와</option>
-													<option>미니핀</option>
-													<option>슈나우저</option>
-													<option>페키니즈</option>
-													<option>닥스훈트</option>
-													<option>빠삐용</option>
-													<option>비숑 프리제</option>
-													<option>보스턴 테리어</option>
-													<option>샤페이</option>
-													<option>웰시코기</option>
-													<option>비글</option>
-													<option>코카스파니엘</option>
-													<option>불독</option>
-													<option>사모예드</option>
-													<option>피레니즈</option>
-													<option>리트리버</option>
-													<option>말라뮤트</option>
-													<option>허스키</option>
-													<option>한국 토종견</option>
-													<option>세퍼트</option>
-													<option>하운드</option>
-													<option>달마시안</option>
-													<option>콜리</option>
-													<option>쉽독</option>
-													<option>기타</option>
-												</select>
-											</div>
-											반려견 크기
-											<div class="form-group">
-
-												<select id="state" class="form-control">
-													<option>크기 선택</option>
-													<option>소형견</option>
-													<option>중형견</option>
-													<option>대형견</option>
-												</select>
-											</div>
-											신쳥 내용
-											<textarea id="comment" rows="6" cols="60"
-												class="form-control"></textarea>
-										</div>
-										<div class="modal-footer">
-											<button type="button" class="btn btn-template-outlined"
-												data-dismiss="modal" data-dismiss="modal">확 인</button>
-											<button type="button" class="btn btn-template-outlined"
-												data-dismiss="modal" data-dismiss="modal">취 소</button>
-										</div>									
+											<form action="/dog/gatherboard/insertParticipant" id="participantform" method="post" onsubmit="return participantCheck(<%=sizeID%>);">	
+											<input type="hidden" ID="POST_ID" name="POST_ID" value="<%= post.getID() %>">
+											<input type="hidden" name="USERNAME" value="<%= userName %>">
+												<div class="form-group">
+													<label for="category">크기</label> 
+													<select id="size" class="form-control" name="DOG_SIZE" onchange="javascript:categoryChange();">
+														<option value="">크기</option>
+														<option value="1">소</option>
+														<option value="2">중</option>
+														<option value="3">대</option>
+													</select>
+												</div>
+												<div class="form-group">
+													<label for="category">종 선택</label> 							
+													<select id="species" name="SPECIES" class="form-control">
+														<option value="">종 선택</option>
+													</select>
+												</div>	
+												<div class="form-group">
+													<label for="category">신청 내용</label> 
+													<textarea name="REQUEST_CONTENT" id="requestContent" rows="6" cols="60" class="form-control"></textarea>
+												</div>
+												<div class="form-group">						
+													<div class="text-center">
+														<button type="submit" class="btn btn-template-outlined">확 인</button>
+														<button id="participantResetBtn" type="reset" class="btn btn-template-outlined">취 소</button>
+							                        </div>
+												</div>
+											</form>
+										</div> <!-- modal-body END -->
 								</div>
 							</div>
 						</div>
-					
-
+						<!-- Participant Modal END -->
+						<!-- ParticipantList Modal -->
 						<div class="modal fade" id="mySmallModal" tabindex="-1"
 							role="dialog" aria-labelledby="mySmallModalLabel">
-							<div class="modal-dialog modal-sm" role="document">
+							<div class="modal-dialog" role="document">
 								<div class="modal-content">
 									<div class="modal-header">
 										<h3 class="modal-title" id="myModalLabel">신청 목록</h3>
@@ -208,23 +196,60 @@
 										</button>
 									</div>
 									<div class="modal-body">
-										<P>총원 : 5명</P>
-										<P></P>
+										<%
+											if(participantList.size()==0) {
+										%>
+										<p> 참여자가 없습니다.</p>
+										<%
+											} else {
+										%>
+										<P id="participantList-top"><i class="fa fa-user"></i> 총원 : <%= participantCount %>명</P>
 
-										<P>
-											<i class="fa fa-user"></i>Pet
-										</P>
-										<P>
-											<i class="fa fa-user"></i>Pet1
-										</P>
-										<P>
-											<i class="fa fa-user"></i>Pet2
-										</P>
-										<P>
-											<i class="fa fa-user"></i>Pet3
-										</P>
-
-									</div>
+						                <div class="table-responsive">
+						                  <table class="table table-hover">
+						                    <thead>
+						                      <tr class="text-center">
+						                        <th>번호</th>
+						                        <th>아이디</th>
+						                        <th>반려견</th>
+						                        <th>내용</th>
+						                      </tr>
+						                    </thead>
+						                  <tbody>
+										<%
+												for(int i=0; i<participantList.size(); i++) {
+													DogGatherParticipantDTO participant = participantList.get(i);		
+										%>
+										<%
+												// 본인이 참여 신청 한 경우
+												if(userName.equals(participant.getUSERNAME())) {
+											%>
+													<form action="/dog/gatherboard/cancelParticipant" method="post">
+													<input type="hidden" name="ID" value="<%=participant.getID() %>">
+													<input type="hidden" name="POST_ID" value="<%= participant.getPOST_ID() %>">
+														<button id="participantCancelBtn" type="submit" class="btn btn-template-outlined btn-sm">
+															신청취소
+														</button>
+													</form>
+											<%
+												} 
+											%>
+											 <tr class="text-center">
+												<td><b><%= i+1 %></b></td>
+												<td><%= participant.getNICKNAME() %></td>  
+												<td><%= participant.getDOG_SPECIES() %></td>
+												<td><%= participant.getREQUEST_CONTENT() %></td>
+											</tr>											
+										<%
+												}
+										%>
+										</tbody>
+					                  </table>
+					                </div>		
+					                	<% 			
+											}
+										%>         
+								</div> <!-- modal-body -->
 									<div class="modal-footer">
 										<button type="button" class="btn btn-outline-primary"
 											data-dismiss="modal">닫기</button>
@@ -232,453 +257,241 @@
 								</div>
 							</div>
 						</div>
-
-				
-						<div id="post-content">
-						
-							<h2>모임 안내</h2>
-							<blockquote class="blockquote">
-							
-									<p>모임 일시 : 2019년 7월 29일</p>
-									<p>장소 : 서울 서초구 서초동 서울숲</p>
-									<p>반려견 대상 : 치와와 </p>
-								
-							</blockquote>
-
-							<div class="map_wrap">
-								<div id="map" style="width: 100%; height: 100%; position: relative; overflow: hidden;"></div>
-								<div id="menu_wrap" class="bg_white">
-									<div class="option">
-										<div>
-											<form onsubmit="searchPlaces(); return false;">
-											<input type="text" value="서울숲" id="keyword" size="15">
-											<button type="submit">검색하기</button>
-											</form>
-										</div>
-									</div>
-									<hr>
-									<ul id="placesList"></ul>
-									<div id="pagination"></div>
-								</div>
-							</div>
+						<!-- participantModl END -->
+<%
+	} else { 
+		// 정모 날짜가 지났을 경우
+		System.out.println("정모날짜 지남!");
+%>
+						<div class="heading">
+							<h3>참여 현황</h3>
 						</div>
+						<p>날짜가 지난 정모입니다.</p>
+<%
+	}
+%>
+						<div id="post-content">						
+							<h3>모임 안내</h3>
+							<blockquote class="blockquote">
+									<p><strong>모임 일시 :</strong> <%= post.getGATHERING_DATE() %></p>
+									<p><strong>장소 :</strong> <%= post.getGATHERING_ADDRESS() %></p>
+									<p id="sizeID"><strong>크기  :</strong> <%= size %>
+									<p><strong>반려견 :</strong> <%= request.getAttribute("dogSpecies") %> </p>
+									<p><strong>내용 :</strong> <%= post.getCONTENT() %></p>
+							</blockquote>
+						</div>
+						
+						<div id="map" style="width:100%;height:350px;"></div>
 
+						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9e74e0d9232cbccbd2962414bf135d9c&libraries=services"></script>
+						<script>
+						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+						    mapOption = {
+						        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+						        level: 3 // 지도의 확대 레벨
+						    };  
+						
+						// 지도를 생성합니다    
+						var map = new daum.maps.Map(mapContainer, mapOption); 
+						
+						// 주소-좌표 변환 객체를 생성합니다
+						var geocoder = new daum.maps.services.Geocoder();
+						
+				        var imageSrc = '/resources/img/gatherboard/dog.png', // 마커이미지의 주소입니다    
+				        imageSize = new kakao.maps.Size(64, 60), // 마커이미지의 크기입니다
+				        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+				          
+					    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
+					    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
+					        markerPosition = new kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
+							
+						// 주소로 좌표를 검색합니다
+						geocoder.addressSearch('<%=addr%>', function(result, status) {
+						
+						    // 정상적으로 검색이 완료됐으면 
+						     if (status === daum.maps.services.Status.OK) {
+					
+						        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
+						
+
+							    // 마커를 생성합니다
+							    var marker = new kakao.maps.Marker({
+							        map: map,
+							        image: markerImage, // 마커이미지 설정 
+							        position: coords,
+							    });
+
+						
+						        // 인포윈도우로 장소에 대한 설명을 표시합니다
+						        var infowindow = new daum.maps.InfoWindow({
+						            content: '<div style="width:150px;text-align:center;padding:6px 0;"><%=addr%></div>'
+						        });
+						        infowindow.open(map, marker);
+						
+						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+						        map.setCenter(coords);
+						    } 
+						});    
+						</script>
+
+					<!-- comment -->	
 						<div id="comments">
-							<h4 class="text-uppercase">댓글 수 2</h4>
-							<section class="bar bg-gray mb-0">
-								<div class="row comment">
-									<div class="col-sm-3 col-md-2 text-center-xs">
-										<p>
-											<img src="/resources/img/blog-avatar2.jpg" alt=""
-												class="img-fluid rounded-circle">
-										</p>
-									</div>
-									<div class="col-sm-9 col-md-10">
-										<h5 class="text-uppercase">Julie Alma</h5>
-										<p class="posted">
-											<i class="fa fa-clock-o"></i> 2019-07-03 09:24:26
-										</p>
-										<p>기대됩니당</p>
-
-									</div>
+							<h4 class="text-uppercase" id="commentCount"></h4>
+							<section class="bar mb-0" id="commentSection">
+								<div id="commentList" class="row comment">
 								</div>
-								<div class="row comment last">
-									<div class="col-sm-3 col-md-2 text-center-xs">
-										<p>
-											<img src="/resources/img/blog-avatar.jpg" alt=""
-												class="img-fluid rounded-circle">
-										</p>
-									</div>
-									<div class="col-sm-9 col-md-10">
-										<h5 class="text-uppercase">Louise Armero</h5>
-										<p class="posted">
-											<i class="fa fa-clock-o"></i> 2019-07-03 09:25:23
-										</p>
-										<p>Pellentesque habitant morbi tristique senectus et netus
-											et malesuada fames ac turpis egestas. Vestibulum tortor quam,
-											feugiat vitae, ultricies eget, tempor sit amet, ante. Donec
-											eu libero sit amet quam egestas semper. Aenean ultricies mi
-											vitae est. Mauris placerat eleifend leo.</p>
-
-									</div>
-								</div>
+						
 							</section>
+							<!-- comment_page_form -->
+							<form id="page_form">
+								<input type="hidden" name="POST_ID" value=<%= post.getID() %>>
+								<input type="hidden" name="USER_ID" value=<%= userID %>> 
+								<input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}'>
+							</form>
+	                         <div class="comment-footer d-flex justify-content-center"></div>
 						</div>
 
 						<div id="comment-form">
-							<h4 class="text-uppercase">댓글</h4>
-							<form>
+							<h4 class="text-uppercase comment">댓글</h4>
+							<!-- comment insert form -->
+							<form id="insert_form" method="post">
+								<input type="hidden" name="USER_ID" value=<%= userID %>> 
+								<input type="hidden" name="POST_ID" value=<%=post.getID() %>>
+								<input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}'>
 								<div class="row">
 									<div class="col-sm-4">
 										<div class="form-group">
-											<label for="name">아이디<span
-												class="required text-primary">*</span></label> <input id="name"
-												type="text" class="form-control">
+											<label for="name">아이디<span class="required text-primary">*</span></label> 
+											<input id="NICKNAME" type="text" class="form-control" value=<%= userNickName %> readonly>
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-12">
 										<div class="form-group">
-											<label for="comment">내 용 <span
-												class="required text-primary">*</span></label>
-											<textarea id="comment" rows="4" class="form-control"></textarea>
+											<label for="comment">내 용 <span class="required text-primary">*</span></label>
+											<textarea id="CONTENT" name="CONTENT" rows="4" class="form-control"></textarea>
 										</div>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-12 text-right">
-										<button class="re btn btn-template-outlined">
+										<button class="re btn btn-template-outlined" id="input_data">
 											<i class="fa fa-comment-o"></i> 댓글 등록
 										</button>
-								
-										<div aria-label="Page navigation example"
-											class="d-flex justify-content-left">
-											<button class="btn btn-template-outlined">
-												<i class="fa fa-pencil"></i> <a href="/dog/gatherboard/modifyForm">수정</a>
-											</button>
-											<button type="submit" class="btn btn-template-outlined">
-												<i class="fa fa-trash-o"></i>삭제
-											</button>
-										</div>
-										<button type="button" class="btn btn-danger"
-											data-toggle="modal" data-target="#myModal"
-											 id="report-btn">신고</button>
-
-										<div class="modal fade" id="myModal" tabindex="-1"
-											role="dialog" aria-labelledby="myModalLabel">
-											<div class="modal-dialog" role="document">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h3 class="modal-title" id="myModalLabel">신고</h3>
-														<button type="button" class="close" data-dismiss="modal"
-															aria-label="Close">
-															<span aria-hidden="true">&times;</span>
-														</button>
-													</div>
-													<div class="modal-body">
-														<table>
-															<tr>
-																<td>신고 분류</td>
-																<td>
-																	<div class="form-group">
-																		<select id="state" class="form-control">
-																			<option>부적절한 게시글</option>
-																			<option>도배 게시글</option>
-																			<option>광고 목적 게시글</option>
-																			<option>기타</option>
-																		</select>
-																	</div>
-																</td>
-															<tr>
-																<td>내용</td>
-																<td><textarea id="comment" rows="4" cols="40"
-																		class="form-control"></textarea></td>
-															</tr>
-															<tr></tr>
-															<tr>
-																<td></td>
-																<td>
-																	<button type="button" class="btn btn-template-outlined"
-																		data-dismiss="modal">확인</button>
-																	<button type="button" class="btn btn-template-outlined"
-																		data-dismiss="modal">취 소</button>
-																</td>
-															</tr>
-														</table>
-													</div>
-												</div>
-												<div class="modal-footer"></div>
-											</div>
-										</div>
 									</div>
 								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3"></div>
+								</form>
+								<!-- comment insert form END -->
+								<div class="col-sm-12"> 
+										<!-- 게시자일떄만 수정/삭제  -->
+										<%
+											if(userNickName.equals(writer)) {
+										%>
+											<button id="modifyBtn" class="btn btn-template-outlined">
+												<i class="fa fa-pencil"></i> <a href="/dog/gatherboard/modifyForm/<%= post.getID()%>">수정</a>
+											</button>
+											<button id="deleteBtn" type="submit" class="btn btn-template-outlined">
+												<i class="fa fa-trash-o"></i> <a href="/dog/gatherboard/deleteDogGatherPost/<%=post.getID()%>">삭제</a>
+											</button>
+										<%
+											}
+										%>
+										<!-- 게시자일때만 수정/삭제 END -->
+											<button type="button" class="btn btn-danger"
+												data-toggle="modal" data-target="#report-modal"
+											 	id="report-btn">신고</button>
+								</div>
+								<!-- 신고 모달 -->
+								<div id="report-modal" tabindex="-1" role="dialog" aria-hidden="true"
+								      class="modal fade">
+								      <div role="document" class="modal-dialog">
+								         <div class="modal-content">
+								            <div class="modal-header">
+								               <h4 align="center" class="modal-title">게시글 신고</h4>
+								               <button type="button" data-dismiss="modal" aria-label="Close"
+								                  class="close">
+								                  <span aria-hidden="true">×</span>
+								               </button>
+								            </div>
+								
+								            <div class="modal-body">
+								               <form id="report_form" method="POST">
+								
+								                  <input type="hidden" name="board_id" id="BOARD_ID" value=<%=boardId%>>
+								                  <input type="hidden" name="post_id" id="POST_ID" value=<%= post.getID() %>>
+								                  <input type="hidden" name="user_id" id="USER_ID" value=<%=userID %>>
+												<label style="text-align: left !important;">신고 분류</label>
+								                  <div class="form-group">
+								                     <select id="state" name="category_id" id="category_id"
+								                        class="form-control">
+								                        <option value="0">신고 사유 선택</option>
+								                        <option value="1">부적절한 게시물</option>
+								                        <option value="2">도배 게시물</option>
+								                        <option value="3">광고성 게시물</option>
+								                        <option value="4">비방/비하/욕설 게시물</option>
+								                        <option value="5">음란성 또는 청소년 유해 게시물</option>
+								                        <option value="6">기타</option>
+								                     </select>
+								                  </div>
+								                  <label>내용</label>
+								                  <div class="form-group">
+								                     <textarea name="description" id="description" rows="10"
+								                        class="form-control"></textarea>
+								                  </div>
+								                  <p class="text-center">
+								                     <input type="submit" value="신고" class="btn btn-outline-primary"
+								                        id="input_report">
+								                     <a style="padding-right: 0.5rem;"></a>
+								                     <input type="reset" class="btn btn-outline-primary" value="취소">
+								                  </p>
+								               </form>
+								            </div>
+								         </div>
+								      </div>
+								   </div>
+								   <!-- 신고모달 끝 -->
+										
+										
+										
+									</div>
+								</div>
+							</div>
+							
+			<!-- 채팅 -->
+			<form id="chat_form" action="/dog/gatherboard/insertChat" method="post">
+				<input type="hidden" name="POST_ID" value='<%=post.getID()%>' />
+				<input type="hidden" name="USER_ID" value='<%=userID%>' />
+			</form>
+			<input type="hidden" value='<%=userNickName%>' id='chat_id' />
+			<input type="hidden" value='<%=post.getID()%>' id='post_id' />
+				<!-- 채팅창 -->
+				    <div id="chat_box" style="display:none;">
+				        <div class="chatBox">
+				            <p class='chatTopBar'>* <%=post.getID()%>번 글 정모 채팅  *</p>
+				            <div class='onUser' style="float:right"><p id="onUser">접속자</p>
+				            </div>
+				            <div id="messageWindow"></div>
+					           <div class="input-group">
+					           	 <input id="inputMessage" type="text" placeholder="메세지를 입력해주세요" class="form-control" onkeyup="enterkey()" />
+					             <input id="sendBtn" class="btn" type="submit" value="입력" onclick="send()" />
+				           	   </div>
+				       	</div>
+				  	</div>
+				    <img class="chat" src="/resources/img/gatherboard/chat.png" onclick="chatClick('<%=userNickName%>');"/>
+    		<!-- 채팅 끝 -->
+    		
+    			</div>
 			</div>
 		</div>
 
-	<script type="text/javascript"
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
-		
-	<script>
-		// 마커를 담을 배열입니다
-		var markers = [];
-
-		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		mapOption = {
-			center : new daum.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-			level : 3
-		// 지도의 확대 레벨
-		};
-
-		// 지도를 생성합니다    
-		var map = new daum.maps.Map(mapContainer, mapOption);
-
-		var marker = new daum.maps.Marker()
-
-		// 장소 검색 객체를 생성합니다
-		var ps = new daum.maps.services.Places();
-
-		// 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
-		var infowindow = new daum.maps.InfoWindow({
-			zIndex : 1
-		});
-
-		//주소-좌표 변환 객체를 생성합니다
-		var geocoder = new daum.maps.services.Geocoder();
-
-		// 키워드로 장소를 검색합니다
-		searchPlaces();
-
-		// 키워드 검색을 요청하는 함수입니다
-		function searchPlaces() {
-
-			var keyword = document.getElementById('keyword').value;
-
-			if (!keyword.replace(/^\s+|\s+$/g, '')) {
-				alert('키워드를 입력해주세요!');
-				return false;
-			}
-
-			// 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-			ps.keywordSearch(keyword, placesSearchCB);
-		}
-
-		// 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
-		function placesSearchCB(data, status, pagination) {
-			if (status === daum.maps.services.Status.OK) {
-
-				// 정상적으로 검색이 완료됐으면
-				// 검색 목록과 마커를 표출합니다
-				displayPlaces(data);
-
-				// 페이지 번호를 표출합니다
-				displayPagination(pagination);
-
-			} else if (status === daum.maps.services.Status.ZERO_RESULT) {
-
-				alert('검색 결과가 존재하지 않습니다.');
-				return;
-
-			} else if (status === daum.maps.services.Status.ERROR) {
-
-				alert('검색 결과 중 오류가 발생했습니다.');
-				return;
-
-			}
-		}
-
-		// 검색 결과 목록과 마커를 표출하는 함수입니다
-		function displayPlaces(places) {
-
-			var listEl = document.getElementById('placesList'), menuEl = document
-					.getElementById('menu_wrap'), fragment = document
-					.createDocumentFragment(), bounds = new daum.maps.LatLngBounds(), listStr = '';
-
-			// 검색 결과 목록에 추가된 항목들을 제거합니다
-			removeAllChildNods(listEl);
-
-			// 지도에 표시되고 있는 마커를 제거합니다
-			removeMarker();
-
-			for (var i = 0; i < places.length; i++) {
-
-				// 마커를 생성하고 지도에 표시합니다
-				var placePosition = new daum.maps.LatLng(places[i].y,
-						places[i].x), marker = addMarker(placePosition, i), itemEl = getListItem(
-						i, places[i]); // 검색 결과 항목 Element를 생성합니다
-
-				// 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-				// LatLngBounds 객체에 좌표를 추가합니다
-				bounds.extend(placePosition);
-
-				// 마커와 검색결과 항목에 mouseover 했을때
-				// 해당 장소에 인포윈도우에 장소명을 표시합니다
-				// mouseout 했을 때는 인포윈도우를 닫습니다
-				(function(marker, title) {
-					daum.maps.event.addListener(marker, 'mouseover',
-							function() {
-								displayInfowindow(marker, title);
-							});
-
-					daum.maps.event.addListener(marker, 'mouseout', function() {
-						infowindow.close();
-					});
-
-					itemEl.onmouseover = function() {
-						displayInfowindow(marker, title);
-					};
-
-					itemEl.onmouseout = function() {
-						infowindow.close();
-					};
-				})(marker, places[i].place_name);
-
-				fragment.appendChild(itemEl);
-			}
-
-			// 검색결과 항목들을 검색결과 목록 Elemnet에 추가합니다
-			listEl.appendChild(fragment);
-			menuEl.scrollTop = 0;
-
-			// 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-			map.setBounds(bounds);
-		}
-
-		//검색결과 항목을 Element로 반환하는 함수입니다
-		function getListItem(index, places) {
-
-			var el = document.createElement('li'), itemStr = '<span class="markerbg marker_'
-					+ (index + 1)
-					+ '"></span>'
-					+ '<div class="info">'
-					+ '   <h5>' + places.place_name + '</h5>';
-
-			if (places.road_address_name) {
-				itemStr += '<form action="boardForm.do" method="post">'
-						+ '<span>'
-						+ places.road_address_name
-						+ '</span>'
-						+ '   <span class="jibun gray">'
-						+ places.address_name
-						+ '</span>'
-						+ ' <input type="hidden" name="addr" value="'+places.address_name+'"   >'
-						+ ' <input type="hidden" name="addr2" value="'+places.place_name+'"    >'
-						+ +'</form>';
-			} else {
-				itemStr += '<form action="boardForm.do?addr='
-						+ places.address_name
-						+ '" method="post">'
-						+ '    <span>'
-						+ places.address_name
-						+ '</span>'
-						+ ' <input type="hidden" name="addr" value="'+places.address_name+'"   >'
-						+ ' <input type="hidden" name="addr2" value="'+places.place_name+'"    >'
-						+ +'</form>';
-			}
-
-			itemStr += '  <span class="tel">' + places.phone + '</span>'
-					+ '</div>';
-
-			el.innerHTML = itemStr;
-			el.className = 'item';
-
-			return el;
-		}
-
-		// 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
-		function addMarker(position, idx, title) {
-			var imageSrc = 'http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png', // 마커 이미지 url, 스프라이트 이미지를 씁니다
-			imageSize = new daum.maps.Size(36, 37), // 마커 이미지의 크기
-			imgOptions = {
-				spriteSize : new daum.maps.Size(36, 691), // 스프라이트 이미지의 크기
-				spriteOrigin : new daum.maps.Point(0, (idx * 46) + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
-				offset : new daum.maps.Point(13, 37)
-			// 마커 좌표에 일치시킬 이미지 내에서의 좌표
-			}, markerImage = new daum.maps.MarkerImage(imageSrc, imageSize,
-					imgOptions), marker = new daum.maps.Marker({
-				position : position, // 마커의 위치
-				image : markerImage
-			});
-
-			marker.setMap(map); // 지도 위에 마커를 표출합니다
-			markers.push(marker); // 배열에 생성된 마커를 추가합니다
-
-			return marker;
-		}
-
-		// 지도 위에 표시되고 있는 마커를 모두 제거합니다
-		function removeMarker() {
-			for (var i = 0; i < markers.length; i++) {
-				markers[i].setMap(null);
-			}
-			markers = [];
-		}
-
-		// 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
-		function displayPagination(pagination) {
-			var paginationEl = document.getElementById('pagination'), fragment = document
-					.createDocumentFragment(), i;
-
-			// 기존에 추가된 페이지번호를 삭제합니다
-			while (paginationEl.hasChildNodes()) {
-				paginationEl.removeChild(paginationEl.lastChild);
-			}
-
-			for (i = 1; i <= pagination.last; i++) {
-				var el = document.createElement('a');
-				el.href = "#";
-				el.innerHTML = i;
-
-				if (i === pagination.current) {
-					el.className = 'on';
-				} else {
-					el.onclick = (function(i) {
-						return function() {
-							pagination.gotoPage(i);
-						}
-					})(i);
-				}
-
-				fragment.appendChild(el);
-			}
-			paginationEl.appendChild(fragment);
-		}
-
-		// 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
-		// 인포윈도우에 장소명을 표시합니다
-		function displayInfowindow(marker, title) {
-			var content = '<div style="padding:5px;z-index:1;">' + title
-					+ '</div>';
-
-			infowindow.setContent(content);
-			infowindow.open(map, marker);
-		}
-
-		// 검색결과 목록의 자식 Element를 제거하는 함수입니다
-		function removeAllChildNods(el) {
-			while (el.hasChildNodes()) {
-				el.removeChild(el.lastChild);
-			}
-		}
-
-		daum.maps.event.addListener(map, 'click', function(mouseEvent, result) {
-			searchDetailAddrFromCoords(mouseEvent.latLng, function(result,
-					status) {
-				if (status === daum.maps.services.Status.OK) {
-					var message = result[0].address.address_name
-					var resultDiv = document.getElementById('clickLatlng');
-					resultDiv.value = message;
-					marker.setPosition(mouseEvent.latLng);
-					marker.setMap(map);
-				}
-			});
-		});
-
-		function searchDetailAddrFromCoords(coords, callback) {
-			// 좌표로 법정동 상세 주소 정보를 요청합니다
-			geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
-
-		}
-	</script>
-
-	<!-- Javascript files-->
-	<script src="/resources/vendor/jquery/jquery.min.js"></script>
-	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
-	<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/resources/vendor/jquery.cookie/jquery.cookie.js"></script>
-	<script src="/resources/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
-	<script src="/resources/vendor/jquery.counterup/jquery.counterup.min.js"></script>
-	<script src="/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
-	<script src="/resources/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
-	<script src="/resources/js/jquery.parallax-1.1.3.js"></script>
-	<script src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
-	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
-	<script src="/resources/js/front.js"></script>
+    <!-- script 파일 추가 -->
+<%--	<%@ include file="/WEB-INF/views/commons/script.jspf" %>--%>
+	<!-- include category.js -->
+	<script src="/resources/js/gatherboard/post.js"></script>
+	<script src="/resources/js/gatherboard/chat.js"></script>
+	<script src="/resources/js/gatherboard/comment.js"></script>
+	<script src="/resources/js/report.js"></script>
 
 </body>
 </html>

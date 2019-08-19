@@ -1,11 +1,15 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="com.community.petish.community.user.dto.response.LoginedUser"%>
+
+<!-- JavaScript File -->
+<%@ include file="/WEB-INF/views/commons/link.jspf" %>
+<%@ include file="/WEB-INF/views/commons/script.jspf" %>
+
 <link rel="stylesheet" href="/resources/css/top/top.css">
 <link rel="stylesheet" href="/resources/css/top/modal.css?after">
 <link rel="stylesheet" href="/resources/vendor/font-awesome/css/font-awesome.min.css">
-<!-- JavaScript File -->
 <%
-	LoginedUser loginedUser = (LoginedUser) session.getAttribute("LOGIN_USER");
+	LoginedUser loginedUser = (LoginedUser) session.getAttribute("LOGIN_USER");	
 %>
 	<!-- Top bar-->
 	<div class="top-bar">
@@ -30,11 +34,9 @@
 	<header class="nav-holder make-sticky">
 		<div id="navbar" role="navigation" class="navbar navbar-expand-lg">
 			<div class="container">
-				<a href="/dog/freeboard/list" class="navbar-brand home">
-                    <img src="/resources/img/logo.png" id="logo" alt="Universal logo" class="d-none d-md-inline-block">
-                    <img src="/resources/img/logo.png" id="logo" alt="Universal logo" class="d-inline-block d-md-none">
-                    <span class="sr-only"></span>
-                </a>
+			<a href="/" class="navbar-brand " style="color:#b5e3d5;font-size : 3.0rem;text-transform: uppercase;letter-spacing: .2em;">
+                <b> Petish</b>
+            </a>
 				<button type="button" data-toggle="collapse" data-target="#navigation" class="navbar-toggler btn-template-outlined">
 					<span class="sr-only">Toggle navigation</span><i class="fa fa-align-justify"></i>
 				</button>
@@ -45,9 +47,9 @@
 		                <li class="nav-item dropdown"><a href="javascript: void(0)" data-toggle="dropdown" class="dropdown-toggle">강아지<b class="caret"></b></a>
 		                  	<ul class="dropdown-menu">
 		                    	<li class="dropdown-item"><a href="/dog/freeboard/list" class="nav-link">자유게시판</a></li>
-		                    	<li class="dropdown-item"><a href="/dog/gatherboard/list" class="nav-link">정모게시판</a></li>
+		                    	<li class="dropdown-item"><a href="/dog/gatherboard" class="nav-link">정모게시판</a></li>
 			                    <li class="dropdown-item"><a href="/dog/infoboard/list" class="nav-link">건강</a></li>
-			                    <li class="dropdown-item"><a href="/dog/missingboard/list" class="nav-link">실종견</a></li>
+			                    <li class="dropdown-item"><a href="/dog/missingboard" class="nav-link">실종견</a></li>
 		                  </ul>
 		                </li>
 						<!-- Dog END -->
@@ -55,9 +57,9 @@
 		                <li class="nav-item dropdown"><a href="javascript: void(0)" data-toggle="dropdown" class="dropdown-toggle">고양이<b class="caret"></b></a>
 		                  	<ul class="dropdown-menu">
 			                    <li class="dropdown-item"><a href="/cat/freeboard/list" class="nav-link">자유게시판</a></li>
-			                    <li class="dropdown-item"><a href="/cat/gatherboard/list" class="nav-link">정모게시판</a></li>
+			                    <li class="dropdown-item"><a href="/cat/gatherboard" class="nav-link">정모게시판</a></li>
 			                    <li class="dropdown-item"><a href="/cat/infoboard/list" class="nav-link">건강</a></li>
-			                    <li class="dropdown-item"><a href="/cat/missingboard/list" class="nav-link">실종묘</a></li>
+			                    <li class="dropdown-item"><a href="/cat/missingboard" class="nav-link">실종묘</a></li>
 		                  </ul>
 		                </li>
 						<!-- Cat END -->
@@ -85,7 +87,7 @@
 							</a>
 							<ul class="dropdown-menu">
 								<li class="dropdown-item"><a href="/mypage/" class="nav-link" style="font-size: 0.9rem;">마이페이지</a></li>
-								<li class="dropdown-item"><a href="/mypage/message/list" class="nav-link" style="font-size:0.9rem;">쪽지함</a></li>
+								<li class="dropdown-item"><a href="/mypage/message/list" class="nav-link" style="font-size:0.9rem;">쪽지함  <i class='fa fa-envelope' style='font-size:15px;color:grey;'></i><p id="newMessageCnt"></p></a></li>
 								<li class="dropdown-item"><a href="/mypage/question/list" class="nav-link" style="font-size:0.9rem;">문의함</a></li>
 								<li class="dropdown-item"><a href="#" class="nav-link" id="logout-button" style="font-size: 0.9rem;">로그아웃</a></li>
 							</ul>
@@ -276,7 +278,6 @@
 	<!--Find Id/Password Modal end-->
 
 <% } %>
-
 <%
     if (loginedUser != null) {
 %>
@@ -284,3 +285,20 @@
 <% } else { %>
 <script src="/resources/js/top/non-logined.js"></script>
 <% } %>
+
+
+<script>
+
+$.ajax({
+	  type: 'get',
+	  url: '/mypage/api/newMessageCnt',
+	  dataType: 'json',
+	  success: function (html, status) {
+		var newMessageCnt = $("#newMessageCnt");
+		newMessageCnt[0].innerText=html;
+	  },
+	  error: function (xhr, status, error) {
+	    alert('Failed!'+error);
+	  }
+	})
+</script>

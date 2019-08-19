@@ -1,6 +1,12 @@
 package com.community.petish.community.user.domain;
 
+
+
+import java.util.Date;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,7 +29,8 @@ public class User {
 	private String address;
 	private String gender;
 	private String picture;
-	private DATE join_date;
+	@JsonFormat(pattern="yyyy/MM/dd HH:mm")
+	private Date join_date;
 	private DATE updated_date;
 	private int deleted;
 	private int concern_id;

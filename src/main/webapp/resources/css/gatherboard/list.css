@@ -1,4 +1,4 @@
-button.btn.btn-template-outlined {
+button.btn.btn-template-outlined.write-button {
 	float: right;
 	margin: 20px;
 }
@@ -6,6 +6,10 @@ button.btn.btn-template-outlined {
 .dropdown{
 	text-align: center;
 
+}
+
+#top-category {
+	margin-top: 40px;
 }
 
 .table{

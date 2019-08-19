@@ -1,10 +1,8 @@
-<%@page import="com.community.petish.community.mypage.dto.QuestionResponseDTO"%>
+<%@page import="com.community.petish.community.mypage.dto.response.QuestionResponseDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.*" %>
-<%@ page import="com.community.petish.mypage.*" %>
+
 <%
-	ArrayList<QuestionResponseDTO> list = (ArrayList)request.getAttribute("list");
 	QuestionResponseDTO dto = null;
 %>
 <!DOCTYPE html>
@@ -15,52 +13,14 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
-<!-- Bootstrap CSS-->
-<link rel="stylesheet"
-	href="/resources/vendor/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome CSS-->
-<link rel="stylesheet"
-	href="/resources/vendor/font-awesome/css/font-awesome.min.css">
-<!-- Google fonts - Roboto-->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
-<!-- Bootstrap Select-->
-<link rel="stylesheet"
-	href="/resources/vendor/bootstrap-select/css/bootstrap-select.min.css">
-<!-- owl carousel-->
-<link rel="stylesheet"
-	href="/resources/vendor/owl.carousel/assets/owl.carousel.css">
-<link rel="stylesheet"
-	href="/resources/vendor/owl.carousel/assets/owl.theme.default.css">
-<!-- theme stylesheet-->
-<link rel="stylesheet" href="/resources/css/style.lightblue.css"
-	id="theme-stylesheet">
-<!-- Custom stylesheet - for your changes-->
-<link rel="stylesheet" href="/resources/css/custom.css">
-<!-- Favicon and apple touch icons-->
-<link rel="shortcut icon" href="/resources/img/favicon.ico"
-	type="image/x-icon">
-<link rel="apple-touch-icon" href="/resources/img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="57x57"
-	href="/resources/img/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="72x72"
-	href="/resources/img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76"
-	href="/resources/img/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114"
-	href="/resources/img/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120"
-	href="/resources/img/apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144"
-	href="/resources/img/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152"
-	href="/resources/img/apple-touch-icon-152x152.png">
+
 <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
+<link href="/resources/css/fonts.css" rel="stylesheet">
 <script src="/resources/js/mypage/mypage.js"></script>
 </head>
-<body>
+<body style="font-family: 'Do Hyeon', sans-serif;">>
 	<div id="all">
 
 		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
@@ -77,7 +37,7 @@
 							<li class="nav-item"><a id="pills-profile-tab"
 								data-toggle="pill" href="#message-receive" role="tab"
 								aria-controls="pills-profile" aria-selected="false"
-								class="nav-link active">문의내역</a></li>
+								class="nav-link active"　id="questionList">　문의내역</a></li>
 							<li class="nav-item"><a id="pills-home-tab"
 								data-toggle="pill" href="#message-send" role="tab"
 								aria-controls="pills-home" aria-selected="true" class="nav-link">내가
@@ -92,43 +52,9 @@
 										<div class="tile">
 											<div class="tile-body">
 												<table class="table table-hover table-bordered" id="qnaList">
-													<tr align="center">
-														<th>문의번호</th>
-														<th>문의구분</th>
-														<th>제목</th>
-														<th>작성일자</th>
-														<th>답변상태</th>
-
-													</tr>
-													<%
-													int amount = (int)request.getAttribute("amount");
-													for(int i=0; i<list.size(); i++){
-														dto = list.get(i);
-														if(dto.getDeleted()==0){
-														 %>
-														<tr>
-														<td><div class="text-center"><%=amount %></div></td>
-														<td><%=dto.getCategory() %></td>
-														<td><%=dto.getTitle() %></td>
-														<td><%=dto.getCreated_date() %></td>
-														<td>
-														<%if(dto.getReplied()==0){ %>
-														<span class="badge badge-danger">답변대기</span></td>
-														<%}else if(dto.getReplied()==1){ %>
-														<span class="badge badge-info">답변완료</span></td>
-														<%} %>
-													</tr>
-													<tr>
-														<td colspan="5">
-														<div class="text-right"><a href='./delete?id=<%=dto.getId()%>'>삭제</a></div>
-														<pre><%=dto.getContent() %></pre></td>
-													</tr>
-													<%
-														amount--;
-														}
-													}
-													%>
+													
 												</table>
+												<div class="questionfooter"></div>
 											</div>
 										</div>
 									</div>
@@ -140,7 +66,7 @@
 									<form action="./insert">
 										<div class="row">
 											<div class="col-sm-6 col-md-3">
-												<div class="form-group">
+												<div style='padding-left:15px;padding-right:15px;min-width:5cm;'>
 													<label for="category">문의 유형</label> <select id="category"
 														class="form-control" name="category_id">
 														<option >문의유형 선택</option>
@@ -151,18 +77,18 @@
 												</div>
 											</div>
 											<div class="col-sm-12">
-												<div class="form-group">
+												<div style='padding-left:15px;padding-right:15px;'>
 													<label>문의 제목</label> <input type="text"
 														class="form-control" name="title">
 												</div>
 											</div>
-											<div class="col-sm-12">
-												<div class="form-group">
+											<div class="col-sm-12" style="left-">
+												<div style='padding-left:15px;padding-right:15px;'>
 													<label>문의 내용</label>
 													<textarea class="form-control" rows="15" name="content"></textarea>
 												</div>
 											</div>
-											<input type="hidden" name="user_id" value='<%=session.getAttribute("user_id") %>'>
+											<input type="hidden" name="user_id" value='<%=loginedUser.getId() %>'>
 											<div class="col-sm-12 text-center">
 												<!-- 문의 form 전송 -->
 												<button type="submit" class="btn btn-outline-primary"
@@ -174,7 +100,6 @@
 											</div>
 										</div>
 									</form>
-
 								</div>
 							</div>
 						</div>
@@ -185,22 +110,158 @@
 			</div>
 		</div>
 	</div>
-	</div>
-	<!-- Javascript files-->
-	<script src="/resources/vendor/jquery/jquery.min.js"></script>
-	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
-	<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/resources/vendor/jquery.cookie/jquery.cookie.js"></script>
-	<script src="/resources/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
-	<script
-		src="/resources/vendor/jquery.counterup/jquery.counterup.min.js"></script>
-	<script src="/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
-	<script
-		src="/resources/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
-	<script src="/resources/js/jquery.parallax-1.1.3.js"></script>
-	<script
-		src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
-	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
-	<script src="/resources/js/front.js"></script>
+	<script>
+		//쪽지 상세보기
+	$(document).ready(
+			function() {
+				
+				$("#qnaList tr:odd").addClass("odd");
+				$("#qnaList tr:not(.odd)").hide();
+				$("#qnaList tr:first-child").show(); // 열머리글 보여주기
+
+				$("#qnaList tr.odd").click(function() {
+					$(this).next("tr").toggle();
+					$(this).find(".arrow").toggleClass("up");
+
+				});
+				
+				var questionList = $("#questionList");
+				var questionfooter = $(".questionfooter");
+				var listUL = $("#qnaList");
+				
+				var questionService = (function(){
+					function getQuestionList(param, callback, error){
+					var page = param.page || 1;
+					$.get("/mypage/api/questionList/"+ page + ".json",
+						function(data){
+							if (callback){
+							callback(data.questionCnt, data.list);
+							}
+						}).fail(function(xhr, status, err){
+					if(error){
+						error();
+					}
+				});
+				}
+					return {
+						getQuestionList : getQuestionList
+					};
+				})();
+				
+				function moveQuestionPage(){
+					questionfooter.on("click", "li a", function(e){
+					e.preventDefault();
+					console.log("page click");
+					var targetPageNum = $(this).attr("href");
+					console.log("targetPageNum:" + targetPageNum);
+					pageNum = targetPageNum;
+					showQuestionList(pageNum);
+					})
+				};
+				
+				var pageNum = 1;
+				function showQuestionPage(questionCnt){
+					
+					questionfooter.html("");
+					
+					var endNum = Math.ceil(pageNum / 10.0) * 10;
+					var startNum = endNum - 9;
+					var prev = startNum != 1;
+					var next = false;
+					
+					if (endNum * 10 >= questionCnt) {
+						endNum = Math.ceil(questionCnt / 10.0);
+					}
+
+					if (endNum * 10 < questionCnt) {
+						next = true;
+					}
+					var str = "<div><ul class='pagination pull-right'>";
+					if (prev) {
+						str += "<li class='page-item'><a class='page-link' href='"
+								+ (startNum - 1) + "'>Previous</a></li>";
+
+					}
+					
+					for (var i = startNum; i <= endNum; i++) {
+
+						var active = pageNum == i ? "active" : "";
+						str += "<li class='page-item "+active+" '><a class='page-link' href='"+i+"'>"
+								+ i + "</a></li>";
+					}
+					
+					if (next) {
+						str += "<li class='page-item'><a class='page-link' href='"
+								+ (endNum + 1) + "'>Next</a></li>";
+					}
+					
+					str += "</ul></div>";
+
+					console.log(str);
+
+					questionfooter.html(str);
+					moveQuestionPage();
+				}
+				
+				function showQuestionList(page){
+					questionService.getQuestionList(
+						{
+						      page : page || 1
+						},
+						function(questionCnt, list){
+							if (page == -1) {
+							pageNum = Math.ceil(questionCnt / 10.0);
+							showQuestionList(pageNum);
+							return;
+							}
+							var str = "";
+							str += "<tr align='cen;ter' class='font-grey'><th>문의내용</th><th>제목</th><th>문의일자</th><th>답변상태</th></tr>"	
+							if (list == null || list.length == 0) {
+								listUL.html(str);
+								return;
+							}
+																
+							for (var i = 0, len = list.length || 0; i < len; i++) {
+							str += "<tr class='odd'><td class='font-grey'>"
+							+ list[i].category + "</td>";
+							str += "<td>"
+							+ list[i].title + "</td>";
+							str += "<td>"
+							+ list[i].created_date + "</td>";
+							str += "<td style='text-align:center;''>";
+																	
+							if(list[i].replied == 0){
+							str += "<button type='button' class='btn btn-sm btn-default'>답변대기</button></a></td>";
+							}else if(list[i].replied == 1){
+							str += " <button type='button' class='btn btn-sm btn-danger'>답변완료</button></td>";
+							}
+							str += "</tr><tr><td colspan='4'><pre>";
+							str += list[i].content+"</pre></td></tr>";
+							}
+																
+							listUL.html(str);
+							showQuestionPage(questionCnt);
+							$("#qnaList tr:odd").addClass("odd");
+							$("#qnaList tr:not(.odd)").hide();
+							$("#qnaList tr:first-child").show(); // 열머리글 보여주기
+
+							$("#qnaList tr.odd").click(function() {
+								$(this).next("tr").toggle();
+								$(this).find(".arrow").toggleClass("up");
+
+							});
+							});
+						};
+						
+						showQuestionList();
+						
+						questionList.on("click", function(e){
+							showQuestionList();
+							pageNum=1;
+						});
+
+									
+			});
+	</script>
 </body>
 </html>

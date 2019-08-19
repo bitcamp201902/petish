@@ -5,34 +5,31 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 
-<%@ page import="com.community.petish.dog.missingboard.dto.*"%>
-<%@ page import="com.community.petish.community.dog.missingboard.dto.DogLostPostResponseDetailDTO" %>
+<%@ page import="com.community.petish.community.user.dto.response.LoginedUser"%>
+<%@ page import="com.community.petish.community.dog.missingboard.dto.*"%>
+
+
 <%
    DogLostPostResponseDetailDTO dto = (DogLostPostResponseDetailDTO) request.getAttribute("dto");
-   
-   //폐이지 번호
-   String pageNum = session.getAttribute("pageNum").toString();
-   session.setAttribute("pageNum", pageNum);
-   
-    //게시판 아이디
-   String strBoard = session.getAttribute("boardId").toString();
-   Long boardId = Long.parseLong(strBoard);
-   System.out.println("게시판 아이디 : " + boardId);
 
-   //게시글 아이디
+	//댓글 갯수
+	int commentCount = Integer.parseInt((request.getAttribute("commentCount").toString()));
+	
+	//댓글 페이지  번호
+	int pageNum = 1;
+	if((DogLostPostPageDTO)request.getAttribute("pageMaker") != null){
+		DogLostPostPageDTO pageDTO = (DogLostPostPageDTO)request.getAttribute("pageMaker");
+		pageNum = pageDTO.getCri().getPageNum();	
+		request.setAttribute("pageNum", pageNum);
+	}
+	
+   //게시판 아이디
+   Long boardId = 4L;
+   
+   //게시글 아이디   
    Long idLong = dto.getId();
    String ID = idLong.toString();
    System.out.println("게시글 아이디 : " + ID);
-
-   //접속한 유저 아이디
-   String strUser = session.getAttribute("userId").toString();
-   Long userId = Long.parseLong(strUser);
-   System.out.println("접속한 유저 아이디 : " + userId);
-
-   //작성자 아이디
-   Long writerId = dto.getUser_id();
-   //String writer = writerId.toString();
-   System.out.println("작성자 아이디 : " + writerId);   
    
    //실종 장소
    String address = dto.getDog_lost_address();
@@ -57,369 +54,40 @@
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
-<!-- Bootstrap CSS-->
-<link rel="stylesheet"
-   href="/resources/vendor/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome CSS-->
-<link rel="stylesheet"
-   href="/resources/vendor/font-awesome/css/font-awesome.min.css">
-<!-- Google fonts - Roboto-->
-<link rel="stylesheet"
-   href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
-<!-- Bootstrap Select-->
-<link rel="stylesheet"
-   href="/resources/vendor/bootstrap-select/css/bootstrap-select.min.css">
-<!-- owl carousel-->
-<link rel="stylesheet"
-   href="/resources/vendor/owl.carousel/assets/owl.carousel.css">
-<link rel="stylesheet"
-   href="/resources/vendor/owl.carousel/assets/owl.theme.default.css">
-<!-- theme stylesheet-->
-<link rel="stylesheet" href="/resources/css/style.lightblue.css"
-   id="theme-stylesheet">
-<!-- Custom stylesheet - for your changes-->
-<link rel="stylesheet" href="/resources/css/custom.css">
-<!-- Favicon and apple touch icons-->
-<link rel="shortcut icon" href="/resources/img/favicon.ico"
-   type="image/x-icon">
-<link rel="apple-touch-icon" href="/resources/img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="57x57"
-   href="/resources/img/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="72x72"
-   href="/resources/img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76"
-   href="/resources/img/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114"
-   href="/resources/img/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120"
-   href="/resources/img/apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144"
-   href="/resources/mg/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152"
-   href="/resources/img/apple-touch-icon-152x152.png">
+
 <!-- Tweaks for older IEs-->
 <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
+<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
         
 <!-- CSS파일 추가 -->
 <link href="/resources/css/commons/kakaomap.css?ver=1" rel="stylesheet">
 <link rel="stylesheet" href="/resources/css/mypage/mypage.css">
-
 <link href="/resources/css/missingboard/detail.css" rel="stylesheet">
+<link href="/resources/css/missingboard/comment.css" rel="stylesheet">
+<link href="/resources/css/report.css" rel="stylesheet">
 
-<style>
-#report-btn {
-   justify-content: right;
-}
-.btn.btn-danger{
-   float:right;
-   margin-top:20px;
-   margin-right:20px;
-}
-
-table{
-   border-collapse: unset!important;
-}
-
-button.btn.btn-template-outlined{
-   float: right;
-   margin-right:15px;
-   margin-top:20px;
-}
-.name{
-   text-align:center;
-   width:40px;
-}
-td.grade{
-   text-align:left;
-   width:80px;
-}
-
-td.date{
-   text-align:left;
-   width:150px;
-}
-
-td.view{
-   text-align:left;
-   width:150px;
-}
-div.panel-heading{
-   margin-top:40px;
-}
-.dropdown{
-   text-align:center;
-}
-
-main.img-fluid rounded-circle{
-   width:70px;
-   height:70px;
-
-}
-div#post-content{
-   margin-top:50px;
-}
-
-div.panel.panel-default.sidebar-menu{
-   margin-top:40px;   
-}
-
-button.btn.btn-template-outlined{
-   margin-right: 2rem;
-}
-
-@charset "EUC-KR";
-
-
-.poster-table {
-   width: 70%;
-   margin: 1rem;
-   padding: 30px;
-   background-color: #F7F8E0;
-   text-align: center;
-   font-size: 23px;
-}
-
-th, td {
-   padding: 13px;
-   text-align: left;
-}
-
-.poster-title {
-   margin: 70px;
-   background-color: #df0101;
-   padding: 10px;
-   padding-left: 0px;
-   padding-right: 0px;
-   text-align: center;
-   color: white;
-   font-size: 50px;
-}
-
-.text-uppercase {
-   margin: 5px;
-}
-
-.bar {
-   padding: 15px 0;
-}
-
-#lostdog {
-   width:100% !important;
-   height:100% !important;
-   min-width: 600px !important;
-   max-width: 700px !important;
-   min-height: 300px !important;
-   max-height: 400px !important;
-}
-
-.date {
-   min-width: 200px;
-}
-
-.index {
-   min-width: 200px;
-}
-
-/* 이미지 슬라이드 */
-* {
-   box-sizing: border-box
-}
-
-/* Slideshow container */
-.slideshow-container {
-   max-width: 1000px;
-   position: relative;
-   margin: auto;
-}
-
-/* Hide the images by default */
-.mySlides {
-   display: none;
-}
-
-.prev, .next {
-   cursor: pointer;
-   position: absolute;
-   top: 50%;
-   width: auto;
-   margin-top: -22px;
-   padding: 20px;
-   color: white;
-   font-weight: bold;
-   font-size: 20px;
-   transition: 0.6s ease;
-   border-radius: 0 3px 3px 0;
-   user-select: none;
-}
-
-/* Position the "next button" to the right */
-.next {
-   right: 0;
-   border-radius: 3px 0 0 3px;
-}
-.prev {
-   left: 0;
-   border-radius: 3px 0 0 3px;
-}
-
-/* On hover, add a black background color with a little bit see-through */
-.prev:hover, .next:hover {
-   background-color: rgba(192,192,192,0.3);
-}
-
-/* Caption text */
-.text {
-   color: #f2f2f2;
-   font-size: 15px;
-   padding: 8px 12px;
-   position: absolute;
-   bottom: 8px;
-   width: 100%;
-   text-align: center;
-}
-
-/* Number text (1/3 etc) */
-.numbertext {
-   color: #f2f2f2;
-   font-size: 12px;
-   padding: 8px 12px;
-   position: absolute;
-   top: 0;
-}
-
-/* The dots/bullets/indicators */
-.dot {
-   cursor: pointer;
-   height: 15px;
-   width: 15px;
-   margin: 0 2px;
-   border: 2.5px solid orangered;
-   border-radius: 50%;
-   display: inline-block;
-   transition: background-color 0.6s ease;
-}
-
-.active, .dot:hover {
-   background-color: orangered;
-}
-
-/* Fading animation */
-.fade {
-   -webkit-animation-name: fade;
-   -webkit-animation-duration: 1.5s;
-   animation-name: fade;
-   animation-duration: 1.5s;
-}
-
-.reply-image {
-   max-width: 100%;
-   height: auto;
-   border-radius: 50%;
-}
-
-.report-modal-title {
-   min-width: 65px;
-}
-
-@
--webkit-keyframes fade {
-   from {opacity: .4
-}
-
-to {
-   opacity: 1
-}
-
-}
-@
-keyframes fade {
-   from {opacity: .4
-}
-
-to {
-   opacity: 1
-}
-
-}
-label {
-   text-align: left !important;
-}
-
-}
-
-/* 반응형 */
-@media ( max-width :400px) {
-   .poster-table {
-      width: 100%;
-      padding: 15px;
-      font-size: 18px;
-   }
-   .index {
-      min-width: 100px;
-      width: 130px;
-   }
-   .poster-title {
-      margin: 50px;
-      font-size: 30px;
-   }
-   th, td {
-      padding: 10px;
-   }
-   #lostdog {
-      /* width:100%;
-      height:flex; */
-   }
-}
-
-@media screen and (max-width:750px){
-
-   .btn.btn-template-outlined{
-      margin-bottom:10px;
-   }
-   .date{
-      display:none;
-   }
-   .view{
-      display:none;
-   }
-   span.badge.badge-danger{
-      margin-top:30px;
-   }
-   div.col-sm-3.col-md-2.text-center-xs{
-      display:none;
-   }
-   button.btn.btn-template-outlined{
-      margin-right: 1rem
-   }
-   button.re.btn.btn-template-outlined{
-      width:110px;
-      margin-right:1px;
-   }
-   button.write.btn.btn-template-outlined{
-      margin-right:1px;
-   }
-   button.list.btn.btn-template-outlined{
-      margin-right:10px;
-   }
-   .btn.btn-danger{
-      margin-right:1px;
-   }
-   div.bg_white{
-      display:none;
-   }
-   
-   
-
-}
-</style>
+<link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
 
-<body>
-   <div id="all">
+<body class="bg-light" style="font-family: 'Do Hyeon', sans-serif;">
+<div class="all">
+      <%@ include file="/WEB-INF/views/commons/dog_top.jspf"%>
+      
+      <%
+    	//접속 아이디
+    	Long userId = null;
+        String userNickname = "";
+    	if(loginedUser != null){
+    		userId = loginedUser.getId();
+    		userNickname = loginedUser.getNickname();
+    		
+    		System.out.println("유저아이디 : " + userId);
+    		System.out.println("유저닉네임 : " + userNickname); 
+      }
+      %>
 
-      <%@ include file="/WEB-INF/views/commons/top.jspf"%>
+      <div class="content-fluid body-section">
 
       <!-- 게시판명 -->
       <div id="heading-breadcrumbs" class="border-top-0 border-bottom-0">
@@ -441,14 +109,10 @@ label {
 
          <!-- LEFT COLUMN _________________________________________________________-->
          <div id="blog-post" class="col-md-13">
-
-            <!-- 버튼 -->
-            <button class="btn btn-template-outlined">
-               <a href="/dog/missingboard/writeForm"> 글쓰기 </a>
-            </button>
-            <button type="submit" class="btn btn-template-outlined">
+            
+            <button type="submit" class="list btn btn-template-outlined custom-button">
                <i class="fa fa-align-justify"></i>
-               <a href="<c:url value='/dog/missingboard/list?pageNum=${pageNum}'/>"> 목록 </a>
+               <a href="<c:url value='/dog/missingboard/'/>"> 목록 </a>
             </button>
 
             <!-- 글 제목 -->
@@ -456,7 +120,7 @@ label {
 
                <%
                   if (dto.getFound() == 0) {
-               %>`
+               %>
                <span class="badge badge-danger">미발견</span>
                <%
                   } else {
@@ -474,66 +138,52 @@ label {
                   /
                   <%=dto.getDog_age()%></h2>
             </div>
-
+            
             <!-- 게시 정보 -->
             <table>
                <tr>
-                  <td><img src="/resources/img/blog-avatar2.jpg" alt=""
-                     class="img-fluid rounded-circle" width="70px;" height="70px;"></td>
+                  <!-- <td><img src="/resources/img/blog-avatar2.jpg" alt="" class="img-fluid rounded-circle" width="70px;" height="70px;"></td> -->
                   <td>
                      <div class="nav navbar-nav ml-auto">
-                        <a href="#" data-toggle="dropdown" class="dropdown"><%=dto.getNickname()%></a>
+                        <a href="#" data-toggle="dropdown" class="nickname dropdown"><%=dto.getNickname()%></a>
                         <div class="dropdown-menu">
                            <div class="dropdown">
                               <a href="/mypage/member/detail" class="nav-link">게시글보기</a>
                            </div>
                            <div class="dropdown">
-                              <a href="#" class="nav-link" data-toggle="modal"
-                                 data-target="#messageWrite-modal">쪽지보내기</a>
+                              <a href="#" id="message-btn" class="nav-link" data-toggle="modal">쪽지보내기</a>
                            </div>
                         </div>
                      </div>
                   </td>
-
-                  <td class=grade>준회원</td>
-                  <td class=date><i class="fa fa-clock-o"></i> <fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="<%=dto.getCreate_date() %>"/></td>
-                  <td class=view><i class="fa fa-eye"></i> <%=dto.getView_count()%></td>
-
+                  				
+                  <td class=date-view>
+                  <i class="fa fa-clock-o"></i>
+                  <fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="<%=dto.getCreate_date() %>"/>
+                  <i class="fa fa-eye" style="padding-left:2rem; padding-right:0.2rem"></i><%=dto.getView_count()%>
+                  </td>
+                  
                </tr>
             </table>
          </div>
-         <!-- blog-post -->
-
+         
          <hr size="10px">
-
-
-
-         <!-- <div class="heading"> -->
-         <!-- <blockquote class="blockquote"> -->
-
-         <!-- <p>
-            <img src="/resources/img/blog2.jpg" alt="Example blog post alt"
-               class="img-fluid"> 
-         </p> -->
-
-
+         
          <!-- 글 내용 -->
          <!-- 포스터 -->
          <div class="d-flex justify-content-center">
             <table class="poster-table">
                <tr>
-                  <th colspan="2" class="poster-title"><b>강아지를 찾습니다</b></th>
+                  <th colspan="2" class="poster-title">강아지를 찾습니다</th>
                </tr>
-
                <tr>
+               
                   <th colspan="2" style="text-align: center">
-                     <!-- <img id="lostdog" src="dog3.jpg"> -->
-
                      <div class="slideshow-container">
                         <div id="imageSlides">
                         <!-- 이미지 들어갈 곳 -->
                         </div>
-                        
+                                                
                         <!-- 이전/다음 버튼 -->
                         <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
                         <a class="next" onclick="plusSlides(1)">&#10095;</a>
@@ -542,53 +192,42 @@ label {
                      <br>
                      <!-- Dots -->
                      <div style="text-align: center" id="dots">
-                                          
-                     	<!-- <span class="dot" onclick="currentSlide(1)"></span>
-                  		<span class="dot" onclick="currentSlide(2)"></span>
-                  		<span class="dot" onclick="currentSlide(3)"></span> -->
+                     <!-- Dot 들어갈 곳 -->
                      </div>
                   </th>
                </tr>
-
+               
+               <tr>
+                  <th colspan="2" class="poster-info"><%=dto.getDog_species()%> / <%=dto.getDog_gender()%> / <%=dto.getDog_age()%>살</th>
+               </tr>
+               
                <tr>
                   <th class="index">이름</th>
-                  <th><%=dto.getDog_name()%></th>
+                  <th class="dog-content"><%=dto.getDog_name()%></th>
                </tr>
-
-               <tr>
-                  <th class="index">종</th>
-                  <th><%=dto.getDog_species()%></th>
-               </tr>
-
-               <tr>
-                  <th class="index">성별 / 나이</th>
-                  <th><%=dto.getDog_gender()%> / <%=dto.getDog_age()%></th>
-               </tr>
-
+               
                <tr>
                   <th class="index">특징</th>
-                  <th><%=dto.getDog_description() %></th>
+                  <th class="dog-content">"<%=dto.getDog_description() %>"</th>
                </tr>
 
                <tr>
                   <th class="index">실종 날짜</th>
-                  <th><fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="<%=dto.getDog_lost_date() %>"/></th>
+                  <th class="dog-content"><fmt:formatDate pattern="yyyy/MM/dd hh:mm" value="<%=dto.getDog_lost_date() %>"/></th>
                </tr>
 
                <tr>
                   <th class="index">실종 장소</th>
-                  <th><%=dto.getDog_lost_address()%></th>
+                  <th class="dog-content"><%=dto.getDog_lost_address()%></th>
                </tr>
-
+               
                <tr>
-                  <th class="index">사례금</th>
-                  <th><%=dto.getReward()%></th>
+                  <th colspan="2" class="phonenumber-reward-info">
+                  <i class="fa fa-phone" id="phone-icon"></i><b><%=dto.getPhone_number()%></b>
+                  <div style="padding-top:1rem;">사례금 <%=dto.getReward()%></div>              
+                  </th>
                </tr>
-
-               <tr>
-                  <th class="index">연락처</th>
-                  <th style="color: #df0101"><%=dto.getPhone_number()%></th>
-               </tr>
+               
             </table>
          </div>
          <div style="margin: 1rem"></div>
@@ -597,157 +236,109 @@ label {
 			<div id="map" style="width: 100%; height: 350px; position: relative; overflow: hidden;"></div>
 		</div>
 
-
-         <!-- 댓글창 -->
-         <div id="comments">
-
-            <h4 class="text-uppercase">댓글 수 2</h4>
-            <section class="bar bg-gray mb-0">
-               <div class="row comment">
-                  <div class="col-sm-3 col-md-2 text-center-xs">
-                     <p>
-                        <img src="/resources/img/blog-avatar2.jpg" alt=""
-                           class="reply-image">
-                     </p>
-                  </div>
-                  <div class="col-sm-9 col-md-10">
-                     <h5 class="text-uppercase">Julie Alma</h5>
-                     <p class="posted">
-                        <i class="fa fa-clock-o"></i> 2019-07-03 09:24:26
-                     </p>
-                     <p>안타깝네요.</p>
-
-                  </div>
-               </div>
-
-               <hr style="margin: 10px;">
-
-               <div class="row comment last">
-                  <div class="col-sm-3 col-md-2 text-center-xs">
-                     <p>
-                        <img src="/resources/img/blog-avatar.jpg" alt=""
-                           class="reply-image">
-                     </p>
-                  </div>
-                  <div class="col-sm-9 col-md-10">
-                     <h5 class="text-uppercase">Louise Armero</h5>
-                     <p class="posted">
-                        <i class="fa fa-clock-o"></i> 2019-07-03 09:25:23
-                     </p>
-                     <p>어디서 봤더라....</p>
-
-                  </div>
-               </div>
-            </section>
-         </div>
+        <!-- 댓글창 -->
+		<div id="comments">
+			
+			<!-- 댓글 갯수 -->
+			<h4 class="text-uppercase" id="commentCount">
+			<input type="text" id="commentCountVal">
+			</h4>
+			<!-- 댓글 내용 -->
+			<section>			
+			<div id="commentList" class="row comment">
+			<!-- 댓글 출력 -->
+			</div>			
+			</section>
+			
+			<!-- 댓글 페이징 -->
+			<div style="padding:3rem">
+			<form id="page_form">			
+				<!-- criteria -->
+				<input type="hidden" name="pageNum" value=<%= pageNum %>>
+				<input type="hidden" name="amount" value="10">				
+				<input type="hidden" name="post_id" value=<%= dto.getId() %>>
+			</form>
+            <div class="comment-footer d-flex justify-content-center"></div>
+		</div>
+		
+		<!-- 댓글 입력창 -->
+		<h4 class="comment">댓글 작성</h4>
+		
+		<form id="insert_form" method="post">
+			<!-- comments -->
+			<input type="hidden" name="user_id" value=<%= userId %>> 
+			<input type="hidden" name="post_id" value=<%=dto.getId() %>>
+			<input type="hidden" name="pageNum" value=<%= pageNum %>>
+			
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="form-group">
+						<label for="name">아이디<span class="required text-primary">*</span></label>						
+						<input id="NICKNAME" name="nickname" type="text" class="form-control" value="<%=userNickname %>" readonly>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="form-group comment-div">
+						<label for="comment">내 용 <span class="required text-primary">*</span></label>
+						
+						<div class="comment-and-button">
+							<div class="comment-form">							
+							<textarea id="CONTENT" name="content" rows="4" class="form-control "></textarea>						
+							</div>
+							
+							<div class="comment-button-div">
+								<button class="re btn btn-template-outlined comment-input-button" id="input_data">댓글 등록</button>
+							</div>
+						</div>
+					</div>		
+				</div>
+			</div>
+			
+		</form>
+		<!-- comment insert form END -->
          
          <div style="margin: 2rem"></div>
 
-         <!-- 댓글 입력창 -->
+         <!-- 수정/삭제/신고 버튼 -->
          <div id="comment-form">
-            <h4 class="text-uppercase">댓글 작성</h4>
-            <form>
-               <!-- <div class="row">
-                  <div class="col-sm-4">
-                     <div class="form-group">
-                        <label for="name">아이디 <span
-                           class="required text-primary">*</span></label> <input id="name"
-                           type="text" class="form-control">
-                     </div>
-                  </div>
-               </div> -->
-
-               <div class="row">
-                  <div class="col-sm-12">
-                     <div class="form-group">
-                        <!-- <label for="comment">내 용 <span
-                           class="required text-primary">*</span></label> -->
-                        <textarea id="comment" rows="4" class="form-control"></textarea>
-                     </div>
-                  </div>
-               </div>
                <div class="row">
                   <div class="col-sm-12 text-right">
-                     <button class="re btn btn-template-outlined">
-                        <i class="fa fa-comment-o"></i> 댓글 등록
-                     </button>
-
-                     <%
-                        if (userId.equals(writerId)) {
-                     %>
-
+                  
+				<% if((loginedUser != null) && (userId == dto.getUser_id())) {%>
                      <nav aria-label="Page navigation example"
                         class="d-flex justify-content-left">
-                        <button class="btn btn-template-outlined">
-                           <i class="fa fa-pencil"></i> <a
-                              href="/dog/missingboard/modifyForm/<%=ID%>"> 수정 </a>
+                        <button class="btn btn-template-outlined custom-button">
+                           <i class="fa fa-pencil"></i>
+                           <a href="/dog/missingboard/modifyForm/<%=ID%>">수정 </a>
                         </button>
-                        <button type="submit" class="btn btn-template-outlined">
-                           <i class="fa fa-trash-o"></i> <a
-                              href="/dog/missingboard/delete/<%=ID%>"> 삭제 </a>
+                        <button type="submit" class="btn btn-template-outlined custom-button">
+                           <i class="fa fa-trash-o"></i>
+                           <a href="/dog/missingboard/delete/<%=ID%>">삭제 </a>
                         </button>
                      </nav>
-                     <%
-                        }
-                     %>
-
-                     <!-- 게시글 신고 버튼 -->
-                     <button type="button" class="btn btn-danger" data-toggle="modal"
-                        data-target="#report-modal" style="float: right;"
-                        id="report-btn">신고
-                     </button>
+                <%} %>
+                
+	                <div class="col-sm-12 text-right">                
+	                  <!-- 게시글 신고 버튼 -->                     
+	                   <button type="button" class="btn btn-danger" data-toggle="modal"
+	                      style="float: right;" id="report-btn">신고
+	                   </button>
+	                </div>
                   </div>
-               </div>
-            </form>
+            </div>
          </div>
-         <!-- comment form -->
          <div style="margin: 5rem"></div>
          
       </div>
-      <!--  -->
    </div>
    <!-- all -->
-
-   <!-- 쪽지 쓰기 모달창 -->
-   <div id="messageWrite-modal" tabindex="-1" role="dialog"
-      aria-hidden="true" class="modal fade">
-      <div role="document" class="modal-dialog">
-         <div class="modal-content">
-            <div class="modal-header">
-               <h4 align="center" class="modal-title">쪽지 작성</h4>
-               <button type="button" data-dismiss="modal" aria-label="Close"
-                  class="close">
-                  <span aria-hidden="true">×</span>
-               </button>
-            </div>
-
-            <div class="modal-body">
-               <form action="" method="get">
-                  <div class="form-group">
-                     <label>받는 사람</label> <input id="message_reveiver" type="text"
-                        class="form-control" value="" readonly>
-                  </div>
-                  <div class="form-group">
-                     <label>내용</label>
-                     <textarea id="message_content" rows="10" class="form-control"></textarea>
-                  </div>
-                  <p class="text-center">
-                     <input type="button" class="btn btn-outline-primary"
-                        id="message_send">전송</button>
-                     <a style="padding-right: 0.5rem;"></a>
-                     <button type="reset" class="btn btn-outline-primary"
-                        id="message_cancle">취소</button>
-                  </p>
-               </form>
-            </div>
-         </div>
-      </div>
-   </div>
-   
+  
    <!-- 신고 모달창 -->
    <div id="report-modal" tabindex="-1" role="dialog" aria-hidden="true"
       class="modal fade">
-      <div role="document" class="modal-dialog">
+      <div role="document" class="modal-dialog modal-dialog-centered">
          <div class="modal-content">
             <div class="modal-header">
                <h4 align="center" class="modal-title">게시글 신고</h4>
@@ -760,15 +351,15 @@ label {
             <div class="modal-body">
                <form id="report_form" method="POST">
 
-                  <input type="hidden" name="BOARD_ID" id="BOARD_ID" value=<%=boardId%>>
-                  <input type="hidden" name="POST_ID" id="POST_ID" value=<%=ID%>>
-                  <input type="hidden" name="USER_ID" id="USER_ID" value=<%=userId%>>
+                  <input type="hidden" name="board_id" id="BOARD_ID" value=<%=boardId%>>
+                  <input type="hidden" name="post_id" id="POST_ID" value=<%=ID%>>            
+                  <input type="hidden" name="user_id" id="USER_ID" value=<%=userId %> >
                   
                   <label style="text-align: left !important;">신고 분류</label>
                   <div class="form-group">
-                     <select id="state" name="CATEGORY_ID" id="CATEGORY_ID"
+                     <select id="state" name="category_id" id="category_id"
                         class="form-control">
-                        <option value="">신고 사유 선택</option>
+                        <option value="0">신고 사유 선택</option>
                         <option value="1">부적절한 게시물</option>
                         <option value="2">도배 게시물</option>
                         <option value="3">광고성 게시물</option>
@@ -779,10 +370,10 @@ label {
                   </div>
                   <label>내용</label>
                   <div class="form-group">
-                     <textarea name="DESCRIPTION" id="DESCRIPTION" rows="10"
+                     <textarea name="description" id="description" rows="10"
                         class="form-control"></textarea>
                   </div>
-                  <p class="text-center">
+                  <p class="text-center">                  
                      <input type="submit" value="신고" class="btn btn-outline-primary"
                         id="input_report">
                      <a style="padding-right: 0.5rem;"></a>
@@ -794,21 +385,60 @@ label {
       </div>
    </div>
    
+   <!-- 쪽지 보내기 모달창 -->
+   <div id="message-modal" tabindex="-1" role="dialog" aria-hidden="true"
+        class="modal fade">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 align="center" class="modal-title">쪽지보내기</h4>
+                    <button type="button" data-dismiss="modal" aria-label="Close"
+                        class="close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                <form id="message_form" method="POST">
+                	
+			   		<input type="hidden" name="messageSender_id" id="sender_id" value=<%=userId%>>
+                	<input type="hidden" name="messageReceiver_id" id="receiver_id" value=<%=dto.getUser_id() %>>
+                
+                    <div class="form-group">
+                        <label>받는사람</label>
+                        <input class="form-control" name='messageNickname' value=<%=dto.getNickname() %> readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>제목</label>
+                        <input class="form-control" name='messageTitle'>
+                    </div>
+                    <div class="form-group">
+                        <label>내용</label>
+                        <textarea id="message_content" name='messageContent' rows="10" class="form-control"></textarea>
+                    </div>
+                    <p class="text-center">   
+                        <input type="submit" value="보내기" id="modalSendBtn" class="btn btn-outline-primary">
+                    </p>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
    
    <!-- JS 파일 추가 -->
-   <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
-
-   <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>   
+   <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
    <script type="text/javascript" src="/resources/js/missingboard/detail.js"></script>
+   <script type="text/javascript" src="/resources/js/missingboard/comment.js"></script>
+   <script type="text/javascript" src="/resources/js/report.js"></script>   
    
    <script>
-   $(document).ready(function() {      
-      
-	   //즉시 실행 함수
+   $(document).ready(function() {	
 	   (function(){
-          var id = '<c:out value="${dto.id}"/>';
+          //var id = '<c:out value="${dto.id}"/>';
           
-          $.getJSON("/dog/missingboard/getAttachList/<%=ID%>", function(arr){              
+          $.getJSON("/dog/missingboard/getAttachList/<%=dto.getId()%>", function(arr){              
+        	  
               console.log(arr);
               
               var str = "";
@@ -819,30 +449,19 @@ label {
               $(arr).each(function(i, attach){                  
                   //이미지 파일
                   if(attach.fileType){                	
-                    var fileCallPath =  encodeURIComponent( attach.uploadPath+ "/"+attach.uuid +"_"+attach.fileName); //파일 이름(썸네일)                   
+                    var fileCallPath =  encodeURIComponent( attach.uploadPath+"/"+attach.uuid +"_"+attach.fileName); //파일 이름                   
                     
                     str += "<div class='mySlides active'>"
                     str += "<img id='lostdog' style='width:100%' src='/display?fileName="+fileCallPath+"'>";                                   
                     str += "</div>";
                     
                     //사진 갯수만큼 dot 생성
-                    dotStr += "<span class='dot' onclick='currentSlide("+i+")' style='margin:0.3rem!important;'></span>"
-                    
-                  }
-                  //이미지 파일 X                  
-                  else{
-                    str += "<li data-path='"+attach.uploadPath+"' data-uuid='"+attach.uuid+"' data-filename='"+attach.fileName+"' data-type='"+attach.fileType+"' ><div>";
-                    str += "<span> "+ attach.fileName+"</span><br/>";
-                    str += "<img src='/resources/img/attach.png'></a>";
-                    str += "</div>";
-                    str +"</li>";
-                  }
-                  
+                    dotStr += "<span class='dot' onclick='currentSlide("+(i+1)+")' style='margin:0.3rem!important;'></span>"        
+                  }                  
               });
               
               //이미지 생성
-              $("#imageSlides").html(str);                
-              
+              $("#imageSlides").html(str);
               //dot 생성
               $("#dots").html(dotStr);              
               
@@ -853,51 +472,88 @@ label {
               
         })();//end function
         
+		 //신고 시 로그인 확인
+		   $('#report-btn').on("click", function(e){
+			   <% if(loginedUser == null){ %>
+				   alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");
+				   $('#login-modal').modal("show");
+				   
+			   <%} else{%>		   
+			   		$(this).attr('data-target',"#report-modal");
+			   		$('#report-modal').modal("show");
+			   <%}%>
+		   });
         
-        //이미지 클릭 이벤트
-        $(".uploadResult").on("click","li", function(e){
-            
-          console.log("view image");
-          
-          var liObj = $(".uploadResult");
-          
-          var path = encodeURIComponent(liObj.data("path")+"/" + liObj.data("uuid")+"_" + liObj.data("filename"));
-          
-          if(liObj.data("type")){
-            showImage(path.replace(new RegExp(/\\/g),"/"));
-          }else {
-            //download 
-            self.location ="/download?fileName="+path
-          }
-        });
+		 //쪽지 전송 시 로그인 확인
+		   $('#message-btn').on("click", function(e){
+			   <% if(loginedUser == null){ %>
+				   alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");
+				   $('#login-modal').modal("show");
+				   
+			   <%} else{%>		   
+			   		$(this).attr('data-target',"#message-modal");
+			   		$('#message-modal').modal("show");
+			   <%}%>
+		   });        
         
-        
-        /* function showImage(fileCallPath){
-             
-          alert(fileCallPath);
-          
-          $(".bigPictureWrapper").css("display","flex").show();
-          
-          $(".bigPicture")
-          .html("<img src='/display?fileName="+fileCallPath+"' >")
-          .animate({width:'100%', height: '100%'}, 1000);
-          
-        }
-
-        $(".bigPictureWrapper").on("click", function(e){
-          $(".bigPicture").animate({width:'0%', height: '0%'}, 1000);
-          setTimeout(function(){
-            $('.bigPictureWrapper').hide();
-          }, 1000);
-        }); */
-        
-        
+        //쪽지 전송
+		 $('#modalSendBtn').click(function(event){			 
+			   event.preventDefault();
+			   
+			   var newModal = $("#message-modal"); //모달창
+			   
+			   var modalInputTitle = newModal.find("input[name='messageTitle']"); //모달창 제목
+			   var modalInputContent = newModal.find("textarea[name='messageContent']"); //모달창 내용
+			   var modalInputSender_id = newModal.find("#sender_id"); // 모달창 보내는 user_id
+			   var modalInputReceiver_id = newModal.find("input[name='messageReceiver_id']"); //모달창 받는 user_id
+			   
+			   var modalSendBtn = $(".modalSendBtn"); //모달 보내기 버튼
+			   
+			   //var msg = $("#message_form").serialize();
+			   //alert(msg);
+			   
+			   var message = {
+					    title : modalInputTitle.val(),
+					    content : modalInputContent.val(),
+					    sender_id : modalInputSender_id.val(),
+					    receiver_id : modalInputReceiver_id.val()
+					    }
+		       
+	           $.ajax({
+	               url : '/mypage/api/message/new',
+	               type : 'post',
+	               data : JSON.stringify(message),
+	               contentType : "application/json; charset=utf-8",
+	               beforeSend : function(){
+	            	   if(sender_id == "" || sender_id == "null"){
+	            		   alert("로그인 후 이용할 수 있습니다. 로그인 해주세요.");		            		   
+	            		   return false;
+	            	   }
+	            	   else{
+	            		   return true;
+	            	   }
+	               },
+	               success : function(result, status, xhr) {
+	            	   if (callback) {
+	            		   callback(result);
+	            		   alert("쪽지가 성공적으로 전송됐습니다.");
+	            		   $("#message-modal").modal("hide");
+		               }
+		           },
+		           error : function(xhr, status, er) {
+		               if (error) {
+		                   error(er);
+		                   alert("쪽지 전송 실패");
+		               }
+		           }
+	           });
+		 });		   
    }); 
    
    
    //지도
    //지도 api 선택한 곳 마커 표시하기(주소까지 출력)
-	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
    mapOption = {
        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
        level: 3 // 지도의 확대 레벨
@@ -908,20 +564,30 @@ label {
 
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
-
+    var infowindow = new kakao.maps.InfoWindow({zindex:1});
 	//원래 게시글의 모임장소 주소를 좌표로 바꿔주고 지도에 표시해주는 함수//********************************************************
 	var callback = function(result, status) {
 	    if (status === kakao.maps.services.Status.OK) {
-	        setMarker(result[0].x, result[0].y);
+	    	var detailAddr ='<div>주소 : '+result[0].address_name+'</div>';
+	    	var content = '<div class="bAddr">' +
+            '<span class="title">법정동 주소정보</span>' + 
+            detailAddr +  '</div>';
+	        setMarker(result[0].x, result[0].y,content);
 	    }
 	};
 	// '서울 서초구 서초동 1303-34'에 게시글의 모임장소(db값) 넣어준다.**********************************************************
 	geocoder.addressSearch("<%=dto.getDog_lost_address()%>", callback);
-	
-	var marker = new kakao.maps.Marker();
-
+	 var imageSrc = '/resources/img/missingboard/lostdogLocation.png', // 마커이미지의 주소입니다    
+     imageSize = new kakao.maps.Size(100, 100), // 마커이미지의 크기입니다
+     imageOption = {offset: new kakao.maps.Point(50, 100)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+     var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);  
+     
+     var marker = new kakao.maps.Marker({
+        map: map,
+        image: markerImage // 마커이미지 설정
+	});
 	//검색 하고 마커 찍어주는 함수
-	function setMarker(fa, ga){
+	function setMarker(fa, ga,content){
 		//검색창에서 클릭한 좌표로 이동된 지도를 다시 생성
 		mapOption = {
 		        center: new kakao.maps.LatLng(ga, fa), // 지도의 중심좌표
@@ -932,6 +598,9 @@ label {
 		//해당 위치에 마커를 표시
 		marker.setPosition(new kakao.maps.LatLng(ga, fa));
 		marker.setMap(map);
+		
+        infowindow.setContent(content);
+        infowindow.open(map, marker);
 	}
    </script>
    
@@ -944,7 +613,7 @@ label {
    }
 
    function currentSlide(n) {
-     showSlides(slideIndex = n);
+	 showSlides(slideIndex = n);
    }
 
    function showSlides(n) {
@@ -973,29 +642,11 @@ label {
      }
      
      //첫번째 슬라이드 사진 보이게
-     slides[slideIndex-1].style.display = "block";
-     //slides[slideIndex-1].css('display', 'block');
-     //slides[slideIndex-1].attr('style', "display:block;");     
+     slides[slideIndex-1].style.display = "block"; 
      
      dots[slideIndex-1].className += " active";
-   }   
-   </script>   
+   }
    
-   <!-- Javascript files-->
-   <script src="/resources/vendor/jquery/jquery.min.js"></script>
-   <script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
-   <script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-   <script src="/resources/vendor/jquery.cookie/jquery.cookie.js"></script>
-   <script src="/resources/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
-   <script
-      src="/resources/vendor/jquery.counterup/jquery.counterup.min.js"></script>
-   <script src="/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
-   <script
-      src="/resources/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
-   <script src="/resources/js/jquery.parallax-1.1.3.js"></script>
-   <script
-      src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
-   <script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
-   <script src="/resources/js/front.js"></script>
+   </script>   
 </body>
 </html>

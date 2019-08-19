@@ -75,7 +75,6 @@
                     <th>게시판명</th>
                     <th>게시글번호</th>
                     <th>신고카테고리</th>
-                    <th>신고내용</th>
                     <th>신고유저</th>
                     <th>신고날짜</th>
                   </tr>
@@ -100,53 +99,31 @@
       	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
       	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
       	ga('create', 'UA-72504830-1', 'auto');
-      	ga('send', 'pageview');
+      	ga('send', 'pageview');		
       }
-      function deleteUser(id){
-    	  /* $.ajax({
-  			url:'/admin/user/delete/'+id,
-  			type:'DELETE',
-  			success:function(data){
-  				if(data==true){
-  					getUserList();
-  				}
-  				else{
-  					alert("탈퇴실패!");
-  				}
-  			},
-  			error:function(request,status,error){
-  				alert("ajax 통신 실패!!!");
-  				alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-
-  			}
-  		  }); */
-  		  alert(id);
-      }
-      function getUserList(){
+      
+      function getReportList(){
     	  $('#userTable').empty();
     	  $.ajax({
-    		 url:'/admin/user/list',
+    		 url:'/admin/report/list',
     		 type:'GET',
     		 dataType:'json',
     		 success:function(data){
-    			 $.each(data.list, function(index, item){
+    			 $.each(data.reportList, function(index, item){
     				var output='';
     				output += '<tr>';
     				output += '<td>'+item.id+'</td>';
-    				output += '<td>'+item.username+'</td>';
+    				output += '<td>'+item.board_table_name+'</td>';
+    				output += '<td><a href="/admin/report'+item.board_table_address+''+item.board_id+'/'+item.post_id+'">'+item.post_id+'</a></td>';
+    				output += '<td>'+item.category_name+'</td>';
     				output += '<td>'+item.nickname+'</td>';
-    				output += '<td>'+item.address+'</td>';
-    				output += '<td>'+item.gender+'</td>';
-    				output += '<td>'+item.join_date+'</td>';
-    				output += '<td><button type="button" class="btn btn-template-outlined" style="margin-right:10px; margin-bottom:3px;">수 정</button><button type="button" id="deletebtn_'+item.id+'" class="btn btn-template-outlined" style="margin-bottom:3px;">탈 퇴</button></td>';
-    				console.log(item.join_date);
+    				output += '<td>'+item.created_date+'</td>';
+    				
     				output += '</tr>';
     				$('#userTable').append(output);
-    				$('#deletebtn_'+item.id+'').click(function(event){
-    					deleteUser(item.id);
-    				});
+    			
     			 });
-    			$('#sampleTable').DataTable();
+    			$('#sampleTable').DataTable(); 
     		 },
     		 error:function(){
  				alert("ajax 통신 실패!!!");
@@ -154,7 +131,7 @@
     	  });
       }
       $(document).ready(function(){
-    	  getUserList();
+    	  getReportList();
       });
     </script>
     <script src="/resources/js/admin/popper.min.js"></script>

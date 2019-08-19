@@ -1,6 +1,8 @@
 package com.community.petish.admin.user.controller;
 
 import com.community.petish.admin.user.service.AdminService;
+import com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage;
+import com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage;
 import com.community.petish.community.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -9,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.community.petish.community.user.dto.UserResponseDTO_Mypage;
 
 @Controller
 @RequestMapping("/admin")
@@ -63,24 +64,8 @@ public class AdminUserController {
 	}
 	
 	@RequestMapping(value="/user/modifyForm", produces="application/json;charset=UTF-8")
-	public String modifyUser(UserResponseDTO_Mypage modifyUser) {
+	public String modifyUser(UserModifyRequestDTO_Mypage modifyUser) {
 		int result = adminService.modifyUser(modifyUser);
 		return "petish/admin/user";
 	}
-	
-	@RequestMapping(value="/report", produces="application/json;charset=UTF-8")
-	public ModelAndView report() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("petish/admin/report");
-		return mv;
-	}
-	
-	@RequestMapping(value="/question", produces="application/json;charset=UTF-8")
-	public ModelAndView question() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("petish/admin/question");
-		return mv;
-	}
-	
-	
 }

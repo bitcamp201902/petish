@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.community.petish.admin.statistics.mapper.AdminNewWritingsCntMapper">
+	<select id="getAllNewWritings" resultType="int">
+		select sum(result.cnt) from(
+		select count(*) cnt from dog_free_post_tb where to_char( created_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		union 
+		select count(*) cnt from dog_info_post_tb where to_char( created_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		union
+		select count(*) cnt from dog_lost_post_tb where to_char( create_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		union
+		select count(*) cnt from dog_gather_post_tb where to_char( created_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		) result
+	</select>
+	
+	<select id="getDogNewWritings" resultType="int">
+		select sum(result.cnt) from(
+		select count(*) cnt from dog_free_post_tb where to_char( created_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		union 
+		select count(*) cnt from dog_info_post_tb where to_char( created_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		union
+		select count(*) cnt from dog_lost_post_tb where to_char( create_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		union
+		select count(*) cnt from dog_gather_post_tb where to_char( created_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		) result
+	</select>
+	
+	<!-- <select id="getCatNewWritings" resultType="int">
+		select sum(result.cnt) from(
+		select count(*) cnt from cat_free_post_tb where to_char( created_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		union 
+		select count(*) cnt from cat_info_post_tb where to_char( created_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		union
+		select count(*) cnt from cat_lost_post_tb where to_char( create_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		union
+		select count(*) cnt from cat_gather_post_tb where to_char( created_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+		) result
+	</select> -->
+	
+</mapper>

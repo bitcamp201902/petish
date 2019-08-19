@@ -12,8 +12,6 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.community.petish.community.dog.missingboard.dto.AttachFileDTO;
-import com.community.petish.community.dog.missingboard.mapper.AttachFileMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,6 +25,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.community.petish.community.dog.missingboard.dto.AttachFileDTO;
+import com.community.petish.community.dog.missingboard.mapper.AttachFileMapper;
+
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 
@@ -35,7 +36,7 @@ import net.coobird.thumbnailator.Thumbnailator;
 public class UploadController {
 	
 	@Autowired
-  AttachFileMapper mapper;
+	AttachFileMapper mapper;
 
 	@GetMapping("/uploadForm")
 	public void uploadForm() {
@@ -48,8 +49,9 @@ public class UploadController {
 	public void uploadFormPost(MultipartFile[] uploadFile, Model model, HttpServletRequest request) {
 
 		//String uploadFolder = "C:\\upload";
-		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/missingboard");
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/missingboard/dog");
 		
+		log.info("uploadPath : " + uploadPath);
 
 		for (MultipartFile multipartFile : uploadFile) {
 
@@ -73,15 +75,6 @@ public class UploadController {
 
 		log.info("upload ajax");
 	}
-
-	/*
-	private String getFolder() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date date = new Date();
-		String str = sdf.format(date);
-		return str.replace("-", File.separator);
-	}
-	*/
 	
 	//첨부 파일이 이미지인지 학인
 	private boolean checkImageType(File file) {
@@ -106,12 +99,9 @@ public class UploadController {
 		//파일 리스트
 		List<AttachFileDTO> list = new ArrayList<>();
 		//업로드 할 경로
-		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/missingboard");
-		
-		// 파일 없으면 생성
-		//File uploadPath = new File(uploadFolder, uploadFolderPath);
-		//(uploadPath.exists() == false) { uploadPath.mkdirs(); }		
-		// make yyyy/MM/dd folder
+		String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/missingboard/dog");
+
+		log.info("uploadPath : " + uploadPath);
 		
 		for (MultipartFile multipartFile : uploadFile) {
 
@@ -138,17 +128,18 @@ public class UploadController {
 				log.info("uploadPath : " + uploadPath);
 				log.info("uploadFileName : " + uploadFileName);
 
-				//이미지 파일인지 체크
-				if (checkImageType(saveFile)) {
+        attachDTO.setImage(true);
+        //썸네일 이미지 파일명, 경로, 크기 지정해 생성
+        FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
+        try{
+          Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
+        }
+        catch(IllegalStateException e) {
+          log.info("Thumbnail error");
+          e.printStackTrace();
+        }
 
-					attachDTO.setImage(true);
-
-					//썸네일 이미지 파일명, 경로, 크기 지정해 생성
-					FileOutputStream thumbnail = new FileOutputStream(new File(uploadPath, "s_" + uploadFileName));
-					Thumbnailator.createThumbnail(multipartFile.getInputStream(), thumbnail, 100, 100);
-
-					thumbnail.close();
-				}
+        thumbnail.close();
 				//파일 리스트에 추가
 				list.add(attachDTO);
 
@@ -190,18 +181,10 @@ public class UploadController {
 	public ResponseEntity<String> deleteFile(String fileName, String type, HttpServletRequest request) {
 
 		log.info("deleteFile: " + fileName);
-		log.info("type: " + type);
 		
-		//파일 리스트
-		//List<AttachFileDTO> list = new ArrayList<>();
-		//업로드 할 경로
-		//String uploadPath = request.getSession().getServletContext().getRealPath("/resources/img/missingboard");
-				
-
 		File file;
 
-		try {			
-			//file = new File("C:\\upload\\" + URLDecoder.decode(fileName, "UTF-8"));
+		try {
 			file = new File(URLDecoder.decode(fileName, "UTF-8"));
 			file.delete();
 

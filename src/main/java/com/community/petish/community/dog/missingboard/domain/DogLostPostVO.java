@@ -1,8 +1,6 @@
 package com.community.petish.community.dog.missingboard.domain;
 
-
 import java.util.Date;
-import java.util.List;
 
 import lombok.Data;
 
@@ -44,16 +42,4 @@ public class DogLostPostVO {
 	private String phone_number; //연락처
 	private String dog_lost_address; //실종 장소
 	private int reward; //사례금
-	
-	private int view_count; //조회수
-	private Date create_date; //게시글 등록 시간
-	private Date updated_date; //게시글 수정 시간
-	
-	private int found; //발견
-	private int deleted; //삭제 유무
-
-	private int region_id; //지역 식별자
-	private int user_id; //유저 식별자
-	private int species_id; //강아지 종류 식별자
-	
 }

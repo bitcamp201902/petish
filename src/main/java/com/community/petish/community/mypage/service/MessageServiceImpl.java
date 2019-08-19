@@ -1,14 +1,20 @@
+
 package com.community.petish.community.mypage.service;
 
-import java.util.ArrayList;
 
-import com.community.petish.community.mypage.dto.MessageRequestDTO;
+import com.community.petish.community.mypage.mapper.MessageMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.community.petish.community.mypage.dto.MessageResponseDTO;
-import com.community.petish.community.mypage.mapper.MessageMapper;
+import com.community.petish.community.mypage.dto.request.MessageRequestDTO;
+import com.community.petish.community.mypage.dto.response.Criteria;
+import com.community.petish.community.mypage.dto.response.MessageResponseDTO;
+import com.community.petish.community.mypage.dto.response.ReceivedMessagePageDTO;
+import com.community.petish.community.mypage.dto.response.SentMessagePageDTO;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 @Service
 public class MessageServiceImpl implements MessageService{
 
@@ -24,16 +30,20 @@ public class MessageServiceImpl implements MessageService{
 
 	//2. 받은 쪽지 리스트 조회
 	@Override
-	public ArrayList<MessageResponseDTO> getReceivedMessageList(Long user_id) {
-		ArrayList list = messageMapper.getReceivedMessageList(user_id);
-		return list;
+	public ReceivedMessagePageDTO getReceivedMessagePaging(Criteria cri) {
+		log.info("받은 쪽지 갯수"+messageMapper.getSentCnt(cri.getUser_id()));
+		return new ReceivedMessagePageDTO(
+				messageMapper.getReceivedCnt(cri.getUser_id()),
+				messageMapper.getReceivedMessageWithPaging(cri));
 	}
 
 	//3. 보낸 쪽지 리스트 조회
 	@Override
-	public ArrayList<MessageResponseDTO> getSentMessageList(Long user_id) {
-		ArrayList list = messageMapper.getSentMessageList(user_id);
-		return list;
+	public SentMessagePageDTO getSentMessagePaging(Criteria cri) {
+		log.info("보낸 쪽지 갯수"+messageMapper.getSentCnt(cri.getUser_id()));
+		return new SentMessagePageDTO(
+				messageMapper.getSentCnt(cri.getUser_id()),
+				messageMapper.getSentMessageWithPaging(cri));
 	}
 
 	//4. 받은 쪽지 상세조회
@@ -80,6 +90,8 @@ public class MessageServiceImpl implements MessageService{
 	       return res;
 	}
 
-	
-
+	public int checkNewMessage(Long user_id) {
+		int res = messageMapper.checkNewMessage(user_id);
+		return res;
+	}
 }

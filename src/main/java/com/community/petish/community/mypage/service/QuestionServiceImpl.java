@@ -5,10 +5,13 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.community.petish.community.mypage.dto.QuestionResponseDTO;
-import com.community.petish.community.mypage.dto.Criteria;
-import com.community.petish.community.mypage.dto.QuestionRequestDTO;
+
+import com.community.petish.community.mypage.dto.request.QuestionRequestDTO;
+import com.community.petish.community.mypage.dto.response.Criteria;
+import com.community.petish.community.mypage.dto.response.QuestionPageDTO;
+import com.community.petish.community.mypage.dto.response.QuestionResponseDTO;
 import com.community.petish.community.mypage.mapper.QuestionMapper;
+
 
 @Service
 public class QuestionServiceImpl implements QuestionService{
@@ -31,8 +34,10 @@ public class QuestionServiceImpl implements QuestionService{
 
 	//2-2. 문의조회+페이징
 	@Override
-	public ArrayList<QuestionResponseDTO> getQuestionListWithPaging(Criteria cri){
-		return questionMapper.getQuestionListWithPaging(cri);
+	public QuestionPageDTO getQuestionListPaging(Criteria cri){
+		return new QuestionPageDTO(
+				questionMapper.getQuestionCnt(cri.getUser_id()),
+				questionMapper.getQuestionListWithPaging(cri));
 	}
 	
 	//3. 문의 삭제

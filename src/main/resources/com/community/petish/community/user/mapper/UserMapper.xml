@@ -5,9 +5,9 @@
 
 	<insert id="save" parameterType="com.community.petish.community.user.dto.request.SaveUserParams">
 		INSERT INTO USER_TB
-			(id, username, password, nickname, address, gender, join_date, deleted, concern_id)
+			(id, username, password, nickname, address, gender, picture, join_date, deleted, concern_id)
 		values
-			(	( (select NVL(max(id), 0) from user_tb) + 1), #{username}, #{password}, #{nickname}, #{address}, #{gender}, sysdate, 0, 
+			(	( (select NVL(max(id), 0) from user_tb) + 1), #{username}, #{password}, #{nickname}, #{address}, #{gender}, #{picture}, sysdate, 0,
 				(SELECT id from concern_tb where concern = #{concern})
 			)
 			

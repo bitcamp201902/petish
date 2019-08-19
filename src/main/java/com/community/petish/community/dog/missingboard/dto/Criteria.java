@@ -19,7 +19,7 @@ public class Criteria {
 	
 	//생성자
 	public Criteria() {
-		this(1,10);
+		this(1, 5);
 	}
 	
 	//생성자

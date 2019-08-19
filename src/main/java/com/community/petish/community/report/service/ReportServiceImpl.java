@@ -13,14 +13,6 @@ public class ReportServiceImpl implements ReportService{
 	
 	@Autowired
 	private ReportMapper mapper;
-	
-	//신고 수
-//	 public int getReportCount() {
-//		return mapper.getReportCount();
-//	}
-	
-	//신고 리스트 조회
-//	List<ReportResponseDTO> getList();
 		
 	//신고 작성
 	public int register(ReportRequestDTO dto) {
@@ -35,11 +27,18 @@ public class ReportServiceImpl implements ReportService{
 	
 	//신고 리스트
 	public List<ReportResponseDTO> getReportList(){
+		
 		return mapper.getReportList();
 	}
 		
 	//신고 조회
 	public ReportResponseDTO getReport(Long id) {
 		return mapper.getReport(id);
+	}
+
+	@Override
+	public List<ReportResponseDTO> getBoardReportList(Long board_id, Long post_id) {
+		System.out.println("reportservice : "+post_id+", "+board_id);
+		return mapper.getBoardReportList(board_id, post_id);
 	}
 }

@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.community.petish.community.mypage.dto.MessageResponseDTO;
+import com.community.petish.community.mypage.dto.response.MessageResponseDTO;
 import com.community.petish.community.mypage.mapper.MessageMapper;
+
 
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;

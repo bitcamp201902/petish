@@ -21,20 +21,16 @@
 		select count(*) from user_tb u join concern_tb c on u.concern_id = c.id where c.concern = 'dog'
 	</select>
 	
-	<select id="getUserList" resultType="com.community.petish.admin.user.domain.getUserListDTO">
-		select * from user_tb
-	</select>
-	
 	<delete id="deleteUser" parameterType="Long">
 		delete from user_tb where id =#{id}
 	</delete>
-	<select id="getUser" parameterType="long" resultType="com.community.petish.community.user.dto.UserResponseDTO_Mypage">
+	<select id="getUser" parameterType="long" resultType="com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage">
 		select id, username, nickname, picture, deleted, address, concern_id, gender
 		from user_tb
 		where id =#{id}
 	</select> 
 	
-	<update id="modifyUser" parameterType="com.community.petish.community.user.dto.UserResponseDTO_Mypage">
+	<update id="modifyUser" parameterType="com.community.petish.community.mypage.dto.request.UserModifyRequestDTO_Mypage">
 		update user_tb set nickname=#{nickname}, address=#{address}, concern_id=#{concern_id}, gender=#{gender} where id=#{id}
 	</update>
 
