@@ -136,6 +136,15 @@
             
           </ul>
         </li>
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-file-text"></i>
+        	<span class="app-menu__label">게시판 관리</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          <ul class="treeview-menu">
+            <li><a class="treeview-item" href="/admin/dog/gatherboard"><i class="icon fa fa-circle-o"></i> 강아지</a></li>
+            <li><a class="treeview-item" href="#"><i class="icon fa fa-circle-o"></i> 고양이</a></li>
+            
+          </ul>
+        </li>
+        
       </ul>
     </aside>
     <main class="app-content">
@@ -150,7 +159,7 @@
           <li class="breadcrumb-item active"><a href="/admin/report">신고게시판</a></li>
         </ul>
       </div>
-      <div class="row">
+      <div class="row" >
 		<div class="tile" style="width: 100%;">
          <!-- LEFT COLUMN _________________________________________________________-->
          <div id="blog-post" class="col-md-13">
@@ -278,24 +287,16 @@
 
         <!-- 댓글창 -->
 		<div id="comments">
-						
-			<% if (commentCount == 0) {%>
-			<h4>댓글  0</h4>
-			<a>등록된 댓글이 없습니다. 댓글을 작성해주세요!</a>
-			<script>$('.d-flex').css("display","none")</script>		
-			<%}
-			
-			else { %>
+			<!-- 댓글 갯수 -->
 			<h4 class="text-uppercase" id="commentCount">
 			<input type="text" id="commentCountVal">
 			</h4>
-			
-			<section class="bar bg-gray mb-0">			
+			<!-- 댓글 내용 -->
+			<section>			
 			<div id="commentList" class="row comment">
 			<!-- 댓글 출력 -->
 			</div>			
 			</section>
-			<%} %>
 			
 			<!-- 댓글 페이징 -->
 			<div style="padding:3rem">
@@ -368,8 +369,8 @@
    <!-- JS 파일 추가 -->
    
    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
-   <script type="text/javascript" src="/resources/js/missingboard/detail.js"></script>
-   <script type="text/javascript" src="/resources/js/missingboard/comment.js"></script>
+   <script type="text/javascript" src="/resources/js/missingboard/detail.js?ver=1"></script>
+   <script type="text/javascript" src="/resources/js/missingboard/comment.js?ver=1"></script>
    <script type="text/javascript" src="/resources/js/report.js"></script>   
   	<script src="/resources/js/admin/popper.min.js"></script>
     <script src="/resources/js/admin/bootstrap.min.js"></script>
