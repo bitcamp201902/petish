@@ -20,11 +20,29 @@ public class ReportServiceImpl implements ReportService{
 	@Autowired
 	private ReportMapper mapper;
 	
+	//@Autowired
+	//private DogFreePostMapoer dogFreePostMapper;
+	
+	//@Autowired
+	//private DogInfoPostMapoer dogInfoPostMapper;
+	
 	@Autowired
 	private DogLostPostMapper dogLostPostMapper;
 		
 	@Autowired
 	private DogGatherMapper dogGatherMapper;
+	
+	//@Autowired
+	//private CatFreePostMapoer catFreePostMapper;
+	
+	//@Autowired
+	//private CatInfoPostMapoer catInfoPostMapper;
+	
+	//@Autowired
+	//private CatLostPostMapper CatLostPostMapper;
+		
+	//@Autowired
+	//private CatGatherMapper CatGatherMapper;
 	//신고 작성
 	public int register(ReportRequestDTO dto) {
 		System.out.println("Service");
@@ -41,8 +59,15 @@ public class ReportServiceImpl implements ReportService{
 		List<ReportResponseDTO> reports= mapper.getReportList();
 		
 		Map<String, ReportGetdeletedMapper> mapperMap= new HashMap<String, ReportGetdeletedMapper>();
+		//mapperMap.put("dog_free_post_tb", dogFreePostMapper);
+		//mapperMap.put("dog_info_post_tb", dogInfoPostMapper);
 		mapperMap.put("dog_lost_post_tb", dogLostPostMapper);
 		mapperMap.put("dog_gather_post_tb", dogGatherMapper);
+		
+		//mapperMap.put("cat_free_post_tb", catFreePostMapper);
+		//mapperMap.put("cat_info_post_tb", catInfoPostMapper);
+		//mapperMap.put("cat_lost_post_tb", catLostPostMapper);
+		//mapperMap.put("cat_gather_post_tb", catGatherMapper);
 		
 		for (ReportResponseDTO report : reports) {
 			String tableName = report.getBoard_table_ename();
