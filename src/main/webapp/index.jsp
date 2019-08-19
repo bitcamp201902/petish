@@ -52,7 +52,8 @@
 	
 	<link rel="stylesheet" href="/resources/css/hospital/main_search.css">
 	<link rel="stylesheet" href="/resources/css/commons/kakaomap.css">
-	<script src="/resources/js/region.js"></script>
+	<link rel="stylesheet" href="/resources/css/top/common.css">
+    <script src="/resources/js/region.js"></script>
 	
 </head>
 <%-- <%@ include file="/WEB-INF/views/commons/link.jspf" %> --%>
