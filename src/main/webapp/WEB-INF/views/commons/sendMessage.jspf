@@ -1,0 +1,33 @@
+<%@ page pageEncoding="UTF-8" %>
+<div id="messageWrite-modal" tabindex="-1" role="dialog" aria-hidden="true"
+	 class="modal fade">
+	<div role="document" class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 align="center" class="modal-title">쪽지보내기</h4>
+				<button type="button" data-dismiss="modal" aria-label="Close"
+						class="close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<label>받는사람</label> <input class="form-control" name='nickname'
+											   readonly>
+				</div>
+				<input type="hidden" name="receiver_id">
+				<div class="form-group">
+					<label>제목</label> <input class="form-control" name='title'>
+				</div>
+				<div class="form-group">
+					<label>내용</label>
+					<textarea id="message_content" rows="10" class="form-control"
+							  name='content'></textarea>
+				</div>
+				<div class="text-left">
+					<input type="button" value="보내기" class="modalSendBtn">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

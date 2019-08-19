@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.petish.community.mypet.comment.mapper.MypetCommentMapper">
+
+	<insert id="save">
+	
+		INSERT INTO mypet_comment_tb
+			(id, content, post_id, user_id)
+		VALUES
+			( ( (select NVL(max(id), 0) from mypet_comment_tb) + 1 ), #{content}, #{postId}, #{userId})
+
+		<selectKey resultType="Long" order="AFTER">
+			SELECT max(id) from mypet_comment_tb
+		</selectKey>
+	</insert>
+
+	<select id="findAllByPostId" resultType="com.community.petish.community.mypet.comment.domain.MypetComment">
+		SELECT * FROM mypet_comment_tb 
+			WHERE post_id = #{postId}
+			AND deleted = 0
+			order by id desc
+	</select>
+
+	<select id="findByCommentId" resultType="com.community.petish.community.mypet.comment.domain.MypetComment">
+		SELECT * FROM mypet_comment_tb
+			WHERE id = #{commentId}
+	</select>
+
+	<update id="update">
+
+		UPDATE mypet_comment_tb
+		SET content = #{content}, updated_date = sysdate
+		WHERE id = #{commentId}
+
+	</update>
+
+	<update id="delete">
+
+		UPDATE mypet_comment_tb
+		SET deleted = 1
+		WHERE id = #{commentId}
+
+	</update>
+
+	<select id="countLikeByCommentId">
+		SELECT count(*) from mypet_comment_like_tb 
+			WHERE comment_id = #{commentId} 
+			AND dislike_like = 1
+	</select>
+	
+	<select id="countDislikeByCommentId">
+		SELECT count(*) from mypet_comment_like_tb 
+			WHERE comment_id = #{commentId} 
+			AND dislike_like = 0
+	</select>
+
+</mapper>

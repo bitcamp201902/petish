@@ -1,0 +1,56 @@
+/* myPet Write,Modify */
+#write-form-carousel {
+    display: flex;
+    justify-content: center;
+}
+/* text area */
+#message {
+	height: 500px;
+}
+
+/* button */
+#deleteBtn {
+	margin-top: 20px;
+	float: left;
+}
+
+#modifyBtn {
+	margin-top: 20px;
+	float: right;
+}
+
+@media (max-width: 400px) {
+	.h2, h2 {
+		font-size: 1.5rem;
+	}
+	#message {
+		height: 100px;
+	}
+}
+
+@media (min-width: 400px) {
+	.h2, h2 {
+		font-size: 1.5rem;
+	}
+	#message {
+		height: 200px;
+	}
+}
+
+@media (min-width: 576px) {
+	.h2, h2 {
+		font-size: 1.5rem;
+	}
+	#message {
+		height: 200px;
+	}
+}
+
+@media (min-width: 768px) {
+	.h2, h2 {
+		font-size: 2rem;
+	}
+	#message {
+		height: 300px;
+	}
+}

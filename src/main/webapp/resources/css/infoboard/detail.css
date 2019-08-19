@@ -1,0 +1,86 @@
+#report-btn {
+	justify-content: right;
+}
+.btn.btn-danger{
+	float:right;
+	margin-top:20px;
+	margin-right:20px;
+}
+button.btn.btn-template-outlined{
+	float: right;
+	margin-right:15px;
+	margin-top:20px;
+}
+.name{
+	text-align:center;
+	width:40px;
+}
+td.grade{
+	text-align:left;
+	width:80px;
+}
+td.date{
+	text-align:left;
+	width:150px;
+}
+td.view{
+	text-align:left;
+	width:150px;
+}
+div.panel-heading{
+	margin-top:40px;
+}
+.dropdown{
+	text-align:center;
+}
+main.img-fluid rounded-circle{
+	width:70px; 
+	height:70px;
+
+}
+div#post-content{
+	margin-top:50px;
+}
+
+div.panel.panel-default.sidebar-menu{
+	margin-top:40px;
+
+}
+
+button.btn.btn-template-outlined{
+	margin-right: 2rem;
+}
+
+@media screen and (max-width:750px){
+
+	.btn.btn-template-outlined{
+		margin-bottom:10px;
+	}
+	td.date{
+		display:none;
+	}
+	td.view{
+		display:none;
+	}
+	div.col-sm-3.col-md-2.text-center-xs{
+		display:none;
+	}
+	button.re.btn.btn-template-outlined{
+		width:110px;
+		margin-right:1px;
+	}
+	button.delete.btn.btn-template-outlined{
+		width:70px;
+		height:40px;
+	}
+	.btn.btn-danger{
+		margin-right:1px;
+	}
+	button.write.btn.btn-template-outlined{
+		margin-right:1px;
+	}
+	button.list.btn.btn-template-outlined{
+		margin-right:10px;
+	}
+
+}

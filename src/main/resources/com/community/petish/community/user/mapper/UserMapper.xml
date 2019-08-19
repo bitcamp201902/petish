@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.petish.community.user.mapper.UserMapper">
+
+	<insert id="save" parameterType="com.community.petish.community.user.dto.request.SaveUserParams">
+		INSERT INTO USER_TB
+			(id, username, password, nickname, address, gender, picture, join_date, deleted, concern_id)
+		values
+			(	( (select NVL(max(id), 0) from user_tb) + 1), #{username}, #{password}, #{nickname}, #{address}, #{gender}, #{picture}, sysdate, 0,
+				(SELECT id from concern_tb where concern = #{concern})
+			)
+			
+		<selectKey resultType="Long" order="AFTER">
+			SELECT id FROM user_tb where username = #{username} AND deleted = 0
+		</selectKey>
+	</insert>
+	
+	<select id="findByNickname" parameterType="String" resultType="String">
+		SELECT nickname FROM USER_TB WHERE nickname = #{nickname} AND deleted = 0
+	</select>
+	
+	<select id="findByUsername" parameterType="String" resultType="com.community.petish.community.user.domain.User">
+		SELECT * FROM USER_TB WHERE username = #{username} AND deleted = 0
+	</select>
+	
+	<select id="findById" parameterType="Long" resultType="com.community.petish.community.user.domain.User">
+		SELECT * FROM user_tb WHERE id = #{id}
+	</select>
+	
+	<select id="findAll" resultType="com.community.petish.community.user.domain.User">
+		SELECT * FROM user_tb
+	</select>
+	
+	<delete id="deleteAll">
+		DELETE FROM USER_TB
+	</delete>
+
+</mapper>

@@ -1,0 +1,53 @@
+button.btn.btn-template-outlined.write-button {
+	float: right;
+	margin: 20px;
+}
+
+.dropdown{
+	text-align: center;
+
+}
+
+#top-category {
+	margin-top: 40px;
+}
+
+.table{
+	margin: auto; 
+	text-align: center;
+}
+        
+@media screen and (max-width:750px){
+	th.test.border-top-0{
+		display:none;
+	}
+	.test{
+		display:none;
+	}
+	.col-md-2.col-lg-2.test{
+		display:none;
+	}
+	th.MoblieViewNumber.border-top-0{
+		width:53px;
+	}
+	th.MoblieViewRegion.border-top-0 {
+		width:53px;
+	}
+	
+	th.MoblieViewWriter.border-top-0 {
+	width:70px;
+	}
+	
+	.col-md-2.col-lg-2.region{
+		width:120px;
+	}
+	.col-md-2.col-lg-2.list{
+		width:120px;
+	}
+	
+	div.panel.panel-default.sidebar-menu{
+		margin-right:15px;
+		width:170px;
+	}
+
+}

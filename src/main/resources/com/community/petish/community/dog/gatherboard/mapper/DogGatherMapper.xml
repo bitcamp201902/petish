@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+//DOG_GATHER_POST_TB 생성(CONTENT-데이터타입 변경)
+CREATE TABLE dog_gather_post_tb (
+	id NUMBER NOT NULL primary key, /* 게시글번호 */
+	title VARCHAR2(100 CHAR) NOT NULL, /* 게시글 제목 */
+	content CLOB NOT NULL, /* 게시글 내용 */
+	gathering_address VARCHAR2(100 CHAR) NOT NULL, /* 장소주소 */
+    gathering_date DATE NOT NULL, /* 정모 날짜 */
+	people_count NUMBER NOT NULL, /* 인원수 */
+	created_date DATE NOT NULL, /* 생성일자 */
+	updated_date DATE NOT NULL, /* 최근수정일자 */
+	view_count NUMBER NOT NULL, /* 조회수 */
+	deleted NUMBER NOT NULL, /* 삭제유무 */
+	region_id NUMBER NOT NULL, /* 지역 식별자 */
+	species_id NUMBER NOT NULL, /* 강아지 종류 식별자 */
+	user_id NUMBER NOT NULL, /* 유저식별자 */
+	foreign key (user_id) references user_tb(id),
+	foreign key (species_id) references dog_species_tb(id),
+	foreign key (region_id) references region_tb(id)
+);
+
+//DOG_GATHER_POST_TB 시퀀스 생성
+create sequence SEQ_DOG_GATHER_POST_TB_IDX
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE
+NOCACHE;
+ -->
+ 
+<!--  
+//DOG_SPECIES_TB 시퀀스 생성
+create sequence SEQ_DOG_SPECIES_TB_IDX
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE
+NOCACHE;
+
+//DOG_GATHER_PERSON_TB 시퀀스 생성
+create sequence SEQ_DOG_GATHER_PERSON_TB_IDX
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE
+NOCACHE;
+
+//DOG_GATHER_POST_TB 인덱스 생성
+create index IDX_DOG_GATHER_POST on DOG_GATHER_POST_TB(ID desc, USER_ID asc); 
+-->
+<mapper namespace="com.community.petish.community.dog.gatherboard.mapper.DogGatherMapper">
+	   
+	<select id="getDogGatherList" resultType="com.community.petish.community.dog.gatherboard.domain.DogGatherPostVO">
+		select * from DOG_GATHER_POST_TB where DELETED = 0 order by ID desc
+	</select>
+	
+	<!-- Criteria -->
+	<sql id="criteria">
+		<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+			<foreach item='type' collection="typeArr">
+				<trim prefix="OR">
+					<choose>
+						<when test="type == 'R'.toString()">
+							REGION_NAME like '%'||#{keyword}||'%'
+						</when> 
+						<when test="type == 'D'.toString()">
+							DOG_SPECIES like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'S'.toString()">
+							DOG_SIZE like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'T'.toString()">
+							TITLE like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'C'.toString()">
+							CONTENT like '%'||#{keyword}||'%'
+						</when>
+						<when test="type == 'W'.toString()">
+							NICKNAME like '%'||#{keyword}||'%'
+						</when>
+					</choose>
+				</trim>
+			</foreach>
+		</trim>
+	</sql>
+
+	<!-- 페이징 -->
+	<select id="getListWithPaging" resultType="com.community.petish.community.dog.gatherboard.dto.response.DogGatherListDTO">
+	  <![CDATA[
+	   SELECT
+	      ID, USER_ID, REGION_NAME, DOG_SPECIES, DOG_SIZE, TITLE, NICKNAME, CREATED_DATE, VIEW_COUNT, GATHERING_DATE
+	      FROM 
+	      (SELECT
+	      	rownum rn, ID, USER_ID, REGION_NAME, DOG_SPECIES, DOG_SIZE, TITLE, NICKNAME, CREATED_DATE, VIEW_COUNT, GATHERING_DATE
+	      	FROM
+	      	 (SELECT post.id, post.user_id, region.region_name, member.nickname,
+	      		  species.dog_species, dog_size.dog_size, post.title, post.created_date, post.view_count, post.gathering_date
+		  	 FROM dog_gather_post_tb post, user_tb member, region_tb region, dog_species_tb species, dog_size_tb dog_size
+	      	 WHERE      
+	   ]]>
+	      <include refid="criteria"></include>
+	            
+	   <![CDATA[
+	   	  post.id > 0 and post.deleted=0 and
+	      post.user_id = member.id and post.region_id = region.id and post.species_id = species.id and species.size_id = dog_size.id
+	    
+	      ORDER BY post.id DESC
+	      )  
+	      WHERE rownum <= #{pageNum} * #{amount}    
+	     ) 
+	    WHERE rn > (#{pageNum} - 1) * #{amount}
+	   ]]>
+	</select>
+
+	<select id="getDogGatherPostCount" resultType="int">
+	  <![CDATA[
+	      SELECT
+	      COUNT(ID)
+	      FROM 
+	      (SELECT post.id, region.region_name, species.dog_species, dog_size.dog_size, post.title, member.username, member.nickname
+	      FROM dog_gather_post_tb post, user_tb member, region_tb region, dog_species_tb species, dog_size_tb dog_size
+	      WHERE      
+	   ]]>
+		
+		<include refid="criteria"></include>
+	  <![CDATA[	
+		post.id > 0 and post.deleted=0 and post.user_id = member.id and post.region_id = region.id and 
+		post.species_id = species.id and species.size_id = dog_size.id
+	    )
+	  ]]>
+
+	</select>
+	
+	<select id="getDogGatherPost" resultType="com.community.petish.community.dog.gatherboard.domain.DogGatherPostVO">
+		select * from DOG_GATHER_POST_TB where ID = #{ID} and DELETED = 0
+	</select>
+	
+	<select id="getUserID" resultType="Long">
+		select ID from USER_TB where USERNAME=#{USERNAME}
+	</select>
+	
+	<select id="getDogSpeciesID" resultType="Long">
+		select ID from DOG_SPECIES_TB where DOG_SPECIES=#{DOG_SPECIES}
+	</select>
+	
+	<select id="getDogSpecies" resultType="String">
+		select DOG_SPECIES from DOG_SPECIES_TB where ID=#{ID}
+	</select>
+	
+	<select id="getDogSizeID" resultType="Long">
+		select SIZE_ID from DOG_SPECIES_TB where ID=#{ID}
+	</select>
+	
+	<select id="getUserName" resultType="String">
+		select USERNAME from USER_TB where ID=#{ID}
+	</select>
+	
+	<select id="getUserNickName" resultType="String">
+		select NICKNAME from USER_TB where ID=#{ID}
+	</select>
+	
+	<select id="getDogSpeciesList" resultType="com.community.petish.community.dog.gatherboard.domain.DogSpeciesVO">
+		select * from DOG_SPECIES_TB where SIZE_ID=#{SIZE_ID}
+	</select>
+	
+	<!-- 해당 유저의 정모 참여 신청 여부 -->
+	<select id="getDogGatherParticipant" resultType="int"> 
+		select count(*) from DOG_GATHER_PERSON_TB where POST_ID=#{POST_ID} and USER_ID=#{USER_ID} and CANCELED=0
+	</select>
+	
+	<select id="getDogGatherParticipantCount" resultType="int">
+		select count(ID) from DOG_GATHER_PERSON_TB where POST_ID=#{POST_ID} and CANCELED = 0
+	</select>
+	
+	<select id="getRegionID" resultType="Long">
+		select ID from REGION_TB where REGION_NAME=#{REGION_NAME}
+	</select>
+	
+	<insert id="insertDogGatherPost">
+		insert into DOG_GATHER_POST_TB values(
+		SEQ_DOG_GATHER_POST_TB_IDX.nextval, #{TITLE}, #{CONTENT}, 
+		#{GATHERING_ADDRESS}, #{GATHERING_DATE}, #{PEOPLE_COUNT}, sysdate, sysdate, 
+		#{VIEW_COUNT}, #{DELETED}, #{REGION_ID}, #{SPECIES_ID}, #{USER_ID}
+		)
+	</insert> 
+	
+	<insert id="insertDogGatherParticipant">
+		insert into DOG_GATHER_PERSON_TB values(
+		SEQ_DOG_GATHER_PERSON_TB_IDX.nextval, #{REQUEST_CONTENT}, 0, #{SPECIES_ID},
+		#{POST_ID}, #{USER_ID}
+		)
+	</insert>
+	
+	<select id="getDogGatherParticipantList" resultType="com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO">
+		select person.id, person.request_content, person.post_id, member.username, member.nickname, species.dog_species 
+		from dog_gather_person_tb person 
+		left join user_tb member
+		on person.user_id = member.id
+		left join dog_species_tb species
+		on person.species_id = species.id
+		where person.post_id = #{POST_ID} and person.canceled = 0
+		order by person.id
+	</select>
+		
+	<update id="modifyDogGatherPost">
+		update DOG_GATHER_POST_TB
+		set 
+			TITLE = #{TITLE}, CONTENT = #{CONTENT}, GATHERING_ADDRESS = #{GATHERING_ADDRESS},
+			GATHERING_DATE = #{GATHERING_DATE}, PEOPLE_COUNT = #{PEOPLE_COUNT}, UPDATED_DATE = sysdate,
+			REGION_ID = #{REGION_ID}, SPECIES_ID = #{SPECIES_ID} 
+		where ID = #{ID}
+	</update>
+	
+	<update id="updateViewCount">
+		update DOG_GATHER_POST_TB set VIEW_COUNT = VIEW_COUNT+1 where ID = #{ID} and DELETED = 0
+	</update>
+	
+	<update id="cancelParticipant" parameterType="com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO">
+		update DOG_GATHER_PERSON_TB set CANCELED=1 where ID=#{ID} and POST_ID=#{POST_ID}
+	</update>
+	
+	<update id="allCancelParticipant">
+		update DOG_GATHER_PERSON_TB set CANCELED=1 where POST_ID=#{POST_ID}
+	</update>
+	
+	<update id="deleteDogGatherPost">
+		update DOG_GATHER_POST_TB set DELETED=1 where ID=#{ID}
+	</update>
+	
+	
+</mapper>

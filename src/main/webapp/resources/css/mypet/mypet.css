@@ -1,0 +1,346 @@
+body {
+    padding: 0px;
+}
+
+.container-fluid {
+    margin: 4rem auto;
+    max-width: 60rem;
+}
+
+.board-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.6);
+    margin-bottom: 2rem;
+    padding-top: 5%;
+}
+
+#columns {
+    column-width: 15rem;
+    column-gap: 1rem;
+}
+
+#columns figure {
+    display: inline-block;
+    /*            border: 1px solid rgba(0, 0, 0, 0.1);*/
+    border-radius: 5px;
+    margin: 0 0 1rem 0;
+    padding: .4rem;
+    /*            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);*/
+}
+
+#columns figure:hover {
+
+    /*            border: 1px solid #eee;*/
+    background-color: #eee;
+}
+
+#columns figure img {
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* modal 관련 */
+
+.modal-body {
+    padding: 10px;
+}
+
+#profile-area.modal-body {
+    display: flex;
+    width: 100%;
+}
+
+.user-profile-picture {
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.user-profile-info {
+    display: flex;
+    align-items: center;
+}
+
+#content-area.modal-body {
+    padding: 0;
+    overflow: auto;
+    -ms-overflow-style: none; /* 스크롤바 안보이기 */
+}
+
+/* 스크롤바 안보이게 하기 */
+::-webkit-scrollbar {
+    display:none;
+}
+
+#mypet-detail-carousel {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.1);
+}
+.carousel-item-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.img-wrapper {
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+}
+a[href="#demo"] span:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+    background-size: 1rem;
+    border-radius: 20px;
+}
+
+.mypet-title {
+    text-align: center;
+    padding: 5px;
+}
+
+.mypet-title h4 {
+    margin: 0;
+}
+
+.mypet-created-date {
+    text-align: right;
+}
+
+.mypet-content {
+    padding: 20px;
+}
+
+.replyer {
+    display: inline-block;
+}
+
+.replyer-wrapper {
+    display: flex;
+}
+
+.replyer-image-container {
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.replyer-image {
+    border-radius: 100%;
+    max-width: 100%;
+}
+
+.replyer > .user-profile-picture {
+    padding: 0 10px;
+}
+
+.reply-content {
+    display: inline-block;
+    padding: 5px;
+}
+
+.reply-created-date {
+    float: right;
+}
+
+#reply-form.modal-body {
+    bottom: 0px;
+    padding: 5px;
+}
+
+#voteModalButton {
+    float: right;
+}
+
+.s-likes-icon-active {
+    cursor: pointer;
+    color: dodgerblue;
+}
+
+/* 반응형 */
+@media (max-width: 400px ) {
+    #mypet-modal-dialog {
+        max-width: 300px;
+        margin: 1.75rem auto;
+    }
+    #mypet-modal-content {
+        width: 300px;
+        height: 420px;
+    }
+    #mypet-detail-carousel {
+        width: 300px;
+        height: 300px;
+    }
+    .carousel-item-inner {
+        width: 300px;
+        height: 300px;
+    }
+    .carousel-item {
+        width: 300px;
+        height: 300px;
+    }
+    .img-wrapper {
+        max-width: 300px;
+        max-height: 300px;
+    }
+    .img-wrapper > img {
+        max-height: 300px;
+        max-width: 300px;
+    }
+    #profile-area.modal-body {
+        height: 40px;
+        padding: 3px;
+    }
+    .mypet-content {
+        padding: 5px;
+    }
+    .reply-like {
+        padding: 3px;
+        padding-left: 5px;
+    }
+    .mypet-replies {
+        padding: 3px;
+    }
+}
+
+@media (min-width: 400px ) {
+    #mypet-modal-dialog {
+        max-width: 300px;
+        margin: 1.75rem auto;
+    }
+    #mypet-modal-content {
+        width: 300px;
+        height: 420px;
+    }
+    #mypet-detail-carousel {
+        width: 300px;
+        height: 300px;
+    }
+    .carousel-item-inner {
+        width: 300px;
+        height: 300px;
+    }
+    .carousel-item {
+        width: 300px;
+        height: 300px;
+    }
+    .img-wrapper {
+        max-width: 300px;
+        max-height: 300px;
+    }
+
+    .img-wrapper > img {
+        max-height: 300px;
+        max-width: 300px;
+    }
+    #profile-area.modal-body {
+        height: 40px;
+        padding: 3px;
+    }
+    .mypet-content {
+        padding: 20px;
+    }
+    .reply-like {
+        padding: 3px;
+        padding-left: 5px;
+    }
+    .mypet-replies {
+        padding: 3px;
+    }
+}
+
+@media (min-width: 576px) {
+    #mypet-modal-dialog {
+        max-width: 500px;
+        margin: 1.75rem auto;
+    }
+    #mypet-modal-content {
+        width: 500px;
+        height: 600px;
+    }
+    #mypet-detail-carousel {
+        width: 500px;
+        height: 350px;
+    }
+    .carousel-item-inner {
+        width: 500px;
+        height: 350px;
+    }
+    .carousel-item {
+        width: 500px;
+        height: 350px;
+    }
+    .img-wrapper {
+        max-width: 500px;
+        max-height: 350px;
+    }
+    .img-wrapper > img {
+        max-height: 350px;
+        max-width: 500px;
+    }
+    #profile-area.modal-body {
+        height: 60px;
+        padding: 10px;
+    }
+    .reply-like {
+        padding: 10px;
+        padding-left: 15px;
+    }
+    .mypet-replies {
+        padding: 10px;
+    }
+}
+
+@media (min-width: 768px) {
+    #mypet-modal-dialog {
+        max-width: 600px;
+        margin: 1.75rem auto;
+    }
+    #mypet-modal-content {
+        width: 600px;
+        height: 700px;
+    }
+
+    #mypet-detail-carousel {
+        width: 600px;
+        height: 400px;
+    }
+
+    .carousel-item-inner {
+        width: 600px;
+        height: 400px;
+    }
+
+    .carousel-item {
+        width: 600px;
+        height: 400px;
+    }
+
+    .img-wrapper {
+        max-width: 600px;
+        max-height: 400px;
+    }
+
+    .img-wrapper > img {
+        max-height: 400px;
+        max-width: 600px;
+    }
+
+    #profile-area.modal-body {
+        height: 60px;
+        padding: 10px;
+    }
+    .user-profile-picture {
+        height: 40px;
+    }
+    .user-profile-info {
+        height: 40px;
+    }
+    .reply-like {
+        padding: 10px;
+        padding-left: 20px;
+    }
+    .mypet-replies {
+        padding: 10px;
+    }
+}

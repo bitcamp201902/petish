@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+//DOG_GATHER_COMMENT_TB 시퀀스 생성
+create sequence SEQ_DOG_GATHER_COMMENT_TB_IDX
+START WITH 1
+INCREMENT BY 1
+NOMAXVALUE
+NOCACHE;
+
+//DOG_GATHER_COMMENT_TB 인덱스 생성
+create index IDX_DOG_GATHER_COMMENT on DOG_GATHER_COMMENT_TB(POST_ID  desc, ID asc);  
+
+-->
+<mapper namespace="com.community.petish.community.cat.infoboard.mapper.CatInfoCommentMapper">
+
+	<!-- 댓글 추가 -->
+	<insert id="insertComment">
+		insert into CAT_INFO_COMMENT_TB values (
+		SEQ_CAT_INFO_COMMENT_TB_IDX.nextval, #{CONTENT}, 
+		sysdate, sysdate, 0, #{POST_ID}, #{USER_ID}
+		)
+	</insert>
+	
+	<!-- 댓글 조회 -->
+	<select id="getComment" resultType="com.community.petish.community.cat.infoboard.domain.CatInfoCommentVO">
+		select * from CAT_INFO_COMMENT_TB where ID = #{ID}
+	</select>
+	
+	<!-- 댓글 index -->
+	<select id="getCommentList" resultType="com.community.petish.community.cat.infoboard.domain.CatInfoCommentDTO">
+		<![CDATA[
+			select ID, POST_ID, CONTENT, USER_ID, CREATED_DATE, UPDATED_DATE, DELETED, NICKNAME
+			from 
+				(
+				select /*+INDEX(CAT_INFO_COMMENT_TB IDX_CAT_INFO_COMMENT)*/
+			 		 rownum rn, cnt.POST_ID, cnt.ID, cnt.CONTENT, cnt.USER_ID,
+			 		 cnt.CREATED_DATE, 
+			 		 cnt.UPDATED_DATE, 
+			 		 cnt.DELETED, member.NICKNAME
+			    from CAT_INFO_COMMENT_TB cnt, USER_TB member, cat_info_post_tb post
+			    where cnt.POST_ID = #{POST_ID} 
+			    	and cnt.ID > 0 
+			    	and cnt.DELETED = 0 
+			    	and cnt.user_id = member.id 
+			 		and cnt.post_id = post.id
+			    and rownum <= #{cri.pageNum} * #{cri.amount} 
+			    )	 
+		    where rn > (#{cri.pageNum} -1) * #{cri.amount} and DELETED = 0
+		]]>    
+	</select>
+	
+	<!-- 댓글 숫자  -->
+	<select id="getCommentCount" resultType="int">
+		select count(ID) from CAT_INFO_COMMENT_TB where POST_ID=#{POST_ID} and DELETED = 0
+	</select>
+	
+	<update id="modifyComment">
+		update CAT_INFO_COMMENT_TB set CONTENT=#{CONTENT}, UPDATED_DATE=sysdate
+		where ID=#{ID}
+	</update>
+	
+	<update id="removeComment">
+		update CAT_INFO_COMMENT_TB set DELETED = 1
+		where ID=#{ID}
+	</update>
+
+</mapper>

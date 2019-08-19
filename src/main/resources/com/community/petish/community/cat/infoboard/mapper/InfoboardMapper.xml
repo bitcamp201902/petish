@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.petish.community.cat.infoboard.mapper.InfoboardMapper">
+  
+<resultMap type="com.community.petish.community.cat.infoboard.domain.CatInfoboardVO" id="CatInfoResultMap">
+		<result property="id" column="ID"/>
+		<result property="title" column="TITLE"/>
+		<result property="content" column="CONTENT" jdbcType="CLOB" javaType="java.lang.String"/>
+		<result property="create_date" column="CREATE_DATE"/>
+		<result property="updated_date" column="UPDATED_DATE"/>
+		<result property="view_count" column="VIEW_COUNT"/>
+		<result property="deleted" column="DELETED"/>
+		<result property="category_id" column="CATEGORY_ID"/>
+		<result property="user_id" column="USER_ID"/>
+</resultMap>
+
+<!-- 좋아요 시작 
+<resultMap type="com.community.petish.community.cat.infoboard.domain.LikeVO" id="LikeMap">
+      <result property="ID" column="ID"/>
+      <result property="DISLIKE_LIKE" column="DISLIKE_LIKE"/>
+      <result property="DELETED" column="DELETED"/>
+      <result property="COMMENT_ID" column="COMMENT_ID"/>
+      <result property="USER_ID" column="USER_ID"/>
+</resultMap>
+   
+
+<select id="reply_check" parameterType="com.community.petish.community.cat.infoboard.domain.LikeVO" resultMap="LikeMap">
+	select *
+	from cat_info_comment_like_tb
+	where COMMENT_ID = #{COMMENT_ID} and ID = #{ID}
+</select>
+
+<insert id="replyRecommend" parameterType="com.community.petish.community.cat.infoboard.domain.LikeVO">
+	insert into cat_info_comment_like_tb values(seq_cat_info_post_like_tb.nextval, #{DISLIKE_LIKE}, #{DELETED}, 1, 1)
+</insert>
+
+<update id="updateReplyRecommend" parameterType="com.community.petish.community.cat.infoboard.domain.LikeVO">
+	update cat_info_comment_like_tb
+	set DISLIKE_LIKE = (select count(DISLIKE_LIKE) from cat_info_comment_like_tb where DISLIKE_LIKE = #{DISLIKE_LIKE})
+    where ID = #{ID}
+</update>
+
+<update id="updateReplyDecommend" parameterType="com.community.petish.community.cat.infoboard.domain.LikeVO">
+	update cat_info_comment_like_tb
+	set DISLIKE_LIKE = (select count(DISLIKE_LIKE) from cat_info_comment_like_tb where DISLIKE_LIKE = #{DISLIKE_LIKE})
+    where ID = #{ID}
+</update>
+
+<select id="getReplyRecommend" parameterType="int" resultType="int">
+	select DISLIKE_LIKE
+	from cat_info_comment_like_tb
+	where ID = #{ID}
+</select>
+
+<select id="getReplyDecommend" parameterType="int" resultType="int">
+	select DISLIKE_LIKE
+	from cat_info_comment_like_tb
+	where ID = #{ID}
+</select>
+좋아요  끝-->
+
+<select id="getList" resultType="com.community.petish.community.cat.infoboard.domain.CatInfoboardVO">
+	SELECT /*+ INDEX_DESC(cat_info_post_tb pk_cat_info_post_tb)*/* FROM cat_info_post_tb
+</select>
+
+<insert id="create">
+	INSERT INTO cat_info_post_tb (ID,TITLE,CONTENT,CREATE_DATE,UPDATED_DATE,VIEW_COUNT,DELETED,CATEGORY_ID,USER_ID) 
+	VALUES (SEQ_CAT_INFO_POST_TB.NEXTVAL,#{TITLE},#{CONTENT},sysdate, sysdate,#{VIEW_COUNT},#{DELETED},#{CATEGORY_ID},1)
+</insert>
+
+<select id="detail" resultType="com.community.petish.community.cat.infoboard.domain.CatInfoboardVO">
+	SELECT * FROM cat_info_post_tb WHERE ID = #{ID}
+</select>
+
+<update id="increaseViewcnt">
+	UPDATE cat_info_post_tb SET VIEW_COUNT = VIEW_COUNT + 1 WHERE ID = #{ID}
+</update>
+
+<delete id="delete">
+	DELETE FROM cat_info_post_tb WHERE ID = #{ID}
+</delete>
+
+<update id="modify">
+	UPDATE cat_info_post_tb
+	SET TITLE = #{TITLE}, CONTENT = #{CONTENT}, CATEGORY_ID = #{CATEGORY_ID}
+	WHERE ID = #{ID}
+</update>
+
+<sql id="criteria">
+	<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+		<foreach item='searchType' collection="searchTypeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="searchType == 'T'.toString()">
+						TITLE like '%'||#{searchKeyword, jdbcType=VARCHAR}||'%'
+					</when>
+					<when test="searchType == 'C'.toString()">
+						CONTENT like '%'||#{searchKeyword, jdbcType=VARCHAR}||'%'
+					</when>
+					<when test="searchType == 'T'.toString()">
+						USER_ID like '%'||#{searchKeyword, jdbcType=VARCHAR}||'%'
+					</when>
+				</choose>
+			</trim>
+		</foreach>
+	</trim>
+</sql>
+
+<select id="getListWithPaging" resultType="com.community.petish.community.cat.infoboard.domain.CatInfoboardVO">
+	<![CDATA[
+		select
+			ID,TITLE,CONTENT,CREATE_DATE,UPDATED_DATE,VIEW_COUNT,DELETED,CATEGORY_ID,USER_ID
+		from
+			(
+			select /*+ INDEX_DESC(cat_info_post_tb pk_cat_info_post_tb)*/ rownum rn,ID,TITLE,CONTENT,CREATE_DATE,UPDATED_DATE,VIEW_COUNT,DELETED,CATEGORY_ID,USER_ID
+			from 
+				cat_info_post_tb	
+			where
+	]]>
+	
+<include refid="criteria"></include>
+
+	<![CDATA[
+	
+			rownum <= #{pageNum} * #{amount}
+			)
+		where rn > (#{pageNum} -1) * #{amount}
+	]]>
+	
+	<if test="categoryId != 0">
+		AND category_id = #{categoryId}
+	</if>
+
+</select>
+
+<!-- 게시글 갯수 카운팅해서 리스트 페이지 구현 -->
+<select id="getTotalCount" resultType="int">
+	SELECT count(*) from cat_info_post_tb 
+	where
+	<include refid="criteria"></include>
+	ID > 0
+</select>
+
+<insert id="createSelectKey">
+	<selectKey keyProperty="ID" order="BEFORE" resultType="int">
+		select seq_cat_info_post_tb.nextval from dual
+	</selectKey>
+	
+	insert into cat_info_post_tb (ID,TITLE,CONTENT,CREATE_DATE,UPDATED_DATE,VIEW_COUNT,DELETED,CATEGORY_ID,USER_ID)
+	VALUES (#{ID},#{TITLE},#{CONTENT},#{CREATE_DATE},#{UPDATED_DATE},#{VIEW_COUNT},#{DELETED},#{CATEGORY_ID},#{USER_ID})
+</insert>
+
+</mapper>
