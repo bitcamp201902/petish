@@ -1,12 +1,14 @@
-package com.community.petish.community.mypet.post.service;
+package com.community.petish.community.mypet.hashtag.service;
 
-import com.community.petish.community.mypet.post.mapper.MypetHashTagMapper;
+import com.community.petish.community.mypet.hashtag.mapper.MypetHashTagMapper;
+import com.community.petish.community.mypet.post.dto.request.MypetPostListCriteria;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -39,8 +41,9 @@ public class MypetHashTagServiceImpl implements MypetHashTagService {
 
         log.info("hashTag confirm = {}", hashTagSet);
 
-        MypetHashTagMapper.save(hashTagSet, postId);
-
+        hashTagSet.forEach(
+                hashtag -> mypetHashTagMapper.save(hashtag, postId)
+        );
     }
 
     private String replcateSpecialCharacter(String originalHashTag) {
@@ -54,4 +57,13 @@ public class MypetHashTagServiceImpl implements MypetHashTagService {
 
         return hashTagRemovedSpecialCharactersFromOriginalTag;
     }
+
+    @Override
+    public List<Long> getPostListByHashTag(MypetPostListCriteria mypetPostListCriteria) {
+
+        List<Long> postIdList = mypetHashTagMapper.getPostIdsByHashTag(mypetPostListCriteria);
+
+        return postIdList;
+    }
+
 }

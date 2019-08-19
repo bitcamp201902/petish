@@ -1,8 +1,15 @@
-package com.community.petish.community.mypet.post.mapper;
+package com.community.petish.community.mypet.hashtag.mapper;
 
-import java.util.Set;
+import com.community.petish.community.mypet.post.dto.request.MypetPostListCriteria;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface MypetHashTagMapper {
 
-    void save(Set<String> hashTagSet, Long postId);
+    void save(@Param("hashTag") String hashTag, @Param("postId") Long postId);
+
+    List<Long> getPostIdsByHashTag(MypetPostListCriteria mypetPostListCriteria);
+
+    Long countAllByHashTag(String hashtag);
 }

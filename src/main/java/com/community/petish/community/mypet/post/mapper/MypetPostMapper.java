@@ -20,7 +20,7 @@ public interface MypetPostMapper {
 	
 	Long countComments(Long postId);
 	
-	MypetPostDetailResponse findById(Long postId);
+	MypetPost findById(Long postId);
 	
 	MypetPostLike findIsLikePressedOnPost(@Param("postId") Long postId, @Param("userId") Long userId);
 	
@@ -33,5 +33,5 @@ public interface MypetPostMapper {
 	Long updateLikeDeleted(@Param("postId") Long postId, @Param("userId") Long userId);
 	
 	Long countAll();
-	
+
 }
