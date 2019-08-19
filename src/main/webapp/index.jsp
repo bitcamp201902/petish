@@ -332,7 +332,7 @@
                         <input id="emergency" type="checkbox" style="color:#fff;"> 응급진료
 						<img src="/resources/img/placeholder_red.png" style="width: 35px;height: 35px;">
                         <div class="col-md-3">
-                            <button type="button" id="hos_search" class="btn btn-primary btn-block" style="background-color: #b5e3d5; border-color:#fff;">Search</button>
+                            <button type="button" id="hos_search" class="btn btn-primary btn-block" style="background-color: grey; border-color:grey;">Search</button>
                         </div>
                     </div>
                 </div>
