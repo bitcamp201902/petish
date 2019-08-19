@@ -67,10 +67,7 @@
  	</select>
  	
  	<insert id="insertReview" parameterType="com.community.petish.community.hospital.domain.ReviewVO">
- 		<selectKey keyProperty="id" resultType="Long" order="BEFORE">
- 			select reviewId_seq.nextval from dual
- 		</selectKey>
- 		insert into hospital_review_tb values(#{id},#{content},#{score},sysdate,0,#{user_id},#{hospital_id})
+ 		insert into hospital_review_tb values(((select NVL(max(id), 0) from hospital_review_tb) + 1),#{content},#{score},sysdate,0,#{user_id},#{hospital_id})
  	</insert>
  	<delete id="deleteReview" parameterType="Long">
  		delete from hospital_review_tb where id = #{id}
