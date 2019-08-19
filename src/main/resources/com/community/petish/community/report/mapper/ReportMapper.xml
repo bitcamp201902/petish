@@ -23,6 +23,7 @@
 	<result property="post_id" column="POST_ID" />
 	<result property="board_id" column="BOARD_ID" />
 	<result property="board_table_name" column="BOARD_TABLE_NAME" />
+	<result property="board_table_ename" column="BOARD_TABLE_ENAME" />
 	<result property="board_table_address" column="BOARD_TABLE_ADDRESS" />	
 	<result property="user_id" column="USER_ID" />	
 	<result property="nickname" column="NICKNAME" />
@@ -53,9 +54,13 @@
 
 <!-- 신고 리스트 -->
 <select id="getReportList" resultMap="ResponseDTO">
-	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME,p.board_id
+	select p.ID, p.DESCRIPTION, p.CREATED_DATE, c.CATEGORY_NAME, b.BOARD_TABLE_NAME,b.BOARD_TABLE_ENAME, b.BOARD_TABLE_ADDRESS, p.POST_ID, u.NICKNAME,p.board_id
 	from report_post_tb p, report_category_tb c, board_name_tb b, user_tb u
-	where p.user_id = u.id and c.id=p.category_id and p.board_id = b.id
+	where p.user_id = u.id and c.id=p.category_id and p.board_id = b.id order by p.created_date desc
+</select>
+
+<select id="getTableName" resultType="String">
+	select board_table_ename from board_name_tb
 </select>
 
 <!-- 신고 리스트 -->
