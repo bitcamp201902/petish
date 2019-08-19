@@ -86,7 +86,9 @@ const handledPostUpload = (form) => {
 
 const postUpload = (form) => {
 	let formData = new FormData(form);
-	
+	// let content = $("div[name='content']").html();
+	// formData.append("content", content);
+
 	$.ajax({
 		type:"POST",
 		url:"/api/mypet/posts",
