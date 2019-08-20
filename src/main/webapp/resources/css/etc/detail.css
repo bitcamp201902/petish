@@ -1,0 +1,41 @@
+.date-view {
+	width: 100%;
+	padding-left: 2rem !important;
+	padding-right: 2rem !important;
+	text-align: right;
+	font-size: 16px !important;
+}
+
+.panel-title {
+	padding-right: 1rem;
+}
+
+.nickname {
+	width: 150px;
+	text-align: left;
+	padding-left: 0.7rem;
+	font-size: 16px !important;
+}
+
+.catrgory-btn {
+	font-size: 0.9rem !important;
+	font-weight: 400 !important;
+	margin-right: 0.7rem !important;
+}
+
+.category-name {
+	font-size: 20px !important;
+}
+
+button.btn.btn-template-outlined.custom-button {
+	margin-right: 2rem;
+	float: right;
+}
+
+.writerDetail {
+	float: right;
+}
+
+#post-content{
+	font-size: 1.2rem!important;
+}

@@ -1,6 +1,6 @@
 //검색 버튼눌렀을경우
 	function openZipcode(searchMap){			
-		var url="/resources/api/searchMap.jsp"
+		var url="/resources/api/write-modifyMap.jsp"
 		open(url, "confirm", "toolbar=no,location=no,"
 							+"status=no,menubar=no,"
 							+"scrollbars=yes,resizable=no,"

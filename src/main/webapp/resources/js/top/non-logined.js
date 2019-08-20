@@ -24,7 +24,9 @@ $(function() {
 
     $('#nicknameInput').on("propertychange change keyup paste input", initializeNicknameCheck);
 
-    $('#zipcodeButton').on('click', openZipcode);
+    $('#zipcodeButton').on('click', function(event) {
+		openZipcode(event);
+	});
 
     $('#joinButton').on('click', function(event) {
         handledJoinClick(event);
@@ -108,6 +110,7 @@ const requestUsernameCertification = () => {
 		},
 		error: function(error, status, xhr) {
 			console.log('error: ' + JSON.stringify(error) + "\n" + "status : " + status + "\n" + "xhr : " + xhr);
+			$("#usernameCheckFalseResult").css("display", "inline-block");
 		}
 	})
 
@@ -127,7 +130,7 @@ const checkUsernameCertificationNumber = () => {
 			} else {
 				alert("사용하실 수 있는 username입니다.");
 				$('#usernameCheckFalseResult').css('display', 'none');
-				$('#usernameDuplicateCheck').val('true');
+				$('#usernameDuplicationCheckResult').val('true');
 				$(".certificate-input").css("display", "none");
 			}
 		}
@@ -135,8 +138,10 @@ const checkUsernameCertificationNumber = () => {
 };
 
 const initializeUsernameInput = () => {
-	$('#usernameDuplicateCheck').val("false");
+	$('#usernameDuplicateCheckResult').val("false");
 	$(".certificate-input").css("display", "none");
+	$("#usernameCheckFalseResult").css("display", "none");
+	$("#certificateNumberInput").val("");
 };
 
 const handledPasswordMatchCheck = () => {
@@ -181,7 +186,9 @@ const initializeNicknameCheck = () => {
 	$('#nicknameDuplicationCheckResult').val("false");
 };
 
-const openZipcode = () => {
+const openZipcode = (event) => {
+	event.preventDefault();
+
     let url="/resources/api/searchMap.jsp";
     open(url, "confirm", "toolbar=no,location=no,"
               +"status=no,menubar=no,"

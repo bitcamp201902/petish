@@ -25,6 +25,7 @@ public class AdminUserController {
 	@RequestMapping(produces="application/json;charset=UTF-8")
 	public ModelAndView index() {
 		Long userCount = adminService.getUserCount();
+		Long todayJoinedUserCount = adminService.getTodayJoinedUserCount();
 		Long maleCount = adminService.getMaleCount();
 		Long femaleCount = adminService.getFemaleCount();
 		Long concernCat = adminService.getConcernCatCount();
@@ -32,6 +33,7 @@ public class AdminUserController {
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("petish/admin/index");
 		mv.addObject("userCount", userCount);
+		mv.addObject("todayJoinedUserCount", todayJoinedUserCount);
 		mv.addObject("maleCount", maleCount);
 		mv.addObject("femaleCount", femaleCount);
 		mv.addObject("concernCat", concernCat);

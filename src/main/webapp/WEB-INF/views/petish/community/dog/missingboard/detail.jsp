@@ -90,31 +90,27 @@
       <div class="content-fluid body-section">
 
       <!-- 게시판명 -->
-      <div id="heading-breadcrumbs" class="border-top-0 border-bottom-0">
+      <div id="heading-breadcrumbs" class="border-top-0 border-bottom-0" style="padding-bottom:10px;">
          <div class="container">
             <div class="row d-flex align-items-center flex-wrap">
-               <div class="col-md-7">
-                  <h1 class="h2">실종견 게시판</h1>
-               </div>
-               <div class="col-md-5">
-                  <ul class="breadcrumb d-flex justify-content-end">
-                  </ul>
-               </div>
+               <div class="col-md-12" style="margin-top:2rem">
+                  <div style="float:left"><h1 class="h2">실종견 게시판</h1></div>
+                  <div style="float:right">
+                  <button type="submit" class="list btn btn-template-outlined custom-button to-list-btn">
+	              	<i class="fa fa-align-justify"></i>
+	              	<a href="/dog/missingboard"> 목록 </a>
+	              </button>
+	              </div>
+                  <hr style="color:rgba(0,0,0,0.10); margin-top:4rem">
+               </div>              
             </div>
          </div>
       </div>
 
 
       <div class="container">
-
-         <!-- LEFT COLUMN _________________________________________________________-->
-         <div id="blog-post" class="col-md-13">
-            
-            <button type="submit" class="list btn btn-template-outlined custom-button">
-               <i class="fa fa-align-justify"></i>
-               <a href="<c:url value='/dog/missingboard/'/>"> 목록 </a>
-            </button>
-
+         <div id="blog-post" class="col-md-13">            
+         
             <!-- 글 제목 -->
             <div class="panel-heading">
 
@@ -144,20 +140,18 @@
                <tr>
                   <!-- <td><img src="/resources/img/blog-avatar2.jpg" alt="" class="img-fluid rounded-circle" width="70px;" height="70px;"></td> -->
                   <td>
-                     <div class="nav navbar-nav ml-auto">
-                        <a href="#" data-toggle="dropdown" class="nickname dropdown"><%=dto.getNickname()%></a>
-                        <div class="dropdown-menu">
-                           <div class="dropdown">
-                              <a href="/mypage/member/detail" class="nav-link">게시글보기</a>
-                           </div>
-                           <div class="dropdown">
-                              <a href="#" id="message-btn" class="nav-link" data-toggle="modal">쪽지보내기</a>
-                           </div>
-                        </div>
-                     </div>
+                     <div class="showMemberDropMenu">
+						<div>
+						<a class="writer" id="writer"><%=dto.getNickname() %></a>
+						</div>
+						<div class="member_dropMenu">		
+							<a href='/member/detail/<%=dto.getUser_id()%>'>작성게시글 보기</a>							
+							<a href="#" id="message-btn" class="showmodal" data-toggle="modal" data-id="<%=dto.getUser_id()%>" data-nick="<%=dto.getNickname() %>">쪽지보내기</a>							
+						</div>				
+					</div>
                   </td>
                   				
-                  <td class=date-view>
+                  <td class="date-view">
                   <i class="fa fa-clock-o"></i>
                   <fmt:formatDate pattern="yyyy-MM-dd hh:mm" value="<%=dto.getCreate_date() %>"/>
                   <i class="fa fa-eye" style="padding-left:2rem; padding-right:0.2rem"></i><%=dto.getView_count()%>

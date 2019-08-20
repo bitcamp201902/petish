@@ -11,9 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.community.petish.community.dog.gatherboard.domain.Criteria;
+import com.community.petish.community.dog.gatherboard.domain.DogGatherCommentVO;
 import com.community.petish.community.dog.gatherboard.domain.DogGatherParticipantVO;
 import com.community.petish.community.dog.gatherboard.domain.DogGatherPostVO;
 import com.community.petish.community.dog.gatherboard.dto.request.DogGatherPostDTO;
@@ -21,9 +24,13 @@ import com.community.petish.community.dog.gatherboard.dto.response.CommentPageDT
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherListDTO;
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO;
 import com.community.petish.community.dog.gatherboard.dto.response.PageDTO;
+import com.community.petish.community.dog.gatherboard.dto.response.RegionListDTO;
 import com.community.petish.community.dog.gatherboard.service.DogGatherCommentService;
 import com.community.petish.community.dog.gatherboard.service.DogGatherService;
+import com.community.petish.community.user.domain.User;
 import com.community.petish.community.user.dto.response.LoginedUser;
+import com.community.petish.community.user.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 @RequestMapping("/dog/gatherboard")
@@ -34,6 +41,10 @@ public class DogGatherboardController {
 	
 	@Autowired
 	private DogGatherCommentService dogGatherCommentService;
+	
+	@Autowired
+	private UserService userService;
+	
 			 
 	//게시글 리스트
 	@RequestMapping("")
@@ -48,11 +59,52 @@ public class DogGatherboardController {
 		model.addAttribute("pageMaker", new PageDTO(cri, total));
 		return "petish/community/dog/gatherboard/list";
 	}
+	
+	//지도로 보기
+	@RequestMapping("/mapList")
+	public String dogGatherboardMapList(HttpSession session, Model model, HttpServletResponse response) throws Exception {
+		LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
+		Long USER_ID = user.getId();
+		User getUser = userService.findById(USER_ID);
+		Long REGION_ID = dogGatherService.getUserRegionID(getUser);
+		
+		model.addAttribute("REGION_ID",REGION_ID);
+		return "petish/community/dog/gatherboard/mapList";
+	}
 		   
+	@RequestMapping(value="/searchMap",  method= RequestMethod.GET, produces="application/json;charset=UTF-8")
+	@ResponseBody
+	public String getRegionList(Long REGION_ID) {
+		
+		List<RegionListDTO> regionList = dogGatherService.getRegionList(REGION_ID);
+		System.out.println("regionList="+regionList);
+		
+		String str = "";
+		
+		ObjectMapper mapper = new ObjectMapper();
+		try {
+			str = mapper.writeValueAsString(regionList);
+			System.out.println("str="+str);
+		}
+		catch(Exception e) {
+			System.out.println("region mapper:"+e.getMessage());
+		}
+		return str;
+	}
+	
 	//게시글 조회
 	@RequestMapping(value = "/{ID}")
-	public ModelAndView dogGatherboardDetail(@PathVariable("ID") Long postID, Criteria cri, HttpServletResponse response) throws Exception {
-
+	public ModelAndView dogGatherboardDetail(@PathVariable("ID") Long postID, Criteria cri, HttpServletResponse response, HttpSession session) throws Exception {
+		LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
+		
+		if(user == null) {
+			response.setContentType("text/html charset=UTF-8");
+			PrintWriter out = response.getWriter();
+			out.println("<script>");
+			out.println("history.go(-1);");
+			out.println("</script>");
+			out.close();			
+		}
 		int res = dogGatherService.updateViewCount(postID);
 		System.out.println("UpdateViewCountRes="+res);
 		
@@ -143,14 +195,18 @@ public class DogGatherboardController {
 		postVO.setSPECIES_ID(dogGatherService.getDogSpeciesID(DOG_SPECIES));
 		postVO.setGATHERING_DATE(t);
 
+		DogGatherParticipantVO participantVO = new DogGatherParticipantVO(dogGatherService.getMaxPostID()+1L,postVO.getUSER_ID(),"글쓴이",postVO.getSPECIES_ID());
+		System.out.println("participant="+participantVO.toString());
+		
 		int res = dogGatherService.insertDogGatherPost(postVO);
+		int insertParticipantRes = dogGatherService.insertDogGatherParticipant(participantVO);
 		
 		ModelAndView result = new ModelAndView();
 		
-		if(res != 0) {
+		if(res != 0 && insertParticipantRes != 0) {
 			System.out.println("InsertResult="+res);
 			System.out.println("게시글 추가 성공!");
-
+	
 			result.setViewName("redirect:.");
 			return result;
 		}
@@ -359,5 +415,16 @@ public class DogGatherboardController {
 			return null;
 		}
 	}
+	
+    //USER_ID 조회
+    @RequestMapping(value = "getUserIDbyNickName/{nickname}", method=RequestMethod.GET, produces="application/json;charset=UTF-8")
+    @ResponseBody
+    public Long getUserID(@PathVariable("nickname") String nickname) {
+  
+      Long userID = dogGatherService.getUserIDbyNickName(nickname);
+  
+      System.out.println("getUseriD="+userID);
+      return userID;
+    }
 
 }

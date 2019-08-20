@@ -21,6 +21,10 @@ public class AdminServiceImpl implements AdminService {
 		return adminMapper.getUserCount();
 	}
 	@Override
+	public Long getTodayJoinedUserCount() {
+		return adminMapper.getTodayJoinedUserCount();
+	}
+	@Override
 	public Long getMaleCount() {
 		// TODO Auto-generated method stub
 		return adminMapper.getMaleCount();

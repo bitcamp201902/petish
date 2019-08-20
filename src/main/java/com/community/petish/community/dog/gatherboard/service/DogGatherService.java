@@ -8,10 +8,15 @@ import com.community.petish.community.dog.gatherboard.domain.DogGatherPostVO;
 import com.community.petish.community.dog.gatherboard.domain.DogSpeciesVO;
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherListDTO;
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO;
+import com.community.petish.community.dog.gatherboard.dto.response.RegionListDTO;
+import com.community.petish.community.user.domain.User;
 
 public interface DogGatherService {
 	public List<DogGatherPostVO> getDogGatherList();
 	public List<DogGatherListDTO> getListWithPaging(Criteria cri);
+	public Long getMaxPostID();
+	public List<RegionListDTO> getRegionList(Long regionID);
+	public Long getUserRegionID(User user);
 	public int getDogGatherPostCount(Criteria cri);
 	public DogGatherPostVO getDogGatherPost(Long postID);
 	public int updateViewCount(Long postID);
@@ -24,6 +29,7 @@ public interface DogGatherService {
 	public int cancelParticipant(DogGatherParticipantDTO participantDTO);
 	public int getDogGatherParticipantCount(Long postID);
 	public Long getUserID(String username);
+	public Long getUserIDbyNickName(String nickname);
 	public String getUserName(Long userID);
 	public String getUserNickName(Long userID);
 	public Long getDogSpeciesID(String dogSpecies);

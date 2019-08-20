@@ -3,11 +3,13 @@ package com.community.petish.community.mypet.post.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
+import com.community.petish.community.mypet.hashtag.mapper.MypetHashTagMapper;
 import com.community.petish.community.mypet.post.domain.MypetPost;
 import com.community.petish.community.mypet.post.domain.MypetPostLike;
 import com.community.petish.community.mypet.post.dto.request.MypetPostListCriteria;
@@ -31,7 +33,10 @@ import lombok.extern.slf4j.Slf4j;
 public class MypetPostServiceImpl implements MypetPostService{
 	
 	@Autowired
-  MypetPostMapper mypetPostMapper;
+  	MypetPostMapper mypetPostMapper;
+
+	@Autowired
+	MypetHashTagMapper mypetHashTagMapper;
 
 	@Override
 	public Long savePost(MultipartHttpServletRequest request) throws Exception {
@@ -69,37 +74,68 @@ public class MypetPostServiceImpl implements MypetPostService{
 		log.info("saveMypetPostParams = {}", saveMypetPostParams);
 		
 		Long postId = mypetPostMapper.savePost(saveMypetPostParams);
-		
+
 		return postId;
 		
 	}
 	
 	@Override
 	public MypetPostSummaryList getPosts(MypetPostListCriteria mypetPostListCriteria) {
-		List<MypetPost> posts = mypetPostMapper.findByPage(mypetPostListCriteria);
-		Long mypetPostCount = mypetPostMapper.countAll();
+		if (Objects.isNull(mypetPostListCriteria.getHashtag())) {
+
+			List<MypetPost> posts = mypetPostMapper.findByPage(mypetPostListCriteria);
+            Long mypetPostCount = mypetPostMapper.countAll();
+            List<MypetPostSummary> postSummaries =
+            posts.stream()
+                .map(post ->
+                new MypetPostSummary(
+                        post.getId(),
+                        post.getImage().split(",")[0],
+                        mypetPostMapper.countLikes(post.getId()),
+                        mypetPostMapper.countComments(post.getId())
+                        )
+                ).collect(Collectors.toList());
+
+            Integer lastPage = (int) ( Math.ceil(mypetPostCount / mypetPostListCriteria.getAmount().doubleValue()) );
+
+            MypetPostSummaryList mypetPostSummaryList = new MypetPostSummaryList(mypetPostListCriteria, lastPage, postSummaries);
+
+            return mypetPostSummaryList;
+
+		}
+
+		List<Long> postIds = mypetHashTagMapper.getPostIdsByHashTag(mypetPostListCriteria);
+
+		List<MypetPost> posts = postIds.stream()
+				.map(postId -> mypetPostMapper.findById(postId))
+				.collect(Collectors.toList());
+
 		List<MypetPostSummary> postSummaries =
-		posts.stream()
-			.map(post -> 
-			new MypetPostSummary(
-					post.getId(), 
-					post.getImage().split(",")[0], 
-					mypetPostMapper.countLikes(post.getId()), 
-					mypetPostMapper.countComments(post.getId())
+			posts.stream()
+				.map(post ->
+					new MypetPostSummary(
+						post.getId(),
+						post.getImage().split(",")[0],
+						mypetPostMapper.countLikes(post.getId()),
+						mypetPostMapper.countComments(post.getId())
 					)
-			).collect(Collectors.toList());
-		
+				).collect(Collectors.toList());
+
+		Long mypetPostCount = mypetHashTagMapper.countAllByHashTag(mypetPostListCriteria.getHashtag());
+
 		Integer lastPage = (int) ( Math.ceil(mypetPostCount / mypetPostListCriteria.getAmount().doubleValue()) );
-		
+
 		MypetPostSummaryList mypetPostSummaryList = new MypetPostSummaryList(mypetPostListCriteria, lastPage, postSummaries);
-		
+
 		return mypetPostSummaryList;
+
 	}
 
 	@Override
 	public MypetPostDetailResponse getPost(Long postId) {
 		log.info("mypet post 조회 요청 postId={}", postId);
-		MypetPostDetailResponse mypetPostDetailResponse = mypetPostMapper.findById(postId);
+		MypetPost mypetPostFoundByPostId = mypetPostMapper.findById(postId);
+		MypetPostDetailResponse mypetPostDetailResponse = MypetPostDetailResponse.generatedByMypetPost(mypetPostFoundByPostId);
 		log.info("mypet post 조회 완료 postDetail = {}", mypetPostDetailResponse);
 		return mypetPostDetailResponse;
 	}

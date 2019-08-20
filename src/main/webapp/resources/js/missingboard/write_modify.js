@@ -264,7 +264,7 @@ function insRow() {
    addPlace = $("#addHere"); //추가할 위치      
    
    var frmTag = '<div id="removeDiv"><input type="text" class="form-control" id="description'+(++descriptionIndex)+'" name="addDescriptions" style="display: inline-block!important; margin-top:5px; width: 80%!important;">';      
-   frmTag += '<button onclick="removeRow()" type="button" style="font-size: 0.9rem; margin-left:0.2rem;" class="btn btn-sm btn-template-main">삭제</button></div>';
+   frmTag += '<button id="removeButton" onclick="removeRow()" type="button" style="font-size: 1.1rem; margin-left:0.2rem;" class="btn btn-sm btn-template-main">삭제</button></div>';
    
    // 특징 항목 입력 5개로 제한
    if($("input[name=addDescriptions]").length >= 4){

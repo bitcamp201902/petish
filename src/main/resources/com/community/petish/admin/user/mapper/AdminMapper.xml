@@ -8,6 +8,10 @@
 	<select id="getUserCount" resultType="Long">
 		select count(*) from user_tb
 	</select>
+	<select id="getTodayJoinedUserCount" resultType="Long">
+		select count(*) from user_tb
+		where to_char( join_date, 'yyyymmdd' ) = to_char( sysdate, 'yyyymmdd')
+	</select>
 	<select id="getMaleCount" resultType="Long">
 		select count(*) from user_tb where gender='남자'
 	</select>

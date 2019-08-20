@@ -64,6 +64,14 @@
 		                </li>
 						<!-- Cat END -->
 						<!-- Etc -->
+						<li class="nav-item dropdown"><a href="javascript: void(0)" data-toggle="dropdown" class="dropdown-toggle">기타 반려동물<b class="caret"></b></a>
+		                  	<ul class="dropdown-menu">
+			                    <li class="dropdown-item"><a href="/etc/hamster" class="nav-link">햄스터</a></li>
+			                    <li class="dropdown-item"><a href="/etc/turtle" class="nav-link">거북이</a></li>
+			                    <li class="dropdown-item"><a href="/etc/bird" class="nav-link">새</a></li>
+		                  </ul>
+		                </li>	
+						<!-- Etc END -->
 						<!-- My Pet -->
 						<li class="nav-item dropdown menu-large">
 							<a href="/mypet">마이펫

@@ -48,6 +48,15 @@
   cursor: pointer;
 }
 
+.btn-warning{
+	background-color:#00ff0000!important;
+	border-color:#00ff0000!important;
+}
+#addButton, #removeButton{
+	height:3rem;
+	font-size:1rem;
+}
+
 /* Create a custom radio button */
 .radioCheckmark {
   position: absolute;
@@ -66,7 +75,7 @@
 
 /* When the radio button is checked, add a blue background */
 .radioContainer input:checked ~ .radioCheckmark {
-  background-color: #2196F3;
+  background-color: #b5e3d5;
 }
 
 /* Create the indicator (the dot/circle - hidden when not checked) */

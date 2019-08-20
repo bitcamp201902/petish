@@ -1,15 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- 
-//DOG_LOST_COMMENT_TB 시퀀스 생성
-create sequence SEQ_DOG_LOST_COMMENT_TB_IDX
-START WITH 1
-INCREMENT BY 1
-NOMAXVALUE
-NOCACHE;
-
+<!--
 //DOG_LOST_COMMENT_TB 인덱스 생성
-create index IDX_DOG_MISSING_COMMENT on DOG_LOST_COMMENT_TB(POST_ID  desc, ID asc);
+create index IDX_DOG_LOST_COMMENT on DOG_LOST_COMMENT_TB(POST_ID  desc, ID asc);
 -->
 <mapper namespace="com.community.petish.community.dog.missingboard.mapper.DogLostCommentMapper">
 
@@ -32,7 +25,7 @@ create index IDX_DOG_MISSING_COMMENT on DOG_LOST_COMMENT_TB(POST_ID  desc, ID as
 		<![CDATA[
 			SELECT ID, CONTENT, USER_ID, CREATED_DATE, UPDATED_DATE, POST_ID, NICKNAME
 			FROM (
-			SELECT /*+INDEX(DOG_LOST_COMMENT_TB IDX_DOG_GATHER_COMMENT)*/
+			SELECT /*+INDEX(DOG_LOST_COMMENT_TB IDX_DOG_LOST_COMMENT)*/
 			rownum rn, c.POST_ID, c.ID, c.CONTENT, c.USER_ID, c.CREATED_DATE, c.UPDATED_DATE, c.DELETED, u.NICKNAME
 			FROM DOG_LOST_COMMENT_TB c, USER_TB u
 			WHERE C.POST_ID = #{cri.post_id} and C.ID > 0 and C.DELETED = 0 AND C.USER_ID=U.ID

@@ -3,15 +3,6 @@
 
 <mapper namespace="com.community.petish.community.mypet.post.mapper.MypetPostMapper">
 
-	<resultMap type="com.community.petish.community.mypet.post.dto.response.MypetPostDetailResponse" id="mypetPostDetailResponse">
-		<result property="postId" column="id"/>
-		<result property="title" column="title" />
-		<result property="content" column="content" />
-		<result property="image" column="image"/>
-		<result property="createdDate" column="created_date" />
-		<result property="userId" column="user_id" />	
-	</resultMap>
-
 	<insert id="savePost" parameterType="com.community.petish.community.mypet.post.dto.request.SaveMypetPostParams">
 		
 		INSERT INTO mypet_post_tb
@@ -24,57 +15,16 @@
 		</selectKey>
 	</insert>
 	
-	<select id="findById" resultMap="mypetPostDetailResponse">
-		
+	<select id="findById" resultType="com.community.petish.community.mypet.post.domain.MypetPost">
+
 		SELECT
-			id, title, content, image, created_date, user_id
+			*
 		FROM mypet_post_tb
 		WHERE id = #{postId}
 		AND deleted = 0
-		
-	</select>
-	
-	<insert id="saveLike">
-	
-		INSERT INTO mypet_post_like_tb
-			(id, user_id, post_id)
-		VALUES
-			( ( (select NVL(max(id), 0) from mypet_post_like_tb) + 1 ), #{userId}, #{postId} ) 
 
-		<selectKey resultType="Long" order="AFTER">
-			SELECT id from mypet_post_like_tb WHERE user_id = #{userId} AND post_id = #{postId}
-		</selectKey>
-			
-	</insert>
-	
-	<select id="findIsLikePressedOnPost" resultType="com.community.petish.community.mypet.post.domain.MypetPostLike">
-		SELECT *
-		FROM mypet_post_like_tb
-		WHERE post_id = #{postId}
-		AND user_id = #{userId}
 	</select>
-	
-	<select id="findLikesByPostId" resultType="com.community.petish.community.mypet.post.dto.response.MypetPostLikeResponse">
-		SELECT id, post_id, user_id
-		FROM mypet_post_like_tb
-		WHERE post_id = #{postId}
-		AND deleted = 0
-	</select>
-	
-	<update id="updateLikeNotDeleted">
-		UPDATE mypet_post_like_tb
-		SET deleted = 0
-		WHERE post_id = #{postId}
-		AND user_id = #{userId}
-	</update>
 
-	<update id="updateLikeDeleted">
-		UPDATE mypet_post_like_tb
-		SET deleted = 1
-		WHERE post_id = #{postId}
-		AND user_id = #{userId}
-	</update>
-	
 	<select id="findByPage" parameterType="java.lang.Integer" resultType="com.community.petish.community.mypet.post.domain.MypetPost" >
 		<![CDATA[
 		SELECT id, title, content, image, created_date, user_id FROM
@@ -93,7 +43,48 @@
 		WHERE rn >  ( ${pageNum} - 1 ) * 20
 		]]>
 	</select>
-	
+
+	<insert id="saveLike">
+
+		INSERT INTO mypet_post_like_tb
+			(id, user_id, post_id)
+		VALUES
+			( ( (select NVL(max(id), 0) from mypet_post_like_tb) + 1 ), #{userId}, #{postId} )
+
+		<selectKey resultType="Long" order="AFTER">
+			SELECT id from mypet_post_like_tb WHERE user_id = #{userId} AND post_id = #{postId}
+		</selectKey>
+
+	</insert>
+
+	<select id="findIsLikePressedOnPost" resultType="com.community.petish.community.mypet.post.domain.MypetPostLike">
+		SELECT *
+		FROM mypet_post_like_tb
+		WHERE post_id = #{postId}
+		AND user_id = #{userId}
+	</select>
+
+	<select id="findLikesByPostId" resultType="com.community.petish.community.mypet.post.dto.response.MypetPostLikeResponse">
+		SELECT id, post_id, user_id
+		FROM mypet_post_like_tb
+		WHERE post_id = #{postId}
+		AND deleted = 0
+	</select>
+
+	<update id="updateLikeNotDeleted">
+		UPDATE mypet_post_like_tb
+		SET deleted = 0
+		WHERE post_id = #{postId}
+		AND user_id = #{userId}
+	</update>
+
+	<update id="updateLikeDeleted">
+		UPDATE mypet_post_like_tb
+		SET deleted = 1
+		WHERE post_id = #{postId}
+		AND user_id = #{userId}
+	</update>
+
 	<select id="countLikes" resultType="Long">
 		SELECT count(*) FROM mypet_post_like_tb WHERE post_id = #{postId} AND deleted = 0
 	</select>

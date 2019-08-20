@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import com.community.petish.community.dog.gatherboard.mapper.DogGatherMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,10 @@ import com.community.petish.community.dog.gatherboard.domain.DogGatherPostVO;
 import com.community.petish.community.dog.gatherboard.domain.DogSpeciesVO;
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherListDTO;
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO;
+import com.community.petish.community.dog.gatherboard.dto.response.RegionListDTO;
 import com.community.petish.community.dog.gatherboard.mapper.DogGatherCommentMapper;
+import com.community.petish.community.dog.gatherboard.mapper.DogGatherMapper;
+import com.community.petish.community.user.domain.User;
 
 @Service("dogGatherService")
 public class DogGatherServiceImpl implements DogGatherService {
@@ -68,6 +70,24 @@ public class DogGatherServiceImpl implements DogGatherService {
 		
 		System.out.println(dogGatherDTOList);
 		return dogGatherDTOList;
+	}
+	
+	@Override
+	public Long getMaxPostID() {
+		Long maxPostID = dogGatherMapper.getMaxPostID();
+		return maxPostID;
+	}
+	
+	@Override
+	public List<RegionListDTO> getRegionList(Long regionID) {
+		List<RegionListDTO> regionList = dogGatherMapper.getRegionList(regionID);
+		return regionList;
+	}
+	
+	@Override
+	public Long getUserRegionID(User user) {
+		Long regionID = dogGatherMapper.getUserRegionID(user);
+		return regionID;
 	}
 
 	@Override
@@ -141,6 +161,12 @@ public class DogGatherServiceImpl implements DogGatherService {
 	@Override
 	public Long getUserID(String username) {
 		Long USER_ID = dogGatherMapper.getUserID(username);
+		return USER_ID;
+	}
+	
+	@Override
+	public Long getUserIDbyNickName(String nickname) {
+		Long USER_ID = dogGatherMapper.getUserIDbyNickName(nickname);
 		return USER_ID;
 	}
 	

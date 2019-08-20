@@ -18,9 +18,9 @@ public class DogGatherParticipantVO {
 	
 	public DogGatherParticipantVO() {}
 	
-	public DogGatherParticipantVO(Long ID, Long POST_ID, Long USER_ID, String REQUEST_CONTENT, Long SPECIES_ID) {
-		this.ID = ID;
+	public DogGatherParticipantVO(Long POST_ID, Long USER_ID, String REQUEST_CONTENT, Long SPECIES_ID) {
 		this.POST_ID = POST_ID;
+		this.USER_ID = USER_ID;
 		this.REQUEST_CONTENT = REQUEST_CONTENT;
 		this.SPECIES_ID = SPECIES_ID;
 	}

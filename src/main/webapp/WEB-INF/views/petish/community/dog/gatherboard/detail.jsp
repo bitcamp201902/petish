@@ -1,16 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ page import="java.util.*,java.sql.*,java.text.SimpleDateFormat,com.community.petish.community.dog.gatherboard.domain.DogGatherPostVO,com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO,com.community.petish.community.dog.gatherboard.domain.DogGatherCommentVO,
-				com.community.petish.community.user.dto.response.LoginedUser" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"  %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ page import="java.util.*,java.sql.*,java.text.SimpleDateFormat,
+				com.community.petish.community.dog.gatherboard.domain.DogGatherPostVO,
+				com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO,
+				com.community.petish.community.dog.gatherboard.domain.DogGatherCommentVO,
+				com.community.petish.community.user.dto.response.LoginedUser" %>
 
 <%
 	DogGatherPostVO post = (DogGatherPostVO)request.getAttribute("post");
 	LoginedUser user = (LoginedUser) session.getAttribute("LOGIN_USER");
 
+	String strCreatedDate = post.getCREATED_DATE()+"";
+	String strUpdatedDate = post.getUPDATED_DATE()+"";
 	String addr = post.getGATHERING_ADDRESS();
 	String writer = (String)request.getAttribute("writer");
+	String writerImg = (String)request.getAttribute("writerImg");
 	String userName = user.getUsername();
 	Long userID = user.getId();
 	String userNickName = user.getNickname();
@@ -41,82 +47,79 @@
 	Calendar cal = Calendar.getInstance();
 	String today = null;
 	today = formatter.format(cal.getTime());
-	Timestamp ts = Timestamp.valueOf(today);
-	
+	Timestamp ts = Timestamp.valueOf(today);	
 %>
 <!DOCTYPE html>
 <html>
 <head>
 <title><%= post.getTITLE() %></title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="all,follow">
 
 <%@ include file="/WEB-INF/views/commons/link.jspf" %>
+<link href="/resources/css/fonts.css" rel="stylesheet">
 <link rel="stylesheet" href="/resources/css/gatherboard/chat.css">
+<link rel="stylesheet" href="/resources/css/gatherboard/comment.css">
 <link rel="stylesheet" href="/resources/css/gatherboard/detail.css">
-<link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Gothic+A1&display=swap&subset=korean" rel="stylesheet">
+<link rel="stylesheet" href="/resources/css/gatherboard/kakaomap.css">
+<link href="/resources/css/gatherboard/dropdown.css" rel="stylesheet"> 
 <!-- script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.5/sockjs.js"></script> -->
 </head>
-<body>
-
-	<div id="all">
-<%@ include file="/WEB-INF/views/commons/top.jspf" %>
-
+<body class="bg-light" style="font-family: 'Do Hyeon', sans-serif; letter-spacing: 1.5px; font-weight: 100;">
+	<div class="all">
+	<%@ include file="/WEB-INF/views/commons/dog_top.jspf" %>
+	<div class="content-fluid body-section">
 		<div id="heading-breadcrumbs">
 			<div class="container">
 				<div class="row d-flex align-items-center flex-wrap">
-					<div class="col-md-7">
+					<div class="col-md-12">
 						<h1 class="h2">강아지 정모게시판</h1>
-					</div>
-					<div class="col-md-5">
-						<ul class="breadcrumb d-flex justify-content-end">
-						</ul>
+							<button class="btn btn-template-outlined listBtn">					
+								<i class="fa fa-align-justify"></i><a id="btnStr" href="/dog/gatherboard" id="listBtn" onclick="listClick()">목록</a>
+							</button>
+						<hr>
 					</div>
 				</div>
 			</div>
 		</div>
-
-		<div id="content">
+		<div class="content">
 			<div class="container">
 			      <div class="row bar">
-					<div class="col-md-12">
-						<button class="btn btn-template-outlined writeBtn">
-							<a href="/dog/gatherboard/writeForm">
-							글쓰기
-							</a>
-						</button>
-						<button class="btn btn-template-outlined listBtn">					
-							<i class="fa fa-align-justify"></i><a href="/dog/gatherboard" id="listBtn" onclick="listClick()">목록</a>
-						</button>
-				
-
+					<div class="col-md-12" id="board-post">
 						<div class="panel-heading">
 							<h2 class="h3 panel-title"><%= post.getTITLE() %></h2>
 						</div>
-
 						<table>
-								<tr>
-									<td><img src="/resources/img/blog-avatar2.jpg" alt=""
-										class="img-fluid rounded-circle"></td>
-									<td>
-										<div class="nav navbar-nav ml-auto">
-											<a href="#" data-toggle="dropdown" class="dropdown"> <%= writer %></a>
-											<div class="dropdown-menu">
-												<div class="dropdown"><a href="#" class="nav-link">게시글보기</a></div>
-												<div class="dropdown"><a href="#" class="nav-link">쪽지보내기</a></div>
-											</div>
-										</div>
-									</td>
-									<td class=grade>정회원</td>
-									<td class=date>작성일 : <%= post.getCREATED_DATE() %></td>
-									<td class=date>수정일 : <%= post.getUPDATED_DATE() %></td>
-									<td class=view><i class="fa fa-eye"></i> 조회 : <%= post.getVIEW_COUNT() %></td>
-								</tr>
-							</table>
-							<hr size="10px">
-<%
-	//정모 날짜가 지나지 않았을 경우
-	if(GATHRING_DATE.compareTo(ts) >= 1) {
-		System.out.println("정모 날짜 남음!");
-%>
+							<tr>						
+							 	<td>
+							       <div class="nav navbar-nav ml-auto">
+							          <div class="row showMemberDropMenu"><%= writer %>
+							          <div class="member_dropMenu">
+							               <a href="/member/detail/<%=post.getUSER_ID() %>" class="nav-link" id="viewUser">게시글보기</a>
+							               <a href="#" id="message-btn" class="nav-link" data-toggle="modal">쪽지보내기</a>
+							          </div>
+							       </div>
+							       </div>
+							    </td>
+								<td class="date-view">
+									<i class="fa fa-clock-o"></i> 작성일 : <%= post.getCREATED_DATE() %>
+								<%
+								if(!(strCreatedDate.equals(strUpdatedDate))) {
+								%>
+									<i class="fa fa-clock-o" style="padding-left:1rem"></i> 수정일 : <%= post.getUPDATED_DATE() %>
+								<% 
+								} 
+								%>
+									<i class="fa fa-eye" style="padding-left:1rem"></i> 조회 : <%= post.getVIEW_COUNT() %>	
+								</td>
+							</tr>
+						</table>
+				<%
+					//정모 날짜가 지나지 않았을 경우
+					if(GATHRING_DATE.compareTo(ts) >= 1) {
+						System.out.println("정모 날짜 남음!");
+				%>
 					<div class="heading">
 						<button id="participantBtn" class="btn btn-template-outlined" type="button" data-toggle="modal" data-target="#myLargeModal">
 							<i class="fa fa-sign-in"></i> 신청
@@ -125,12 +128,15 @@
 						<button id="participantBtn" type="button" class="btn btn-template-outlined" data-toggle="modal" data-target="#mySmallModal">
 							<i class="fa fa-users"></i>신청목록
 						</button>
-							<h3>참여 현황</h3>
+						<div class="row" id="contentBlock">						
+							<h3 id="participantState" style="background:transparent">참여 현황 													
+							</h3>	
+							<div class="participantCount">
+								<a id="participantCount1"><%= participantCount %></a><a id="participantCount2"> / <%= post.getPEOPLE_COUNT() %></a>
+							</div>
+						</div>
 					</div>
 
-						<h4>
-							<span class="h1 counter"><%= participantCount %></span> / <%= post.getPEOPLE_COUNT() %>
-						</h4>
 						<%
 							if(participantCount >= post.getPEOPLE_COUNT()) {
 						%>
@@ -142,8 +148,8 @@
 						<div class="modal fade" id="myLargeModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
-									<div class="modal-header">
-										<h3 class="modal-title" id="myModalLabel">참여 신청</h3>
+									<div class="modal-header participant">
+										<h3 class="modal-title participant" id="myModalLabel">참여 신청</h3>
 										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 											<span aria-hidden="true">&times;</span>
 											</button>
@@ -173,7 +179,7 @@
 												</div>
 												<div class="form-group">						
 													<div class="text-center">
-														<button type="submit" class="btn btn-template-outlined">확 인</button>
+														<button type="submit" class="btn btn-template-outlined" id="participantSendBtn">확 인</button>
 														<button id="participantResetBtn" type="reset" class="btn btn-template-outlined">취 소</button>
 							                        </div>
 												</div>
@@ -188,8 +194,8 @@
 							role="dialog" aria-labelledby="mySmallModalLabel">
 							<div class="modal-dialog" role="document">
 								<div class="modal-content">
-									<div class="modal-header">
-										<h3 class="modal-title" id="myModalLabel">신청 목록</h3>
+									<div class="modal-header participant">
+										<h3 class="modal-title participant" id="myModalLabel">신청 목록</h3>
 										<button type="button" class="close" data-dismiss="modal"
 											aria-label="Close">
 											<span aria-hidden="true">&times;</span>
@@ -212,7 +218,13 @@
 						                        <th>번호</th>
 						                        <th>아이디</th>
 						                        <th>반려견</th>
+						                        <%
+						                        	if(userNickName.equals(writer)){						              
+						                        %>
 						                        <th>내용</th>
+						                        <%
+						                        	}
+						                        %>
 						                      </tr>
 						                    </thead>
 						                  <tbody>
@@ -222,7 +234,7 @@
 										%>
 										<%
 												// 본인이 참여 신청 한 경우
-												if(userName.equals(participant.getUSERNAME())) {
+												if(userName.equals(participant.getUSERNAME()) && !(userNickName.equals(writer))) {
 											%>
 													<form action="/dog/gatherboard/cancelParticipant" method="post">
 													<input type="hidden" name="ID" value="<%=participant.getID() %>">
@@ -236,10 +248,25 @@
 											%>
 											 <tr class="text-center">
 												<td><b><%= i+1 %></b></td>
-												<td><%= participant.getNICKNAME() %></td>  
+											 	<td>
+											        <div class="nav navbar-nav ml-auto">
+											           <div class="showMemberDropMenu"><%= participant.getNICKNAME() %>
+											           <div class="member_dropMenu">
+											                <a href="/member/detail/<%=participant.getUSER_ID() %>" class="nav-link">게시글보기</a>
+											                <a href="#" id="message-btn" class="nav-link" data-toggle="modal" onclick="messageClick('<%=participant.getUSER_ID() %>,<%=participant.getNICKNAME()%>')">쪽지보내기</a>
+											           </div>
+											        </div>
+											        </div>
+										    	</td> 
 												<td><%= participant.getDOG_SPECIES() %></td>
+						                        <%
+						                        	if(userNickName.equals(writer)){						              
+						                        %>
 												<td><%= participant.getREQUEST_CONTENT() %></td>
-											</tr>											
+												<%
+						                        	}
+												%>
+											</tr>																														
 										<%
 												}
 										%>
@@ -251,224 +278,131 @@
 										%>         
 								</div> <!-- modal-body -->
 									<div class="modal-footer">
-										<button type="button" class="btn btn-outline-primary"
+										<button type="button" class="btn btn-outline-primary close-btn"
 											data-dismiss="modal">닫기</button>
 									</div>
 								</div>
 							</div>
 						</div>
 						<!-- participantModl END -->
-<%
-	} else { 
-		// 정모 날짜가 지났을 경우
-		System.out.println("정모날짜 지남!");
-%>
+					<%
+						} else { 
+							// 정모 날짜가 지났을 경우
+							System.out.println("정모날짜 지남!");
+					%>
 						<div class="heading">
 							<h3>참여 현황</h3>
 						</div>
 						<p>날짜가 지난 정모입니다.</p>
-<%
-	}
-%>
+					<%
+						}
+					%>
 						<div id="post-content">						
 							<h3>모임 안내</h3>
 							<blockquote class="blockquote">
-									<p><strong>모임 일시 :</strong> <%= post.getGATHERING_DATE() %></p>
-									<p><strong>장소 :</strong> <%= post.getGATHERING_ADDRESS() %></p>
+									<p><strong>모임 일시 : </strong><a id="gathering_date"> <%= post.getGATHERING_DATE() %></a></p>
+									<p><strong>주소 :</strong><a id="addr"></a></p>
 									<p id="sizeID"><strong>크기  :</strong> <%= size %>
 									<p><strong>반려견 :</strong> <%= request.getAttribute("dogSpecies") %> </p>
 									<p><strong>내용 :</strong> <%= post.getCONTENT() %></p>
 							</blockquote>
 						</div>
 						
-						<div id="map" style="width:100%;height:350px;"></div>
-
-						<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9e74e0d9232cbccbd2962414bf135d9c&libraries=services"></script>
-						<script>
-						var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-						    mapOption = {
-						        center: new daum.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-						        level: 3 // 지도의 확대 레벨
-						    };  
-						
-						// 지도를 생성합니다    
-						var map = new daum.maps.Map(mapContainer, mapOption); 
-						
-						// 주소-좌표 변환 객체를 생성합니다
-						var geocoder = new daum.maps.services.Geocoder();
-						
-				        var imageSrc = '/resources/img/gatherboard/dog.png', // 마커이미지의 주소입니다    
-				        imageSize = new kakao.maps.Size(64, 60), // 마커이미지의 크기입니다
-				        imageOption = {offset: new kakao.maps.Point(27, 69)}; // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-				          
-					    // 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
-					    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-					        markerPosition = new kakao.maps.LatLng(37.54699, 127.09598); // 마커가 표시될 위치입니다
-							
-						// 주소로 좌표를 검색합니다
-						geocoder.addressSearch('<%=addr%>', function(result, status) {
-						
-						    // 정상적으로 검색이 완료됐으면 
-						     if (status === daum.maps.services.Status.OK) {
-					
-						        var coords = new daum.maps.LatLng(result[0].y, result[0].x);
-						
-
-							    // 마커를 생성합니다
-							    var marker = new kakao.maps.Marker({
-							        map: map,
-							        image: markerImage, // 마커이미지 설정 
-							        position: coords,
-							    });
-
-						
-						        // 인포윈도우로 장소에 대한 설명을 표시합니다
-						        var infowindow = new daum.maps.InfoWindow({
-						            content: '<div style="width:150px;text-align:center;padding:6px 0;"><%=addr%></div>'
-						        });
-						        infowindow.open(map, marker);
-						
-						        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
-						        map.setCenter(coords);
-						    } 
-						});    
-						</script>
-
-					<!-- comment -->	
-						<div id="comments">
-							<h4 class="text-uppercase" id="commentCount"></h4>
-							<section class="bar mb-0" id="commentSection">
-								<div id="commentList" class="row comment">
-								</div>
-						
-							</section>
-							<!-- comment_page_form -->
+					<div id="map" style="width:100%;height:350px;"></div>					
+					<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9e74e0d9232cbccbd2962414bf135d9c&libraries=services"></script>					
+			        <!-- 댓글창 -->
+					<div id="comments">						
+						<!-- 댓글 갯수 -->
+						<h4 class="text-uppercase" id="commentCount">
+						<input type="text" id="commentCountVal">
+						</h4>
+						<!-- 댓글 내용 -->
+						<section>			
+						<div id="commentList" class="row comment">
+						<!-- 댓글 출력 -->
+						</div>			
+						</section>		
+						<!-- 댓글 페이징 -->
+						<div style="padding:3rem">
 							<form id="page_form">
 								<input type="hidden" name="POST_ID" value=<%= post.getID() %>>
 								<input type="hidden" name="USER_ID" value=<%= userID %>> 
 								<input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}'>
 							</form>
-	                         <div class="comment-footer d-flex justify-content-center"></div>
+			            <div class="comment-footer d-flex justify-content-center"></div>
+					</div>		
+					<!-- 댓글 입력창 -->
+					<h4 class="comment">댓글 작성</h4>
+				
+					<form id="insert_form" method="post">
+						<!-- comments -->
+						<input type="hidden" name="USER_ID" value=<%= userID %>> 
+						<input type="hidden" name="POST_ID" value=<%=post.getID() %>>
+						<input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}'>
+						
+						<div class="row">
+							<div class="col-sm-4">
+								<div class="form-group">
+									<label for="name">아이디<span class="required text-primary">*</span></label>						
+									<input id="NICKNAME" type="text" class="form-control" value="<%=userNickName %>" readonly>
+								</div>
+							</div>
 						</div>
-
-						<div id="comment-form">
-							<h4 class="text-uppercase comment">댓글</h4>
-							<!-- comment insert form -->
-							<form id="insert_form" method="post">
-								<input type="hidden" name="USER_ID" value=<%= userID %>> 
-								<input type="hidden" name="POST_ID" value=<%=post.getID() %>>
-								<input type="hidden" name="pageNum" value='${pageMaker.cri.pageNum}'>
-								<div class="row">
-									<div class="col-sm-4">
-										<div class="form-group">
-											<label for="name">아이디<span class="required text-primary">*</span></label> 
-											<input id="NICKNAME" type="text" class="form-control" value=<%= userNickName %> readonly>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="form-group comment-div">
+									<label for="comment">내 용 <span class="required text-primary">*</span></label>
+									
+									<div class="comment-and-button">
+										<div class="comment-form">							
+										<textarea id="CONTENT" name="CONTENT" rows="4" class="form-control "></textarea>						
 										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label for="comment">내 용 <span class="required text-primary">*</span></label>
-											<textarea id="CONTENT" name="CONTENT" rows="4" class="form-control"></textarea>
+										
+										<div class="comment-button-div">
+											<button class="re btn btn-template-outlined comment-input-button" id="input_data">댓글 등록</button>
 										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12 text-right">
-										<button class="re btn btn-template-outlined" id="input_data">
-											<i class="fa fa-comment-o"></i> 댓글 등록
-										</button>
-									</div>
-								</div>
-								</form>
-								<!-- comment insert form END -->
-								<div class="col-sm-12"> 
-										<!-- 게시자일떄만 수정/삭제  -->
-										<%
-											if(userNickName.equals(writer)) {
-										%>
-											<button id="modifyBtn" class="btn btn-template-outlined">
-												<i class="fa fa-pencil"></i> <a href="/dog/gatherboard/modifyForm/<%= post.getID()%>">수정</a>
-											</button>
-											<button id="deleteBtn" type="submit" class="btn btn-template-outlined">
-												<i class="fa fa-trash-o"></i> <a href="/dog/gatherboard/deleteDogGatherPost/<%=post.getID()%>">삭제</a>
-											</button>
-										<%
-											}
-										%>
-										<!-- 게시자일때만 수정/삭제 END -->
-											<button type="button" class="btn btn-danger"
-												data-toggle="modal" data-target="#report-modal"
-											 	id="report-btn">신고</button>
-								</div>
-								<!-- 신고 모달 -->
-								<div id="report-modal" tabindex="-1" role="dialog" aria-hidden="true"
-								      class="modal fade">
-								      <div role="document" class="modal-dialog">
-								         <div class="modal-content">
-								            <div class="modal-header">
-								               <h4 align="center" class="modal-title">게시글 신고</h4>
-								               <button type="button" data-dismiss="modal" aria-label="Close"
-								                  class="close">
-								                  <span aria-hidden="true">×</span>
-								               </button>
-								            </div>
-								
-								            <div class="modal-body">
-								               <form id="report_form" method="POST">
-								
-								                  <input type="hidden" name="board_id" id="BOARD_ID" value=<%=boardId%>>
-								                  <input type="hidden" name="post_id" id="POST_ID" value=<%= post.getID() %>>
-								                  <input type="hidden" name="user_id" id="USER_ID" value=<%=userID %>>
-												<label style="text-align: left !important;">신고 분류</label>
-								                  <div class="form-group">
-								                     <select id="state" name="category_id" id="category_id"
-								                        class="form-control">
-								                        <option value="0">신고 사유 선택</option>
-								                        <option value="1">부적절한 게시물</option>
-								                        <option value="2">도배 게시물</option>
-								                        <option value="3">광고성 게시물</option>
-								                        <option value="4">비방/비하/욕설 게시물</option>
-								                        <option value="5">음란성 또는 청소년 유해 게시물</option>
-								                        <option value="6">기타</option>
-								                     </select>
-								                  </div>
-								                  <label>내용</label>
-								                  <div class="form-group">
-								                     <textarea name="description" id="description" rows="10"
-								                        class="form-control"></textarea>
-								                  </div>
-								                  <p class="text-center">
-								                     <input type="submit" value="신고" class="btn btn-outline-primary"
-								                        id="input_report">
-								                     <a style="padding-right: 0.5rem;"></a>
-								                     <input type="reset" class="btn btn-outline-primary" value="취소">
-								                  </p>
-								               </form>
-								            </div>
-								         </div>
-								      </div>
-								   </div>
-								   <!-- 신고모달 끝 -->
-										
-										
-										
 									</div>
 								</div>
 							</div>
-							
+						</div>			
+					</form>
+					<!-- comment insert form END -->			         
+			        <div style="margin: 2rem"></div>
+			         <!-- 수정/삭제/신고 버튼 -->
+			         <div id="comment-form">
+			         	<div class="row">
+							<div class="col-sm-12 text-right"> 
+							<!-- 게시자일떄만 수정/삭제  -->
+							<%
+								if(post.getUSER_ID()==userID){
+							%>
+								<button id="modifyBtn" class="btn btn-template-outlined">
+									<i class="fa fa-pencil"></i> <a id="btnStr" href="/dog/gatherboard/modifyForm/<%= post.getID()%>">수정</a>
+								</button>
+								<button id="deleteBtn" type="submit" class="btn btn-template-outlined">
+									<i class="fa fa-trash-o"></i> <a id="btnStr" href="/dog/gatherboard/deleteDogGatherPost/<%=post.getID()%>">삭제</a>
+								</button>
+							<%
+								}
+							%>
+							<!-- 게시자일때만 수정/삭제 END -->
+								<button type="button" class="btn btn-danger"
+								data-toggle="modal" data-target="#report-modal" id="report-btn">신고</button>
+							</div>
+			            </div>
+			         </div>
+			      </div>
+			      <div style="margin: 5rem"></div>         									
+			</div> <!-- col-md-12 end -->
+		</div> <!-- row-bar end -->									
 			<!-- 채팅 -->
-			<form id="chat_form" action="/dog/gatherboard/insertChat" method="post">
-				<input type="hidden" name="POST_ID" value='<%=post.getID()%>' />
-				<input type="hidden" name="USER_ID" value='<%=userID%>' />
-			</form>
 			<input type="hidden" value='<%=userNickName%>' id='chat_id' />
+			<input type="hidden" value='<%=userID%>' id='user_id' />
 			<input type="hidden" value='<%=post.getID()%>' id='post_id' />
-				<!-- 채팅창 -->
+					<!-- 채팅창 -->
 				    <div id="chat_box" style="display:none;">
 				        <div class="chatBox">
-				            <p class='chatTopBar'>* <%=post.getID()%>번 글 정모 채팅  *</p>
+				            <p class='chatTopBar'><%=post.getID()%>번 글 정모 채팅 </p>
 				            <div class='onUser' style="float:right"><p id="onUser">접속자</p>
 				            </div>
 				            <div id="messageWindow"></div>
@@ -478,20 +412,130 @@
 				           	   </div>
 				       	</div>
 				  	</div>
-				    <img class="chat" src="/resources/img/gatherboard/chat.png" onclick="chatClick('<%=userNickName%>');"/>
-    		<!-- 채팅 끝 -->
-    		
+				 <img class="chat" src="/resources/img/gatherboard/chat.png" onclick="chatClick('<%=userNickName%>');"/>
+    			<!-- 채팅 끝 -->
+				<!-- 신고 모달 -->
+				<div id="report-modal" tabindex="-1" role="dialog" aria-hidden="true"
+				      class="modal fade">
+				      <div role="document" class="modal-dialog">
+				         <div class="modal-content">
+				            <div class="modal-header">
+				               <h4 align="center" class="modal-title">게시글 신고</h4>
+				               <button type="button" data-dismiss="modal" aria-label="Close"
+				                  class="close">
+				                  <span aria-hidden="true">×</span>
+				               </button>
+				            </div>				
+				            <div class="modal-body">
+				               <form id="report_form" method="POST">				
+				                  <input type="hidden" name="board_id" id="BOARD_ID" value=<%=boardId%>>
+				                  <input type="hidden" name="post_id" id="POST_ID" value=<%= post.getID() %>>
+				                  <input type="hidden" name="user_id" id="USER_ID" value=<%=userID %>>
+								<label style="text-align: left !important;">신고 분류</label>
+				                  <div class="form-group">
+				                     <select id="state" name="category_id" id="category_id"
+				                        class="form-control">
+				                        <option value="0">신고 사유 선택</option>
+				                        <option value="1">부적절한 게시물</option>
+				                        <option value="2">도배 게시물</option>
+				                        <option value="3">광고성 게시물</option>
+				                        <option value="4">비방/비하/욕설 게시물</option>
+				                        <option value="5">음란성 또는 청소년 유해 게시물</option>
+				                        <option value="6">기타</option>
+				                     </select>
+				                  </div>
+				                  <label>내용</label>
+				                  <div class="form-group">
+				                     <textarea name="description" id="description" rows="10"
+				                        class="form-control"></textarea>
+				                  </div>
+				                  <p class="text-center">
+				                     <input type="submit" value="신고" class="btn btn-outline-primary"
+				                        id="input_report">
+				                     <a style="padding-right: 0.5rem;"></a>
+				                     <input type="reset" class="btn btn-outline-primary" value="취소">
+				                  </p>
+				               </form>
+				            </div>
+				         </div>
+				      </div>
+				   </div>
+				   <!-- 신고모달 끝 -->    	
+		    	   <!-- 쪽지 보내기 모달창 -->
+		    	   <div id="message-modal" tabindex="-1" role="dialog" aria-hidden="true"
+		    	        class="modal fade">
+		    	        <div role="document" class="modal-dialog">
+		    	            <div class="modal-content">
+		    	                <div class="modal-header">
+		    	                    <h4 align="center" class="modal-title">쪽지보내기</h4>
+		    	                    <button type="button" data-dismiss="modal" aria-label="Close"
+		    	                        class="close">
+		    	                        <span aria-hidden="true">×</span>
+		    	                    </button>
+		    	                </div>
+		    	                <div class="modal-body">
+		    	                <form id="message_form" method="POST">		    	                   
+		    	                  <input type="hidden" name="messageSender_id" id="sender_id" value=<%=userID%>>
+		    	                   <input type="hidden" name="messageReceiver_id" id="receiver_id" value=<%=post.getUSER_ID() %>>		    	                
+		    	                    <div class="form-group">
+		    	                        <label>받는사람</label>
+		    	                        <input class="form-control" name='messageNickname' value=<%=writer %> readonly>
+		    	                    </div>
+		    	                    <div class="form-group">
+		    	                        <label>제목</label>
+		    	                        <input class="form-control" name='messageTitle'>
+		    	                    </div>
+		    	                    <div class="form-group">
+		    	                        <label>내용</label>
+		    	                        <textarea id="message_content" name='messageContent' rows="10" class="form-control"></textarea>
+		    	                    </div>
+		    	                    <p class="text-center">   
+		    	                        <input type="submit" value="보내기" id="modalSendBtn" class="btn btn-outline-primary">
+		    	                    </p>
+		    	                </form>
+		    	                </div>
+		    	            </div>
+		    	        </div>
+		    	    </div>
+		    	    <!-- 쪽지 모달 끝 -->		   						    							   	
     			</div>
 			</div>
 		</div>
-
-    <!-- script 파일 추가 -->
-<%--	<%@ include file="/WEB-INF/views/commons/script.jspf" %>--%>
-	<!-- include category.js -->
+	</div>
+		
 	<script src="/resources/js/gatherboard/post.js"></script>
 	<script src="/resources/js/gatherboard/chat.js"></script>
 	<script src="/resources/js/gatherboard/comment.js"></script>
 	<script src="/resources/js/report.js"></script>
+	<script>
+    var addr = '<%=addr%>';
+    var addr1 = addr.split("　")[0];
+    var addr2 = addr.split("　")[1]; 
+    var gatheringAddr = addr1;
+    var gatheringDateStr = document.getElementById('gathering_date');
+    var gatheringDate = gatheringDateStr.innerText;
+    
+    if(!(addr2 == null || addr2 == "")) {
+    	gatheringAddr = addr1 + " " + addr2;
+    }
+	$(document).ready(function(){
+		
+		$("#addr").append(gatheringAddr);
+		
+ 		//쪽지 전송 시 로그인 확인
+	    $('#message-btn').on("click", function(e){
+	    <% if(loginedUser == null){ %>
+	       alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");
+	       $('#login-modal').modal("show");
+	       
+	    <%} else{%>         
+	          $(this).attr('data-target',"#message-modal");
+	          $('#message-modal').modal("show");
+	    	<%}%>
+	    });  
+	
+	});	
+	</script>
 
 </body>
 </html>

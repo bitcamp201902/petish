@@ -1,84 +1,45 @@
-#report-btn {
-	justify-content: right;
-}
-button.btn.btn-template-outlined{
-	float: right;
-	margin-right:15px;
-	margin-top:20px;
-}
-div.panel-heading{
-	margin-top:40px;
+.date-view {
+	width: 100%;
+	padding-left: 2rem !important;
+	padding-right: 2rem !important;
+	text-align: right;
+	font-size: 16px !important;
 }
 
-main.img-fluid rounded-circle{
-	width:70px; height:70px;
+.panel-title {
+	padding-right: 1rem;
 }
-.name{
-	text-align:center;
-	width:40px;
+
+.nickname {
+	width: 150px;
+	text-align: left;
+	padding-left: 0.7rem;
+	font-size: 16px !important;
 }
-.grade{
-	text-align:left;
-	width:80px;
+
+.catrgory-btn {
+	font-size: 1rem !important;
+	font-weight: 400 !important;
+	margin-right: 0.7rem !important;
+	background-color : #b5e3d5!important;
+	border: none!important;
+	border-colot: #b5e3d5!important;
 }
-button.btn.btn-template-outlined{
+
+.category-name {
+	font-size: 20px !important;
+}
+
+button.btn.btn-template-outlined.custom-button {
 	margin-right: 2rem;
+	float: right;
+	
 }
 
-.date{
-	text-align:left;
-	width:150px;
-}
-.view{
-	text-align:left;
-	width:150px;
-}
-.btn.btn-danger{
-	float:right;
-	margin-top:20px;
-	margin-right:20px;
-}
-.text{
-	width:70px;
-}
-.dropdown{
-	text-align:center;
+.writerDetail {
+	float: right;
 }
 
-@media screen and (max-width:750px){
-
-	.btn.btn-template-outlined{
-		margin-bottom:10px;
-	}
-	.date{
-		display:none;
-	}
-
-	.view{
-		display:none;
-	}
-	
-	div.col-sm-3.col-md-2.text-center-xs{
-		display:none;
-	}
-	
-	button.re.btn.btn-template-outlined{
-		width:110px; 
-		margin-right:1px;
-	
-	}
-	button.delete.btn.btn-template-outlined{
-		width:70px; 
-		height:40px;
-	}
-	.btn.btn-danger{
-		margin-right:1px;
-	}
-	button.write.btn.btn-template-outlined{
-		margin-right:1px;
-	}
-	
-	button.list.btn.btn-template-outlined{
-		margin-right:10px;
-	}
+#post-content{
+	font-size: 1.2rem!important;
 }

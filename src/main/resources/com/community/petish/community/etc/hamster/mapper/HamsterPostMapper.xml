@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.petish.community.etc.hamster.mapper.HamsterPostMapper">
+
+<resultMap type="com.community.petish.community.etc.hamster.dto.HamsterPostResponseDTO" id="HamsterPostResponseDTO">
+	<result property="id" column="ID" />
+	<result property="title" column="TITLE" />
+	<result property="content" column="CONTENT" />
+	<result property="created_date" column="CREATED_DATE" />
+	<result property="updated_date" column="UPDATED_DATE" />
+	<result property="view_count" column="VIEW_COUNT" />
+	
+	<result property="category_id" column="CATEGORY_ID" />
+	<result property="category_name" column="CATEGORY_NAME" />
+	
+	<result property="user_id" column="USER_ID" />
+	<result property="nickname" column="NICKNAME" />
+</resultMap>
+
+<!-- 게시글 수 조회 -->
+<select id="getPostCount" resultType="Integer">
+	SELECT COUNT(*) FROM
+	hamster_post_tb WHERE DELETED=0
+</select>
+
+<!-- 조회 수 갱신 -->
+<update id="updateViewCount" parameterType="Long">
+update hamster_post_tb
+set view_count = view_count + 1
+where id=#{id}
+</update>
+
+<sql id="criteria">
+	<trim prefix="(" suffix=") AND " prefixOverrides="OR">
+		<foreach item='type' collection="typeArr">
+			<trim prefix="OR">
+				<choose>
+					<when test="type == 'T'.toString()">
+						TITLE like '%'||#{keyword}||'%'
+					</when>
+					<when test="type == 'W'.toString()">
+						NICKNAME like '%'||#{keyword}||'%'
+					</when>
+					<when test="type == 'C'.toString()">
+						CONTENT like '%'||#{keyword}||'%'
+					</when>
+					<when test="type == 'S'.toString()">
+						CATEGORY_ID like '%'||#{keyword}||'%'
+					</when>					
+				</choose>
+			</trim>
+		</foreach>
+	</trim>
+</sql>
+
+<!-- 게시글 리스트 조회 -->
+<select id="getPostList" resultMap="HamsterPostResponseDTO">
+
+<![CDATA[
+select id, title, content, created_date, updated_date, view_count, category_id, category_name, user_id, nickname
+from(
+select rownum rn, hamster.id, hamster.title, hamster.content, hamster.created_date, hamster.updated_date,
+hamster.view_count, hamster.category_id, category.category_name, hamster.user_id, u.nickname
+from hamster_post_tb hamster, user_tb u, etc_category_tb category
+where 
+]]>
+<include refid="criteria"></include>
+<![CDATA[
+hamster.deleted=0 and hamster.user_id = u.id and hamster.category_id = category.id and
+rownum <= #{pageNum} * #{amount}
+order by hamster.id desc
+)
+where rn > (#{pageNum} -1) * #{amount}   
+]]>
+
+</select>
+
+<!-- 게시글 조회 -->
+<select id="getPostDetail" parameterType="Long" resultMap="HamsterPostResponseDTO">
+select hamster.id, hamster.title, hamster.content, hamster.created_date, hamster.updated_date, hamster.view_count, hamster.category_id, category.category_name, hamster.user_id, u.nickname
+from hamster_post_tb hamster, user_tb u, etc_category_tb category
+where hamster.id=#{id} and hamster.user_id = u.id and hamster.category_id = category.id
+</select>
+
+<!-- 게시글 등록 -->
+<insert id="insertPost" parameterType="com.community.petish.community.etc.hamster.dto.HamsterPostRequestDTO">
+insert into hamster_post_tb(id, title, content, created_date, updated_date, view_count, deleted, user_id, category_id)
+values(((select NVL(max(id), 0) from HAMSTER_POST_TB) + 1), #{title}, #{content}, sysdate, sysdate, 0, 0, #{user_id}, #{category_id})
+</insert>
+
+<!-- 게시글 수정 -->
+<update id="updatePost" parameterType="com.community.petish.community.etc.hamster.dto.HamsterPostRequestDTO">
+update hamster_post_tb
+SET title=#{title}, content=#{content}, updated_date=sysdate, category_id=#{category_id}
+WHERE id=#{id}
+</update>
+
+<!-- 게시글 삭제 -->
+<update id="deletePost" parameterType="Long">
+update hamster_post_tb
+set deleted=1
+where id=#{id}
+</update>
+
+</mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.community.petish.community.mypet.hashtag.mapper.MypetHashTagMapper">
+
+     <insert id="save">
+        INSERT INTO mypet_hashtag_tb
+            ( id, hashtag, post_id )
+        VALUES (
+            ( SELECT  NVL(max(id), 0) FROM mypet_hashtag_tb) + 1,
+                #{hashTag},#{postId}
+            )
+    </insert>
+
+    <select id="getPostIdsByHashTag" resultType="java.util.List">
+        <![CDATA[
+        select post_id
+        FROM (
+            SELECT rownum rn, post_id
+            FROM mypet_hashtag_tb
+            WHERE deleted = 0
+            AND hashtag = #{hashtag}
+            AND rownum <= ${pageNum} * 20
+            ORDER BY post_id
+        )
+        WHERE rn > (${pageNum} -1) * 20
+        ]]>
+    </select>
+
+    <select id="countAllByHashTag" resultType="java.lang.Long">
+        SELECT count(*)
+        FROM mypet_hashtag_tb
+        WHERE hashtag = #{hashtag}
+        AND deleted = 0
+    </select>
+    
+</mapper>

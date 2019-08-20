@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+//dog_free_comment_tb 인덱스 생성
+create index IDX_HAMSTER_COMMENT_TB on dog_free_comment_tb(POST_ID  desc, ID asc);
+-->
+
+<mapper namespace="com.community.petish.community.dog.freeboard.mapper.DogFreeCommentMapper">
+
+	<!-- 댓글 추가 -->
+	<insert id="insertComment" parameterType="com.community.petish.community.dog.freeboard.dto.DogFreeCommentRequestDTO">
+		insert into dog_free_comment_tb(ID, CONTENT, CREATED_DATE, UPDATED_DATE, DELETED, POST_ID, USER_ID)
+		values(((select NVL(max(id), 0) from dog_free_comment_tb) + 1), #{content}, sysdate, sysdate, 0, #{post_id}, #{user_id})
+	</insert>
+	
+	<!-- 댓글 조회 -->
+	<select id="getComment" resultType="com.community.petish.community.dog.freeboard.dto.DogFreeCommentResponseDTO">
+		select comment.id, comment.content, comment.created_date,
+		comment.updated_date, comment.post_id, u.nickname,
+		from dog_free_comment_tb comment, USER_TB u, 
+		where comment.user_id=u.id AND comment.ID = #{id}		
+	</select>
+	
+	<!-- 댓글 리스트 조회 -->
+	<select id="getCommentList" resultType="com.community.petish.community.dog.freeboard.dto.DogFreeCommentResponseDTO">
+		<![CDATA[
+			SELECT ID, CONTENT, USER_ID, CREATED_DATE, UPDATED_DATE, POST_ID, NICKNAME
+			FROM (
+			SELECT /*+INDEX(dog_free_comment_tb IDX_HAMSTER_COMMENT)*/
+			rownum rn, c.POST_ID, c.ID, c.CONTENT, c.USER_ID, c.CREATED_DATE, c.UPDATED_DATE, c.DELETED, u.NICKNAME
+			FROM dog_free_comment_tb c, USER_TB u
+			WHERE c.POST_ID = #{cri.post_id} and c.ID > 0 and c.DELETED = 0 AND c.USER_ID=U.ID
+			AND rownum <= #{cri.pageNum} * #{cri.amount}
+			ORDER BY c.ID
+			)
+			WHERE rn > (#{cri.pageNum} -1) * #{cri.amount}
+		]]>    
+	</select>
+	
+	<!-- 댓글 수 조회 -->
+	<select id="getCommentCount" resultType="Integer">
+		select count(id) from dog_free_comment_tb
+		where POST_ID=#{post_id} and DELETED = 0
+	</select>
+	
+	<!-- 댓글 수정 -->
+	<update id="modifyComment" parameterType="com.community.petish.community.dog.freeboard.dto.DogFreeCommentRequestDTO">
+		update dog_free_comment_tb
+		set CONTENT=#{content}, UPDATED_DATE=sysdate
+		where ID=#{id}
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<update id="removeComment">
+		update dog_free_comment_tb
+		set DELETED = 1
+		where ID=#{id}
+	</update>
+
+</mapper>

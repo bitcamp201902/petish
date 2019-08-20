@@ -113,6 +113,20 @@ create index IDX_DOG_GATHER_POST on DOG_GATHER_POST_TB(ID desc, USER_ID asc);
 	   ]]>
 	</select>
 
+	<select id="getMaxPostID" resultType="Long">
+		select MAX(ID) from DOG_GATHER_POST_TB
+	</select>
+	
+	<select id="getRegionList" resultType="com.community.petish.community.dog.gatherboard.dto.response.RegionListDTO">
+		select * from DOG_GATHER_POST_TB where REGION_ID=#{REGION_ID} and DELETED = 0 and GATHERING_DATE > sysdate
+	</select>
+	
+	<select id="getUserRegionID" resultType="Long">
+		select region.id
+		from user_tb member, region_tb region 
+		where member.id=#{id} and substr(#{address},0,2) = region.region_name
+	</select>
+	
 	<select id="getDogGatherPostCount" resultType="int">
 	  <![CDATA[
 	      SELECT
@@ -138,6 +152,10 @@ create index IDX_DOG_GATHER_POST on DOG_GATHER_POST_TB(ID desc, USER_ID asc);
 	
 	<select id="getUserID" resultType="Long">
 		select ID from USER_TB where USERNAME=#{USERNAME}
+	</select>
+	
+	<select id="getUserIDbyNickName" resultType="Long">
+		select ID from USER_TB where NICKNAME=#{NICKNAME}
 	</select>
 	
 	<select id="getDogSpeciesID" resultType="Long">
@@ -193,7 +211,7 @@ create index IDX_DOG_GATHER_POST on DOG_GATHER_POST_TB(ID desc, USER_ID asc);
 	</insert>
 	
 	<select id="getDogGatherParticipantList" resultType="com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO">
-		select person.id, person.request_content, person.post_id, member.username, member.nickname, species.dog_species 
+		select person.id, person.user_id, person.request_content, person.post_id, member.username, member.nickname, species.dog_species 
 		from dog_gather_person_tb person 
 		left join user_tb member
 		on person.user_id = member.id

@@ -6,6 +6,7 @@ import com.community.petish.community.mypet.post.dto.request.MypetPostListCriter
 import com.community.petish.community.mypet.post.dto.response.MypetPostDetailResponse;
 import com.community.petish.community.mypet.post.dto.response.MypetPostLikeListResponse;
 import com.community.petish.community.mypet.post.dto.response.MypetPostSummaryList;
+import com.community.petish.community.mypet.hashtag.service.MypetHashTagService;
 import com.community.petish.community.mypet.post.service.MypetPostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -20,13 +21,22 @@ import lombok.extern.slf4j.Slf4j;
 public class MypetPostRestController {
 	
 	@Autowired
-  MypetPostService mypetPostService;
-	
+  	MypetPostService mypetPostService;
+
+	@Autowired
+	MypetHashTagService mypetHashTagService;
+
 	@PostMapping
 	public void savePost(MultipartHttpServletRequest request) throws Exception {
 		log.info("mypet Post upload 요청");
 		
 		Long postId = mypetPostService.savePost(request);
+
+		String content = request.getParameter("content");
+
+		if ( content.contains("#") ) {
+			mypetHashTagService.saveHashTag(content, postId);
+		}
 		
 	}
 	

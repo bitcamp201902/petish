@@ -8,6 +8,7 @@ import com.community.petish.community.mypage.dto.response.UserResponseDTO_Mypage
 
 public interface AdminService {
 	Long getUserCount();
+	Long getTodayJoinedUserCount();
 	Long getMaleCount();
 	Long getFemaleCount();
 	Long getConcernCatCount();

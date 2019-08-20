@@ -11,8 +11,9 @@ public class MypetPost {
 	private String title;
 	private String content;
 	private String image;
-	private Date createdDate;
+	private Date created_date;
+	private Date updated_date;
 
-	private Long userId;
+	private Long user_id;
 	
 }

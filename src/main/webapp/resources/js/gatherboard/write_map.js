@@ -1,6 +1,6 @@
 //검색 버튼눌렀을경우
 	function openZipcode(searchMap){			
-		var url="/resources/api/searchMap.jsp"
+		var url="/resources/api/write-modifyMap.jsp"
 		open(url, "confirm", "toolbar=no,location=no,"
 							+"status=no,menubar=no,"
 							+"scrollbars=yes,resizable=no,"
@@ -20,15 +20,6 @@
 	// 주소-좌표 변환 객체를 생성합니다
 	var geocoder = new kakao.maps.services.Geocoder();
 
-	//원래 게시글의 모임장소 주소를 좌표로 바꿔주고 지도에 표시해주는 함수//********************************************************
-	var callback = function(result, status) {
-	    if (status === kakao.maps.services.Status.OK) {
-	        setMarker(result[0].x, result[0].y);
-	    }
-	};
-	// '서울 서초구 서초동 1303-34'에 게시글의 모임장소(db값) 넣어준다.**********************************************************
-	geocoder.addressSearch('서울 서초구 서초동 1303-34', callback);
-	
 	var marker = new kakao.maps.Marker();
 
 	//검색 하고 마커 찍어주는 함수

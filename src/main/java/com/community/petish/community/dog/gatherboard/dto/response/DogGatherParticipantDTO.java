@@ -10,6 +10,7 @@ import lombok.ToString;
 public class DogGatherParticipantDTO {
 	private Long ID;
 	private Long POST_ID;
+	private Long USER_ID;
 	private int CANCELED;
 	private String USERNAME;
 	private String NICKNAME;

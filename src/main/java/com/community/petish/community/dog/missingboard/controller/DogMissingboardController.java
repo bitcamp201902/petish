@@ -69,7 +69,6 @@ public class DogMissingboardController {
 		log.info("num : " + cri.getPageNum());
 		List<DogLostPostResponseListDTO> dtoList = service.getPostList(cri);		
 		
-		log.info("pageNum : " + cri.getPageNum());
 		model.addAttribute("dtoList", dtoList);
 		
 		int total = service.getPostCount(cri); //전체 게시글 수

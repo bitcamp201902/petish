@@ -1,333 +1,315 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
+<%@ page
+	import="com.community.petish.community.user.dto.response.LoginedUser"%>
+<%@ page import="com.community.petish.community.dog.freeboard.dto.*"%>
+
+<%
+	DogFreePostResponseDTO dto = (DogFreePostResponseDTO) request.getAttribute("dto");
+	System.out.println(dto);
+	
+	//댓글 갯수
+	int commentCount = Integer.parseInt((request.getAttribute("commentCount").toString()));
+	
+	//댓글 페이지  번호
+	int pageNum = 1;
+	if((DogFreePostPageDTO)request.getAttribute("pageMaker") != null){
+		DogFreePostPageDTO pageDTO = (DogFreePostPageDTO)request.getAttribute("pageMaker");
+		pageNum = pageDTO.getCri().getPageNum();	
+		request.setAttribute("pageNum", pageNum);
+	}
+	
+	//게시판 아이디
+	Long boardId = 1L;
+%>
 <!DOCTYPE html>
 <html>
 <head>
-<title>안녕하세요</title>
-<meta name="description" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="all,follow">
-<!-- Bootstrap CSS-->
-<link rel="stylesheet" href="/resources/vendor/bootstrap/css/bootstrap.min.css">
-<!-- Font Awesome CSS-->
-<link rel="stylesheet" href="/resources/vendor/font-awesome/css/font-awesome.min.css">
-<!-- Google fonts - Roboto-->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
-<!-- Bootstrap Select-->
-<link rel="stylesheet" href="/resources/vendor/bootstrap-select/css/bootstrap-select.min.css">
-<!-- owl carousel-->
-<link rel="stylesheet" href="/resources/vendor/owl.carousel/assets/owl.carousel.css">
-<link rel="stylesheet" href="/resources/vendor/owl.carousel/assets/owl.theme.default.css">
-<!-- theme stylesheet-->
-<link rel="stylesheet" href="/resources/css/style.lightblue.css" id="theme-stylesheet">
-<!-- Custom stylesheet - for your changes-->
-<link rel="stylesheet" href="/resources/css/custom.css">
-<!-- Favicon and apple touch icons-->
-<link rel="shortcut icon" href="/resources/img/favicon.ico" type="image/x-icon">
-<link rel="apple-touch-icon" href="/resources/img/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="57x57" href="/resources/img/apple-touch-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="72x72" href="/resources/img/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="/resources/img/apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="/resources/img/apple-touch-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="/resources/img/apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="/resources/mg/apple-touch-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="/resources/img/apple-touch-icon-152x152.png">
-<!-- Tweaks for older IEs-->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script><![endif]-->
-<link href="/resources/css/freeboard/detail.css" rel="stylesheet">
+<%-- <title><%=dto.getTitle()%></title> --%>
 
+<%@ include file="/WEB-INF/views/commons/link.jspf"%>
+
+<link rel="stylesheet" href="/resources/css/freeboard/detail.css">
+<link rel="stylesheet" href="/resources/css/missingboard/comment.css">
+
+<link href="/resources/css/fonts.css" rel="stylesheet">
 </head>
-<body>
-	<div id="all">
-	
-		<%@ include file="/WEB-INF/views/commons/top.jspf" %>
 
-		<div id="heading-breadcrumbs" class="border-top-0 border-bottom-0">
+<body style="font-family: 'Do Hyeon', sans-serif;">
+
+	<div id="all">
+		<%@ include file="/WEB-INF/views/commons/cat_top.jspf"%>
+		<%
+			Long userId = null;
+			String userNickname = "";
+
+			if (loginedUser != null) {
+				userId = loginedUser.getId();
+				userNickname = loginedUser.getNickname();
+
+				System.out.println("유저아이디 : " + userId);
+				System.out.println("유저닉네임 : " + userNickname);
+			}
+		%>
+
+		<!-- 게시판명 -->
+		<div id="heading-breadcrumbs" class="border-top-0 border-bottom-0" style="padding-bottom:10px;">
 			<div class="container">
-				<div class="row d-flex align-items-center flex-wrap">
-					<div class="col-md-7">
-						<h1 class="h2">강아지 자유게시판</h1>
+	            <div class="row d-flex align-items-center flex-wrap">
+					<div class="col-md-12" style="margin-top:2rem">
+						<div style="float:left"><h1 class="h2">자유게시판</h1></div>
+		                <div style="float:right">
+		                	<button type="submit" class="list btn btn-template-outlined custom-button to-list-btn">
+		              		<i class="fa fa-align-justify"></i>
+		              		<a href="/dog/freeboard"> 목록 </a>
+		              		</button>
+		              	</div>
+		              	<hr style="color:rgba(0,0,0,0.10); margin-top:4rem">
+		           </div>
+	           </div>
+           </div>
+		</div>
+
+		<div class="container">
+			<div class="col-md-13">
+			
+				<!-- 글 제목 -->
+				<div class="panel-heading">
+					<a class="btn btn-sm btn-template-main catrgory-btn"><%=dto.getCategory_name()%></a>
+					<h2 class="h3 panel-title" style="color:black!important;"><%=dto.getTitle()%></h2>
+				</div>
+
+				<table>
+					<tr>
+						<!-- <td><img src="/resources/img/blog-avatar2.jpg" alt="" class="img-fluid rounded-circle"></td> -->
+						<td>
+							<div class="nav navbar-nav ml-auto">
+								<a href="#" data-toggle="dropdown" class="nickname dropdown" style="color:black!important;"><%=dto.getNickname()%></a>
+						
+								<div class="dropdown-menu writerDetail">
+									<div class="dropdown">
+										<a href="#" class="nav-link">게시글보기</a>
+									</div>
+									<div class="dropdown">
+										<a href="#" class="nav-link">쪽지보내기</a>
+									</div>
+								</div>
+							</div>
+						</td>
+
+						<td class=date-view><i class="fa fa-clock-o"></i> <fmt:formatDate
+								pattern="yyyy-MM-dd hh:mm" value="<%=dto.getCreated_date()%>" />
+							<i class="fa fa-eye"
+							style="padding-left: 2rem; padding-right: 0.2rem"></i><%=dto.getView_count()%>
+						</td>
+					</tr>
+				</table>
+			</div>
+
+			<hr size="10px">
+
+			<!-- 글 내용 -->
+			<div id="post-content" style="color:black!important;">
+				<%=dto.getContent()%>
+			</div>
+			
+			<div style="padding: 5rem"></div>
+			<hr size="10px" style="padding:1rem;">
+
+			<!-- 댓글창 -->
+			<div id="comments">
+
+				<!-- 댓글 갯수 -->
+				<h4 class="text-uppㄹercase" id="commentCount">
+					<input type="text" id="commentCountVal">
+				</h4>
+				<!-- 댓글 내용 -->
+				<section>
+					<div id="commentList" class="row comment">
+						<!-- 댓글 출력 -->
 					</div>
-					<div class="col-md-5">
-						<ul class="breadcrumb d-flex justify-content-end">
-						</ul>
+				</section>
+
+				<!-- 댓글 페이징 -->
+				<div style="padding: 3rem">
+					<form id="page_form">
+						<!-- criteria -->
+						<input type="hidden" name="pageNum" value=<%=pageNum%>> <input
+							type="hidden" name="amount" value="10"> <input
+							type="hidden" name="post_id" value=<%=dto.getId()%>>
+					</form>
+					<div class="comment-footer d-flex justify-content-center"></div>
+				</div>
+
+				<!-- 댓글 입력창 -->
+				<h4 class="comment">댓글 작성</h4>
+
+				<form id="insert_form" method="post">
+					<!-- comments -->
+					<input type="hidden" name="user_id" value=<%=userId%>>
+					<input type="hidden" name="post_id" value=<%=dto.getId()%>>
+					<input type="hidden" name="pageNum" value=<%=pageNum%>>
+
+					<div class="row">
+						<div class="col-sm-4">
+							<div class="form-group">
+								<label for="name">아이디<span class="required text-primary">*</span></label>
+								<input id="NICKNAME" name="nickname" type="text"
+									class="form-control" value="<%=userNickname%>" readonly>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="form-group comment-div">
+								<label for="comment">내 용 <span
+									class="required text-primary">*</span></label>
+
+								<div class="comment-and-button">
+									<div class="comment-form">
+										<textarea id="CONTENT" name="content" rows="4"
+											class="form-control "></textarea>
+									</div>
+
+									<div class="comment-button-div">
+										<button class="re btn btn-template-outlined comment-input-button" id="input_data" style="height:7.5rem!important">댓글 등록</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+
+				<div style="margin: 2rem"></div>
+
+				<!-- 수정/삭제/신고 버튼 -->
+				<div id="comment-form">
+					<div class="row">
+						<div class="col-sm-12 text-right">
+
+							<%
+								if ((loginedUser != null) && (userId == dto.getUser_id())) {
+							%>
+							<nav aria-label="Page navigation example"
+								class="d-flex justify-content-left">
+								<button class="btn btn-template-outlined custom-button">
+									<i class="fa fa-pencil"></i> <a
+										href="/dog/freeboard/modifyForm/<%=dto.getId()%>">수정 </a>
+								</button>
+								<button type="submit"
+									class="btn btn-template-outlined custom-button">
+									<i class="fa fa-trash-o"></i> <a
+										href="/dog/freeboard/delete/<%=dto.getId()%>">삭제 </a>
+								</button>
+							</nav>
+							<%
+								}
+							%>
+
+							<div class="col-sm-12 text-right">
+								<!-- 게시글 신고 버튼 -->
+								<button type="button" class="btn btn-danger" data-toggle="modal"
+									style="float: right;" id="report-btn">신고</button>
+							</div>
+						</div>
 					</div>
 				</div>
+				<div style="margin: 5rem"></div>
+
+				<!-- 신고 모달 -->
+				<div id="report-modal" tabindex="-1" role="dialog"
+					aria-hidden="true" class="modal fade">
+					<div role="document" class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 align="center" class="modal-title">게시글 신고</h4>
+								<button type="button" data-dismiss="modal" aria-label="Close"
+									class="close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+
+							<div class="modal-body">
+								<form id="report_form" method="POST">
+
+									<input type="hidden" name="board_id" id="BOARD_ID"
+										value=<%=boardId%>> <input type="hidden"
+										name="post_id" id="POST_ID" value=<%=dto.getId()%>> <input
+										type="hidden" name="user_id" id="USER_ID" value=<%=userId%>>
+									<label style="text-align: left !important;">신고 분류</label>
+									<div class="form-group">
+										<select id="state" name="category_id" id="category_id"
+											class="form-control">
+											<option value="0">신고 사유 선택</option>
+											<option value="1">부적절한 게시물</option>
+											<option value="2">도배 게시물</option>
+											<option value="3">광고성 게시물</option>
+											<option value="4">비방/비하/욕설 게시물</option>
+											<option value="5">음란성 또는 청소년 유해 게시물</option>
+											<option value="6">기타</option>
+										</select>
+									</div>
+									<label>내용</label>
+									<div class="form-group">
+										<textarea name="description" id="description" rows="10"
+											class="form-control"></textarea>
+									</div>
+									<p class="text-center">
+										<input type="submit" value="신고"
+											class="btn btn-outline-primary" id="input_report"> <a
+											style="padding-right: 0.5rem;"></a> <input type="reset"
+											class="btn btn-outline-primary" value="취소">
+									</p>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- 신고모달 끝 -->
 			</div>
 		</div>
-		
-		<div id="content">
-			<div class="container">
-				
-					<!-- LEFT COLUMN _________________________________________________________-->
-					<div id="blog-post" class="col-md-13">
+	</div>
+	
+	<script>
+	 //신고 시 로그인 확인
+	   $('#report-btn').on("click", function(e){
+		   <% if(loginedUser == null){ %>
+			   alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");
+			   $('#login-modal').modal("show");
+			   
+		   <%} else{%>		   
+		   		$(this).attr('data-target',"#report-modal");
+		   		$('#report-modal').modal("show");
+		   <%}%>
+	   });
+	 
+	 //쪽지 전송 시 로그인 확인
+	   $('#message-btn').on("click", function(e){
+		   <% if(loginedUser == null){ %>
+			   alert("로그인이 필요한 화면입니다. 로그인 후 이용해주세요.");
+			   $('#login-modal').modal("show");
+			   
+		   <%} else{%>		   
+		   		$(this).attr('data-target',"#message-modal");
+		   		$('#message-modal').modal("show");
+		   <%}%>
+	   });  
+	 
+	 
+	</script>
 
-						<button class="write btn btn-template-outlined">
-							<a href="/dog/freeboard/writeForm">
-							글쓰기
-							</a>
-						</button>
-						<button class="btn btn-template-outlined">
-							<i class="fa fa-align-justify"></i><a href="/dog/freeboard/list">목록</a>
-						</button>
-																	
-						<div class="panel-heading">
-							<h2 class="h3 panel-title">안녕하세요!!!!!!!!!!!!!!</h2>
-						</div>
+	<!-- script 파일 추가 -->
+	<%-- <%@ include file="/WEB-INF/views/commons/script.jspf" %>--%>
+	<!-- include category.js -->
+	
+	<script type="text/javascript" src="/resources/js/freeboard/comment.js"></script>
+	<script src="/resources/js/report.js"></script>
+	<script src="/resources/js/freeboard/detail.js"></script>
 
-						<table>
-						
-								<tr>
-									<td><img src="/resources/img/blog-avatar2.jpg" alt=""
-										class="img-fluid rounded-circle" width="70px;" height="70px;"></td>
-									<td>
-										<div class="nav navbar-nav ml-auto">
-											<a href="#" data-toggle="dropdown" class="dropdown">Pet</a>
-											<div class="dropdown-menu">
-												<div class="dropdown"><a href="#" class="nav-link">게시글보기</a></div>
-												<div class="dropdown"><a href="#" class="nav-link">쪽지보내기</a></div>
-											</div>
-										</div>
-									</td>
-									<td class=grade>준회원</td>
-									<td class=date>2019-07-01 23:02:53</td>
-									<td class=view><i class="fa fa-eye"></i>130186321</td>
-									<td class=like><a href="#" class="btn btn-template-outlined"><i
-											class="fa fa-heart-o"></i>13</a></td>
-
-								</tr>																			
-						</table>
-
-						<hr size="10px">
-
-						<p class="lead">This is the lead paragraph of the article.
-							Pellentesque habitant morbi tristique senectus et netus et
-							malesuada fames ac turpis egestas. Vestibulum tortor quam,
-							feugiat vitae, ultricies eget.</p>
-						<div id="post-content">
-							<p class="text-sm">
-								<strong>Pellentesque habitant morbi tristique</strong> senectus
-								et netus et malesuada fames ac turpis egestas. Vestibulum tortor
-								quam, feugiat vitae, ultricies eget, tempor sit amet, ante.
-								Donec eu libero sit amet quam egestas semper. <em>Aenean
-									ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque
-								sit amet est et sapien ullamcorper pharetra. Vestibulum erat
-								wisi, condimentum sed,
-								<code>commodo vitae</code>
-								, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt
-								condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim
-								ac dui. <a href="#">Donec non enim</a> in turpis pulvinar
-								facilisis. Ut felis.
-							</p>
-							<p>
-								<img src="/resources/img/blog2.jpg" alt="Example blog post alt"
-									class="img-fluid">
-							</p>
-							<h2>Header Level 2</h2>
-							<ol>
-								<li>Lorem ipsum dolor sit amet, consectetuer adipiscing
-									elit.</li>
-								<li>Aliquam tincidunt mauris eu risus.</li>
-							</ol>
-							<blockquote class="blockquote">
-								<p class="text-sm">Lorem ipsum dolor sit amet, consectetur
-									adipiscing elit. Vivamus magna. Cras in mi at felis aliquet
-									congue. Ut a est eget ligula molestie gravida. Curabitur massa.
-									Donec eleifend, libero at sagittis mollis, tellus est malesuada
-									tellus, at luctus turpis elit sit amet quam. Vivamus pretium
-									ornare est.</p>
-							</blockquote>
-							<h3>Header Level 3</h3>
-							<p>Pellentesque habitant morbi tristique senectus et netus et
-								malesuada fames ac turpis egestas. Vestibulum tortor quam,
-								feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu
-								libero sit amet quam egestas semper. Aenean ultricies mi vitae
-								est. Mauris placerat eleifend leo. Quisque sit amet est et
-								sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum
-								sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum,
-								elit eget tincidunt condimentum, eros ipsum rutrum orci,
-								sagittis tempus lacus enim ac dui. Donec non enim in turpis
-								pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus
-								faucibus, tortor neque egestas augue, eu vulputate magna eros eu
-								erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis,
-								accumsan porttitor, facilisis luctus, metus</p>
-							<ul>
-								<li>Lorem ipsum dolor sit amet, consectetuer adipiscing
-									elit.</li>
-								<li>Aliquam tincidunt mauris eu risus.</li>
-							</ul>
-							<p>
-								<img src="/resources/img/blog.jpg" alt="Example blog post alt"
-									class="img-fluid">
-							</p>
-							<p>Pellentesque habitant morbi tristique senectus et netus et
-								malesuada fames ac turpis egestas. Vestibulum tortor quam,
-								feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu
-								libero sit amet quam egestas semper. Aenean ultricies mi vitae
-								est. Mauris placerat eleifend leo. Quisque sit amet est et
-								sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum
-								sed, commodo vitae, ornare sit amet, wisi. Aenean fermentum,
-								elit eget tincidunt condimentum, eros ipsum rutrum orci,
-								sagittis tempus lacus enim ac dui. Donec non enim in turpis
-								pulvinar facilisis. Ut felis. Praesent dapibus, neque id cursus
-								faucibus, tortor neque egestas augue, eu vulputate magna eros eu
-								erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis,
-								accumsan porttitor, facilisis luctus, metus</p>
-						</div>
-
-						<div id="comments">
-							<h4 class="text-uppercase">댓글 수 2</h4>
-							<section class="bar bg-gray mb-0">
-								<div class="row comment">
-									<div class="col-sm-3 col-md-2 text-center-xs">
-										<p>
-											<img src="/resources/img/blog-avatar2.jpg" alt="" class="img-fluid rounded-circle">
-										</p>
-									</div>
-									<div class="col-sm-9 col-md-10">
-										<h5 class="text-uppercase">Julie Alma</h5>
-										<p class="posted">
-											<i class="fa fa-clock-o"></i> 2019-07-03 09:24:26
-										</p>
-										<p>Pellentesque habitant morbi tristique senectus et netus
-											et malesuada fames ac turpis egestas. Vestibulum tortor quam,
-											feugiat vitae, ultricies eget, tempor sit amet, ante. Donec
-											eu libero sit amet quam egestas semper. Aenean ultricies mi
-											vitae est. Mauris placerat eleifend leo.</p>
-
-									</div>
-								</div>
-								<div class="row comment last">
-									<div class="col-sm-3 col-md-2 text-center-xs">
-										<p>
-											<img src="/resources/img/blog-avatar.jpg" alt="" class="img-fluid rounded-circle">
-										</p>
-									</div>
-									<div class="col-sm-9 col-md-10">
-										<h5 class="text-uppercase">Louise Armero</h5>
-										<p class="posted">
-											<i class="fa fa-clock-o"></i> 2019-07-03 09:25:23
-										</p>
-										<p>Pellentesque habitant morbi tristique senectus et netus
-											et malesuada fames ac turpis egestas. Vestibulum tortor quam,
-											feugiat vitae, ultricies eget, tempor sit amet, ante. Donec
-											eu libero sit amet quam egestas semper. Aenean ultricies mi
-											vitae est. Mauris placerat eleifend leo.</p>
-									</div>
-								</div>
-							</section>
-						</div>
-
-						<div id="comment-form">
-							<h4 class="text-uppercase">댓글</h4>
-							<form>
-								<div class="row">
-									<div class="col-sm-4">
-										<div class="form-group">
-											<label for="name">닉네임 <span class="required text-primary">*</span></label> <input id="name"
-												type="text" class="form-control">
-										</div>
-									</div>
-								</div>
-
-								<div class="row">
-									<div class="col-sm-12">
-										<div class="form-group">
-											<label for="comment">내 용 <span class="required text-primary">*</span></label>
-											<textarea id="comment" rows="4" class="form-control"></textarea>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-sm-12 text-right">
-										<button class="re btn btn-template-outlined">
-											<i class="fa fa-comment-o"></i> 댓글 등록
-										</button>
-									
-
-										<nav aria-label="Page navigation example"class="d-flex justify-content-left">
-											<button class="btn btn-template-outlined"style="margin-right: 2rem">
-												<i class="fa fa-pencil"></i><a href="/dog/freeboard/modifyForm">수정</a>
-											</button>
-											<button type="submit" class="delete btn btn-template-outlined">
-												<i class="fa fa-trash-o"></i>삭제
-											</button>
-										</nav>
-
-										<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal"
-											style="float: right;" id="report-btn">신고
-										</button>
-
-										<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-											<div class="modal-dialog" role="document">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h3 class="modal-title" id="myModalLabel">신고</h3>
-														<button type="button" class="close" data-dismiss="modal"
-															aria-label="Close">
-															<span aria-hidden="true">&times;</span>
-														</button>
-													</div>
-													<div class="modal-body">
-														<table>
-															<tr>
-																<td>신고 분류 </td>
-																<td>
-																	<div class="form-group">
-
-																		<select id="state" class="form-control">
-																			<option>부적절한 게시글</option>
-																			<option>도배 게시글</option>
-																			<option>광고 목적 게시글</option>
-																			<option>기타</option>
-																		</select>
-																	</div>
-																</td>
-															</tr>
-															
-															<tr>
-																<td>내용</td>
-																<td>
-																<textarea id="comment" rows="4" cols="40" class="form-control"></textarea>
-																</td>
-															</tr>
-															
-															<tr></tr>
-															<tr>
-																<td></td>
-																<td>
-																<button type="button" class="btn btn-template-outlined" data-dismiss="modal">확인</button>
-																<button type="button" class="btn btn-template-outlined" data-dismiss="modal">취 소</button></td>
-															</tr>
-														</table>
-													</div>
-												</div>
-												<div class="modal-footer"></div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3"></div>
-			</div>
-		</div>		
-	<!-- Javascript files-->
-	<script src="/resources/vendor/jquery/jquery.min.js"></script>
-	<script src="/resources/vendor/popper.js/umd/popper.min.js"></script>
-	<script src="/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="/resources/vendor/jquery.cookie/jquery.cookie.js"></script>
-	<script src="/resources/vendor/waypoints/lib/jquery.waypoints.min.js"></script>
-	<script src="/resources/vendor/jquery.counterup/jquery.counterup.min.js"></script>
-	<script src="/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
-	<script src="/resources/vendor/owl.carousel2.thumbs/owl.carousel2.thumbs.min.js"></script>
-	<script src="/resources/js/jquery.parallax-1.1.3.js"></script>
-	<script src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
-	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
-	<script src="/resources/js/front.js"></script>
 </body>
 </html>

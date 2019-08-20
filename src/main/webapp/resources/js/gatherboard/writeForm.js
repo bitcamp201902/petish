@@ -75,3 +75,7 @@ function Check() {
 	
 	return true;
 }
+
+$("#resetbtn").click(function(){
+	location.href="/dog/gatherboard";
+});

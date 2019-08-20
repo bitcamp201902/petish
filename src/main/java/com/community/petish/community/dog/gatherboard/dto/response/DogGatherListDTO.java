@@ -20,6 +20,7 @@ public class DogGatherListDTO{
 	private String NICKNAME;
 	private Date CREATED_DATE;
 	private Timestamp GATHERING_DATE;
+	private String GATHERING_ADDRESS;
 	private int GATHERING_STATE;
 	private int VIEW_COUNT;
 	private int COMMENT_COUNT;

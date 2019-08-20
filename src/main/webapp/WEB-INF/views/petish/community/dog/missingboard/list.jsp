@@ -39,37 +39,6 @@
 
 <link href="/resources/css/fonts.css" rel="stylesheet">
 
-<style>
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: grey;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-</style>
-
 </head>
 
 <body class="bg-light" style="font-family: 'Do Hyeon', sans-serif;">
@@ -97,27 +66,19 @@
 		<div id="heading-breadcrumbs">
 			<div class="container">
 				<div class="row d-flex align-items-center flex-wrap">
-					<div class="col-md-7">
-						<h1 class="h2">실종견 게시판</h1>
-					</div>
-					<div class="col-md-5">
-						<ul class="breadcrumb d-flex justify-content-end">
-
-						</ul>
-					</div>
+					<div class="col-md-12" style="margin-top:2rem">
+						<div style="float:left"><h1 class="h2">실종견 게시판</h1></div>
+						<div style="float:right">
+		                  <button type="submit" id="writeBtn" class="list btn btn-template-outlined custom-button to-list-btn">글쓰기</button>
+		              	</div>
+		              	<hr style="color:rgba(0,0,0,0.10); margin-top:4rem">
+		         	</div>
 				</div>
 			</div>
 		</div>
-
-		<div style="padding: 0.5rem"></div>
-
+					
 		<div id="content">
 			<div class="container">
-				<div style="text-align: right; margin: 1rem">
-					<button class="btn btn-template-outlined write-button" id="writeBtn" >글쓰기
-					</button>
-				</div>
-
 				<div id="customer-order" class="col-lg-20">
 					<table class="table" id="post" style="text-align: center">
 						<tr>
@@ -173,22 +134,15 @@
 									<%=dto.getDog_species()%> / <%=dto.getDog_gender()%> / <%=dto.getDog_age()%></a>
 								<a style="padding: 0.15rem"></a> <span class="badge badge-secondary comment-count"><%=dto.getCommentCount() %></span></td>
 							<td>
-								<div class="nav navbar-nav ml-auto">
-									<a href="#" data-toggle="dropdown" class="dropdown writer"><%=dto.getNickname() %></a>
-									
-									<%-- <% if (dto.getUser_id() != userId) {%> --%>
-									<div class="dropdown-menu">									
-										<div class='dropdown'>
-											<a href='/member/detail/<%=dto.getUser_id()%>'>작성게시글 보기</a>
-										</div>
-										<br>
-										<div class="dropdow">
-											<a href="#" id="message-btn" class="showmodal" data-toggle="modal" data-id="<%=dto.getUser_id()%>" data-nick="<%=dto.getNickname() %>" data-toggle="modal">쪽지보내기</a>
-										</div>
-									<%-- <%} else {}%> --%>						
+								<div class="showMemberDropMenu">
+									<div>
+									<a href="#" data-toggle="dropdown" class="writer"><%=dto.getNickname() %></a>
 									</div>
+									<div class="member_dropMenu">		
+										<a href='/member/detail/<%=dto.getUser_id()%>'>작성게시글 보기</a>							
+										<a href="#" id="message-btn" class="showmodal" data-toggle="modal" data-id="<%=dto.getUser_id()%>" data-nick="<%=dto.getNickname() %>">쪽지보내기</a>							
+									</div>				
 								</div>
-
 							</td>
 							<td class="test postDate" name="mobile-date">
 							<fmt:formatDate pattern="yyyy-MM-dd" value="<%=dto.getCreate_date() %>"/>

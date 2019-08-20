@@ -1,116 +1,155 @@
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.dropdown-content a {
-    color: grey;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {
-    background-color: #ddd;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
 button.btn.btn-template-outlined.write-button {
-float: right;
-margin: 20px;
+	float: right;
+	margin: 20px;
 }
 
-.table{
-margin: auto; 
-text-align: center;
+.table {
+	margin: auto;
+	text-align: center;
 }
-
-region form-control{
-min-width:3cm; 
-padding-left: 15px;
-}
-
-.table td, .table th {
-border-top: 1px solid lightgray;
-}
-
-#lostdogImg{
-	width:150px !important;
-	max-width:150px !important;	
-	height:150px !important;
-	max-height:150px !important;
-}
-.found-buttons{
-	font-weight:200!important;
-	font-size: 0.85rem!important;
-}
-.title, .writer ,.postDate, .view, .found, .dogImage{
-	font-size:1.1rem;
-}
-.write-button{
+.to-list-btn{
 	font-size:1rem!important;
 }
-.title{
-	color:black;
-}
-.comment-count{
-	vertical-align:middle!important;
-	font-size: 0.8rem!important;
-    background-color: #808080!important;
+.table td, .table th {
+	border-top: 1px solid lightgray;
 }
 
-@media (max-width:400px) {
-#lostdogImg{
-	width:100px !important;
-	max-width:100px !important;	
-	height:100px !important;
-	max-height:100px !important;
-}	
+#lostdogImg {
+	width: 150px !important;
+	max-width: 150px !important;
+	height: 150px !important;
+	max-height: 150px !important;
 }
 
-@media screen and (max-width:750px){
-
-th.test.border-top-0{
-display:none;
-}
-.test{
-display:none;
-}
-th.condition.border-top-0{
-width:70px;
-}
-th.image.border-top-0{
-width:70px;
-}
-th.title.border-top-0{
-width:80px;
-}
-th.writer.border-top-0{
-width:70px;
-}
-.si.col-md-2.col-lg-2{
-display:none;
+.found-buttons {
+	font-weight: 100 !important;
+	font-size: 0.95rem !important;
+	padding: 0.375rem 0.55rem !important;
+	color: white !important;
 }
 
-.condition.col-md-2.col-lg-2{
-display:none;
+.title, .writer, .postDate, .view, .found, .dogImage {
+	font-size: 1.1rem;
 }
 
-.panel.panel-default.sidebar-menu{
-width:450px;
-margin-right:10px;
+.write-button {
+	font-size: 0.95rem !important;
 }
 
+#state {
+	height: 3rem !important;
+}
+.comment-count {
+	vertical-align: middle !important;
+	font-size: 0.8rem !important;
+	background-color: #808080 !important;
+}
+
+.showMemberDropMenu {
+	position: relative;
+	display: inline-block;
+}
+
+.member_dropMenu {
+	display: none;
+	position: absolute;
+	background-color: #f1f1f1;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+}
+
+.member_dropMenu a {
+	color: grey !important;
+	text-decoration: none;
+	display: block;
+}
+
+.member_dropMenu a:hover {
+	background-color: #ddd;
+}
+
+.showMemberDropMenu:hover .member_dropMenu {
+	display: block;
+}
+#title{
+	color:black!important;
+}
+
+@media ( max-width : 400px ) {
+	.member_dropMenu a {
+		font-size: 13px;
+		padding: 5px 5px;
+	}
+	.member_dropMenu {
+		width: 2.5cm;
+		box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+	}
+	#lostdogImg {
+		width: 100px !important;
+		max-width: 100px !important;
+		height: 100px !important;
+		max-height: 100px !important;
+	}
+}
+
+@media ( min-width : 400px ) {
+	.member_dropMenu a {
+		font-size: 13px;
+		padding: 5px 5px;
+	}
+	.member_dropMenu {
+		width: 2.5cm;
+		box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+	}
+}
+
+@media ( min-width : 576px) {
+	.member_dropMenu a {
+		font-size: 14px;
+		padding: 7px 7px;
+	}
+	.member_dropMenu {
+		width: 3.5cm;
+	}
+}
+
+@media ( min-width : 768px) {
+	.member_dropMenu a {
+		font-size: 14px;
+		padding: 7px 7px;
+	}
+	.member_dropMenu {
+		width: 3.5cm;
+	}
+}
+
+@media screen and (max-width:750px) {
+	th.test.border-top-0 {
+		display: none;
+	}
+	.test {
+		display: none;
+	}
+	th.condition.border-top-0 {
+		width: 70px;
+	}
+	th.image.border-top-0 {
+		width: 70px;
+	}
+	th.title.border-top-0 {
+		width: 80px;
+	}
+	th.writer.border-top-0 {
+		width: 70px;
+	}
+	.si.col-md-2.col-lg-2 {
+		display: none;
+	}
+	.condition.col-md-2.col-lg-2 {
+		display: none;
+	}
+	.panel.panel-default.sidebar-menu {
+		width: 450px;
+		margin-right: 10px;
+	}
 }

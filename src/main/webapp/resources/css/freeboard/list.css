@@ -5,7 +5,6 @@
 #heading-breadcrumbs {
     margin-bottom: 25px;
 }
-
 .table.col-lg-20{
 	margin: auto; 
 	text-align: center;
@@ -24,6 +23,16 @@ a.nav-link{
 
 .btn.btn-template-main{
 	margin-right:20px;
+}
+.post-category{
+	width:150px!important;
+	height:3rem!important;
+}
+.titles{
+	font-size:1.1rem!important;
+}
+td{
+	font-size:1.1rem!important;
 }
 
 @media screen and (max-width:750px){

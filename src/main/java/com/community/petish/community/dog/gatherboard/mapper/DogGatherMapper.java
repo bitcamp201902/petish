@@ -9,10 +9,16 @@ import com.community.petish.community.dog.gatherboard.domain.DogSpeciesVO;
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherListDTO;
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO;
 import com.community.petish.community.report.mapper.ReportGetdeletedMapper;
+import com.community.petish.community.dog.gatherboard.dto.response.RegionListDTO;
+import com.community.petish.community.user.domain.User;
+
 
 public interface DogGatherMapper extends ReportGetdeletedMapper {
 	List<DogGatherPostVO> getDogGatherList();
 	List<DogGatherListDTO> getListWithPaging(Criteria cri);
+	Long getMaxPostID();
+	List<RegionListDTO> getRegionList(Long regionID);
+	Long getUserRegionID(User user);
 	int getDogGatherPostCount(Criteria cri);
 	DogGatherPostVO getDogGatherPost(Long postID);
 	int updateViewCount(Long postID);
@@ -26,6 +32,7 @@ public interface DogGatherMapper extends ReportGetdeletedMapper {
 	void allCancelParticipant(Long postID);
 	int getDogGatherParticipantCount(Long postID);
 	Long getUserID(String username);
+	Long getUserIDbyNickName(String nickname);
 	String getUserName(Long userID);
 	String getUserNickName(Long userID);
 	Long getDogSpeciesID(String dogSpecies);
