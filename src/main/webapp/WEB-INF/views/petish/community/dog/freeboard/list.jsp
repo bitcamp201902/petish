@@ -134,14 +134,6 @@
 							<td>
 								<div class="nav navbar-nav ml-auto">
 									<a href="#" data-toggle="dropdown" class="dropdown writer"><%=dto.getNickname() %></a>
-									<div class="dropdown-menu">
-										<div class="dropdown">
-											<a href="/mypage/member/detail" class="nav-link">게시글보기</a>
-										</div>
-										<div class="dropdown">
-											<a href="#" id="message-btn" class="nav-link" data-toggle="modal">쪽지보내기</a>
-										</div>
-									</div>
 								</div>
 							</td>
 							

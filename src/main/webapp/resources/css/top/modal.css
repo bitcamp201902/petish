@@ -39,7 +39,7 @@ p {
 }
 
 #gender {
-	margin-left: 10px;
+	margin-left: 45px;
 }
 
 #genderForm {
@@ -47,7 +47,14 @@ p {
 }
 
 #concern {
-	margin-left: 10px;
+	margin-left: 45px;
+}
+
+.gender-label, .concern-label{
+	font-size: 1rem;
+	color:#b5e3d5;
+	text-align:left;
+	margin-left: 45px;
 }
 
 #photo {
@@ -70,13 +77,14 @@ p {
   width: 100%;
   max-width: 280px;
   margin-top: 15px;
+  padding-bottom: 0.5rem;
 }
 
 .inp .label {
   position: absolute;
   top: 16px;
   left: 0;
-  font-size: 20px;
+  font-size: 1rem;
   color: #9098a9;
   font-weight: 500;
   transform-origin: 0 0;
@@ -117,7 +125,7 @@ p {
 
 .inp input:not(:placeholder-shown) + span {
   color: #b5e3d5;
-  transform: translateY(-26px) scale(0.75);
+  transform: translateY(-26px) scale(1);
 }
 
 .inp input:focus {
@@ -127,7 +135,7 @@ p {
 
 .inp input:focus + span {
   color: #b5e3d5;
-  transform: translateY(-26px) scale(0.75);
+  transform: translateY(-26px) scale(1);
 }
 
 .inp input:focus + span + .border {

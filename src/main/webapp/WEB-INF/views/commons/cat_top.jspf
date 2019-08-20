@@ -1,11 +1,11 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ page import="com.community.petish.community.user.dto.response.LoginedUser"%>
 
+<script src="/resources/js/index/jquery-3.2.1.min.js"></script>
 <%@ include file="/WEB-INF/views/commons/link.jspf" %>
 <%@ include file="/WEB-INF/views/commons/script.jspf" %>
 
 <!-- JavaScript File -->
-<script src="/resources/js/index/jquery-3.2.1.min.js"></script>
 <link rel="stylesheet" href="/resources/css/top/top.css">
 <link rel="stylesheet" href="/resources/css/top/modal.css?after">
 
@@ -61,7 +61,13 @@
   	.fixmenu{
 		color:#8ed2be !important;
 	}
-
+	
+	#usernameCertificationRequestButton, #usernameCertificationCheckButton, #nicknameDuplicationCheckButton, #zipcodeButton, #joinButton{
+		border: 1px solid #8ed2be !important;
+    	color: #8ed2be;
+		padding: 0.4rem 0.9rem 0.4rem 0.9rem;
+		font-size:0.95rem;
+	}
 </style>
 
 <script>
@@ -281,7 +287,7 @@
 						  	<span class="border"></span>
 						</label>
 						<label id="passwordCheckFalseResult" class="inp" style="display:none; margin-top:0px;">
-							<font size="1" color='red'>비밀번호가 일치하지 않습니다.</font>
+							<font size="3" color='red'>비밀번호가 일치하지 않습니다.</font>
 						</label>
 						<label for="nicknameInput" class="inp">
 						  	<input type="text" id="nicknameInput" name="nickname" placeholder=" " required>
@@ -300,15 +306,14 @@
 						</label>
 							<button class="btn btn-template-outlined joinBtn" id="zipcodeButton" >주소검색</button>
                        	<div class="form-group" id="genderInput">
-                            <label for="gender">성별</label>
+                            <div class="label gender-label">성별</div>
                             <div class="row" id="gender">
 								<input type="radio" name="gender" value="여자" checked> <p>여자</p>
 								<input type="radio" name="gender" value="남자"> <p>남자</p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <a></a>
-                            <label for="concern">관심사</label>
+                        <div class="form-group" id="concernInput">
+                            <div class="label concern-label">관심사</div>
                             <div class="row" id="concern">
 								<input type="radio" name="concern" value="dog"> <p>강아지</p>
 								<input type="radio" name="concern" value="cat"> <p>고양이</p>

@@ -68,6 +68,16 @@
 <link href="/resources/css/report.css" rel="stylesheet">
 
 <link href="/resources/css/fonts.css" rel="stylesheet">
+<style>
+.lostdog-detail-buttons{
+	padding:0.5rem 1rem 0.5rem 1rem;
+}
+.reply-btn{
+	height:7.5rem;
+	font-size:1rem!important;
+	font-family:'Do Hyeon', sans-serif!important;
+}
+</style>
 </head>
 
 <body class="bg-light" style="font-family: 'Do Hyeon', sans-serif;">
@@ -96,7 +106,7 @@
                <div class="col-md-12" style="margin-top:2rem">
                   <div style="float:left"><h1 class="h2">실종견 게시판</h1></div>
                   <div style="float:right">
-                  <button type="submit" class="list btn btn-template-outlined custom-button to-list-btn">
+                  <button type="submit" class="list btn btn-template-outlined lostdog-detail-buttons custom-button to-list-btn">
 	              	<i class="fa fa-align-justify"></i>
 	              	<a href="/dog/missingboard"> 목록 </a>
 	              </button>
@@ -283,7 +293,7 @@
 							</div>
 							
 							<div class="comment-button-div">
-								<button class="re btn btn-template-outlined comment-input-button" id="input_data">댓글 등록</button>
+								<button class="re btn btn-template-outlined lostdog-detail-buttons reply-btn" id="input_data">댓글 등록</button>
 							</div>
 						</div>
 					</div>		
@@ -303,11 +313,11 @@
 				<% if((loginedUser != null) && (userId == dto.getUser_id())) {%>
                      <nav aria-label="Page navigation example"
                         class="d-flex justify-content-left">
-                        <button class="btn btn-template-outlined custom-button">
+                        <button class="btn btn-template-outlined lostdog-detail-buttons custom-button">
                            <i class="fa fa-pencil"></i>
                            <a href="/dog/missingboard/modifyForm/<%=ID%>">수정 </a>
                         </button>
-                        <button type="submit" class="btn btn-template-outlined custom-button">
+                        <button type="submit" class="btn btn-template-outlined lostdog-detail-buttons custom-button">
                            <i class="fa fa-trash-o"></i>
                            <a href="/dog/missingboard/delete/<%=ID%>">삭제 </a>
                         </button>
@@ -368,10 +378,10 @@
                         class="form-control"></textarea>
                   </div>
                   <p class="text-center">                  
-                     <input type="submit" value="신고" class="btn btn-outline-primary"
+                     <input type="submit" value="신고" class="btn-template-outlined lostdog-detail-buttons"
                         id="input_report">
                      <a style="padding-right: 0.5rem;"></a>
-                     <input type="reset" class="btn btn-outline-primary" value="취소">
+                     <input type="reset" class="btn-template-outlined lostdog-detail-buttons" value="취소">
                   </p>
                </form>
             </div>
@@ -410,7 +420,7 @@
                         <textarea id="message_content" name='messageContent' rows="10" class="form-control"></textarea>
                     </div>
                     <p class="text-center">   
-                        <input type="submit" value="보내기" id="modalSendBtn" class="btn btn-outline-primary">
+                        <input type="submit" value="보내기" id="modalSendBtn" class="btn-template-outlined lostdog-detail-buttons">
                     </p>
                 </form>
                 </div>
