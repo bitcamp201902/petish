@@ -19,6 +19,36 @@
 	float: right;
 }
 
+.filebox {
+	padding-top: 10px;
+	text-align: center;
+}
+
+.filebox label {
+	display: inline-block;
+	padding: 0.675rem 1.2rem;
+	color: #fff !important;
+	font-size: 13px !important;
+	line-height: normal;
+	vertical-align: middle;
+	background-color: #b5e3d5;
+	cursor: pointer;
+	border: 2px solid #b5e3d5;
+	letter-spacing: 0.2rem;
+}
+
+.filebox input[type="file"] {
+	/* 파일 필드 숨기기 */
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip:rect(0,0,0,0);
+	border: 0;
+}
+
 @media (max-width: 400px) {
 	.h2, h2 {
 		font-size: 1.5rem;
