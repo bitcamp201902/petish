@@ -34,4 +34,13 @@ public interface MypetPostMapper {
 	
 	Long countAll();
 
+	Long countId();
+
+    Long countAllByUserId(@Param("userId") Long userId);
+
+	List<MypetPost> findAllByUserId(@Param("userId") Long userId, @Param("pageNum") Integer pageNum);
+
+	List<MypetPost> findAllByContent(MypetPostListCriteria mypetPostListCriteria);
+
+	Long countAllByKeyword(@Param("keyword") String keyword);
 }

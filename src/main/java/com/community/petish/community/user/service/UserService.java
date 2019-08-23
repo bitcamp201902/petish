@@ -27,4 +27,6 @@ public interface UserService {
     void sendCertificateNumber(String username, HttpSession session);
 
     Boolean checkCertificateNumber(String username, String certificateNumber, HttpSession session);
+
+    Long findUserIdByNickname(String nickname);
 }

@@ -4,17 +4,18 @@
 <mapper namespace="com.community.petish.community.mypet.post.mapper.MypetPostMapper">
 
 	<insert id="savePost" parameterType="com.community.petish.community.mypet.post.dto.request.SaveMypetPostParams">
-		
+
 		INSERT INTO mypet_post_tb
 			(id, title, content, image, user_id)
 		VALUES
 			( ( (select NVL(max(id), 0) from mypet_post_tb) + 1), #{title}, #{content}, #{images}, #{userId})
-		
-		<selectKey resultType="Long" order="AFTER">
-			select id from mypet_post_tb where images = #{images}
-		</selectKey>
+
 	</insert>
-	
+
+	<select id="countId" resultType="java.lang.Long">
+		SELECT count(*) FROM mypet_post_tb
+	</select>
+
 	<select id="findById" resultType="com.community.petish.community.mypet.post.domain.MypetPost">
 
 		SELECT
@@ -32,11 +33,6 @@
 			SELECT rownum rn, id, title, content, image, created_date, user_id
 			FROM mypet_post_tb
 			WHERE deleted = 0
-		]]>
-			<if test="hashtag != null">
-			AND content like '%${hashtag}%'
-			</if>
-		<![CDATA[
 			AND rownum <= ${pageNum} * 20
 			ORDER BY id desc
 			)
@@ -96,6 +92,48 @@
 	<select id="countAll" resultType="Long">
 		SELECT count(*) FROM mypet_post_tb
 		WHERE deleted = 0
+	</select>
+
+	<select id="countAllByUserId" parameterType="java.lang.Long" resultType="java.lang.Long">
+		SELECT count(*) FROM mypet_post_tb
+		WHERE user_id = ${userId}
+		AND deleted = 0
+	</select>
+
+	<select id="findAllByUserId" resultType="com.community.petish.community.mypet.post.domain.MypetPost">
+		<![CDATA[
+		SELECT id, title, content, image, created_date, user_id FROM
+			(
+			SELECT rownum rn, id, title, content, image, created_date, user_id
+			FROM mypet_post_tb
+			WHERE user_id = ${userId}
+			AND deleted = 0
+			AND rownum <= ${pageNum} * 20
+			ORDER BY id desc
+			)
+		WHERE rn >  ( ${pageNum} - 1 ) * 20
+		]]>
+	</select>
+
+	<select id="findAllByContent" resultType="com.community.petish.community.mypet.post.domain.MypetPost">
+		<![CDATA[
+		SELECT id, title, content, image, created_date, user_id FROM
+			(
+			SELECT rownum rn, id, title, content, image, created_date, user_id
+			FROM mypet_post_tb
+			WHERE content LIKE '%' || '${keyword}' || '%'
+			AND deleted = 0
+			AND rownum <= ${pageNum} * 20
+			ORDER BY id desc
+			)
+		WHERE rn >  ( ${pageNum} - 1 ) * 20
+		]]>
+	</select>
+
+	<select id="countAllByKeyword" resultType="java.lang.Long">
+		SELECT count(*) FROM mypet_post_tb
+		WHERE content LIKE '%' || '${keyword}' || '%'
+		AND deleted = 0
 	</select>
 
 </mapper>

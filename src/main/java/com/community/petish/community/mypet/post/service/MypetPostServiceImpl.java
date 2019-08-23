@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 import com.community.petish.community.mypet.hashtag.mapper.MypetHashTagMapper;
+import com.community.petish.community.mypet.hashtag.service.MypetHashTagService;
 import com.community.petish.community.mypet.post.domain.MypetPost;
 import com.community.petish.community.mypet.post.domain.MypetPostLike;
 import com.community.petish.community.mypet.post.dto.request.MypetPostListCriteria;
@@ -21,6 +22,7 @@ import com.community.petish.community.mypet.post.dto.response.MypetPostSummary;
 import com.community.petish.community.mypet.post.dto.response.MypetPostSummaryList;
 import com.community.petish.community.mypet.post.mapper.MypetPostMapper;
 import com.community.petish.community.user.dto.response.LoginedUser;
+import com.community.petish.community.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,7 +38,10 @@ public class MypetPostServiceImpl implements MypetPostService{
   	MypetPostMapper mypetPostMapper;
 
 	@Autowired
-	MypetHashTagMapper mypetHashTagMapper;
+	MypetHashTagService mypetHashTagService;
+
+	@Autowired
+	UserService userService;
 
 	@Override
 	public Long savePost(MultipartHttpServletRequest request) throws Exception {
@@ -73,62 +78,63 @@ public class MypetPostServiceImpl implements MypetPostService{
 		
 		log.info("saveMypetPostParams = {}", saveMypetPostParams);
 		
-		Long postId = mypetPostMapper.savePost(saveMypetPostParams);
+		mypetPostMapper.savePost(saveMypetPostParams);
 
-		return postId;
+		return mypetPostMapper.countId();
 		
 	}
 	
 	@Override
 	public MypetPostSummaryList getPosts(MypetPostListCriteria mypetPostListCriteria) {
-		if (Objects.isNull(mypetPostListCriteria.getHashtag())) {
+		String keyword = mypetPostListCriteria.getKeyword();
+		List<MypetPost> posts = null;
+		Integer lastPage = null;
+		if (keyword.equals("")) {
 
-			List<MypetPost> posts = mypetPostMapper.findByPage(mypetPostListCriteria);
+			posts = mypetPostMapper.findByPage(mypetPostListCriteria);
             Long mypetPostCount = mypetPostMapper.countAll();
-            List<MypetPostSummary> postSummaries =
-            posts.stream()
-                .map(post ->
-                new MypetPostSummary(
-                        post.getId(),
-                        post.getImage().split(",")[0],
-                        mypetPostMapper.countLikes(post.getId()),
-                        mypetPostMapper.countComments(post.getId())
-                        )
-                ).collect(Collectors.toList());
+            lastPage = (int) ( Math.ceil(mypetPostCount / mypetPostListCriteria.getAmount().doubleValue()) );
 
-            Integer lastPage = (int) ( Math.ceil(mypetPostCount / mypetPostListCriteria.getAmount().doubleValue()) );
+		} else if (keyword.startsWith("#")) {
+			mypetPostListCriteria.setKeyword(mypetPostListCriteria.getKeyword().substring(1));
+			List<Long> postIds = mypetHashTagService.getPostListByHashTag(mypetPostListCriteria);
+			posts = postIds.stream()
+					.map(postId -> mypetPostMapper.findById(postId))
+					.collect(Collectors.toList());
+			Long mypetPostCount = mypetHashTagService.countAllByHashTag(mypetPostListCriteria.getKeyword());
+			lastPage = (int) (Math.ceil(mypetPostCount / mypetPostListCriteria.getAmount().doubleValue()));
+		}else if (keyword.startsWith("@")) {
+			Long userId = userService.findUserIdByNickname(keyword.substring(1));
 
-            MypetPostSummaryList mypetPostSummaryList = new MypetPostSummaryList(mypetPostListCriteria, lastPage, postSummaries);
+			Long mypetPostCount = mypetPostMapper.countAllByUserId(userId);
 
-            return mypetPostSummaryList;
+			posts = mypetPostMapper.findAllByUserId(userId, mypetPostListCriteria.getPageNum());
+
+			lastPage = (int) (Math.ceil(mypetPostCount / mypetPostListCriteria.getAmount().doubleValue()));
+		} else {
+			posts = mypetPostMapper.findAllByContent(mypetPostListCriteria);
+
+			Long mypetPostCount = mypetPostMapper.countAllByKeyword(keyword);
+
+			lastPage = (int) (Math.ceil(mypetPostCount / mypetPostListCriteria.getAmount().doubleValue()));
 
 		}
 
-		List<Long> postIds = mypetHashTagMapper.getPostIdsByHashTag(mypetPostListCriteria);
-
-		List<MypetPost> posts = postIds.stream()
-				.map(postId -> mypetPostMapper.findById(postId))
-				.collect(Collectors.toList());
-
 		List<MypetPostSummary> postSummaries =
-			posts.stream()
-				.map(post ->
-					new MypetPostSummary(
-						post.getId(),
-						post.getImage().split(",")[0],
-						mypetPostMapper.countLikes(post.getId()),
-						mypetPostMapper.countComments(post.getId())
-					)
-				).collect(Collectors.toList());
+				posts.stream()
+						.map(post ->
+								new MypetPostSummary(
+										post.getId(),
+										post.getImage().split(",")[0],
+										mypetPostMapper.countLikes(post.getId()),
+										mypetPostMapper.countComments(post.getId())
+								)
+						).collect(Collectors.toList());
 
-		Long mypetPostCount = mypetHashTagMapper.countAllByHashTag(mypetPostListCriteria.getHashtag());
-
-		Integer lastPage = (int) ( Math.ceil(mypetPostCount / mypetPostListCriteria.getAmount().doubleValue()) );
 
 		MypetPostSummaryList mypetPostSummaryList = new MypetPostSummaryList(mypetPostListCriteria, lastPage, postSummaries);
 
 		return mypetPostSummaryList;
-
 	}
 
 	@Override

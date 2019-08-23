@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    String keyword = (String) request.getAttribute("keyword");
+%>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -25,10 +28,21 @@
     <div class="container-fluid body-section">
 
         <div class="board-header">
-            <div class="title">
+            <div id="mypet-board-header-title" class="title">
+                <div>
+                    <h2>마이펫</h2>
+                </div>
+                <div class="search-group input-group">
+                    <form id="saerch-form" action="/mypet" style="display: inherit; width: 100%;">
+                        <input type='text' id="search-message" name='keyword' class="form-control" placeholder="@유저 검색 #해시태그 검색" value="${keyword}"/>
+                            <span class="input-group-btn">
+                        <button type="submit" class="btn btn-primary" id="search-btn"><i class="fa fa-search"></i></button></span>
+                    </form>
+                </div>
 <%--                <button type="button" id="voteModalButton" class="btn btn-primary" data-toggle="modal" data-target="#mypet-vote-modal">투표 모달</button>--%>
-                <button type="button" id="writeFormButton" class="btn btn-primary" style="float: right" onclick="location.href='/mypet/write'">글쓰기</button>
-                <h2>마이펫</h2>
+                <div>
+                    <button type="button" id="writeFormButton" class="btn btn-primary" onclick="location.href='/mypet/write'">글쓰기</button>
+                </div>
             </div>
         </div>
 
@@ -204,7 +218,15 @@
     <%@ include file="/WEB-INF/views/commons/sendMessage.jspf" %>
 
 </body>
-
+    <script>
+        <%
+            if (keyword != null) {
+        %>
+            var keyword = '${keyword}';
+        <% } else { %>
+            var keyword = null;
+        <% } %>
+    </script>
     <script src="/resources/js/commons/message.js"></script>
     <script src="/resources/js/mypet/mypet.js"></script>
     <script src="/resources/js/mypet/mypetvote.js"></script>

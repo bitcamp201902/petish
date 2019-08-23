@@ -60,10 +60,14 @@ public class MypetHashTagServiceImpl implements MypetHashTagService {
 
     @Override
     public List<Long> getPostListByHashTag(MypetPostListCriteria mypetPostListCriteria) {
-
         List<Long> postIdList = mypetHashTagMapper.getPostIdsByHashTag(mypetPostListCriteria);
-
+        System.out.println(postIdList);
         return postIdList;
+    }
+
+    @Override
+    public Long countAllByHashTag(String hashtag) {
+        return mypetHashTagMapper.countAllByHashTag(hashtag);
     }
 
 }
