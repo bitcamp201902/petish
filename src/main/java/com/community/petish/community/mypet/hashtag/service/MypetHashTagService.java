@@ -10,4 +10,5 @@ public interface MypetHashTagService {
 
     List<Long> getPostListByHashTag(MypetPostListCriteria mypetPostListCriteria);
 
+    Long countAllByHashTag(String hashtag);
 }

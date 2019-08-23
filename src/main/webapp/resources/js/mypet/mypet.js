@@ -496,7 +496,7 @@ const makeLikeStatus = (id) => {
 
 let page = 1;
 let isEndPage = false;
-const makeMypetPostList = (pageNum, hashtag) => {
+const makeMypetPostList = (pageNum, keyword) => {
 	if (isEndPage) {
 		alert("마지막 게시물입니다.");
 		return;
@@ -505,7 +505,7 @@ const makeMypetPostList = (pageNum, hashtag) => {
 	$.ajax({
 		type: "GET",
 		url: "/api/mypet/posts",
-		data: {"pageNum" : pageNum, "hashtag" : hashtag},
+		data: {"pageNum" : pageNum, "keyword" : keyword},
 		success: function(data, status, xhr) {
 			page++;
 			if (page > data.lastPage) {
@@ -529,12 +529,12 @@ const makeMypetPostList = (pageNum, hashtag) => {
 $(window).scroll(function() {
 
 	if ( $(window).scrollTop() == $(document).height() - $(window).height() ) {
-		makeMypetPostList(page);
+		makeMypetPostList(page, keyword);
 	}
 
 });
 
 $(window).ready(function() {
-	makeMypetPostList(page);
+	makeMypetPostList(page, keyword);
 });
 

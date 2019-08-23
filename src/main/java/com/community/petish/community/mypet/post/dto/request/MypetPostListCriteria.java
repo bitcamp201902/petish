@@ -14,7 +14,7 @@ import lombok.ToString;
 public class MypetPostListCriteria {
 
 	private Integer pageNum;
-	private String hashtag;
+	private String keyword;
 	private Integer amount = 20;
 	
 }

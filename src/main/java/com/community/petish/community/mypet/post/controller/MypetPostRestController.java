@@ -31,7 +31,7 @@ public class MypetPostRestController {
 		log.info("mypet Post upload 요청");
 		
 		Long postId = mypetPostService.savePost(request);
-
+		System.out.println("postId: " + postId);
 		String content = request.getParameter("content");
 
 		if ( content.contains("#") ) {

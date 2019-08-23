@@ -19,5 +19,6 @@ public interface UserMapper {
 	User findById(Long id);
 
 	void deleteAll();
-	
+
+    Long findUserIdByNickname(String nickname);
 }

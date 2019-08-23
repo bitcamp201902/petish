@@ -129,6 +129,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
+	public Long findUserIdByNickname(String nickname) {
+		return userMapper.findUserIdByNickname(nickname);
+	}
+
+	@Override
 	public void login(LoginUserParams loginUserParams, HttpSession session) {
 		String username = loginUserParams.getUsername();
 		User user = userMapper.findByUsername(username);
