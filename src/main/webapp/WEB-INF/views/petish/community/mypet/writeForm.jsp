@@ -54,7 +54,7 @@
 					<form enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-sm-12">
-								<div class="form-group">
+								<div class="form-group filebox">
 									<label for="fileInput">사진 첨부</label>
 									<input id="fileInput" type="file" multiple="multiple" name="file">
 								</div>
