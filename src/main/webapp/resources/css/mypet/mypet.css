@@ -105,6 +105,10 @@ a[href="#demo"] span:hover {
     text-align: right;
 }
 
+#created-date {
+    padding: 20px;
+}
+
 .mypet-content {
     padding: 20px;
 }
