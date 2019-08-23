@@ -26,7 +26,7 @@
 
         <div class="board-header">
             <div class="title">
-                <button type="button" id="voteModalButton" class="btn btn-primary" data-toggle="modal" data-target="#mypet-vote-modal">투표 모달</button>
+<%--                <button type="button" id="voteModalButton" class="btn btn-primary" data-toggle="modal" data-target="#mypet-vote-modal">투표 모달</button>--%>
                 <button type="button" id="writeFormButton" class="btn btn-primary" style="float: right" onclick="location.href='/mypet/write'">글쓰기</button>
                 <h2>마이펫</h2>
             </div>

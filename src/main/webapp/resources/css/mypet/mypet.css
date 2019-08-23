@@ -1,5 +1,6 @@
 body {
     padding: 0px;
+    font-family: 'Do Hyeon', sans-serif !important;
 }
 
 .container-fluid {
@@ -103,6 +104,10 @@ a[href="#demo"] span:hover {
 
 .mypet-created-date {
     text-align: right;
+}
+
+#created-date {
+    padding: 20px;
 }
 
 .mypet-content {

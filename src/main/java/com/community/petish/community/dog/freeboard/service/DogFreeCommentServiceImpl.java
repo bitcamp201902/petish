@@ -10,7 +10,7 @@ import com.community.petish.community.dog.freeboard.dto.DogFreeCommentRequestDTO
 import com.community.petish.community.dog.freeboard.dto.DogFreeCommentResponseDTO;
 import com.community.petish.community.dog.freeboard.mapper.DogFreeCommentMapper;
 
-@Service
+@Service("dogFreeCommentService")
 public class DogFreeCommentServiceImpl implements DogFreeCommentService{
 	
 	@Autowired

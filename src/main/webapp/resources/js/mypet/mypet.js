@@ -445,7 +445,7 @@ const makeDateString = (date) => {
     if ( createdDateMonth < 10) {
         createdDateMonth = "0" + createdDateMonth;
     }
-    let createdDateDay = createdDate.getDay();
+    let createdDateDay = createdDate.getDate();
     if (createdDateDay < 10) {
         createdDateDay = "0" + createdDateDay;
     }
