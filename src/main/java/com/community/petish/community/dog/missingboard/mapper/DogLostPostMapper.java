@@ -8,9 +8,10 @@ import com.community.petish.community.dog.missingboard.dto.Criteria;
 import com.community.petish.community.dog.missingboard.dto.DogLostPostRequestWriteDTO;
 import com.community.petish.community.dog.missingboard.dto.DogLostPostResponseDetailDTO;
 import com.community.petish.community.dog.missingboard.dto.DogLostPostResponseListDTO;
+import com.community.petish.community.report.mapper.ReportGetdeletedMapper;
 
 
-public interface DogLostPostMapper {
+public interface DogLostPostMapper extends ReportGetdeletedMapper{
 	
 	//게시글 수
 	int getPostCount(Criteria cri);
@@ -35,4 +36,6 @@ public interface DogLostPostMapper {
 	
 	//쪽지 전송(파라미터 : 게시글 아이디)
 	int sendMessage(@Param("id") Long id,  @Param("content") String content, @Param("senderId") Long senderId);
+	
+	Integer getDeletedById(Long id);
 }

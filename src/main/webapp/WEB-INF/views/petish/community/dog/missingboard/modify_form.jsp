@@ -77,7 +77,7 @@
 							</div>
 							<div class="col-lg-10 text-right p-3"
 								style="display: inline-block;">
-								<a href="/dog/missingboard/list"
+								<a href="/dog/missingboard"
 									class="btn btn-template-outlined" style="margin-top: 10px;">목록</a>
 							</div>
 							<h4 style="display: inline-block;">[실종견 정보]</h4>
@@ -110,9 +110,9 @@
 								<div class="row">
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
-											<label for="SPECIES_ID">종</label> <select id="SPECIES_ID"
-												name="species_id" value="<%=dto.getSpecies_id()%>"
-												class="form-control">
+											<label for="SPECIES_ID">종</label>
+											<select id="SPECIES_ID" name="species_id" value="<%=dto.getSpecies_id()%>"
+												class="form-control" style="height:3rem!important">
 												<option value="0">종 선택</option>
 												<option value="0">-----소형견-----</option>
 												<option value="1">믹스견</option>
@@ -240,7 +240,7 @@
 											<input type="text" class="form-control" name="dog_description<%=i + 1%>"
 												id="description<%=i + 1%>" value="<%=des[i]%>"
 												style="display: inline-block; width: 80%; margin-top: 5px;">
-											<button onclick="removeRow()" type="button" style="font-size: 0.9rem; margin-left:-0.2rem;"
+											<button onclick="removeRow()" type="button" style="font-size: 1.1rem; margin-left:-0.15rem; height:3rem"
 												class="btn btn-sm btn-template-main">삭제</button>
 											<%
 												}
@@ -356,7 +356,7 @@
 	     
 	      // 특징 입력 폼 추가
 	     var frmTag = '<div id="removeDivMod"><input type="text" class="form-control" id="description'+(++addIndex)+'" name="addDescriptions" style="display: inline-block!important; margin-top:5px; width: 80%!important;">';      
-	     frmTag += '<button onclick="removeRow()" type="button" style="font-size: 0.9rem; margin-left:0.2rem;" class="btn btn-sm btn-template-main">삭제</button></div>';
+	     frmTag += '<button onclick="removeRow()" type="button" style="font-size: 1.1rem; margin-left:0.2rem; height:3rem;" class="btn btn-sm btn-template-main">삭제</button></div>';
 	      
 	     // 특징 항목 입력 5개로 제한
 	     if($("input[name=addDescriptions]").length + <%=des.length%> >= 5){

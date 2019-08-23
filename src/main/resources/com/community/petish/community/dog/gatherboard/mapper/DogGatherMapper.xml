@@ -246,5 +246,8 @@ create index IDX_DOG_GATHER_POST on DOG_GATHER_POST_TB(ID desc, USER_ID asc);
 		update DOG_GATHER_POST_TB set DELETED=1 where ID=#{ID}
 	</update>
 	
+	<select id="getDeletedById" parameterType="Long" resultType="Integer">
+		select deleted from dog_lost_post_tb where ID=#{id}
+	</select>
 	
 </mapper>

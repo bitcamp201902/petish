@@ -125,13 +125,14 @@
 		    <li class="nav-item dropdown pr-2">
 		    <a href="javascript: void(0)" data-toggle="dropdown04" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">고양이<b class="caret"></b></a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown04">
-	                  <a href="/cat/freeboard" class="dropdown-item">자유게시판</a>
+	                  <a href="/dog/freeboard" class="dropdown-item">자유게시판</a>
 			         <a href="/cat/gatherboard" class="dropdown-item">정모게시판</a>
 			         <a href="/cat/infoboard" class="dropdown-item">건강</a>
 			         <a href="/cat/missingboard" class="dropdown-item">실종묘</a>
 		        </div>
 		   	</li>
 			<!-- Cat END -->
+			
 			<!-- Etc -->
 			<li class="nav-item dropdown pr-2">
 		    	<a href="javascript: void(0)" data-toggle="dropdown04" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">기타 반려동물<b class="caret"></b></a>

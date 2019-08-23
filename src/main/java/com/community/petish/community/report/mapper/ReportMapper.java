@@ -16,6 +16,7 @@ public interface ReportMapper{
 	Integer deleteReport(Long id);
 	
 	//신고 리스트
+	List<String> getTableName();
 	List<ReportResponseDTO> getReportList();
 	List<ReportResponseDTO> getBoardReportList(@Param("board_id") Long board_id, @Param("post_id") Long post_id);
 	//신고 조회

@@ -37,15 +37,16 @@
 		<div id="heading-breadcrumbs">
 			<div class="container">
 				<div class="row d-flex align-items-center flex-wrap">
-					<div class="col-md-7">
-						<h1 class="h2">강아지 실종견게시판</h1>
-					</div>
-					<div class="col-md-5">
-						<ul class="breadcrumb d-flex justify-content-end">
-							<li class="breadcrumb-item"><a href="index.html">강아지</a></li>
-							<li class="breadcrumb-item active">실종견게시판</li>
-						</ul>
-					</div>
+					<div class="col-md-12" style="margin-top:2rem">
+	                  <div style="float:left"><h1 class="h2">실종견 게시판</h1></div>
+	                  <div style="float:right">
+		                  <button type="submit" class="list btn btn-template-outlined custom-button to-list-btn">
+			              	<i class="fa fa-align-justify"></i>
+			              	<a href="/dog/missingboard"> 목록 </a>
+			              </button>
+		              </div>
+	                  <hr style="color:rgba(0,0,0,0.10); margin-top:4rem">
+	               </div> 				
 				</div>
 			</div>
 		</div>
@@ -53,15 +54,11 @@
 			<div class="container">
 				<div>
 					<div id="customer-account">
-						<div class="box mt-5" style="margin-top: 20px;">
+						<div>
 							<div class="heading" id="head">
 								<h3 class="text-uppercase">글 쓰기</h3>
 							</div>
-							<div class="col-lg-10 text-right p-3"
-								style="display: inline-block;">
-								<a href="/dog/missingboard"
-									class="btn btn-template-outlined" style="margin-top: 10px;">목록</a>
-							</div>
+							
 							<h4>[실종견 정보 작성]</h4>
 							<form role="form" name="dogLostPostForm" id="dogLostPostForm" onsubmit="return formCheck()"
 								action="/dog/missingboard/register" method="post">
@@ -86,7 +83,7 @@
 									<div class="col-sm-6 col-md-4">
 										<div class="form-group">
 											<label for="SPECIES_ID">종</label>
-											<select name="species_id" id="SPECIES_ID" class="form-control">
+											<select name="species_id" id="SPECIES_ID" class="form-control" style="height:3rem">
 												<option value="0">종 선택</option>
 												<option value="0">--------소형견--------</option>
 												<option value="1">믹스견</option>
@@ -176,7 +173,7 @@
 													style="display: inline-block; width: 80%;">
 												<button id="addButton" class="btn btn-sm btn-template-main"
 													type="button" onClick="insRow()"
-													style="font-size: 0.9rem; margin-left: 0.2rem;'">추가</button>
+													style="font-size: 1.1rem; margin-left: 0.2rem;'">추가</button>
 
 												<div id="addHere">
                                     			<!-- 특징 입력 폼 추가될 자리 -->
@@ -238,10 +235,10 @@
 								<div class="row" style="padding-top: 10px;">
 									<div class="col-md-12 text-right">
 										<input type="submit" value="확인"
-											class="btn btn-outline-primary" id="input_post"
+											class="btn btn btn-template-outlined comment-input-button" id="input_post"
 											name="input_post" style="margin: 1rem">
 										<button type="button" onclick="href='/dog/missingboard'"
-											class="btn btn-outline-primary">취소</button>
+											class="btn btn btn-template-outlined comment-input-button">취소</button>
 									</div>
 								</div>
 							</form>
@@ -259,7 +256,7 @@
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
 	<script src="/resources/datetimepicker/build/jquery.datetimepicker.full.min.js"></script>
 	<script src="/resources/js/datepicker_missingboard.js"></script>
-	<script src="/resources/js/boardMap/write_map.js"></script>
+	<script src="/resources/js/write_map.js"></script>
 	<script src="/resources/js/region.js"></script>
 	
 </body>

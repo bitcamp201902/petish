@@ -7,7 +7,9 @@ button.btn.btn-template-outlined.write-button {
 	margin: auto;
 	text-align: center;
 }
-
+.to-list-btn{
+	font-size:1rem!important;
+}
 .table td, .table th {
 	border-top: 1px solid lightgray;
 }

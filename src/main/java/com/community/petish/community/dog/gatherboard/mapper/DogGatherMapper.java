@@ -8,10 +8,12 @@ import com.community.petish.community.dog.gatherboard.domain.DogGatherPostVO;
 import com.community.petish.community.dog.gatherboard.domain.DogSpeciesVO;
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherListDTO;
 import com.community.petish.community.dog.gatherboard.dto.response.DogGatherParticipantDTO;
+import com.community.petish.community.report.mapper.ReportGetdeletedMapper;
 import com.community.petish.community.dog.gatherboard.dto.response.RegionListDTO;
 import com.community.petish.community.user.domain.User;
 
-public interface DogGatherMapper {
+
+public interface DogGatherMapper extends ReportGetdeletedMapper {
 	List<DogGatherPostVO> getDogGatherList();
 	List<DogGatherListDTO> getListWithPaging(Criteria cri);
 	Long getMaxPostID();
@@ -38,4 +40,6 @@ public interface DogGatherMapper {
 	Long getDogSizeID(Long speciesID);
 	List<DogSpeciesVO> getDogSpeciesList(Long sizeID);
 	Long getRegionID(String regionName);
+	
+	Integer getDeletedById(Long id);
 }

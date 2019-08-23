@@ -38,17 +38,17 @@
 </head>
 
 <%@ include file="/WEB-INF/views/commons/link.jspf" %>
-<body style="font-family: 'Do Hyeon', sans-serif;">
+<body class="bg-light" style="font-family: 'Do Hyeon', sans-serif;">
 	<div id="all">
-		<%@ include file="/WEB-INF/views/commons/top.jspf"%>
+		<%@ include file="/WEB-INF/views/commons/hospital_top.jspf"%>
 	
-	
+	<div class="container-fluid body-section">
 	
 	<div class="container" id="totalHtml">
 
 		<div class="container">
 			<div class="row">
-				<div class="col-md-12" style="background-color: #38A7BB;">
+				<div class="col-md-12" style="background-color: #B5E3D5; margin-top: 25px;">
 					<div class="card-body">
 						<div class="row pb-2">
 							<div class="col-md-12">
@@ -58,7 +58,7 @@
 						<div class="row">
 							<div class="col-md-3">
 								<div class="form-group">
-									<select id="region" onchange="categoryChange(this)" class="form-control">
+									<select id="region" onchange="categoryChange(this)" style="padding-bottom: 6px;padding-top: 6px;"class="form-control">
 										<option value="0">지역</option>
                                     <option value="서울">서울</option>
                                     <option value="경기">경기</option>
@@ -82,7 +82,7 @@
 							</div>
 							<div class="col-md-3">
 								<div class="form-group">
-									<select id="sml_region" class="form-control">
+									<select id="sml_region" style="padding-bottom: 6px;padding-top: 6px;"class="form-control">
 										<option value="0" selected>시 / 군 / 구</option>
 									</select>
 								</div>
@@ -133,7 +133,8 @@
 						</div>
 					</div>
 				</div>
-		</div>
+				</div> <!-- container-fluid body close -->
+		</div><!-- all close -->
 	<!-- /////////////////////////////////// 지  도  //////////////////////////////////////// -->
 	<!-- Javascript files-->
 	<script src="/resources/vendor/popper.js/umd/popper.min.js"> </script>
@@ -145,7 +146,7 @@
 	<script src="/resources/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
 	<script src="/resources/vendor/jquery.scrollto/jquery.scrollTo.min.js"></script>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=59e90ffa4462049931ee4536f504c27b&libraries=services"></script>
-	<script src="/resources/js/hospital/hospital.js?ver=2"></script>
+	<script src="/resources/js/hospital/hospital.js?ver=5"></script>
 	<script src="/resources/js/hospital/star.js"></script>
 	
 	<script>

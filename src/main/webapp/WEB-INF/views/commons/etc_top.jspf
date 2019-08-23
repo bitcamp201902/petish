@@ -124,23 +124,15 @@
 		    <li class="nav-item dropdown pr-2">
 		    <a href="javascript: void(0)" data-toggle="dropdown04" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">고양이<b class="caret"></b></a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown04">
-	                  <a href="/cat/freeboard" class="dropdown-item">자유게시판</a>
+	                  <a href="/dog/freeboard" class="dropdown-item">자유게시판</a>
 			         <a href="/cat/gatherboard" class="dropdown-item">정모게시판</a>
 			         <a href="/cat/infoboard" class="dropdown-item">건강</a>
 			         <a href="/cat/missingboard" class="dropdown-item">실종묘</a>
 		        </div>
 		   	</li>
 			<!-- Cat END -->
+			
 			<!-- Etc -->
-			<li class="nav-item dropdown pr-2">
-		    	<a href="javascript: void(0)" data-toggle="dropdown04" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">기타 반려동물<b class="caret"></b></a>
-		        <div class="dropdown-menu" aria-labelledby="dropdown04">
-                   <a href="/etc/hamster" class="dropdown-item">햄스터</a>
-                   <a href="/etc/hedgehog" class="dropdown-item">고슴도치</a>
-                   <a href="/etc/turtle" class="dropdown-item">거북이</a>
-               </div>
-		   	</li>
-			<!-- Etc END -->
 			<li class="nav-item dropdown pr-2">
 		    	<a href="javascript: void(0)" data-toggle="dropdown04" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">기타 반려동물<b class="caret"></b></a>
 		        <div class="dropdown-menu" aria-labelledby="dropdown04">
@@ -203,7 +195,7 @@
 	
    <!-- <section class="hero-wrap hero-wrap-2 img-seciton" style="background-image: url('http://i.imgur.com/ZmUALeT.jpg');" data-stellar-background-ratio="0.5">
        -->
-	  <section class="hero-wrap hero-wrap-2 img-seciton" style="background-image: url('/resources/img/top/dog3.png');" data-stellar-background-ratio="0.5">
+	  <section class="hero-wrap hero-wrap-2 img-seciton" style="background-image: url('/resources/img/top/hamster5.png');" data-stellar-background-ratio="0.5">
       <div class="overlay"></div>
       <div class="container">
         <div class="row no-gutters slider-text align-items-end justify-content-start">

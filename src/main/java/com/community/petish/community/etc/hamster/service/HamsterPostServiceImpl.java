@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.community.petish.community.dog.missingboard.dto.DogLostPostResponseListDTO;
 import com.community.petish.community.etc.hamster.dto.Criteria;
 import com.community.petish.community.etc.hamster.dto.HamsterPostRequestDTO;
 import com.community.petish.community.etc.hamster.dto.HamsterPostResponseDTO;

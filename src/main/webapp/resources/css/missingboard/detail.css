@@ -1,3 +1,5 @@
+@charset "EUC-KR";
+
 table {
 	border-collapse: unset !important;
 }
@@ -233,6 +235,7 @@ label {
 }
 
 button.btn.btn-template-outlined.custom-button {
+	margin-right: 2rem;
 	float: right;
 }
 .dog-content {

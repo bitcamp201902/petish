@@ -23,13 +23,13 @@
 <%@ include file="/WEB-INF/views/commons/link.jspf" %>
 
 
-<body style="font-family: 'Do Hyeon', sans-serif;">
+<body class="bg-light" style="font-family: 'Do Hyeon', sans-serif;">
 	<div id="all">
 
-		<%@ include file="/WEB-INF/views/commons/top.jspf" %>
+		<%@ include file="/WEB-INF/views/commons/hospital_top.jspf" %>
 
-
-
+		<div class="container-fluid body-section">
+		
 		<div id="content">
 			<div class="container">
 				<div class="bar">
@@ -73,44 +73,44 @@
 							<div class="icon">
 							<ul>
 									<div class="fa fa-star" id="spec" aria-hidden="true"style="font-size:24px;">
-										평점 : <span class='star-rating'>
+										평점 : <span class='star-rating' >
 											<span style ="width:${score_star }%"></span>
 										</span><span class="title" style="display:inline-block;font-size:40px;">${score }</span>
 									</div>
 								
 									<div class="fa fa-home fa-pull-left fa-fw" id="spec" aria-hidden="true"style="font-size:24px;">
-										<span id="hospital_name">${hospital.hospital_name }</span>
+										<span id="hospital_name" style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">${hospital.hospital_name }</span>
 									</div>
 								
 								
 									<div class="fa fa-map-marker fa-pull-left fa-fw" id="spec" aria-hidden="true"style="font-size:24px;">
-										<span id="hospital_address">${hospital.hospital_addr }</span>
+										<span id="hospital_address"style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">${hospital.hospital_addr }</span>
 									</div>
 								
 								
 									<div class="fa fa-phone fa-pull-left fa-fw" id="spec" aria-hidden="true"style="font-size:24px;">
-										<span id="phone_number">${hospital.hospital_phone }</span>
+										<span id="phone_number"style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">${hospital.hospital_phone }</span>
 									</div>
 								
 								
 									<div class="fa fa-clock-o fa-pull-left fa-fw" id="spec" aria-hidden="true"style="font-size:24px;">
-										<span id="opertion_time">${hospital.hospital_hours }</span>
+										<span id="opertion_time"style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">${hospital.hospital_hours }</span>
 									</div>
 								
 								
 									<div class="fa fa-laptop fa-pull-left fa-fw" id="spec" aria-hidden="true"style="font-size:24px;">
-										<span id="site_address">${hospital.hospital_website }</span>
+										<span id="site_address"style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">${hospital.hospital_website }</span>
 									</div>
 								
 								<c:if test="${hospital.isParking == 1 }">
 									<div class="fa fa-car fa-pull-left fa-fw" id="spec" aria-hidden="true" style="font-size:24px;">
-										<span id="parking">주차가능</span>
+										<span id="parking"style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">주차가능</span>
 									</div>
 								</c:if>
 								 
 								 <c:if test="${hospital.isEmergency == 1 }">
 									<div class="fa fa-plus-square fa-pull-left fa-fw" id="spec" aria-hidden="true" style="font-size:24px;">
-										<span id="emergency">응급진료</span>
+										<span id="emergency"style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">응급진료</span>
 									</div>
 								</c:if>
 								
@@ -124,11 +124,11 @@
 
 		<div class="container">
 			<div class="fa fa-list fa-2x" aria-hidden="true" id="subject">
-				<span class="menu1" style="font-size: 23px;">진료 과목</span>
+				<span class="menu1" style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">진료 과목</span>
 			</div>
 			<div class="fa fa-circle" style="font-size:18px; display:inline-block;" id="subject">
 				<c:forTokens var="jinryo" items="${hospital.hospital_check }" delims=",">
-					<span>${ jinryo} / </span>
+					<span style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">${ jinryo} / </span>
 				</c:forTokens>
 			</div>
 			
@@ -136,14 +136,14 @@
 
 		<div class="container">
 			<div class="fa fa-map-marker fa-3x" aria-hidden="true" id="subject">
-				<span class="menu1" style="font-size: 23px;">찾아오시는길</span>
+				<span class="menu1" style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">찾아오시는길</span>
 			</div>
 			<div id="map" style="width: 100%; height: 350px;"></div>
 		</div>
 
 		<div class="container">
 			<div class="fa fa-comments fa-3x" aria-hidden="true" id="subject">
-				<span class="menu1" style="font-size: 23px;">한 줄로 말하기</span>
+				<span class="menu1" style="font-family: 'Do Hyeon', sans-serif; font-size:30px;">한 줄로 말하기</span>
 			</div>
 		<div id="reviewList" style="display: block;">
 			<table class="table table-stripped" >
@@ -193,7 +193,8 @@
            		</ul>
        		</div>
 		</div>
-	</div>
+		</div><!-- container fluid close -->
+	</div> <!-- all close -->
 	
 	<div id="new-modal" tabindex="-1" role="dialog" aria-hidden="true"
 		class="modal fade">

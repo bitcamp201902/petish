@@ -69,7 +69,7 @@
 					<div class="col-md-12" style="margin-top:2rem">
 	                  <div style="float:left"><h1 class="h2">햄스터 게시판</h1></div>
 	                  <div style="float:right">
-		                  <button class="btn btn-template-outlined write-button" id="writeBtn" >글쓰기</button>
+		                  <button class="btn btn-template-outlined write-button" id="writeBtn" style="margin:0px; font-size:1.1rem">글쓰기</button>
 		              </div>
 	                  <hr style="color:rgba(0,0,0,0.10); margin-top:4.5rem">
 	               </div>

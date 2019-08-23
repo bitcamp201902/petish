@@ -43,7 +43,7 @@
 <body style="font-family: 'Do Hyeon', sans-serif;">
 
 	<div id="all">
-		<%@ include file="/WEB-INF/views/commons/dog_top.jspf"%>
+		<%@ include file="/WEB-INF/views/commons/cat_top.jspf"%>
 		<%
 			Long userId = null;
 			String userNickname = "";

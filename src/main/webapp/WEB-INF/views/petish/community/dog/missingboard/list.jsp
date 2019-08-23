@@ -69,10 +69,7 @@
 					<div class="col-md-12" style="margin-top:2rem">
 						<div style="float:left"><h1 class="h2">실종견 게시판</h1></div>
 						<div style="float:right">
-		                  <button type="submit" class="list btn btn-template-outlined custom-button to-list-btn">
-			              	<i class="fa fa-align-justify"></i>
-			              	<a href="/dog/missingboard" style="font-size:1rem"> 글쓰기</a>
-			              </button>
+		                  <button type="submit" id="writeBtn" class="list btn btn-template-outlined custom-button to-list-btn">글쓰기</button>
 		              	</div>
 		              	<hr style="color:rgba(0,0,0,0.10); margin-top:4rem">
 		         	</div>
@@ -82,8 +79,6 @@
 					
 		<div id="content">
 			<div class="container">
-				
-
 				<div id="customer-order" class="col-lg-20">
 					<table class="table" id="post" style="text-align: center">
 						<tr>

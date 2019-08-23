@@ -53,11 +53,12 @@
 	<link rel="stylesheet" href="/resources/css/hospital/main_search.css">
 	<link rel="stylesheet" href="/resources/css/commons/kakaomap.css">
 	<link rel="stylesheet" href="/resources/css/top/common.css">
+	<link href="/resources/css/fonts.css" rel="stylesheet"> 
     <script src="/resources/js/region.js"></script>
 	
 </head>
 <%-- <%@ include file="/WEB-INF/views/commons/link.jspf" %> --%>
-<body>
+<body class="bg-light" style="font-family: 'Do Hyeon', sans-serif; letter-spacing: 1.5px; font-weight: 100;">
 <!-- <div id="all"> -->
 <%-- <%@ include file="/WEB-INF/views/commons/top.jspf" %> --%>
 <!-- 		<video id="video" preload="auto" autoplay="true" loop="loop" muted="muted" volume="0">
@@ -98,7 +99,7 @@
                     <li class="nav-item dropdown pr-2">
                         <a href="javascript: void(0)" data-toggle="dropdown04" class="nav-link dropdown-toggle" aria-haspopup="true" aria-expanded="false">고양이<b class="caret"></b></a>
                         <div class="dropdown-menu" aria-labelledby="dropdown04">
-                            <a href="/cat/freeboard/list" class="dropdown-item">자유게시판</a>
+                            <a href="/dog/freeboard" class="dropdown-item">자유게시판</a>
                             <a href="/cat/gatherboard" class="dropdown-item">정모게시판</a>
                             <a href="/cat/infoboard/list" class="dropdown-item">건강</a>
                             <a href="/cat/missingboard" class="dropdown-item">실종묘</a>
@@ -342,7 +343,7 @@
                         <input id="emergency" type="checkbox" style="color:#fff;"> 응급진료
 						<img src="/resources/img/placeholder_red.png" style="width: 35px;height: 35px;">
                         <div class="col-md-3">
-                            <button type="button" id="hos_search" class="btn btn-primary btn-block" style="background-color: #b5e3d5; border-color:#fff;">Search</button>
+                            <button type="button" id="hos_search" class="btn btn-primary btn-block" style="background-color: grey; border-color:grey;">Search</button>
                         </div>
                     </div>
                 </div>
